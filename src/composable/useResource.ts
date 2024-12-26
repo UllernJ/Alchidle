@@ -1,8 +1,7 @@
 import { ref } from "vue";
 
-const money = ref<number>(0)
+const money = ref<number>(0);
 
 export const useResource = () => {
-
-    return { money }
-}
+  return { money };
+};

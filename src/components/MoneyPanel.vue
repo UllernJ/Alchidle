@@ -6,7 +6,7 @@ const { money } = useResource()
 
 <template>
   <div class="card">
-    <button type="button" @click="money++">Harvest</button>
+    <button type="button" @click="money++">Manual labor</button>
 
 </div>
 </template>

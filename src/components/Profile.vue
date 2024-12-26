@@ -6,7 +6,7 @@
       </div>
       <section class="stats">
         <p class="stat-money">{{ money }}$</p>
-        <p class="stat-diamonds">0 diamonds</p>
+        <p class="stat-diamonds">0</p>
       </section>
     </div>
   </template>
@@ -27,7 +27,6 @@
     display: inline-block;
     width: 300px;
     text-align: center;
-    font-family: "Press Start 2P", monospace;
     color: rgba(255, 255, 255, 0.87);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
   }
