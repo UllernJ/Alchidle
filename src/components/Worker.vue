@@ -10,7 +10,7 @@
           <p class="worker-count">Count: {{ worker.numberOfWorkers }}</p>
           <p class="worker-count">Cost: {{ worker.cost }}$</p>
           <div class="worker-actions">
-            <button @click="addWorker(worker.name)" class="worker-button">+ Add</button>
+            <button @click="addWorker(worker.name)" class="worker-button" :disabled="worker.cost >= money">+ Add</button>
             <button @click="removeWorker(worker.name)" class="worker-button" :disabled="worker.numberOfWorkers === 0">
               - Remove
             </button>
@@ -21,30 +21,21 @@
   </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
+import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 
 const {
   workerStations,
   totalIncomePerSecond,
   addWorker,
-  removeWorker,
-  gatherMoney,
+  removeWorker
 } = useWorkers();
 
-let interval: number;
+const {money} = useResource()
 
-onMounted(() => {
-  interval = setInterval(gatherMoney, 1000); // 1-second interval
-});
-
-onUnmounted(() => {
-  clearInterval(interval);
-});
 </script>
 
 <style scoped>
-/* General Styles */
 .worker-tab {
   background-color: #1a1a1a;
   border: 3px solid #242424;
@@ -80,7 +71,7 @@ onUnmounted(() => {
 }
 
 .worker-name {
-  font-size: 14px;
+  font-size: 1empx;
   color: #ffcc00;
   text-shadow: 1px 1px 2px #000;
   margin: 4px 0;
@@ -88,8 +79,8 @@ onUnmounted(() => {
 
 .worker-rate,
 .worker-count {
-  font-size: 12px;
-  color: #00ff00; /* Retro green for stats */
+  font-size: .8em;
+  color: #00ff00;
   text-shadow: 1px 1px 2px #000;
   margin: 4px 0;
 }
@@ -105,11 +96,10 @@ onUnmounted(() => {
   color: #1a1a1a;
   border: 2px solid #242424;
   border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: .5rem 1rem;
+  font-size: .8em;
   font-weight: bold;
   cursor: pointer;
-  text-shadow: 1px 1px 2px #000;
   transition: transform 0.2s ease-in-out;
 }
 

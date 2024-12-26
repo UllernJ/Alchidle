@@ -19,12 +19,12 @@ const initialWorkerStations: WorkerStation[] = [
 const workerStations = ref<WorkerStation[]>([...initialWorkerStations]);
 
 export const useWorkers = () => {
-  const { money } = useResource();
+  const { money, addMoney, substractMoney } = useResource();
 
   const addWorker = (stationName: string) => {
     const station = workerStations.value.find((w) => w.name === stationName);
     if (station && station.cost <= money.value) {
-      money.value -= station.cost;
+      substractMoney(station.cost);
       station.numberOfWorkers += 1;
     }
   };
@@ -32,7 +32,7 @@ export const useWorkers = () => {
   const removeWorker = (stationName: string) => {
     const station = workerStations.value.find((w) => w.name === stationName);
     if (station && station.numberOfWorkers > 0) {
-      money.value += station.cost;
+      addMoney(station.cost);
       station.numberOfWorkers -= 1;
     }
   };
@@ -45,7 +45,7 @@ export const useWorkers = () => {
   );
 
   const gatherMoney = () => {
-    money.value += totalIncomePerSecond.value;
+    addMoney(totalIncomePerSecond.value);
   };
 
   return {

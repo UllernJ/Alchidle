@@ -5,7 +5,7 @@
         <p class="username">Username</p>
       </div>
       <section class="stats">
-        <p class="stat-money">{{ money }}$</p>
+        <p class="stat-money">{{ money }}$ / {{ maxMoney }}$</p>
         <p class="stat-diamonds">0</p>
       </section>
     </div>
@@ -14,7 +14,7 @@
   <script setup lang="ts">
   import { useResource } from '../composable/useResource';
   
-  const { money } = useResource();
+  const { money, maxMoney } = useResource();
   </script>
   
   <style scoped>
@@ -53,6 +53,9 @@
     border: 2px dashed #ffcc00;
     padding: 8px;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
   
   .stat-money,
