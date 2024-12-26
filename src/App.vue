@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import MoneyPanel from './components/MoneyPanel.vue'
+import ManualLabor from './components/ManualLabor.vue';
 import Profile from './components/Profile.vue';
 import Worker from './components/Worker.vue';
 </script>
 
 <template>
   <main>
-    <MoneyPanel />
+    <ManualLabor />
     <Profile />
   </main>
   <section>
