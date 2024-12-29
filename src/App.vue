@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
-import ManualLabor from './components/ManualLabor.vue';
 import Profile from './components/Profile.vue';
 import Worker from './components/Worker.vue';
 import { useWorkers } from './composable/useWorkers';
+import Labor from './components/Labor.vue';
 
 const { gatherMoney } = useWorkers()
 let interval: number;
@@ -19,7 +19,10 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <ManualLabor />
+    <section>
+    <Labor />
+    <Labor />
+  </section>
     <Profile />
   </main>
   <section>
@@ -31,5 +34,10 @@ onUnmounted(() => {
 main {
   display: flex;
   justify-content: space-between;
+  gap: .25rem;
+  section {
+    display: flex;
+    gap: .25rem;
+  }
 }
 </style>

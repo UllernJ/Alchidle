@@ -45,6 +45,9 @@ export const useWorkers = () => {
   );
 
   const gatherMoney = () => {
+    /* 
+      Change for each resource type
+    */
     addMoney(totalIncomePerSecond.value);
   };
 

@@ -3,4 +3,13 @@ export type WorkerStation = {
   rate: number;
   numberOfWorkers: number;
   cost: number;
+  resource?: RESOURCE
 };
+
+export enum RESOURCE {
+  WOODCUTTING,
+  MINING,
+  FARMING,
+  SCIENCE,
+  ALCHEMY
+}
