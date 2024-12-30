@@ -1,9 +1,8 @@
 <template>
     <section>
         <Resource :type="RESOURCE.MONEY" />
-        <Resource :type="RESOURCE.ALCHEMY" />
-        <Resource :type="RESOURCE.FARMING" />
         <Resource :type="RESOURCE.MINING" />
+        <Resource :type="RESOURCE.ALCHEMY" />
         <Resource :type="RESOURCE.SCIENCE" />
     </section>
 </template>
@@ -17,7 +16,7 @@ import Resource from './Resource.vue';
 <style scoped>
 section {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 

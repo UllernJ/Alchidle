@@ -6,6 +6,22 @@ import { usePlayer } from "./usePlayer";
 
 const initialWorkerStations: WorkerStation[] = [
   {
+    name: "Banker",
+    rate: 1,
+    resource: RESOURCE.MONEY,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Gathers food",
+  },
+  {
+    name: "Miner",
+    rate: 1,
+    resource: RESOURCE.MINING,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Mines for resources",
+  },
+  {
     name: "Alchemist",
     rate: 1,
     resource: RESOURCE.ALCHEMY,
@@ -14,37 +30,13 @@ const initialWorkerStations: WorkerStation[] = [
     description: "Gather herbs for alchemy",
   },
   {
-    name: "Lumberman",
-    rate: 1,
-    resource: RESOURCE.WOODCUTTING,
-    numberOfWorkers: 0,
-    cost: 50,
-    description: "Gathers wood for construction",
-  },
-  {
-    name: "Businessman",
-    rate: 1,
-    resource: RESOURCE.MONEY,
-    numberOfWorkers: 0,
-    cost: 50,
-    description: "Gathers wood for construction",
-  },
-  {
-    name: "Miner",
-    rate: 1,
-    resource: RESOURCE.MINING,
-    numberOfWorkers: 0,
-    cost: 50,
-    description: "Gathers wood for construction",
-  },
-  {
     name: "Scientist",
     rate: 1,
     resource: RESOURCE.SCIENCE,
     numberOfWorkers: 0,
     cost: 50,
-    description: "Gathers wood for construction",
-  },
+    description: "Mad man",
+  }
 ];
 const workerStations = ref<WorkerStation[]>([...initialWorkerStations]);
 
@@ -56,14 +48,7 @@ export const useWorkers = () => {
     if (station && station.cost <= resources[RESOURCE.MONEY].value) {
       subtractResource(RESOURCE.MONEY, station.cost);
       station.numberOfWorkers += 1;
-    }
-  };
-
-  const removeWorker = (stationName: string) => {
-    const station = workerStations.value.find((w) => w.name === stationName);
-    if (station && station.numberOfWorkers > 0) {
-      addResource(RESOURCE.MONEY, station.cost);
-      station.numberOfWorkers -= 1;
+      station.cost = Math.round(Math.pow(station.cost, 1.1))
     }
   };
 
@@ -96,7 +81,6 @@ export const useWorkers = () => {
     workerStations,
     totalIncomePerSecond,
     addWorker,
-    removeWorker,
     gatherResources,
   };
 };

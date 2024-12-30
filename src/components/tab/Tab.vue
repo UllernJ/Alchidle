@@ -27,6 +27,7 @@ const states = getStates();
     background-color: #1a1a1a;
     display: flex;
     width: 100%;
+    min-height: 50vh;
     border: 1px solid white;
 }
 
@@ -51,8 +52,8 @@ const states = getStates();
 }
 
 .state-button {
-    padding: .6rem 1.1rem;
-    font-size: .85em;
+    padding: .6rem 1.3rem;
+    font-size: .9em;
     font-weight: bold;
     cursor: pointer;
     width: 100%;

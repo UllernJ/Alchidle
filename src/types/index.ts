@@ -9,9 +9,7 @@ export type WorkerStation = {
 
 export enum RESOURCE {
   MONEY = "Money",
-  WOODCUTTING = "Woodcutting",
   MINING = "Mining",
-  FARMING = "Farming",
-  SCIENCE = "Science",
   ALCHEMY = "Alchemy",
+  SCIENCE = "SCIENCE"
 }
