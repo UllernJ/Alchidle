@@ -2,6 +2,7 @@ import { computed, ref } from "vue";
 import type { WorkerStation } from "../types";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
+import { usePlayer } from "./usePlayer";
 
 const initialWorkerStations: WorkerStation[] = [
   {
@@ -42,20 +43,23 @@ export const useWorkers = () => {
 
   const totalIncomePerSecond = computed(() => {
     const incomePerResource: Partial<Record<RESOURCE, number>> = {};
-  
+
     workerStations.value.forEach((station) => {
       const generated = station.rate * station.numberOfWorkers;
       if (!incomePerResource[station.resource]) {
-        incomePerResource[station.resource] = 0; 
+        incomePerResource[station.resource] = 0;
       }
       incomePerResource[station.resource]! += generated;
     });
-  
+
     return incomePerResource;
   });
-  
 
   const gatherResources = () => {
+    const { currentFocus } = usePlayer();
+    if (currentFocus.value !== null) {
+      addResource(currentFocus.value, 1);
+    }
     workerStations.value.forEach((station) => {
       const generated = station.rate * station.numberOfWorkers;
       addResource(station.resource, generated);

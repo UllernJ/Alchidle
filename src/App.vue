@@ -20,7 +20,7 @@ onUnmounted(() => {
 <template>
   <main>
     <Resources />
-    <Profile />
+    <!-- <Profile /> -->
   </main>
   <section>
     <Worker />
