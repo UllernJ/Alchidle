@@ -80,12 +80,13 @@ const progress = computed(() => {
   border-radius: 8px;
 }
 
-.money-button:hover {
-  transform: scale(1.05);
-}
-
 .styled-button {
   width: 10rem;
   padding: .33rem 2rem;
+  border: 1px solid white;
+  &:hover {
+    opacity: .8;
+    cursor: pointer;
+  }
 }
 </style>

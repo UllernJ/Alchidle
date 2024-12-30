@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
-import Profile from './components/Profile.vue';
-import Worker from './components/Worker.vue';
 import { useWorkers } from './composable/useWorkers';
-import Resources from './components/Resources/Resources.vue';
+import Resources from './components/resources/Resources.vue';
+import Tab from './components/tab/Tab.vue';
 
 const { gatherResources } = useWorkers()
 let interval: number;
@@ -20,10 +19,9 @@ onUnmounted(() => {
 <template>
   <main>
     <Resources />
-    <!-- <Profile /> -->
   </main>
-  <section>
-    <Worker />
+  <section class="content">
+    <Tab />
   </section>
 </template>
 
@@ -32,9 +30,13 @@ main {
   display: flex;
   justify-content: space-between;
   gap: .25rem;
-  section {
+}
+section {
     display: flex;
     gap: .25rem;
   }
+
+.content {
+  margin-top: 1rem;
 }
 </style>

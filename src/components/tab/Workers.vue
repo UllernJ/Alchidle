@@ -21,7 +21,7 @@
   </template>
 
 <script setup lang="ts">
-import { useWorkers } from "../composable/useWorkers";
+import { useWorkers } from '../../composable/useWorkers';
 
 const {
   workerStations,
@@ -33,16 +33,10 @@ const {
 
 <style scoped>
 .worker-tab {
-  background-color: #1a1a1a;
-  border: 3px solid #242424;
   padding: 16px;
-  border-radius: 8px;
   display: inline-block;
-  width: 300px;
+  width: 100%;
   text-align: center;
-  color: rgba(255, 255, 255, 0.87);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-  margin-top: 16px;
 }
 
 .worker-tab-header {
