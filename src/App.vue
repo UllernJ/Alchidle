@@ -3,13 +3,13 @@ import { onMounted, onUnmounted } from 'vue';
 import Profile from './components/Profile.vue';
 import Worker from './components/Worker.vue';
 import { useWorkers } from './composable/useWorkers';
-import Labor from './components/Labor.vue';
+import Resources from './components/Resources/Resources.vue';
 
-const { gatherMoney } = useWorkers()
+const { gatherResources } = useWorkers()
 let interval: number;
 
 onMounted(() => {
-  interval = setInterval(gatherMoney, 1000); // 1-second interval
+  interval = setInterval(gatherResources, 1000); // 1-second interval
 });
 
 onUnmounted(() => {
@@ -19,10 +19,7 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <section>
-    <Labor />
-    <Labor />
-  </section>
+    <Resources />
     <Profile />
   </main>
   <section>

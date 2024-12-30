@@ -1,24 +1,49 @@
 import { ref } from "vue";
+import { RESOURCE } from "../types";
 
-const money = ref<number>(0);
-const maxMoney = ref<number>(200);
+const resources = {
+  [RESOURCE.MONEY]: ref<number>(0),
+  [`max${RESOURCE.MONEY}`]: ref<number>(200),
+  [RESOURCE.WOODCUTTING]: ref<number>(0),
+  [`max${RESOURCE.WOODCUTTING}`]: ref<number>(200),
+  [RESOURCE.MINING]: ref<number>(0),
+  [`max${RESOURCE.MINING}`]: ref<number>(200),
+  [RESOURCE.FARMING]: ref<number>(0),
+  [`max${RESOURCE.FARMING}`]: ref<number>(200),
+  [RESOURCE.SCIENCE]: ref<number>(0),
+  [`max${RESOURCE.SCIENCE}`]: ref<number>(200),
+  [RESOURCE.ALCHEMY]: ref<number>(0),
+  [`max${RESOURCE.ALCHEMY}`]: ref<number>(200),
+};
 
 export const useResource = () => {
-  const addMoney = (amount: number) => {
-    if((money.value + amount) > maxMoney.value ) {
-      money.value = maxMoney.value
-    } else {
-      money.value += amount;
+  const addResource = (type: RESOURCE, amount: number) => {
+    const resource = resources[type];
+    const maxResource = resources[`max${type}` as keyof typeof resources];
+
+    if (resource && maxResource) {
+      resource.value = Math.min(resource.value + amount, maxResource.value);
     }
   };
 
-  const substractMoney = (amount: number) => {
-      money.value -= amount;
+  const subtractResource = (type: RESOURCE, amount: number) => {
+    const resource = resources[type];
+    if (resource) {
+      resource.value = Math.max(resource.value - amount, 0);
+    }
   };
 
-  const buyStorage = () => {
-    maxMoney.value *= 2;
+  const upgradeStorage = (type: RESOURCE) => {
+    const maxResource = resources[`max${type}` as keyof typeof resources];
+    if (maxResource) {
+      maxResource.value *= 2;
+    }
   };
 
-  return { money, maxMoney, addMoney, buyStorage, substractMoney };
+  return {
+    resources,
+    addResource,
+    subtractResource,
+    upgradeStorage,
+  };
 };

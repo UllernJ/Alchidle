@@ -1,7 +1,7 @@
 <template>
     <div class="worker-tab">
       <div class="worker-tab-header">
-        <span class="worker-tab-title">Workers - {{ totalIncomePerSecond }}$/s</span>
+        <span class="worker-tab-title">Workers</span>
       </div>
       <section class="worker-list">
         <div class="worker" v-for="worker in workerStations" :key="worker.name">
@@ -10,7 +10,7 @@
           <p class="worker-count">Count: {{ worker.numberOfWorkers }}</p>
           <p class="worker-count">Cost: {{ worker.cost }}$</p>
           <div class="worker-actions">
-            <button @click="addWorker(worker.name)" class="worker-button" :disabled="worker.cost >= money">+ Add</button>
+            <button @click="addWorker(worker.name)" class="worker-button">+ Add</button>
             <button @click="removeWorker(worker.name)" class="worker-button" :disabled="worker.numberOfWorkers === 0">
               - Remove
             </button>
@@ -21,17 +21,13 @@
   </template>
 
 <script setup lang="ts">
-import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 
 const {
   workerStations,
-  totalIncomePerSecond,
   addWorker,
   removeWorker
 } = useWorkers();
-
-const {money} = useResource()
 
 </script>
 

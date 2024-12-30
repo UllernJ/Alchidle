@@ -1,30 +1,42 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useResource } from '../composable/useResource';
+import { useResource } from '../../composable/useResource';
+import type { RESOURCE } from '../../types';
+import { useWorkers } from '../../composable/useWorkers';
 
-const { money, maxMoney } = useResource()
+const { resources, addResource } = useResource()
+const { totalIncomePerSecond } = useWorkers()
 
-const progress = computed(() => (money.value / maxMoney.value) * 100);
+const props = defineProps<{
+  type: RESOURCE
+}>()
 
-const isGoalReached = computed(() => money.value >= maxMoney.value);
+const progress = computed(() => {
+  const currentValue = resources[props.type].value;
+  const maxValue = resources[`max${props.type}` as keyof typeof resources].value;
+  return (currentValue / maxValue) * 100;
+});
 
 </script>
 
 <template>
   <div class="money-container">
-    <span class="title">Money</span>
+    <span class="title">{{ type.toString() }}</span>
     <div class="loading-bar-wrapper">
       <div
         class="loading-bar"
         :style="{ width: progress + '%' }"
       ></div>
     </div>
+    <div class="btn-amount">
     <button
       class="styled-button"
-      @click="money++"
+      @click="addResource(type, 1)"
     >
       Focus
     </button>
+    <span> {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}  </span>
+  </div>
   </div>
 </template>
 
@@ -81,7 +93,14 @@ const isGoalReached = computed(() => money.value >= maxMoney.value);
 
 .styled-button {
   width: fit-content;
-  padding: .2rem 1rem;
+  padding: .33rem 2rem;
+}
+
+.btn-amount {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
