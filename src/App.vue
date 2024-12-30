@@ -17,13 +17,19 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <main>
     <Resources />
+  </main>
   <section class="content">
     <Tab />
   </section>
 </template>
 
 <style scoped>
+main {
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+}
 .content {
   margin-top: 1rem;
 }
