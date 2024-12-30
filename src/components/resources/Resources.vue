@@ -1,10 +1,11 @@
 <template>
     <section>
-    <Resource :type="RESOURCE.ALCHEMY" />
-    <Resource :type="RESOURCE.FARMING" />
-    <Resource :type="RESOURCE.MINING" />
-    <Resource :type="RESOURCE.SCIENCE" />
-</section>
+        <Resource :type="RESOURCE.MONEY" />
+        <Resource :type="RESOURCE.ALCHEMY" />
+        <Resource :type="RESOURCE.FARMING" />
+        <Resource :type="RESOURCE.MINING" />
+        <Resource :type="RESOURCE.SCIENCE" />
+    </section>
 </template>
 
 <script lang="ts" setup>
@@ -15,9 +16,9 @@ import Resource from './Resource.vue';
 
 <style scoped>
 section {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
 }
 
 </style>

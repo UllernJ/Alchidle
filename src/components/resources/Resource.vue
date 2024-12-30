@@ -39,7 +39,7 @@ const progress = computed(() => {
       class="styled-button"
       @click="setFocus(type)"
     >
-      {{currentFocus == type ? 'Gathering...' : 'Focus'}}
+      {{currentFocus == type ? 'Gathering...' : 'Gather'}}
     </button>
   </div>
 </template>
@@ -49,13 +49,13 @@ const progress = computed(() => {
   background-color: #1a1a1a;
   border: 3px solid #242424;
   padding: 1.1rem;
-  width: 33%;
   text-align: center;
   color: rgba(255, 255, 255, 0.87);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: .33rem;
+  border: 1px solid white;
 }
 .title {
   font-weight: bold;

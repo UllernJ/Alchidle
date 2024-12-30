@@ -17,25 +17,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main>
     <Resources />
-  </main>
   <section class="content">
     <Tab />
   </section>
 </template>
 
 <style scoped>
-main {
-  display: flex;
-  justify-content: space-between;
-  gap: .25rem;
-}
-section {
-    display: flex;
-    gap: .25rem;
-  }
-
 .content {
   margin-top: 1rem;
 }

@@ -1,20 +1,13 @@
 <template>
     <div class="worker-tab">
-      <div class="worker-tab-header">
-        <span class="worker-tab-title">Workers</span>
-      </div>
       <section class="worker-list">
-        <div class="worker" v-for="worker in workerStations" :key="worker.name">
-          <p class="worker-name">{{ worker.name }}</p>
-          <p class="worker-rate">Rate: {{ worker.rate }}$/s</p>
-          <p class="worker-count">Count: {{ worker.numberOfWorkers }}</p>
+        <div class="worker" 
+        v-for="worker in workerStations" 
+        :key="worker.name"
+        @click="addWorker(worker.name)"
+        >
+          <p class="worker-name">{{ worker.name }} ({{ worker.numberOfWorkers }})</p>
           <p class="worker-count">Cost: {{ worker.cost }}$</p>
-          <div class="worker-actions">
-            <button @click="addWorker(worker.name)" class="worker-button">+ Add</button>
-            <button @click="removeWorker(worker.name)" class="worker-button" :disabled="worker.numberOfWorkers === 0">
-              - Remove
-            </button>
-          </div>
         </div>
       </section>
     </div>
@@ -25,81 +18,59 @@ import { useWorkers } from '../../composable/useWorkers';
 
 const {
   workerStations,
-  addWorker,
-  removeWorker
+  addWorker
 } = useWorkers();
 
 </script>
 
 <style scoped>
 .worker-tab {
-  padding: 16px;
-  display: inline-block;
   width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1e1e1e;
+  color: #ffffff;
 }
 
-.worker-tab-header {
-  margin-bottom: 16px;
-}
-
-.worker-tab-title {
-  display: block;
-  font-size: 18px;
-  color: #ffcc00; /* Retro gold color */
-  text-shadow: 1px 1px 2px #000;
+.worker-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 1rem;
+  width: 100%;
+  margin-left: 1.5rem;
 }
 
 .worker {
-  border: 2px solid #ffcc00;
-  padding: 8px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  background-color: #1a1a1a;
-  color: rgba(255, 255, 255, 0.87);
-  text-align: left;
+  border: 1px solid white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #292727;
+  text-align: center;
+  width: 25%;
+  &:hover {
+    cursor: pointer;
+    background-color: #3a3939;
+  }
 }
+
 
 .worker-name {
-  font-size: 1empx;
-  color: #ffcc00;
-  text-shadow: 1px 1px 2px #000;
-  margin: 4px 0;
-}
-
-.worker-rate,
-.worker-count {
-  font-size: .8em;
-  color: #00ff00;
-  text-shadow: 1px 1px 2px #000;
-  margin: 4px 0;
-}
-
-.worker-actions {
-  margin-top: 8px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.worker-button {
-  background-color: #ffcc00;
-  color: #1a1a1a;
-  border: 2px solid #242424;
-  border-radius: 4px;
-  padding: .5rem 1rem;
-  font-size: .8em;
+  font-size: 1.2em;
+  margin: 0;
   font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
 }
 
-.worker-button:hover {
-  transform: scale(1.05);
+.worker-count {
+  font-size: 0.9em;
+  margin-bottom: 0.3rem;
 }
 
-.worker-button:disabled {
-  background-color: #555555;
-  color: #999999;
-  cursor: not-allowed;
+.worker-description {
+  font-size: .8em;
+  color: #b0b0b0;
+  text-align: start;
 }
 </style>

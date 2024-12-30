@@ -6,18 +6,44 @@ import { usePlayer } from "./usePlayer";
 
 const initialWorkerStations: WorkerStation[] = [
   {
-    name: "WORKER_A",
-    rate: 5,
+    name: "Alchemist",
+    rate: 1,
+    resource: RESOURCE.ALCHEMY,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Gather herbs for alchemy",
+  },
+  {
+    name: "Lumberman",
+    rate: 1,
+    resource: RESOURCE.WOODCUTTING,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Gathers wood for construction",
+  },
+  {
+    name: "Businessman",
+    rate: 1,
     resource: RESOURCE.MONEY,
     numberOfWorkers: 0,
     cost: 50,
+    description: "Gathers wood for construction",
   },
   {
-    name: "WORKER_B",
-    rate: 10,
-    resource: RESOURCE.WOODCUTTING,
+    name: "Miner",
+    rate: 1,
+    resource: RESOURCE.MINING,
     numberOfWorkers: 0,
-    cost: 100,
+    cost: 50,
+    description: "Gathers wood for construction",
+  },
+  {
+    name: "Scientist",
+    rate: 1,
+    resource: RESOURCE.SCIENCE,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Gathers wood for construction",
   },
 ];
 const workerStations = ref<WorkerStation[]>([...initialWorkerStations]);

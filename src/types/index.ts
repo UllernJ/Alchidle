@@ -1,9 +1,10 @@
 export type WorkerStation = {
-  name: "WORKER_A" | "WORKER_B";
+  name: string;
   rate: number;
   numberOfWorkers: number;
   cost: number;
   resource: RESOURCE;
+  description: string;
 };
 
 export enum RESOURCE {
