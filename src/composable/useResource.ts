@@ -4,12 +4,8 @@ import { RESOURCE } from "../types";
 const resources = {
   [RESOURCE.MONEY]: ref<number>(0),
   [`max${RESOURCE.MONEY}`]: ref<number>(200),
-  [RESOURCE.WOODCUTTING]: ref<number>(0),
-  [`max${RESOURCE.WOODCUTTING}`]: ref<number>(200),
   [RESOURCE.MINING]: ref<number>(0),
   [`max${RESOURCE.MINING}`]: ref<number>(200),
-  [RESOURCE.FARMING]: ref<number>(0),
-  [`max${RESOURCE.FARMING}`]: ref<number>(200),
   [RESOURCE.SCIENCE]: ref<number>(0),
   [`max${RESOURCE.SCIENCE}`]: ref<number>(200),
   [RESOURCE.ALCHEMY]: ref<number>(0),

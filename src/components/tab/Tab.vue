@@ -2,19 +2,19 @@
     <aside class="state-sidebar">
         <ul class="state-list">
             <li class="state-item" v-for="state in states" :key="state">
-                <button class="state-button" 
-                @click="setState(state)"
-                :class="{'active': state === currentState}"
-                >{{ state }}
-            </button>
+                <button class="state-button" @click="setState(state)" :class="{ 'active': state === currentState }">{{
+                    state }}
+                </button>
             </li>
         </ul>
-        <Workers v-if="currentState === TAB_STATE.WORKERS"/>
+        <Workers v-if="currentState === TAB_STATE.WORKERS" />
+        <Buildings v-if="currentState === TAB_STATE.BUILDINGS" />
     </aside>
 </template>
 
 <script lang="ts" setup>
 import { TAB_STATE, useTab } from '../../composable/useTab';
+import Buildings from './Buildings.vue';
 import Workers from './Workers.vue';
 
 const { getStates, setState, currentState } = useTab();
@@ -42,9 +42,11 @@ const states = getStates();
 
 .state-item {
     text-align: left;
+
     &:last-child {
         border-bottom: 1px solid white;
     }
+
     &:not(:last-child, :first-child) {
         border-top: 1px solid white;
         border-bottom: 1px solid white;
@@ -64,6 +66,7 @@ const states = getStates();
 .state-button:hover {
     opacity: .8;
 }
+
 .active {
     background-color: #1a1a1a;
 }

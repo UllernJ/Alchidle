@@ -11,5 +11,5 @@ export enum RESOURCE {
   MONEY = "Money",
   MINING = "Mining",
   ALCHEMY = "Alchemy",
-  SCIENCE = "SCIENCE"
+  SCIENCE = "Science",
 }
