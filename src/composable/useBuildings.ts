@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
 import { useResource } from "./useResource";
+import { alchemyLabIcon, bankIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 
 type Cost = {
   key: RESOURCE;
@@ -13,6 +14,7 @@ export type Building = {
   description: string;
   resource: RESOURCE;
   quantity: number;
+  icon: string;
 };
 
 const buildings = ref<Building[]>([
@@ -31,6 +33,7 @@ const buildings = ref<Building[]>([
     ],
     description: "A mine to gather resources",
     quantity: 0,
+    icon: mineIcon
   },
   {
     name: "Alchemy Lab",
@@ -47,6 +50,7 @@ const buildings = ref<Building[]>([
     ],
     description: "An alchemy lab to transmute resources",
     quantity: 0,
+    icon: alchemyLabIcon
   },
   {
     name: "Science Lab",
@@ -63,6 +67,7 @@ const buildings = ref<Building[]>([
     ],
     description: "A science lab to research new technologies",
     quantity: 0,
+    icon: scienceLabIcon
   },
   {
     name: "Bank",
@@ -79,6 +84,7 @@ const buildings = ref<Building[]>([
     ],
     description: "A bank to store your money",
     quantity: 0,
+    icon: bankIcon
   },
 ]);
 

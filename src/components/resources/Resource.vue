@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useResource } from '../../composable/useResource';
-import type { RESOURCE } from '../../types';
+import { RESOURCE } from '../../types';
 import { useWorkers } from '../../composable/useWorkers';
 import { usePlayer } from '../../composable/usePlayer';
+import Icon from '../Icon.vue';
 
 const { resources } = useResource()
 const { totalIncomePerSecond } = useWorkers()
@@ -11,6 +12,7 @@ const { setFocus, currentFocus } = usePlayer()
 
 const props = defineProps<{
   type: RESOURCE
+  icon: string
 }>()
 
 const progress = computed(() => {
@@ -19,11 +21,27 @@ const progress = computed(() => {
   return (currentValue / maxValue) * 100;
 });
 
+const gatherMessage = computed(() => {
+  if(currentFocus.value === RESOURCE.MONEY) {
+    return 'Stealing money...';
+  } else if(currentFocus.value === RESOURCE.MINING) {
+    return 'Mining rocks...';
+  } else if(currentFocus.value === RESOURCE.ALCHEMY) {
+    return 'Brewing potions...';
+  } else if(currentFocus.value === RESOURCE.SCIENCE) {
+    return 'Studying science...';
+  }
+});
+
 </script>
 
 <template>
   <div class="money-container">
-    <span class="title">{{ type.toString() }}</span>
+    <div class="header">
+      <Icon :path="icon" :size="40"/>
+      <span>{{ type.toString() }}</span>
+    </div>
+    <span> {{ totalIncomePerSecond[props.type] }}/s</span>
     <span> {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}  </span>
     <div class="loading-bar-wrapper">
       <div
@@ -39,12 +57,23 @@ const progress = computed(() => {
       class="styled-button"
       @click="setFocus(type)"
     >
-      {{currentFocus == type ? 'Gathering...' : 'Gather'}}
+      {{currentFocus == type ? gatherMessage : 'Gather'}}
     </button>
   </div>
 </template>
 
 <style scoped>
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-weight: bold;
+  margin-top: -.75rem;
+  font-size: 1.5em;
+}
+
 .money-container {
   background-color: #1a1a1a;
   border: 3px solid #242424;
@@ -56,12 +85,6 @@ const progress = computed(() => {
   align-items: center;
   gap: .33rem;
   border: 1px solid white;
-}
-.title {
-  font-weight: bold;
-  margin-top: -.75rem;
-  
-  font-size: 1.2em;
 }
 
 .loading-bar-wrapper {
@@ -81,7 +104,7 @@ const progress = computed(() => {
 }
 
 .styled-button {
-  width: 10rem;
+  width: 12rem;
   padding: .33rem 2rem;
   border: 1px solid white;
   &:hover {

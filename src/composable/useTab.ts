@@ -1,6 +1,7 @@
 import { ref } from "vue";
 
 export enum TAB_STATE {
+  ALL = "All",
   BUILDINGS = "Buildings",
   WORKERS = "Workers",
   RESEARCH = "Research",

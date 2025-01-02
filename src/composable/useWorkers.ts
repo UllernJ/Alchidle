@@ -3,6 +3,7 @@ import type { WorkerStation } from "../types";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
+import { alchemistIcon, bankerIcon, minerIcon, scientistIcon } from "../icons/icons";
 
 const initialWorkerStations: WorkerStation[] = [
   {
@@ -12,6 +13,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Gathers food",
+    icon: bankerIcon
   },
   {
     name: "Miner",
@@ -20,6 +22,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Mines for resources",
+    icon: minerIcon
   },
   {
     name: "Alchemist",
@@ -28,6 +31,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Gather herbs for alchemy",
+    icon: alchemistIcon
   },
   {
     name: "Scientist",
@@ -36,9 +40,10 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Mad man",
+    icon: scientistIcon
   }
 ];
-const workerStations = ref<WorkerStation[]>([...initialWorkerStations]);
+const workerStations = ref<WorkerStation[]>(initialWorkerStations);
 
 export const useWorkers = () => {
   const { resources, addResource, subtractResource } = useResource();

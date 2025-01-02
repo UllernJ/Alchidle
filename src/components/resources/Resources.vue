@@ -1,13 +1,14 @@
 <template>
     <section>
-        <Resource :type="RESOURCE.MONEY" />
-        <Resource :type="RESOURCE.MINING" />
-        <Resource :type="RESOURCE.ALCHEMY" />
-        <Resource :type="RESOURCE.SCIENCE" />
+        <Resource :type="RESOURCE.MONEY" :icon="moneyIcon"/>
+        <Resource :type="RESOURCE.MINING" :icon="miningIcon"/>
+        <Resource :type="RESOURCE.ALCHEMY"  :icon="alchemyIcon"/>
+        <Resource :type="RESOURCE.SCIENCE" :icon="scienceIcon"/>
     </section>
 </template>
 
 <script lang="ts" setup>
+import { moneyIcon, alchemyIcon, miningIcon, scienceIcon } from '../../icons/icons';
 import { RESOURCE } from '../../types';
 import Resource from './Resource.vue';
 
