@@ -95,5 +95,4 @@ const canAfford = computed(() => {
   justify-content: center;
   gap: 0.2rem;
 }
-
 </style>

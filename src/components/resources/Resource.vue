@@ -1,76 +1,73 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useResource } from '../../composable/useResource';
-import { RESOURCE } from '../../types';
-import { useWorkers } from '../../composable/useWorkers';
-import { usePlayer } from '../../composable/usePlayer';
-import Icon from '../Icon.vue';
+import { computed } from "vue";
+import { useResource } from "../../composable/useResource";
+import { RESOURCE } from "../../types";
+import { useWorkers } from "../../composable/useWorkers";
+import { usePlayer } from "../../composable/usePlayer";
+import Icon from "../Icon.vue";
 
-const { resources } = useResource()
-const { totalIncomePerSecond } = useWorkers()
-const { setFocus, currentFocus } = usePlayer()
+const { resources } = useResource();
+const { totalIncomePerSecond } = useWorkers();
+const { setFocus, currentFocus } = usePlayer();
 
 const props = defineProps<{
-  type: RESOURCE
-  icon: string
-}>()
+  type: RESOURCE;
+  icon: string;
+}>();
 
 const progress = computed(() => {
   const currentValue = resources[props.type].value;
-  const maxValue = resources[`max${props.type}` as keyof typeof resources].value;
+  const maxValue =
+    resources[`max${props.type}` as keyof typeof resources].value;
   return (currentValue / maxValue) * 100;
 });
 
 const gatherMessage = computed(() => {
-  if(currentFocus.value === RESOURCE.MONEY) {
-    return 'Stealing money...';
-  } else if(currentFocus.value === RESOURCE.MINING) {
-    return 'Mining rocks...';
-  } else if(currentFocus.value === RESOURCE.ALCHEMY) {
-    return 'Brewing potions...';
-  } else if(currentFocus.value === RESOURCE.SCIENCE) {
-    return 'Studying science...';
+  if (currentFocus.value === RESOURCE.MONEY) {
+    return "Stealing money...";
+  } else if (currentFocus.value === RESOURCE.MINING) {
+    return "Mining rocks...";
+  } else if (currentFocus.value === RESOURCE.ALCHEMY) {
+    return "Brewing potions...";
+  } else if (currentFocus.value === RESOURCE.SCIENCE) {
+    return "Studying science...";
   }
 });
-
 </script>
 
 <template>
   <div class="money-container">
     <div class="header">
-      <Icon :path="icon" :size="40"/>
+      <Icon :path="icon" :size="40" />
       <span>{{ type.toString() }}</span>
     </div>
     <span> {{ totalIncomePerSecond[props.type] }}/s</span>
-    <span> {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}  </span>
+    <span>
+      {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}
+    </span>
     <div class="loading-bar-wrapper">
       <div
         class="loading-bar"
-        :style="{ 
+        :style="{
           width: progress + '%',
-          background: progress > 90 ? 'red' : ''
+          background: progress > 90 ? 'red' : '',
         }"
-      >
+      ></div>
     </div>
-    </div>
-    <button
-      class="styled-button"
-      @click="setFocus(type)"
-    >
-      {{currentFocus == type ? gatherMessage : 'Gather'}}
+    <button class="styled-button" @click="setFocus(type)">
+      {{ currentFocus == type ? gatherMessage : "Gather" }}
     </button>
   </div>
 </template>
 
 <style scoped>
-
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   font-weight: bold;
-  margin-top: -.75rem;
+  margin-top: -0.75rem;
   font-size: 1.5em;
 }
 
@@ -83,7 +80,7 @@ const gatherMessage = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .33rem;
+  gap: 0.33rem;
   border: 1px solid white;
 }
 
@@ -93,7 +90,7 @@ const gatherMessage = computed(() => {
   border: 2px solid #ffcc00;
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .loading-bar {
@@ -105,10 +102,10 @@ const gatherMessage = computed(() => {
 
 .styled-button {
   width: 12rem;
-  padding: .33rem 2rem;
+  padding: 0.33rem 2rem;
   border: 1px solid white;
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
     cursor: pointer;
   }
 }

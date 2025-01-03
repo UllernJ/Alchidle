@@ -1,23 +1,27 @@
 <template>
-    <aside class="state-sidebar">
-        <ul class="state-list">
-            <li class="state-item" v-for="state in states" :key="state">
-                <button class="state-button" @click="setState(state)" :class="{ 'active': state === currentState }">{{
-                    state }}
-                </button>
-            </li>
-        </ul>
-        <Workers v-if="currentState === TAB_STATE.WORKERS" />
-        <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
-        <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
-    </aside>
+  <aside class="state-sidebar">
+    <ul class="state-list">
+      <li class="state-item" v-for="state in states" :key="state">
+        <button
+          class="state-button"
+          @click="setState(state)"
+          :class="{ active: state === currentState }"
+        >
+          {{ state }}
+        </button>
+      </li>
+    </ul>
+    <Workers v-if="currentState === TAB_STATE.WORKERS" />
+    <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
+    <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
+  </aside>
 </template>
 
 <script lang="ts" setup>
-import { TAB_STATE, useTab } from '../../composable/useTab';
-import Buildings from './Buildings.vue';
-import Research from './Research.vue';
-import Workers from './Workers.vue';
+import { TAB_STATE, useTab } from "../../composable/useTab";
+import Buildings from "./Buildings.vue";
+import Research from "./Research.vue";
+import Workers from "./Workers.vue";
 
 const { getStates, setState, currentState } = useTab();
 
@@ -26,50 +30,50 @@ const states = getStates();
 
 <style scoped>
 .state-sidebar {
-    background-color: #1a1a1a;
-    display: flex;
-    width: 100%;
-    min-height: 50vh;
-    border: 1px solid white;
+  background-color: #1a1a1a;
+  display: flex;
+  width: 100%;
+  min-height: 50vh;
+  border: 1px solid white;
 }
 
 .state-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid white;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid white;
 }
 
 .state-item {
-    text-align: left;
+  text-align: left;
 
-    &:last-child {
-        border-bottom: 1px solid white;
-    }
+  &:last-child {
+    border-bottom: 1px solid white;
+  }
 
-    &:not(:last-child, :first-child) {
-        border-top: 1px solid white;
-        border-bottom: 1px solid white;
-    }
+  &:not(:last-child, :first-child) {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
 }
 
 .state-button {
-    padding: .6rem 1.3rem;
-    font-size: .9em;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    box-sizing: border-box;
+  padding: 0.6rem 1.3rem;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .state-button:hover {
-    opacity: .8;
+  opacity: 0.8;
 }
 
 .active {
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
 }
 </style>

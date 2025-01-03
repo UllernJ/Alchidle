@@ -110,7 +110,7 @@ const canAfford = computed(() => {
 }
 
 .building-description h2 {
-    font-size: 1.2em;
+  font-size: 1.2em;
   margin: 0;
   font-weight: bold;
 }

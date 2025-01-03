@@ -6,11 +6,7 @@
     :width="size"
     :height="size"
   >
-    <path
-      :d="path"
-      fill="#fff"
-      fill-opacity="1"
-    />
+    <path :d="path" fill="#fff" fill-opacity="1" />
   </svg>
 </template>
 

@@ -3,7 +3,12 @@ import type { WorkerStation } from "../types";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
-import { alchemistIcon, bankerIcon, minerIcon, scientistIcon } from "../icons/icons";
+import {
+  alchemistIcon,
+  bankerIcon,
+  minerIcon,
+  scientistIcon,
+} from "../icons/icons";
 
 export enum WORKER {
   BANKER = "Banker",
@@ -20,7 +25,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Gathers food",
-    icon: bankerIcon
+    icon: bankerIcon,
   },
   {
     name: WORKER.MINER,
@@ -29,7 +34,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Mines for resources",
-    icon: minerIcon
+    icon: minerIcon,
   },
   {
     name: WORKER.ALCHEMIST,
@@ -38,7 +43,7 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Gather herbs for alchemy",
-    icon: alchemistIcon
+    icon: alchemistIcon,
   },
   {
     name: WORKER.SCIENTIST,
@@ -47,8 +52,8 @@ const initialWorkerStations: WorkerStation[] = [
     numberOfWorkers: 0,
     cost: 50,
     description: "Mad man",
-    icon: scientistIcon
-  }
+    icon: scientistIcon,
+  },
 ];
 const workerStations = ref<WorkerStation[]>(initialWorkerStations);
 
@@ -60,7 +65,7 @@ export const useWorkers = () => {
     if (station && station.cost <= resources[RESOURCE.MONEY].value) {
       subtractResource(RESOURCE.MONEY, station.cost);
       station.numberOfWorkers += 1;
-      station.cost = Math.round(Math.pow(station.cost, 1.1))
+      station.cost = Math.round(Math.pow(station.cost, 1.1));
     }
   };
 
@@ -69,7 +74,7 @@ export const useWorkers = () => {
     if (station) {
       station.rate *= 2;
     }
-  }
+  };
 
   const totalIncomePerSecond = computed(() => {
     const { currentFocus } = usePlayer();
@@ -107,6 +112,6 @@ export const useWorkers = () => {
     totalIncomePerSecond,
     addWorker,
     gatherResources,
-    upgradeWorkerRate
+    upgradeWorkerRate,
   };
 };
