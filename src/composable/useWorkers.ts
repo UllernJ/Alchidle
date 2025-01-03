@@ -5,9 +5,16 @@ import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
 import { alchemistIcon, bankerIcon, minerIcon, scientistIcon } from "../icons/icons";
 
+export enum WORKER {
+  BANKER = "Banker",
+  MINER = "Miner",
+  ALCHEMIST = "Alchemist",
+  SCIENTIST = "Scientist",
+}
+
 const initialWorkerStations: WorkerStation[] = [
   {
-    name: "Banker",
+    name: WORKER.BANKER,
     rate: 1,
     resource: RESOURCE.MONEY,
     numberOfWorkers: 0,
@@ -16,7 +23,7 @@ const initialWorkerStations: WorkerStation[] = [
     icon: bankerIcon
   },
   {
-    name: "Miner",
+    name: WORKER.MINER,
     rate: 1,
     resource: RESOURCE.MINING,
     numberOfWorkers: 0,
@@ -25,7 +32,7 @@ const initialWorkerStations: WorkerStation[] = [
     icon: minerIcon
   },
   {
-    name: "Alchemist",
+    name: WORKER.ALCHEMIST,
     rate: 1,
     resource: RESOURCE.ALCHEMY,
     numberOfWorkers: 0,
@@ -34,7 +41,7 @@ const initialWorkerStations: WorkerStation[] = [
     icon: alchemistIcon
   },
   {
-    name: "Scientist",
+    name: WORKER.SCIENTIST,
     rate: 1,
     resource: RESOURCE.SCIENCE,
     numberOfWorkers: 0,
@@ -57,7 +64,15 @@ export const useWorkers = () => {
     }
   };
 
+  const upgradeWorkerRate = (worker: WORKER) => {
+    const station = workerStations.value.find((w) => w.name === worker);
+    if (station) {
+      station.rate *= 2;
+    }
+  }
+
   const totalIncomePerSecond = computed(() => {
+    const { currentFocus } = usePlayer();
     const incomePerResource: Partial<Record<RESOURCE, number>> = {};
 
     workerStations.value.forEach((station) => {
@@ -67,7 +82,12 @@ export const useWorkers = () => {
       }
       incomePerResource[station.resource]! += generated;
     });
-
+    if (currentFocus.value !== null) {
+      if (!incomePerResource[currentFocus.value]) {
+        incomePerResource[currentFocus.value] = 0;
+      }
+      incomePerResource[currentFocus.value]! += 1;
+    }
     return incomePerResource;
   });
 
@@ -87,5 +107,6 @@ export const useWorkers = () => {
     totalIncomePerSecond,
     addWorker,
     gatherResources,
+    upgradeWorkerRate
   };
 };

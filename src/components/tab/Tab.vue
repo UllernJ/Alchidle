@@ -8,13 +8,15 @@
             </li>
         </ul>
         <Workers v-if="currentState === TAB_STATE.WORKERS" />
-        <Buildings v-if="currentState === TAB_STATE.BUILDINGS" />
+        <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
+        <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
     </aside>
 </template>
 
 <script lang="ts" setup>
 import { TAB_STATE, useTab } from '../../composable/useTab';
 import Buildings from './Buildings.vue';
+import Research from './Research.vue';
 import Workers from './Workers.vue';
 
 const { getStates, setState, currentState } = useTab();
