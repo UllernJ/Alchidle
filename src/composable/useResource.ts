@@ -15,7 +15,7 @@ const resources = {
 export const useResource = () => {
   const addResource = (type: RESOURCE, amount: number) => {
     const resource = resources[type];
-    const maxResource = resources[`max${type}` as keyof typeof resources];
+    const maxResource = resources[`max${type}`];
 
     if (resource && maxResource) {
       resource.value = Math.min(resource.value + amount, maxResource.value);
@@ -30,7 +30,7 @@ export const useResource = () => {
   };
 
   const upgradeStorage = (type: RESOURCE) => {
-    const maxResource = resources[`max${type}` as keyof typeof resources];
+    const maxResource = resources[`max${type}`];
     if (maxResource) {
       maxResource.value *= 2;
     }

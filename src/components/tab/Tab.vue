@@ -11,14 +11,19 @@
         </button>
       </li>
     </ul>
+    <All v-if="currentState === TAB_STATE.ALL" />
     <Workers v-if="currentState === TAB_STATE.WORKERS" />
     <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
-    <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
+    <Research
+      class="research"
+      v-else-if="currentState === TAB_STATE.RESEARCH"
+    />
   </aside>
 </template>
 
 <script lang="ts" setup>
 import { TAB_STATE, useTab } from "../../composable/useTab";
+import All from "./All.vue";
 import Buildings from "./Buildings.vue";
 import Research from "./Research.vue";
 import Workers from "./Workers.vue";
@@ -33,7 +38,7 @@ const states = getStates();
   background-color: #1a1a1a;
   display: flex;
   width: 100%;
-  min-height: 50vh;
+  min-height: 75vh;
   border: 1px solid white;
 }
 

@@ -73,10 +73,8 @@ const canAfford = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1e1e1e;
   color: #ffffff;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  margin-left: 1rem;
 }
 
 .building-list {
@@ -126,5 +124,8 @@ const canAfford = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
+  &:last-child {
+    margin-top: -0.55rem;
+  }
 }
 </style>

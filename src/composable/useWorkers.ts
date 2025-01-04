@@ -77,29 +77,26 @@ export const useWorkers = () => {
   };
 
   const totalIncomePerSecond = computed(() => {
-    const { currentFocus } = usePlayer();
+    const { currentFocus, productionRate } = usePlayer();
     const incomePerResource: Partial<Record<RESOURCE, number>> = {};
 
-    workerStations.value.forEach((station) => {
-      const generated = station.rate * station.numberOfWorkers;
-      if (!incomePerResource[station.resource]) {
-        incomePerResource[station.resource] = 0;
-      }
-      incomePerResource[station.resource]! += generated;
+    workerStations.value.forEach(({ resource, rate, numberOfWorkers }) => {
+      incomePerResource[resource] =
+        (incomePerResource[resource] || 0) + rate * numberOfWorkers;
     });
+
     if (currentFocus.value !== null) {
-      if (!incomePerResource[currentFocus.value]) {
-        incomePerResource[currentFocus.value] = 0;
-      }
-      incomePerResource[currentFocus.value]! += 1;
+      incomePerResource[currentFocus.value] =
+        (incomePerResource[currentFocus.value] || 0) + productionRate.value;
     }
+
     return incomePerResource;
   });
 
   const gatherResources = () => {
-    const { currentFocus } = usePlayer();
+    const { currentFocus, productionRate } = usePlayer();
     if (currentFocus.value !== null) {
-      addResource(currentFocus.value, 1);
+      addResource(currentFocus.value, productionRate.value);
     }
     workerStations.value.forEach((station) => {
       const generated = station.rate * station.numberOfWorkers;

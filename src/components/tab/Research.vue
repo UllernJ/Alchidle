@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <template v-for="research in researchList" :key="research.name">
       <button
         :disabled="!canAfford(research)"
@@ -41,27 +41,26 @@ const canAfford = computed(() => {
   font-weight: bold;
 }
 
-div {
-  position: relative;
+.container {
   margin-top: 1rem;
   margin-left: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  height: 100%;
   width: 100%;
 }
 button {
-  position: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
   border: 1px solid white;
   padding: 1rem;
   background-color: #292727;
   text-align: center;
-  width: 15%;
-  height: 30%;
+  width: 20rem;
+  height: 9rem;
 
   &:hover {
     cursor: pointer;
@@ -75,11 +74,7 @@ p {
 }
 
 .cost {
-  position: absolute;
-  bottom: 1rem;
-  justify-content: center;
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 0.5rem;
 }

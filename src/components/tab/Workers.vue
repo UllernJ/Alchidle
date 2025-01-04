@@ -48,10 +48,8 @@ const canAfford = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1e1e1e;
   color: #ffffff;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  margin-left: 1rem;
 }
 
 .worker-list {

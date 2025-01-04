@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { useResource } from "./useResource";
 import { useWorkers, WORKER } from "./useWorkers";
 import { RESOURCE } from "../types";
+import { usePlayer } from "./usePlayer";
 
 export type Research = {
   name: string;
@@ -11,14 +12,22 @@ export type Research = {
   effect?: () => void;
 };
 
-const { upgradeStorage } = useResource();
 const { upgradeWorkerRate } = useWorkers();
+const { upgradeProductionRate } = usePlayer();
 
 const researchList = ref<Research[]>([
   {
+    name: "Effiency",
+    description: "Improves your own effeciency, increasing production rate.",
+    cost: 1,
+    unlocked: false,
+    effect: () => {
+      upgradeProductionRate();
+    },
+  },
+  {
     name: "Mathematics",
-    description:
-      "Unlocks the ability to count, somehow increasing your production in earning more money.",
+    description: "Increasing your math skills, increasing the rate of money.",
     cost: 100,
     unlocked: false,
     effect: () => {
@@ -54,16 +63,6 @@ const researchList = ref<Research[]>([
       upgradeWorkerRate(WORKER.SCIENTIST);
     },
   },
-  {
-    name: "Banking",
-    description:
-      "Unlocks the ability to invest money, increasing the rate of money.",
-    cost: 100,
-    unlocked: false,
-    effect: () => {
-      upgradeWorkerRate(WORKER.BANKER);
-    },
-  },
 ]);
 
 export const useResearch = () => {
@@ -77,9 +76,47 @@ export const useResearch = () => {
     if (!research.unlocked && research.effect) {
       subtractResource(RESOURCE.SCIENCE, research.cost);
       research.effect();
+      upgradeResearch(research.name);
     }
-    research.unlocked = true;
   };
 
   return { researchList, unlockResearch };
+};
+
+const upgradeResearch = (name: string) => {
+  const romanNums = [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+    "X",
+  ];
+
+  const research = researchList.value.find((r) => r.name === name);
+  if (!research) {
+    console.warn(`Research with name "${name}" not found`);
+    return;
+  }
+
+  const romanNum = romanNums.find((r) =>
+    research.name.toUpperCase().endsWith(` ${r}`)
+  );
+
+  if (!romanNum) {
+    research.name += " II"; // Append " II" if no Roman numeral is found
+  } else {
+    const index = romanNums.indexOf(romanNum);
+    if (index < romanNums.length - 1) {
+      research.name = research.name.replace(romanNum, romanNums[index + 1]);
+    }
+  }
+  if (romanNum === "X") {
+    research.unlocked = true;
+  }
+  research.cost = research.cost *= 2;
 };

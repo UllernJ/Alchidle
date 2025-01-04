@@ -28,12 +28,12 @@ const buildings = ref<Building[]>([
     resource: RESOURCE.MINING,
     cost: [
       {
-        key: RESOURCE.MONEY,
-        value: 50,
-      },
-      {
         key: RESOURCE.MINING,
         value: 100,
+      },
+      {
+        key: RESOURCE.MONEY,
+        value: 50,
       },
     ],
     description: "A mine to gather resources",
@@ -45,11 +45,11 @@ const buildings = ref<Building[]>([
     resource: RESOURCE.ALCHEMY,
     cost: [
       {
-        key: RESOURCE.MONEY,
+        key: RESOURCE.ALCHEMY,
         value: 100,
       },
       {
-        key: RESOURCE.ALCHEMY,
+        key: RESOURCE.MONEY,
         value: 50,
       },
     ],
@@ -62,11 +62,11 @@ const buildings = ref<Building[]>([
     resource: RESOURCE.SCIENCE,
     cost: [
       {
-        key: RESOURCE.MONEY,
+        key: RESOURCE.SCIENCE,
         value: 100,
       },
       {
-        key: RESOURCE.SCIENCE,
+        key: RESOURCE.MONEY,
         value: 50,
       },
     ],
