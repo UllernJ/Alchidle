@@ -38,7 +38,7 @@ section {
   padding: 1rem;
 }
 section:not(:first-child) {
-  border-top: 1px solid white;
+  border-top: 1px solid #f1f1f1;
 }
 
 .research {

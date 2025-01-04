@@ -90,9 +90,9 @@ const canAfford = computed(() => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  border: 1px solid #f1f1f1;
   padding: 1rem;
-  background-color: #292727;
+  background-color: #2b2b2b;
   width: 15%;
   &:hover {
     cursor: pointer;

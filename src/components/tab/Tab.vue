@@ -39,7 +39,7 @@ const states = getStates();
   display: flex;
   width: 100%;
   min-height: 75vh;
-  border: 1px solid white;
+  border: 1px solid #f1f1f1;
 }
 
 .state-list {
@@ -48,19 +48,19 @@ const states = getStates();
   padding: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid white;
+  border-right: 1px solid #f1f1f1;
 }
 
 .state-item {
   text-align: left;
 
   &:last-child {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #f1f1f1;
   }
 
   &:not(:last-child, :first-child) {
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
   }
 }
 
@@ -71,7 +71,6 @@ const states = getStates();
   cursor: pointer;
   width: 100%;
   text-align: left;
-  box-sizing: border-box;
 }
 
 .state-button:hover {

@@ -73,7 +73,6 @@ const gatherMessage = computed(() => {
 
 .money-container {
   background-color: #1a1a1a;
-  border: 3px solid #242424;
   padding: 1.1rem;
   text-align: center;
   color: rgba(255, 255, 255, 0.87);
@@ -81,12 +80,12 @@ const gatherMessage = computed(() => {
   flex-direction: column;
   align-items: center;
   gap: 0.33rem;
-  border: 1px solid white;
+  border: 1px solid #f1f1f1;
 }
 
 .loading-bar-wrapper {
   width: 100%;
-  height: 20px;
+  height: 1.25rem;
   border: 2px solid #ffcc00;
   border-radius: 8px;
   overflow: hidden;
@@ -103,7 +102,7 @@ const gatherMessage = computed(() => {
 .styled-button {
   width: 12rem;
   padding: 0.33rem 2rem;
-  border: 1px solid white;
+  border: 1px solid #f1f1f1;
   &:hover {
     opacity: 0.8;
     cursor: pointer;

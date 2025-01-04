@@ -55,9 +55,9 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-  border: 1px solid white;
+  border: 1px solid #f1f1f1;
   padding: 1rem;
-  background-color: #292727;
+  background-color: #2b2b2b;
   text-align: center;
   width: 20rem;
   height: 9rem;

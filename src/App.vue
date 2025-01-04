@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
-import { useWorkers } from './composable/useWorkers';
-import Resources from './components/resources/Resources.vue';
-import Tab from './components/tab/Tab.vue';
+import { onMounted, onUnmounted } from "vue";
+import { useWorkers } from "./composable/useWorkers";
+import Resources from "./components/resources/Resources.vue";
+import Tab from "./components/tab/Tab.vue";
+import Fight from "./components/Fight.vue";
 
-const { gatherResources } = useWorkers()
+const { gatherResources } = useWorkers();
 let interval: number;
 
 onMounted(() => {
@@ -19,6 +20,7 @@ onUnmounted(() => {
 <template>
   <main>
     <Resources />
+    <Fight />
   </main>
   <section class="content">
     <Tab />
@@ -28,7 +30,8 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: grid;
-  grid-template-columns: 4fr 3fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 .content {
   margin-top: 1rem;

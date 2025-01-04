@@ -67,7 +67,7 @@ const canAfford = computed(() => {
   gap: 1rem;
   border: 1px solid white;
   padding: 1rem;
-  background-color: #292727;
+  background-color: #2b2b2b;
   text-align: center;
   width: 15%;
 

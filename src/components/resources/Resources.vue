@@ -23,5 +23,7 @@ section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  height: 100%;
+  width: 100%;
 }
 </style>

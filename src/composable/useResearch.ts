@@ -19,7 +19,7 @@ const researchList = ref<Research[]>([
   {
     name: "Effiency",
     description: "Improves your own effeciency, increasing production rate.",
-    cost: 1,
+    cost: 100,
     unlocked: false,
     effect: () => {
       upgradeProductionRate();
