@@ -12,11 +12,16 @@
       <span class="title">Research</span>
       <Research class="research" />
     </section>
+    <section>
+      <span class="title">Gear</span>
+      <Gear />
+    </section>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Buildings from "./Buildings.vue";
+import Gear from "./Gear.vue";
 import Research from "./Research.vue";
 import Workers from "./Workers.vue";
 </script>

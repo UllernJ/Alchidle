@@ -1,0 +1,81 @@
+import { ref } from "vue";
+import { useResource } from "./useResource";
+import {
+  axeIcon,
+  bootsIcon,
+  chestIcon,
+  handsIcon,
+  helmetIcon,
+  knifeIcon,
+  mightyBladeIcon,
+  pantsIcon,
+  stickIcon,
+  swordIcon,
+} from "../icons/icons";
+import { RESOURCE } from "../types";
+
+export type Weapon = {
+  name: string;
+  damage: number;
+  path: string;
+  cost: number;
+  quantity: number;
+};
+
+export type Armor = {
+  name: string;
+  defense: number;
+  path: string;
+  cost: number;
+  quantity: number;
+};
+
+const weapons = ref<Weapon[]>([
+  { name: "Stick", damage: 1, cost: 20, path: stickIcon, quantity: 0 },
+  { name: "Knife", damage: 2, cost: 50, path: knifeIcon, quantity: 0 },
+  { name: "Axe", damage: 5, cost: 100, path: axeIcon, quantity: 0 },
+  { name: "Sword", damage: 10, cost: 200, path: swordIcon, quantity: 0 },
+  {
+    name: "Mighty Blade",
+    damage: 20,
+    cost: 500,
+    path: mightyBladeIcon,
+    quantity: 0,
+  },
+]);
+
+const armors = ref<Armor[]>([
+  { name: "Boots Armor", defense: 1, cost: 20, path: bootsIcon, quantity: 0 },
+  { name: "Hands Armor", defense: 2, cost: 50, path: handsIcon, quantity: 0 },
+  { name: "Pants Armor", defense: 5, cost: 100, path: pantsIcon, quantity: 0 },
+  {
+    name: "Hjelmet Armor",
+    defense: 10,
+    cost: 200,
+    path: helmetIcon,
+    quantity: 0,
+  },
+  { name: "Chest Plate", defense: 20, cost: 500, path: chestIcon, quantity: 0 },
+]);
+
+export const useGear = () => {
+  const { subtractResource, resources } = useResource();
+
+  const buyWeapon = (index: number) => {
+    const weapon = weapons.value[index];
+    if (resources[RESOURCE.MINING].value >= weapon.cost) {
+      subtractResource(RESOURCE.MINING, weapon.cost);
+      weapon.quantity++;
+    }
+  };
+
+  const buyArmor = (index: number) => {
+    const armor = armors.value[index];
+    if (resources[RESOURCE.MINING].value >= armor.cost) {
+      subtractResource(RESOURCE.MINING, armor.cost);
+      armor.quantity++;
+    }
+  };
+
+  return { weapons, armors, buyWeapon, buyArmor };
+};

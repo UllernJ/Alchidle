@@ -13,6 +13,7 @@
           <p class="worker-name">
             {{ worker.name }} ({{ worker.numberOfWorkers }})
           </p>
+          <p>{{ worker.rate }}/s</p>
           <div class="worker-cost">
             <p class="worker-count">{{ worker.cost }}</p>
             <Icon :path="moneyIcon" :size="20" />
@@ -60,11 +61,18 @@ const canAfford = computed(() => {
   width: 100%;
 }
 
+.worker-description {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .worker {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
   border: 1px solid white;
   padding: 1rem;
   background-color: #2b2b2b;
@@ -78,9 +86,9 @@ const canAfford = computed(() => {
 }
 
 .worker-name {
-  font-size: 1.2em;
-  margin: 0;
+  font-size: 1.1em;
   font-weight: bold;
+  margin-bottom: 0;
 }
 
 .worker-count {
@@ -88,9 +96,11 @@ const canAfford = computed(() => {
 }
 
 .worker-cost {
+  margin-top: -0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
+  font-size: 0.9em;
 }
 </style>

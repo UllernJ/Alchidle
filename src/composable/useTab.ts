@@ -5,7 +5,7 @@ export enum TAB_STATE {
   BUILDINGS = "Buildings",
   WORKERS = "Workers",
   RESEARCH = "Research",
-  EQUIPMENT = "Equipment",
+  GEAR = "Gear",
   ALCHEMY = "Alchemy",
 }
 const currentState = ref<TAB_STATE>(TAB_STATE.WORKERS);
