@@ -33,12 +33,15 @@ import Icon from "../Icon.vue";
 import type { Monster } from "../../factories/monsterFactory";
 import { attackIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
+import { MessageType, useMessage } from "../../composable/useMessage";
+import { getResourceDropMessage } from "../../utils/resourceUtil";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { monsters } = useMonsters();
+const { establishMessage } = useMessage();
 
 const currentMonster = ref<Monster | null>(monsters.value[0]);
-const initalHealth = currentMonster.value ? currentMonster.value.health : 0;
+let initalHealth = currentMonster.value ? currentMonster.value.health : 0;
 const autoAttackInterval = ref<number | null>(null);
 
 const monsterHealthPercentage = computed(() => {
@@ -56,13 +59,16 @@ const attack = () => {
   if (currentMonster.value.health <= 0) {
     //reward player
     const { addResource } = useResource();
-    addResource(
-      currentMonster.value.drop.resource,
-      currentMonster.value.drop.amount
+    const { resource, amount } = currentMonster.value.drop;
+    addResource(resource, amount);
+    establishMessage(
+      MessageType.INFO,
+      getResourceDropMessage(resource, amount)
     );
     //next monster
     const index = monsters.value.indexOf(currentMonster.value);
     currentMonster.value = monsters.value[index + 1];
+    initalHealth = currentMonster.value ? currentMonster.value.health : 0;
 
     //if no more monsters, stop auto attack
     if (!currentMonster.value && autoAttackInterval.value) {
@@ -73,9 +79,13 @@ const attack = () => {
   }
 
   //monster attack
-  playerHealth.value -= currentMonster.value.attack - defencePower.value;
+  playerHealth.value -= Math.max(
+    0,
+    currentMonster.value.attack - defencePower.value
+  );
   if (playerHealth.value <= 0) {
     //punish player
+    //you need to rest
   }
 };
 
