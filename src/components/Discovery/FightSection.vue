@@ -1,25 +1,92 @@
 <template>
   <section class="fight-cube">
-    <section class="monster">
-      <span class="monster-name">Bad Gnome</span>
-      <Icon :path="badGnomeIcon" :size="124" />
+    <section class="monster" v-if="currentMonster">
+      <span class="monster-name">{{ currentMonster.name }}</span>
+      <Icon :path="currentMonster.icon" :size="124" />
+      <div class="monster-description">
+        <span>{{ currentMonster.attack }}</span>
+        <Icon :path="attackIcon" :size="24" />
+      </div>
       <div class="health-bar">
-        <div class="health-bar-inner" :style="{ width: health + '%' }"></div>
+        <div
+          class="health-bar-inner"
+          :style="{ width: monsterHealthPercentage + '%' }"
+        >
+          <span>{{ monsterHealthPercentage }}%</span>
+        </div>
       </div>
     </section>
     <section class="attack">
-      <button class="attack-button">Attack</button>
-      <button class="attack-button">Auto attack</button>
+      <button class="attack-button" @click="attack">Attack</button>
+      <button class="attack-button" @click="autoAttack">
+        {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
+      </button>
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
-import { badGnomeIcon } from "../../icons/icons";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { usePlayer } from "../../composable/usePlayer";
+import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
+import type { Monster } from "../../factories/monsterFactory";
+import { attackIcon } from "../../icons/icons";
+import { useResource } from "../../composable/useResource";
 
-const health = ref(100);
+const { attackPower, health: playerHealth, defencePower } = usePlayer();
+const { monsters } = useMonsters();
+
+const currentMonster = ref<Monster | null>(monsters.value[0]);
+const initalHealth = currentMonster.value ? currentMonster.value.health : 0;
+const autoAttackInterval = ref<number | null>(null);
+
+const monsterHealthPercentage = computed(() => {
+  if (!currentMonster.value) return 0;
+  return initalHealth
+    ? Math.floor((currentMonster.value.health / initalHealth) * 100)
+    : 0;
+});
+
+const attack = () => {
+  if (!currentMonster.value) return;
+
+  currentMonster.value.health -= attackPower.value;
+
+  if (currentMonster.value.health <= 0) {
+    //reward player
+    const { addResource } = useResource();
+    addResource(
+      currentMonster.value.drop.resource,
+      currentMonster.value.drop.amount
+    );
+    //next monster
+    const index = monsters.value.indexOf(currentMonster.value);
+    currentMonster.value = monsters.value[index + 1];
+
+    //if no more monsters, stop auto attack
+    if (!currentMonster.value && autoAttackInterval.value) {
+      clearInterval(autoAttackInterval.value);
+      autoAttackInterval.value = null;
+    }
+    return;
+  }
+
+  //monster attack
+  playerHealth.value -= currentMonster.value.attack - defencePower.value;
+  if (playerHealth.value <= 0) {
+    //punish player
+  }
+};
+
+const autoAttack = () => {
+  if (autoAttackInterval.value) {
+    clearInterval(autoAttackInterval.value);
+    autoAttackInterval.value = null;
+  } else {
+    autoAttackInterval.value = setInterval(attack, 1000);
+  }
+};
 </script>
 
 <style scoped>
@@ -82,10 +149,22 @@ const health = ref(100);
   text-align: center;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  min-width: 100px;
 }
 
 .attack-button:hover {
   cursor: pointer;
   background-color: #3a3939;
+}
+
+.player-health {
+  margin-top: 1rem;
+}
+
+.monster-description {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
 }
 </style>

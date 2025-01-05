@@ -42,6 +42,7 @@ const { attackPower, defencePower, health } = usePlayer();
   align-items: center;
   box-sizing: border-box;
   border-right: 1px solid #f1f1f1;
+  min-width: 15rem;
 }
 
 .icon-container {
