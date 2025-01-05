@@ -66,6 +66,7 @@ export const useGear = () => {
     if (resources[RESOURCE.MINING].value >= weapon.cost) {
       subtractResource(RESOURCE.MINING, weapon.cost);
       weapon.quantity++;
+      weapon.cost = Math.round(weapon.cost * 1.25);
     }
   };
 
@@ -74,6 +75,7 @@ export const useGear = () => {
     if (resources[RESOURCE.MINING].value >= armor.cost) {
       subtractResource(RESOURCE.MINING, armor.cost);
       armor.quantity++;
+      armor.cost = Math.round(armor.cost * 1.25);
     }
   };
 
