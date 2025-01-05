@@ -1,25 +1,23 @@
 <template>
-  <section class="fight-container">
+  <section class="container">
     <PlayerSection />
+    <ActionLog />
     <FightSection />
   </section>
 </template>
 
 <script lang="ts" setup>
+import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import PlayerSection from "./PlayerSection.vue";
 </script>
 
 <style scoped>
-.fight-container {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-color: #1a1a1a;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.87);
+.container {
   border: 1px solid #f1f1f1;
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 100%;
 }
 </style>

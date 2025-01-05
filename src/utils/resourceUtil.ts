@@ -17,6 +17,6 @@ export const getResourceDropMessage = (
     case RESOURCE.ALCHEMY:
       return `You collected ${amount} alchemy resources from your foe!`;
     default:
-      return `You collected some interesting science from your foe, somehow earning you ${amount} science points.`;
+      return `You collected some interesting books from your foe, somehow earning you ${amount} science points.`;
   }
 };

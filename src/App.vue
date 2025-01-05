@@ -34,6 +34,8 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  overflow: hidden;
+  max-height: 50vh;
 }
 .content {
   margin-top: 1rem;

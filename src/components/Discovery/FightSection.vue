@@ -33,12 +33,13 @@ import Icon from "../Icon.vue";
 import type { Monster } from "../../factories/monsterFactory";
 import { attackIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
-import { MessageType, useMessage } from "../../composable/useMessage";
+import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
+import { useActionLog } from "../../composable/useActionLog";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { monsters } = useMonsters();
-const { establishMessage } = useMessage();
+const { addLog } = useActionLog();
 
 const currentMonster = ref<Monster | null>(monsters.value[0]);
 let initalHealth = currentMonster.value ? currentMonster.value.health : 0;
@@ -53,6 +54,10 @@ const monsterHealthPercentage = computed(() => {
 
 const attack = () => {
   if (!currentMonster.value) return;
+  if (playerHealth.value <= 0) {
+    addLog("You need to rest.", MessageType.WARNING);
+    return;
+  }
 
   currentMonster.value.health -= attackPower.value;
 
@@ -61,10 +66,7 @@ const attack = () => {
     const { addResource } = useResource();
     const { resource, amount } = currentMonster.value.drop;
     addResource(resource, amount);
-    establishMessage(
-      MessageType.INFO,
-      getResourceDropMessage(resource, amount)
-    );
+    addLog(getResourceDropMessage(resource, amount), MessageType.INFO);
     //next monster
     const index = monsters.value.indexOf(currentMonster.value);
     currentMonster.value = monsters.value[index + 1];
@@ -101,19 +103,21 @@ const autoAttack = () => {
 
 <style scoped>
 .fight-cube {
-  position: absolute;
-  right: 0;
   background-color: #2b2b2b;
-  padding: 2rem;
+  box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
-  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  height: 100%;
 }
 
 .monster {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #f1f1f1;
+  gap: 1rem;
   box-sizing: border-box;
 }
 
@@ -124,16 +128,17 @@ const autoAttack = () => {
 }
 
 .health-bar {
-  height: 20px;
+  height: 1.25rem;
   width: 100%;
   background-color: #444;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
-  margin-top: 10px;
   overflow: hidden;
 }
 
 .health-bar-inner {
+  display: flex;
+  justify-content: center;
   height: 100%;
   background-color: red;
   border-radius: 8px;
@@ -142,7 +147,9 @@ const autoAttack = () => {
 
 .attack {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   gap: 1rem;
   margin-top: 1rem;
 }
@@ -159,7 +166,8 @@ const autoAttack = () => {
   text-align: center;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  min-width: 100px;
+  width: 100%;
+  font-size: 0.75em;
 }
 
 .attack-button:hover {
