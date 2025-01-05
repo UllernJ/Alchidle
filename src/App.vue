@@ -4,6 +4,7 @@ import { useWorkers } from "./composable/useWorkers";
 import Resources from "./components/resources/Resources.vue";
 import Tab from "./components/tab/Tab.vue";
 import Fight from "./components/Fight.vue";
+import Popup from "./components/Popup.vue";
 
 const { gatherResources } = useWorkers();
 let interval: number;
@@ -18,6 +19,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <Popup />
   <main>
     <Resources />
     <Fight />

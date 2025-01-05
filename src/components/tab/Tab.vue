@@ -12,12 +12,9 @@
       </li>
     </ul>
     <All v-if="currentState === TAB_STATE.ALL" />
-    <Workers v-if="currentState === TAB_STATE.WORKERS" />
+    <Workers v-else-if="currentState === TAB_STATE.WORKERS" />
     <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
-    <Research
-      class="research"
-      v-else-if="currentState === TAB_STATE.RESEARCH"
-    />
+    <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
   </aside>
 </template>
 

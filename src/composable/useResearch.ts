@@ -3,6 +3,7 @@ import { useResource } from "./useResource";
 import { useWorkers, WORKER } from "./useWorkers";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
+import { MessageType, useMessage } from "./useMessage";
 
 export type Research = {
   name: string;
@@ -27,7 +28,7 @@ const researchList = ref<Research[]>([
   },
   {
     name: "Mathematics",
-    description: "Increasing your math skills, increasing the rate of money.",
+    description: "Improves your bankers, increasing their effeciency.",
     cost: 100,
     unlocked: false,
     effect: () => {
@@ -36,7 +37,7 @@ const researchList = ref<Research[]>([
   },
   {
     name: "Advanced Mining",
-    description: "Improves mining efficiency, increasing the rate of mining.",
+    description: "Improves your miners, increasing their effeciency.",
     cost: 100,
     unlocked: false,
     effect: () => {
@@ -45,8 +46,7 @@ const researchList = ref<Research[]>([
   },
   {
     name: "Alchemy",
-    description:
-      "Unlocks the ability to convert resources into alchemy, increasing the rate of alchemy.",
+    description: "Improves your alchemists, increasing their effeciency.",
     cost: 100,
     unlocked: false,
     effect: () => {
@@ -55,8 +55,7 @@ const researchList = ref<Research[]>([
   },
   {
     name: "Science",
-    description:
-      "Unlocks the ability to conduct research, increasing the rate of science.",
+    description: "Improves your scientists, increasing their effeciency.",
     cost: 100,
     unlocked: false,
     effect: () => {
@@ -70,7 +69,11 @@ export const useResearch = () => {
 
   const unlockResearch = (research: Research) => {
     if (resources[RESOURCE.SCIENCE].value < research.cost) {
-      //todo add error message
+      const { establishMessage } = useMessage();
+      establishMessage(
+        MessageType.WARNING,
+        `You need ${research.cost} science to unlock this research`
+      );
       return;
     }
     if (!research.unlocked && research.effect) {

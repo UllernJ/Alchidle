@@ -9,6 +9,7 @@ import {
   minerIcon,
   scientistIcon,
 } from "../icons/icons";
+import { MessageType, useMessage } from "./useMessage";
 
 export enum WORKER {
   BANKER = "Banker",
@@ -59,6 +60,7 @@ const workerStations = ref<WorkerStation[]>(initialWorkerStations);
 
 export const useWorkers = () => {
   const { resources, addResource, subtractResource } = useResource();
+  const { establishMessage } = useMessage();
 
   const addWorker = (stationName: string) => {
     const station = workerStations.value.find((w) => w.name === stationName);
@@ -66,6 +68,11 @@ export const useWorkers = () => {
       subtractResource(RESOURCE.MONEY, station.cost);
       station.numberOfWorkers += 1;
       station.cost = Math.round(Math.pow(station.cost, 1.1));
+    } else {
+      establishMessage(
+        MessageType.WARNING,
+        `Not enough money to hire a ${stationName.toLowerCase()}`
+      );
     }
   };
 

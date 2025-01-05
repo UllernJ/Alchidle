@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { useMessage, MessageType } from "./useMessage";
 import { RESOURCE } from "../types";
 
 const resources = {
@@ -13,12 +14,25 @@ const resources = {
 };
 
 export const useResource = () => {
+  const { establishMessage, setShownMessage, hasShownMessage } = useMessage();
+
   const addResource = (type: RESOURCE, amount: number) => {
     const resource = resources[type];
     const maxResource = resources[`max${type}`];
 
     if (resource && maxResource) {
       resource.value = Math.min(resource.value + amount, maxResource.value);
+      if (resource.value === maxResource.value) {
+        if (!hasShownMessage(type)) {
+          establishMessage(
+            MessageType.WARNING,
+            `Your ${type} storage is full!`
+          );
+          setShownMessage(type, true);
+        }
+      } else {
+        setShownMessage(type, false);
+      }
     }
   };
 
