@@ -6,7 +6,7 @@
     :width="size"
     :height="size"
   >
-    <path :d="path" fill="#fff" fill-opacity="1" />
+    <path :d="path" :fill="color || '#fff'" fill-opacity="1" />
   </svg>
 </template>
 
@@ -14,6 +14,7 @@
 defineProps<{
   path: string;
   size: number;
+  color?: string;
 }>();
 </script>
 

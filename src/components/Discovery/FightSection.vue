@@ -1,43 +1,28 @@
 <template>
-  <section class="fight-container">
-    <section class="fight-cube">
-      <section class="monster">
-        <span class="monster-name">Bad Gnome</span>
-        <Icon :path="badGnomeIcon" :size="124" />
-        <div class="health-bar">
-          <div class="health-bar-inner" :style="{ width: health + '%' }"></div>
-        </div>
-      </section>
-      <section class="attack">
-        <button class="attack-button">Attack</button>
-        <button class="attack-button">Auto attack</button>
-      </section>
+  <section class="fight-cube">
+    <section class="monster">
+      <span class="monster-name">Bad Gnome</span>
+      <Icon :path="badGnomeIcon" :size="124" />
+      <div class="health-bar">
+        <div class="health-bar-inner" :style="{ width: health + '%' }"></div>
+      </div>
+    </section>
+    <section class="attack">
+      <button class="attack-button">Attack</button>
+      <button class="attack-button">Auto attack</button>
     </section>
   </section>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import { badGnomeIcon } from "../../icons/icons";
 import { ref } from "vue";
-import { badGnomeIcon } from "../icons/icons";
-import Icon from "./Icon.vue";
+import Icon from "../Icon.vue";
 
 const health = ref(100);
 </script>
 
 <style scoped>
-.fight-container {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-color: #1a1a1a;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.87);
-  border: 1px solid #f1f1f1;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-}
-
 .fight-cube {
   position: absolute;
   right: 0;

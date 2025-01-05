@@ -3,8 +3,8 @@ import { onMounted, onUnmounted } from "vue";
 import { useWorkers } from "./composable/useWorkers";
 import Resources from "./components/resources/Resources.vue";
 import Tab from "./components/tab/Tab.vue";
-import Fight from "./components/Fight.vue";
 import Popup from "./components/Popup.vue";
+import Discovery from "./components/Discovery/Discovery.vue";
 
 const { gatherResources } = useWorkers();
 let interval: number;
@@ -22,7 +22,7 @@ onUnmounted(() => {
   <Popup />
   <main>
     <Resources />
-    <Fight />
+    <Discovery />
   </main>
   <section class="content">
     <Tab />
