@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
-import { useWorkers } from "./composable/useWorkers";
 import Resources from "./components/resources/Resources.vue";
 import Tab from "./components/tab/Tab.vue";
 import Popup from "./components/Popup.vue";
 import Discovery from "./components/discovery/Discovery.vue";
+import { backgroundActivity } from "./utils/backgroundActivity";
 
-const { gatherResources } = useWorkers();
 let interval: number;
 
 onMounted(() => {
-  interval = setInterval(gatherResources, 1000); // 1-second interval
+  interval = setInterval(backgroundActivity, 1000); // 1-second interval
 });
 
 onUnmounted(() => {

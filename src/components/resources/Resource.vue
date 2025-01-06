@@ -41,7 +41,7 @@ const gatherMessage = computed(() => {
       <Icon :path="icon" :size="40" />
       <span>{{ type.toString() }}</span>
     </div>
-    <span> {{ totalIncomePerSecond[props.type] }}/s</span>
+    <span> +{{ totalIncomePerSecond[props.type] }}/s</span>
     <span>
       {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}
     </span>

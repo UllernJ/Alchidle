@@ -9,6 +9,9 @@ export const getResourceDropMessage = (
   resource: RESOURCE,
   amount: number
 ): string => {
+  if (amount === 0) {
+    return "You didn't get anything from your foe.";
+  }
   switch (resource) {
     case RESOURCE.MONEY:
       return `You collected ${amount} gold from your foe!`;

@@ -6,6 +6,8 @@ const currentFocus = ref<RESOURCE | null>(null);
 const productionRate = ref<number>(1);
 const baseAttackPower = 1;
 const health = ref<number>(100);
+const maxHealth = ref<number>(100);
+const regen = ref<number>(1);
 
 export const usePlayer = () => {
   const { armors, weapons } = useGear();
@@ -31,6 +33,13 @@ export const usePlayer = () => {
     );
   });
 
+  const regenHealth = () => {
+    health.value += regen.value;
+    if (health.value > maxHealth.value) {
+      health.value = maxHealth.value;
+    }
+  };
+
   return {
     currentFocus,
     setFocus,
@@ -39,5 +48,8 @@ export const usePlayer = () => {
     attackPower,
     defencePower,
     health,
+    maxHealth,
+    regen,
+    regenHealth,
   };
 };

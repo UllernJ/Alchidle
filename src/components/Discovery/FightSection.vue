@@ -17,7 +17,13 @@
       </div>
     </section>
     <section class="attack">
-      <button class="attack-button" @click="attack">Attack</button>
+      <button
+        class="attack-button"
+        @click="attack"
+        :disabled="isAttackOnCooldown"
+      >
+        Attack
+      </button>
       <button class="attack-button" @click="autoAttack">
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
@@ -41,6 +47,7 @@ const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { monsters } = useMonsters();
 const { addLog } = useActionLog();
 
+const isAttackOnCooldown = ref(false);
 const currentMonster = ref<Monster | null>(monsters.value[0]);
 let initalHealth = currentMonster.value ? currentMonster.value.health : 0;
 const autoAttackInterval = ref<number | null>(null);
@@ -53,13 +60,19 @@ const monsterHealthPercentage = computed(() => {
 });
 
 const attack = () => {
+  if (isAttackOnCooldown.value) return;
   if (!currentMonster.value) return;
   if (playerHealth.value <= 0) {
     addLog("You need to rest.", MessageType.WARNING);
     return;
   }
 
+  isAttackOnCooldown.value = true;
   currentMonster.value.health -= attackPower.value;
+
+  setTimeout(() => {
+    isAttackOnCooldown.value = false;
+  }, 1000);
 
   if (currentMonster.value.health <= 0) {
     //reward player
@@ -72,6 +85,12 @@ const attack = () => {
     currentMonster.value = monsters.value[index + 1];
     initalHealth = currentMonster.value ? currentMonster.value.health : 0;
 
+    if (!currentMonster.value) {
+      addLog(
+        "You have defeated all monsters in this zone!",
+        MessageType.SUCCESS
+      );
+    }
     //if no more monsters, stop auto attack
     if (!currentMonster.value && autoAttackInterval.value) {
       clearInterval(autoAttackInterval.value);
@@ -86,8 +105,7 @@ const attack = () => {
     currentMonster.value.attack - defencePower.value
   );
   if (playerHealth.value <= 0) {
-    //punish player
-    //you need to rest
+    addLog("You have been defeated. You should rest now.", MessageType.ERROR);
   }
 };
 
