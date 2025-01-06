@@ -7,6 +7,7 @@ import Discovery from "./components/discovery/Discovery.vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { loadState, saveSession } from "./utils/localStorage";
 import IHeader from "./components/IHeader.vue";
+import LoadingScreen from "./components/LoadingScreen.vue";
 
 let interval: number;
 let saveInterval: number;
@@ -27,7 +28,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <LoadingScreen :show="true" />
   <Popup />
+
   <IHeader />
   <main>
     <Resources />

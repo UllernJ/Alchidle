@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="header-title">Alchemist Idle v0.0.1</div>
+    <div class="header-title">Alchidle</div>
     <div class="header-buttons">
       <button @click="saveGame" class="header-button">
         <Icon :path="saveIcon" :size="24" />

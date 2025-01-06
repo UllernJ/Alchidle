@@ -108,6 +108,7 @@ export const loadState = () => {
   });
   unlockResearch(data.research);
   setInfusionEffect(data.infusions);
+  return data.timestamp;
 };
 
 const unlockResearch = (researchs: Research[]) => {
