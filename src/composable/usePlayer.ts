@@ -22,7 +22,7 @@ export const usePlayer = () => {
   const attackPower = computed(() => {
     const weaponPower = weapons.value.reduce(
       (acc, weapon) => acc + weapon.damage * weapon.quantity,
-      0
+      1
     );
     return attackPowerMultiplier.value * weaponPower;
   });
