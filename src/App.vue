@@ -6,6 +6,7 @@ import Popup from "./components/Popup.vue";
 import Discovery from "./components/discovery/Discovery.vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { loadState, saveSession } from "./utils/localStorage";
+import IHeader from "./components/IHeader.vue";
 
 let interval: number;
 let saveInterval: number;
@@ -27,6 +28,7 @@ onUnmounted(() => {
 
 <template>
   <Popup />
+  <IHeader />
   <main>
     <Resources />
     <Discovery />
