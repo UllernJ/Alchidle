@@ -8,7 +8,7 @@ export enum TAB_STATE {
   GEAR = "Gear",
   ALCHEMY = "Alchemy",
 }
-const currentState = ref<TAB_STATE>(TAB_STATE.WORKERS);
+const currentState = ref<TAB_STATE>(TAB_STATE.ALL);
 
 export const useTab = () => {
   const setState = (val: TAB_STATE) => {

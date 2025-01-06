@@ -67,7 +67,7 @@ export const useWorkers = () => {
     if (station && station.cost <= resources[RESOURCE.MONEY].value) {
       subtractResource(RESOURCE.MONEY, station.cost);
       station.numberOfWorkers += 1;
-      station.cost = Math.round(Math.pow(station.cost, 1.1));
+      station.cost = Math.round(Math.pow(station.cost, 1.07));
     } else {
       establishMessage(
         MessageType.WARNING,

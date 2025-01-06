@@ -30,7 +30,7 @@ import { ref, computed } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import type { Monster } from "../../factories/monsterFactory";
+import type { Monster } from "../../factories/MonsterFactory";
 import { attackIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";

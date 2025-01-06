@@ -4,7 +4,7 @@ import { useWorkers } from "./composable/useWorkers";
 import Resources from "./components/resources/Resources.vue";
 import Tab from "./components/tab/Tab.vue";
 import Popup from "./components/Popup.vue";
-import Discovery from "./components/Discovery/Discovery.vue";
+import Discovery from "./components/discovery/Discovery.vue";
 
 const { gatherResources } = useWorkers();
 let interval: number;

@@ -4,7 +4,7 @@
       <button
         :disabled="!canAfford(research)"
         @click="unlockResearch(research)"
-        v-if="!research.unlocked"
+        v-if="!research.unlocked && research.requirement()"
       >
         <p class="title">{{ research.name }}</p>
         <p>{{ research.description }}</p>
@@ -19,11 +19,12 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useResearch, type Research } from "../../composable/useResearch";
+import { useResearch } from "../../composable/useResearch";
 import { useResource } from "../../composable/useResource";
 import { scienceIcon } from "../../icons/icons";
 import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
+import type { Research } from "../../data/research";
 
 const { researchList, unlockResearch } = useResearch();
 const { resources } = useResource();
