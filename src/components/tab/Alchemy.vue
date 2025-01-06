@@ -7,32 +7,34 @@
         class="infusion-item"
       >
         <p class="infusion-name">{{ infusion.name }}</p>
-        <div class="progress-bar">
-          <div
-            class="progress-bar-inner"
-            :style="{ width: infusionProgress(infusion) + '%' }"
-          ></div>
-        </div>
+        <section class="progress-bar-container">
+          <div class="progress-bar">
+            <div
+              class="progress-bar-inner"
+              :style="{ width: infusionProgress(infusion) + '%' }"
+            ></div>
+          </div>
+        </section>
         <p class="infusion-progress">
           {{ infusion.contribution }} / {{ infusion.cost }}
         </p>
-        <p class="infusion-workers">
-          Workers Allocated: {{ infusion.workersAllocated }}
-        </p>
-        <button
-          @click="allocateAlchemist(index)"
-          :disabled="employedAlchemists >= alchemistCount"
-          class="infusion-button"
-        >
-          <Icon :path="plusIcon" :size="20" />
-        </button>
-        <button
-          @click="deallocateAlchemist(index)"
-          :disabled="infusion.workersAllocated === 0"
-          class="infusion-button"
-        >
-          <Icon :path="minusIcon" :size="20" />
-        </button>
+        <p class="infusion-workers">Workers: {{ infusion.workersAllocated }}</p>
+        <section class="infusion-buttons">
+          <button
+            @click="allocateAlchemist(index)"
+            :disabled="employedAlchemists >= alchemistCount"
+            class="infusion-button"
+          >
+            +
+          </button>
+          <button
+            @click="deallocateAlchemist(index)"
+            :disabled="infusion.workersAllocated === 0"
+            class="infusion-button"
+          >
+            -
+          </button>
+        </section>
       </div>
     </section>
   </div>
@@ -40,8 +42,6 @@
 
 <script setup lang="ts">
 import { useAlchemy } from "../../composable/useAlchemy";
-import Icon from "../Icon.vue";
-import { plusIcon, minusIcon } from "../../icons/icons";
 import type { Infusion } from "../../data/alchemy";
 
 const {
@@ -64,14 +64,7 @@ const infusionProgress = (infusion: Infusion) => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
-  margin-left: 1rem;
-  margin-top: 1rem;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .infusion-list {
@@ -83,19 +76,32 @@ const infusionProgress = (infusion: Infusion) => {
 
 .infusion-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 2rem;
   align-items: center;
+  justify-content: space-between;
   border: 1px solid #f1f1f1;
   padding: 1rem;
   background-color: #2b2b2b;
-  width: 50%;
-  text-align: center;
+  width: 100%;
 }
 
 .infusion-name {
-  font-size: 1.2rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  min-width: 12rem;
+}
+
+.progress-bar-container {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-bar {
@@ -117,8 +123,14 @@ const infusionProgress = (infusion: Infusion) => {
 
 .infusion-progress,
 .infusion-workers {
+  flex: 1;
   font-size: 1rem;
   margin-bottom: 0.5rem;
+}
+
+.infusion-buttons {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .infusion-button {
@@ -129,6 +141,7 @@ const infusionProgress = (infusion: Infusion) => {
   border: 1px solid #f1f1f1;
   padding: 0.5rem;
   margin-top: 0.5rem;
+  min-width: 2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
