@@ -54,7 +54,6 @@ const playerHealthPercentage = computed(() => {
 
 <style scoped>
 .Player {
-  background-color: #2b2b2b;
   display: flex;
   flex-direction: column;
   align-items: center;

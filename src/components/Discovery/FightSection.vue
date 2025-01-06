@@ -121,7 +121,6 @@ const autoAttack = () => {
 
 <style scoped>
 .fight-cube {
-  background-color: #2b2b2b;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
   display: flex;

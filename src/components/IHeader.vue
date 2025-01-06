@@ -52,15 +52,15 @@ const saveGame = () => {
 const exportGame = () => {};
 
 const openSettings = () => {
-  alert("Settings clicked!");
+  alert("Not implemented yet!");
 };
 
 const openNews = () => {
-  alert("News clicked!");
+  alert("Not implemented yet!");
 };
 
 const openDiscord = () => {
-  window.open("https://discord.com", "_blank");
+  alert("Not implemented yet!");
 };
 </script>
 

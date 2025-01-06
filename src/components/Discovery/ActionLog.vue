@@ -38,7 +38,7 @@ watch(log.value, async () => {
   height: 100%;
   min-height: 100%;
   max-height: 15rem;
-  background-color: #2b2b2b;
+
   color: #fff;
 }
 
