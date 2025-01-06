@@ -24,7 +24,6 @@ watch(log.value, async () => {
   await nextTick();
   const logElement = actionLog.value;
   if (logElement) {
-    console.log(logElement);
     logElement.scrollTop = logElement.scrollHeight;
   }
 });

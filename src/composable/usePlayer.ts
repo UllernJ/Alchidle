@@ -52,14 +52,16 @@ export const usePlayer = () => {
 
   return {
     currentFocus,
-    setFocus,
     productionRate,
-    upgradeProductionRate,
     attackPower,
     defencePower,
     health,
     maxHealth,
     regen,
+    attackPowerMultiplier,
+    defencePowerMultiplier,
+    setFocus,
+    upgradeProductionRate,
     regenHealth,
     upgradeAttackPower,
     upgradeDefensePower,

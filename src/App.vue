@@ -5,15 +5,23 @@ import Tab from "./components/tab/Tab.vue";
 import Popup from "./components/Popup.vue";
 import Discovery from "./components/discovery/Discovery.vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
+import { loadState, saveSession } from "./utils/localStorage";
 
 let interval: number;
+let saveInterval: number;
+const MINUTE = 60000;
 
 onMounted(() => {
+  loadState();
   interval = setInterval(backgroundActivity, 1000); // 1-second interval
+  saveInterval = setInterval(() => {
+    saveSession();
+  }, MINUTE);
 });
 
 onUnmounted(() => {
   clearInterval(interval);
+  clearInterval(saveInterval);
 });
 </script>
 
