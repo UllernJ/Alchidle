@@ -8,7 +8,7 @@
       <span class="title">Buildings</span>
       <Buildings />
     </section>
-    <section>
+    <section v-if="!isEveryResearchUnlocked">
       <span class="title">Research</span>
       <Research class="research" />
     </section>
@@ -16,14 +16,27 @@
       <span class="title">Gear</span>
       <Gear />
     </section>
+    <section>
+      <span class="title">Alchemy</span>
+      <Alchemy />
+    </section>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from "vue";
 import Buildings from "./Buildings.vue";
 import Gear from "./Gear.vue";
 import Research from "./Research.vue";
 import Workers from "./Workers.vue";
+import { useResearch } from "../../composable/useResearch";
+import Alchemy from "./Alchemy.vue";
+
+const { researchList } = useResearch();
+
+const isEveryResearchUnlocked = computed(() => {
+  return researchList.value.every((research) => research.unlocked);
+});
 </script>
 
 <style scoped>

@@ -12,11 +12,12 @@ export type Research = {
 };
 
 const { upgradeWorkerRate } = useWorkers();
-const { upgradeProductionRate } = usePlayer();
+const { upgradeProductionRate, upgradeAttackPower, upgradeDefensePower } =
+  usePlayer();
 
 const efficiencyResearch = ref<Research>({
   name: "Efficiency",
-  description: "Improves your own efficiency, increasing production rate.",
+  description: "Improves your own efficiency, doubling production rate (2x).",
   cost: 100,
   unlocked: false,
   effect: () => {
@@ -27,7 +28,7 @@ const efficiencyResearch = ref<Research>({
 
 const mathematicsResearch = ref<Research>({
   name: "Mathematics",
-  description: "Improves your bankers, increasing their efficiency.",
+  description: "Improves your bankers, doubling their efficiency (2x).",
   cost: 100,
   unlocked: false,
   effect: () => {
@@ -38,35 +39,106 @@ const mathematicsResearch = ref<Research>({
 
 const advancedMiningResearch = ref<Research>({
   name: "Advanced Mining",
-  description: "Improves your miners, increasing their efficiency.",
+  description: "Improves your miners, doubling their efficiency (2x).",
   cost: 100,
   unlocked: false,
   effect: () => {
     upgradeWorkerRate(WORKER.MINER);
   },
-  requirement: () => mathematicsResearch.value.unlocked,
+  requirement: () => efficiencyResearch.value.unlocked,
 });
 
 const alchemyResearch = ref<Research>({
   name: "Alchemy",
-  description: "Improves your alchemists, increasing their efficiency.",
+  description: "Improves your alchemists, doubling their efficiency (2x).",
   cost: 100,
   unlocked: false,
   effect: () => {
     upgradeWorkerRate(WORKER.ALCHEMIST);
   },
-  requirement: () => advancedMiningResearch.value.unlocked,
+  requirement: () => efficiencyResearch.value.unlocked,
 });
 
 const scienceResearch = ref<Research>({
   name: "Science",
-  description: "Improves your scientists, increasing their efficiency.",
+  description: "Improves your scientists, doubling their efficiency (2x).",
   cost: 100,
   unlocked: false,
   effect: () => {
     upgradeWorkerRate(WORKER.SCIENTIST);
   },
+  requirement: () =>
+    alchemyResearch.value.unlocked &&
+    mathematicsResearch.value.unlocked &&
+    advancedMiningResearch.value.unlocked,
+});
+
+const combatTrainingResearch = ref<Research>({
+  name: "Combat Training",
+  description: "Increases your attack power by 10% (1.1x).",
+  cost: 150,
+  unlocked: false,
+  effect: () => {
+    upgradeAttackPower();
+  },
+  requirement: () => scienceResearch.value.unlocked,
+});
+
+const fortificationResearch = ref<Research>({
+  name: "Fortification",
+  description: "Increases your defense power by 10% (1.1x).",
+  cost: 150,
+  unlocked: false,
+  effect: () => {
+    upgradeDefensePower();
+  },
+  requirement: () => scienceResearch.value.unlocked,
+});
+
+const advancedAlchemyResearch = ref<Research>({
+  name: "Advanced Alchemy",
+  description:
+    "Further improves your alchemists, doubling their efficiency (2x).",
+  cost: 200,
+  unlocked: false,
+  effect: () => {
+    upgradeWorkerRate(WORKER.ALCHEMIST);
+  },
   requirement: () => alchemyResearch.value.unlocked,
+});
+
+const advancedScienceResearch = ref<Research>({
+  name: "Advanced Science",
+  description:
+    "Further improves your scientists, doubling their efficiency (2x).",
+  cost: 200,
+  unlocked: false,
+  effect: () => {
+    upgradeWorkerRate(WORKER.SCIENTIST);
+  },
+  requirement: () => scienceResearch.value.unlocked,
+});
+
+const advancedBankingResearch = ref<Research>({
+  name: "Advanced Banking",
+  description: "Further improves your bankers, doubling their efficiency (2x).",
+  cost: 200,
+  unlocked: false,
+  effect: () => {
+    upgradeWorkerRate(WORKER.BANKER);
+  },
+  requirement: () => mathematicsResearch.value.unlocked,
+});
+
+const advancedMiningTechniquesResearch = ref<Research>({
+  name: "Advanced Mining Techniques",
+  description: "Further improves your miners, doubling their efficiency (2x).",
+  cost: 200,
+  unlocked: false,
+  effect: () => {
+    upgradeWorkerRate(WORKER.MINER);
+  },
+  requirement: () => advancedMiningResearch.value.unlocked,
 });
 
 export const getResearchList = () => {
@@ -76,5 +148,11 @@ export const getResearchList = () => {
     advancedMiningResearch.value,
     alchemyResearch.value,
     scienceResearch.value,
+    combatTrainingResearch.value,
+    fortificationResearch.value,
+    advancedAlchemyResearch.value,
+    advancedScienceResearch.value,
+    advancedBankingResearch.value,
+    advancedMiningTechniquesResearch.value,
   ]);
 };

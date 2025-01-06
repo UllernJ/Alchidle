@@ -4,7 +4,8 @@ import { useGear } from "./useGear";
 
 const currentFocus = ref<RESOURCE | null>(null);
 const productionRate = ref<number>(1);
-const baseAttackPower = 1;
+const attackPowerMultiplier = ref<number>(1);
+const defencePowerMultiplier = ref<number>(1);
 const health = ref<number>(100);
 const maxHealth = ref<number>(100);
 const regen = ref<number>(1);
@@ -23,14 +24,15 @@ export const usePlayer = () => {
       (acc, weapon) => acc + weapon.damage * weapon.quantity,
       0
     );
-    return baseAttackPower + weaponPower;
+    return attackPowerMultiplier.value * weaponPower;
   });
 
   const defencePower = computed(() => {
-    return armors.value.reduce(
+    const armor = armors.value.reduce(
       (acc, armor) => acc + armor.defense * armor.quantity,
       0
     );
+    return defencePowerMultiplier.value * armor;
   });
 
   const regenHealth = () => {
@@ -38,6 +40,14 @@ export const usePlayer = () => {
     if (health.value > maxHealth.value) {
       health.value = maxHealth.value;
     }
+  };
+
+  const upgradeAttackPower = (multiplier: number = 1.1) => {
+    attackPowerMultiplier.value *= multiplier;
+  };
+
+  const upgradeDefensePower = (multiplier: number = 1.1) => {
+    defencePowerMultiplier.value *= multiplier;
   };
 
   return {
@@ -51,5 +61,7 @@ export const usePlayer = () => {
     maxHealth,
     regen,
     regenHealth,
+    upgradeAttackPower,
+    upgradeDefensePower,
   };
 };

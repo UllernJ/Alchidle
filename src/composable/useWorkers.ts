@@ -117,5 +117,8 @@ export const useWorkers = () => {
     addWorker,
     gatherResources,
     upgradeWorkerRate,
+    alchemists: computed(() =>
+      workerStations.value.find((w) => w.name === WORKER.ALCHEMIST)
+    ),
   };
 };

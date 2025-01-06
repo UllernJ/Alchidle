@@ -16,11 +16,13 @@
     <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
     <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
     <Gear v-else-if="currentState === TAB_STATE.GEAR" />
+    <Alchemy v-else-if="currentState === TAB_STATE.ALCHEMY" />
   </aside>
 </template>
 
 <script lang="ts" setup>
 import { TAB_STATE, useTab } from "../../composable/useTab";
+import Alchemy from "./Alchemy.vue";
 import All from "./All.vue";
 import Buildings from "./Buildings.vue";
 import Gear from "./Gear.vue";
