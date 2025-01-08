@@ -6,11 +6,11 @@
     </section>
     <div class="PlayerStats">
       <div class="Stat">
-        <span>{{ attackPower }}</span>
+        <span>{{ Math.floor(attackPower) }}</span>
         <Icon :path="attackIcon" :size="24" />
       </div>
       <div class="Stat">
-        <span>{{ defencePower }}</span>
+        <span>{{ Math.floor(defencePower) }}</span>
         <Icon :path="defenceIcon" :size="24" />
       </div>
     </div>

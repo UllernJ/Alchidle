@@ -19,15 +19,15 @@
   <div v-if="showWelcomeBack" class="welcome-back-screen">
     <div class="welcome-back-container">
       <h2>Welcome Back!</h2>
-      <p>You were gone for {{ elapsedTime }} seconds.</p>
-      <p>Resources generated while you were away:</p>
+      <p>You were gone for {{ formatElapsedTime(elapsedTime) }}.</p>
       <p>
         Note that resources generated while you are away are only 25% of the
         actual rate.
       </p>
       <ul>
+        <p>Resources generated while you were away:</p>
         <li v-for="(amount, resource) in generatedResources" :key="resource">
-          {{ resource }}: {{ amount }}
+          {{ resource }}: {{ formatNumber(amount) }}
         </li>
       </ul>
       <button @click="closeWelcomeBack">Close</button>
@@ -38,27 +38,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useLoading } from "../composable/useLoading";
-import { useResource } from "../composable/useResource";
 import { loadState } from "../utils/localStorage";
-import type { RESOURCE } from "../types";
+import { formatNumber } from "../utils/number";
+import { useWorkers } from "../composable/useWorkers";
+import { formatElapsedTime } from "../utils/time";
 
 const { isLoading, stopLoading } = useLoading();
 const showWelcomeBack = ref(false);
 const elapsedTime = ref(0);
 const generatedResources = ref<Record<string, number>>({});
 
-const { resources, addResource } = useResource();
-
-const calculateGeneratedResources = (elapsedTime: number) => {
-  const generated: Record<string, number> = {};
-  Object.entries(resources).forEach(([key, resource]) => {
-    if (key.startsWith("max")) return;
-    const rate = resource.value / 60;
-    generated[key] = Math.floor((rate * elapsedTime) / 4);
-    addResource(key as RESOURCE, generated[key]);
-  });
-  return generated;
-};
+const { calculateGeneratedResources } = useWorkers();
 
 onMounted(() => {
   const timestamp = loadState();

@@ -111,6 +111,17 @@ export const useWorkers = () => {
     });
   };
 
+  const calculateGeneratedResources = (elapsedTime: number) => {
+    const generated: Record<string, number> = {};
+    workerStations.value.forEach((station) => {
+      const rate = station.rate * station.numberOfWorkers;
+      const amount = Math.floor((rate * elapsedTime) / 4);
+      generated[station.resource] = (generated[station.resource] || 0) + amount;
+      addResource(station.resource, amount);
+    });
+    return generated;
+  };
+
   return {
     workerStations,
     totalIncomePerSecond,
@@ -120,5 +131,6 @@ export const useWorkers = () => {
     alchemists: computed(() =>
       workerStations.value.find((w) => w.name === WORKER.ALCHEMIST)
     ),
+    calculateGeneratedResources,
   };
 };

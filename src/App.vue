@@ -28,7 +28,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <LoadingScreen :show="true" />
+  <LoadingScreen />
   <Popup />
 
   <IHeader />
