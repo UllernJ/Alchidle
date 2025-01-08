@@ -1,5 +1,9 @@
 <template>
   <section class="fight-cube">
+    <div class="zone-map-info">
+      <span class="zone-info">Zone: {{ zone }}</span>
+      <span class="map-info">Map: {{ map }}</span>
+    </div>
     <section class="monster" v-if="currentMonster">
       <span class="monster-name">{{ currentMonster.name }}</span>
       <Icon :path="currentMonster.icon" :size="124" />
@@ -32,19 +36,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import type { Monster } from "../../factories/MonsterFactory";
 import { attackIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
+import type { Monster } from "../../models/Monster";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
-const { monsters, getNextMonsters } = useMonsters();
+const { monsters, getNextMonsters, zone, map } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
@@ -137,6 +141,19 @@ const fetchNextMonsters = () => {
   align-items: center;
   padding: 1rem;
   height: 100%;
+}
+
+.zone-map-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.zone-info,
+.map-info {
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .monster {
