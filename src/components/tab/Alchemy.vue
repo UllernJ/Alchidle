@@ -5,6 +5,9 @@
         v-for="(infusion, index) in infusions"
         :key="index"
         class="infusion-item"
+        :style="{
+          backgroundColor: getColorFromName(infusion.name),
+        }"
       >
         <p class="infusion-name">{{ infusion.name }}</p>
         <section class="progress-bar-container">
@@ -42,7 +45,9 @@
 
 <script setup lang="ts">
 import { useAlchemy } from "../../composable/useAlchemy";
-import type { Infusion } from "../../data/alchemy";
+import { infoIcon } from "../../icons/icons";
+import type { Infusion } from "../../models/Infusion";
+import Icon from "../Icon.vue";
 
 const {
   infusions,
@@ -54,6 +59,29 @@ const {
 
 const infusionProgress = (infusion: Infusion) => {
   return (infusion.contribution / infusion.cost) * 100;
+};
+
+const getColorFromName = (name: string) => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 2) - hash);
+  }
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += ("00" + value.toString(16)).substring(value.toString(16).length);
+  }
+  // Increase contrast by adjusting the color brightness
+  let r = parseInt(color.substring(1, 3), 16);
+  let g = parseInt(color.substring(3, 5), 16);
+  let b = parseInt(color.substring(5, 7), 16);
+
+  // Increase brightness by 30%
+  r = Math.min(255, Math.floor(r * 0.75));
+  g = Math.min(255, Math.floor(g * 0.5));
+  b = Math.min(255, Math.floor(b * 1.1));
+
+  return `rgb(${r}, ${g}, ${b})`;
 };
 </script>
 
@@ -82,7 +110,6 @@ const infusionProgress = (infusion: Infusion) => {
   justify-content: space-between;
   border: 1px solid #f1f1f1;
   padding: 1rem;
-  background-color: #2b2b2b;
   width: 100%;
 }
 

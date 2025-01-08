@@ -5,8 +5,8 @@ import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
-import type { Infusion } from "../data/alchemy";
 import type { Research } from "../data/research";
+import type { Infusion } from "../models/Infusion";
 import type { RESOURCE, WorkerStation } from "../types";
 import { serializeState, deserializeState } from "./stateSerializer";
 

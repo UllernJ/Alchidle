@@ -1,40 +1,6 @@
 import { ref } from "vue";
 import { usePlayer } from "../composable/usePlayer";
-
-export class Infusion {
-  name: string;
-  cost: number;
-  contribution: number;
-  effect: () => void;
-  level: number;
-  unlocked?: boolean;
-  workersAllocated: number;
-
-  constructor(
-    name: string,
-    cost: number,
-    contribution: number,
-    effect: () => void,
-    level: number
-  ) {
-    this.name = name;
-    this.cost = cost;
-    this.contribution = contribution;
-    this.effect = effect;
-    this.level = level;
-    this.workersAllocated = 0;
-  }
-
-  contribute(amount: number) {
-    this.contribution += amount;
-    if (this.contribution >= this.cost) {
-      this.effect();
-      this.level++;
-      this.contribution = 0;
-      this.cost *= 1.07;
-    }
-  }
-}
+import { Infusion } from "../models/Infusion";
 
 const { upgradeAttackPower, upgradeDefensePower } = usePlayer();
 
@@ -58,6 +24,64 @@ const infuseDefense = new Infusion(
   1
 );
 
+const infuseEfficiency = new Infusion(
+  "Efficiency Infusion",
+  100,
+  0,
+  () => {
+    console.log("Efficiency Infusion applied");
+  },
+  1
+);
+
+const infuseHealth = new Infusion(
+  "Health Infusion",
+  100,
+  0,
+  () => {
+    console.log("Health Infusion applied");
+  },
+  1
+);
+
+const infuseRegen = new Infusion(
+  "Regen Infusion",
+  100,
+  0,
+  () => {
+    console.log("Regen Infusion applied");
+  },
+  1
+);
+
+const infuseWeapon = new Infusion(
+  "Weapon Infusion",
+  100,
+  0,
+  () => {
+    console.log("Gear Infusion applied");
+  },
+  1
+);
+
+const infuseArmor = new Infusion(
+  "Armor Infusion",
+  100,
+  0,
+  () => {
+    console.log("Armor Infusion applied");
+  },
+  1
+);
+
 export const getInfusions = () => {
-  return ref([infusePower, infuseDefense]);
+  return ref([
+    infusePower,
+    infuseDefense,
+    infuseEfficiency,
+    infuseHealth,
+    infuseRegen,
+    infuseWeapon,
+    infuseArmor,
+  ]);
 };
