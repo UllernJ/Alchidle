@@ -1,57 +1,29 @@
 import { badGnomeIcon, trollIcon, vampireIcon } from "../icons/icons";
-import { RESOURCE } from "../types";
+import { Monster } from "../models/Monster";
 import { getRandomResource } from "../utils/resourceUtil";
-
-class Monster {
-  name: string;
-  health: number;
-  attack: number;
-  defense: number;
-  drop: {
-    resource: RESOURCE;
-    amount: number;
-  };
-  icon: string;
-
-  constructor(
-    name: string,
-    health: number,
-    attack: number,
-    defense: number,
-    dropResource: RESOURCE,
-    dropAmount: number,
-    icon: string
-  ) {
-    this.name = name;
-    this.health = health;
-    this.attack = attack;
-    this.defense = defense;
-    this.drop = {
-      resource: dropResource,
-      amount: dropAmount,
-    };
-    this.icon = icon;
-  }
-}
-
-class MonsterFactory {
-  private static createMonster(difficulty: number): Monster {
+export class MonsterFactory {
+  private static createMonster(difficulty: number, zone: number): Monster {
     const monster = this.getRandomMonster();
+    const zoneMultiplier = 1 + (zone - 1) * 0.1; // Increase difficulty per zone
     return new Monster(
       monster.name,
-      Math.round(25 * difficulty),
-      Math.round(2 * difficulty),
-      Math.round(5 * difficulty),
+      Math.round(25 * difficulty * zoneMultiplier),
+      Math.round(2 * difficulty * zoneMultiplier),
+      Math.round(5 * difficulty * zoneMultiplier),
       getRandomResource(),
-      Math.floor(Math.random() * 5) * difficulty,
+      Math.floor(Math.random() * 5) * difficulty * zoneMultiplier,
       monster.icon
     );
   }
 
-  static getMonsters(monsterCount: number, difficulty: number): Monster[] {
+  static getMonsters(
+    monsterCount: number,
+    difficulty: number,
+    zone: number
+  ): Monster[] {
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
-      monsters.push(this.createMonster(difficulty));
+      monsters.push(this.createMonster(difficulty, zone));
     }
     return monsters;
   }
@@ -74,5 +46,3 @@ class MonsterFactory {
     return monsters[Math.floor(Math.random() * monsters.length)];
   }
 }
-
-export { MonsterFactory, Monster };

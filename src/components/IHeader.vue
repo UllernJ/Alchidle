@@ -45,8 +45,8 @@ import { MessageType } from "../composable/useMessage";
 
 const saveGame = () => {
   saveSession();
-  const { addLog } = useActionLog();
-  addLog("Game was saved", MessageType.SUCCESS);
+  const { logMessage } = useActionLog();
+  logMessage("Game was saved", MessageType.SUCCESS);
 };
 
 const exportGame = () => {};

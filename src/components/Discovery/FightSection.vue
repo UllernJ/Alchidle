@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
@@ -44,26 +44,48 @@ import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
-const { monsters } = useMonsters();
-const { addLog } = useActionLog();
+const { monsters, getNextMonsters } = useMonsters();
+const { logMessage } = useActionLog();
+const { addResource } = useResource();
 
 const isAttackOnCooldown = ref(false);
 const currentMonster = ref<Monster | null>(monsters.value[0]);
-let initalHealth = currentMonster.value ? currentMonster.value.health : 0;
+let initialHealth = currentMonster.value ? currentMonster.value.health : 0;
 const autoAttackInterval = ref<number | null>(null);
 
 const monsterHealthPercentage = computed(() => {
   if (!currentMonster.value) return 0;
-  return initalHealth
-    ? Math.floor((currentMonster.value.health / initalHealth) * 100)
+  return initialHealth
+    ? Math.floor((currentMonster.value.health / initialHealth) * 100)
     : 0;
 });
 
-const attack = () => {
-  if (isAttackOnCooldown.value) return;
+const handleMonsterDefeat = () => {
   if (!currentMonster.value) return;
+
+  const { resource, amount } = currentMonster.value.drop;
+  addResource(resource, amount);
+  logMessage(
+    getResourceDropMessage(resource, Math.floor(amount)),
+    MessageType.INFO
+  );
+
+  const nextMonsterIndex = monsters.value.indexOf(currentMonster.value) + 1;
+  currentMonster.value = monsters.value[nextMonsterIndex] || null;
+  initialHealth = currentMonster.value ? currentMonster.value.health : 0;
+  if (!currentMonster.value) {
+    logMessage(
+      "You have defeated all monsters in this zone!",
+      MessageType.SUCCESS
+    );
+    fetchNextMonsters();
+  }
+};
+
+const attack = () => {
+  if (isAttackOnCooldown.value || !currentMonster.value) return;
   if (playerHealth.value <= 0) {
-    addLog("You need to rest.", MessageType.WARNING);
+    logMessage("You need to rest.", MessageType.WARNING);
     return;
   }
 
@@ -75,37 +97,18 @@ const attack = () => {
   }, 1000);
 
   if (currentMonster.value.health <= 0) {
-    //reward player
-    const { addResource } = useResource();
-    const { resource, amount } = currentMonster.value.drop;
-    addResource(resource, amount);
-    addLog(getResourceDropMessage(resource, amount), MessageType.INFO);
-    //next monster
-    const index = monsters.value.indexOf(currentMonster.value);
-    currentMonster.value = monsters.value[index + 1];
-    initalHealth = currentMonster.value ? currentMonster.value.health : 0;
-
-    if (!currentMonster.value) {
-      addLog(
-        "You have defeated all monsters in this zone!",
-        MessageType.SUCCESS
+    handleMonsterDefeat();
+  } else {
+    playerHealth.value -= Math.max(
+      0,
+      currentMonster.value.attack - defencePower.value
+    );
+    if (playerHealth.value <= 0) {
+      logMessage(
+        "You have been defeated. You should rest now.",
+        MessageType.ERROR
       );
     }
-    //if no more monsters, stop auto attack
-    if (!currentMonster.value && autoAttackInterval.value) {
-      clearInterval(autoAttackInterval.value);
-      autoAttackInterval.value = null;
-    }
-    return;
-  }
-
-  //monster attack
-  playerHealth.value -= Math.max(
-    0,
-    currentMonster.value.attack - defencePower.value
-  );
-  if (playerHealth.value <= 0) {
-    addLog("You have been defeated. You should rest now.", MessageType.ERROR);
   }
 };
 
@@ -116,6 +119,12 @@ const autoAttack = () => {
   } else {
     autoAttackInterval.value = setInterval(attack, 1000);
   }
+};
+
+const fetchNextMonsters = () => {
+  getNextMonsters();
+  currentMonster.value = monsters.value[0];
+  initialHealth = currentMonster.value ? currentMonster.value.health : 0;
 };
 </script>
 

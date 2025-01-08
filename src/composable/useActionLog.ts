@@ -10,7 +10,7 @@ type Log = {
 const log = ref<Log[]>([]);
 
 export const useActionLog = () => {
-  const addLog = (message: string, logType: MessageType) => {
+  const logMessage = (message: string, logType: MessageType) => {
     log.value.push({
       timestamp: new Date().toLocaleTimeString(),
       message,
@@ -20,6 +20,6 @@ export const useActionLog = () => {
 
   return {
     log,
-    addLog,
+    logMessage,
   };
 };
