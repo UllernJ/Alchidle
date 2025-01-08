@@ -5,7 +5,7 @@ export type WorkerStation = {
   cost: number;
   resource: RESOURCE;
   description: string;
-  icon: string;
+  icon?: string;
 };
 
 export enum RESOURCE {

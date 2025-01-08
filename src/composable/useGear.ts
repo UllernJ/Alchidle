@@ -17,7 +17,7 @@ import { RESOURCE } from "../types";
 export type Weapon = {
   name: string;
   damage: number;
-  path: string;
+  path?: string;
   cost: number;
   quantity: number;
 };
@@ -25,7 +25,7 @@ export type Weapon = {
 export type Armor = {
   name: string;
   defense: number;
-  path: string;
+  path?: string;
   cost: number;
   quantity: number;
 };

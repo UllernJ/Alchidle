@@ -19,7 +19,7 @@ export type Building = {
   description: string;
   resource: RESOURCE;
   quantity: number;
-  icon: string;
+  icon?: string;
 };
 
 const buildings = ref<Building[]>([

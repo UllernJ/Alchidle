@@ -87,13 +87,12 @@ const infusionProgress = (infusion: Infusion) => {
 }
 
 .infusion-name {
-  flex: 1;
   display: flex;
   align-items: center;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  min-width: 12rem;
+  min-width: 10rem;
 }
 
 .progress-bar-container {
@@ -110,8 +109,10 @@ const infusionProgress = (infusion: Infusion) => {
   background-color: #444;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
+  box-sizing: border-box;
   overflow: hidden;
   margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 .progress-bar-inner {
@@ -125,7 +126,6 @@ const infusionProgress = (infusion: Infusion) => {
 .infusion-workers {
   flex: 1;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
 }
 
 .infusion-buttons {

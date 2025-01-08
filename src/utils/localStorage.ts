@@ -8,6 +8,7 @@ import { useWorkers } from "../composable/useWorkers";
 import type { Infusion } from "../data/alchemy";
 import type { Research } from "../data/research";
 import type { RESOURCE, WorkerStation } from "../types";
+import { serializeState, deserializeState } from "./stateSerializer";
 
 const KEY = "session";
 
@@ -68,7 +69,8 @@ export const saveSession = () => {
     timestamp: Date.now(), // todo calculate time played
   };
 
-  localStorage.setItem(KEY, JSON.stringify(state));
+  const serializedState = serializeState(state);
+  localStorage.setItem(KEY, JSON.stringify(serializedState));
 };
 
 export const loadState = () => {
@@ -90,25 +92,27 @@ export const loadState = () => {
   const { workerStations } = useWorkers();
   const { resources } = useResource();
 
-  currentFocus.value = data.currentFocus;
-  productionRate.value = data.productionRate;
-  health.value = data.health;
-  maxHealth.value = data.maxHealth;
-  attackPowerMultiplier.value = data.attackPowerMultiplier;
-  defencePowerMultiplier.value = data.defencePowerMultiplier;
-  regen.value = data.regen;
-  armors.value = data.armors;
-  weapons.value = data.weapons;
-  buildings.value = data.buildings;
-  workerStations.value = data.workerStations;
-  Object.entries(data.resources).forEach(([key, value]) => {
+  const deserializedState = deserializeState(data);
+
+  currentFocus.value = deserializedState.currentFocus;
+  productionRate.value = deserializedState.productionRate;
+  health.value = deserializedState.health;
+  maxHealth.value = deserializedState.maxHealth;
+  attackPowerMultiplier.value = deserializedState.attackPowerMultiplier;
+  defencePowerMultiplier.value = deserializedState.defencePowerMultiplier;
+  regen.value = deserializedState.regen;
+  armors.value = deserializedState.armors;
+  weapons.value = deserializedState.weapons;
+  buildings.value = deserializedState.buildings;
+  workerStations.value = deserializedState.workerStations;
+  Object.entries(deserializedState.resources).forEach(([key, value]) => {
     if (resources[key as RESOURCE]) {
-      resources[key as RESOURCE].value = value;
+      resources[key as RESOURCE].value = value as number;
     }
   });
-  unlockResearch(data.research);
-  setInfusionEffect(data.infusions);
-  return data.timestamp;
+  unlockResearch(deserializedState.research);
+  setInfusionEffect(deserializedState.infusions);
+  return deserializedState.timestamp;
 };
 
 const unlockResearch = (researchs: Research[]) => {
