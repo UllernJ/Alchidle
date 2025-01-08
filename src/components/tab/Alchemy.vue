@@ -1,5 +1,9 @@
 <template>
   <div class="alchemy-container">
+    <section class="title-container">
+      <span class="title">Alchemy</span>
+      <Icon :path="infoIcon" :size="24" />
+    </section>
     <section class="infusion-list">
       <div
         v-for="(infusion, index) in infusions"
@@ -93,6 +97,19 @@ const getColorFromName = (name: string) => {
   align-items: center;
   color: #ffffff;
   padding: 1rem;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  & > span {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 }
 
 .infusion-list {
