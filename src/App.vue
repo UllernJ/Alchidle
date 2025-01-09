@@ -44,7 +44,7 @@ onUnmounted(() => {
 <style scoped>
 main {
   display: grid;
-  grid-template-columns: 3fr 4fr;
+  grid-template-columns: 4fr 6fr;
   gap: 1rem;
   overflow: hidden;
   max-height: 50vh;
