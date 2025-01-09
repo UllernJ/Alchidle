@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
 import Resources from "./components/resources/Resources.vue";
 import Tab from "./components/tab/Tab.vue";
 import Popup from "./components/Popup.vue";
-import Discovery from "./components/discovery/Discovery.vue";
-import { backgroundActivity } from "./utils/backgroundActivity";
-import { loadState, saveSession } from "./utils/localStorage";
+import Discovery from "./components/Discovery/Discovery.vue";
 import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
+import { onMounted, onUnmounted } from "vue";
+import { backgroundActivity } from "./utils/backgroundActivity";
+import { loadState, saveSession } from "./utils/localStorage";
 
 let interval: number;
 let saveInterval: number;
