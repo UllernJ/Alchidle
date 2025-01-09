@@ -47,7 +47,7 @@ main {
   grid-template-columns: 4fr 6fr;
   gap: 1rem;
   overflow: hidden;
-  max-height: 50vh;
+  height: 100%;
 }
 .content {
   margin-top: 1rem;

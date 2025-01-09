@@ -20,5 +20,6 @@ import PlayerSection from "./PlayerSection.vue";
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   height: 100%;
+  width: 100%;
 }
 </style>

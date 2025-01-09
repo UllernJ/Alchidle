@@ -17,7 +17,6 @@
       <Gear />
     </section>
     <section>
-      <span class="title">Alchemy</span>
       <Alchemy />
     </section>
   </div>

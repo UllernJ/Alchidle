@@ -81,6 +81,8 @@ const gatherMessage = computed(() => {
   align-items: center;
   gap: 0.33rem;
   border: 1px solid #f1f1f1;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .loading-bar-wrapper {
