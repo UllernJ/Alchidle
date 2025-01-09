@@ -43,7 +43,9 @@ const gatherMessage = computed(() => {
     </div>
     <span> +{{ totalIncomePerSecond[props.type] }}/s</span>
     <span>
-      {{ `${resources[type].value} / ${resources[`max${type}`].value}` }}
+      {{
+        `${Math.floor(resources[type].value)} / ${Math.floor(resources[`max${type}`].value)}`
+      }}
     </span>
     <div class="loading-bar-wrapper">
       <div
