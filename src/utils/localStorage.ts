@@ -55,7 +55,7 @@ export const saveSession = () => {
   const { researchList } = useResearch();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
-  const { map, zone } = useMonsters();
+  const { map, zone, monsters } = useMonsters();
 
   const state: SessionState = {
     currentFocus: currentFocus.value,
@@ -77,7 +77,7 @@ export const saveSession = () => {
     adventure: {
       map: map.value,
       zone: zone.value,
-      remainingMonsters: [],
+      remainingMonsters: monsters.value,
     },
     timestamp: Date.now(), // todo calculate time played
   };

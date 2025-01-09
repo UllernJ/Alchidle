@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 
@@ -9,6 +9,7 @@ const difficulty = ref<number>(1);
 const zone = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
+const currentMonster = computed(() => monsters.value[0] || null);
 
 export function useMonsters() {
   const getNextMonsters = () => {
@@ -40,5 +41,19 @@ export function useMonsters() {
       zone.value
     );
   };
-  return { monsters, getNextMonsters, goBack, difficulty, zone, map };
+
+  const defeatMonster = () => {
+    monsters.value.shift();
+  };
+
+  return {
+    monsters,
+    getNextMonsters,
+    goBack,
+    difficulty,
+    zone,
+    map,
+    currentMonster,
+    defeatMonster,
+  };
 }

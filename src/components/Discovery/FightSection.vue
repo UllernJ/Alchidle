@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
@@ -49,26 +49,27 @@ import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
-import type { Monster } from "../../models/Monster";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
-const { monsters, getNextMonsters, zone, map } = useMonsters();
+const { getNextMonsters, zone, map, currentMonster, defeatMonster } =
+  useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
 const isAttackOnCooldown = ref(false);
-const currentMonster = ref<Monster | null>(monsters.value[0]);
-let initialHealth = currentMonster.value ? currentMonster.value.health : 0;
+const initialHealth = ref<number | null>(null);
 const autoAttackInterval = ref<number | null>(null);
 
-const isEmpty = computed(() => monsters.value.length === 0);
+watch(currentMonster, (newMonster) => {
+  initialHealth.value = newMonster ? newMonster.health : null;
+});
+
+const isEmpty = computed(() => !currentMonster.value);
 const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
 
 const monsterHealthPercentage = computed(() => {
-  if (!currentMonster.value) return 0;
-  return initialHealth
-    ? Math.floor((currentMonster.value.health / initialHealth) * 100)
-    : 0;
+  if (!currentMonster.value || !initialHealth.value) return 0;
+  return Math.floor((currentMonster.value.health / initialHealth.value) * 100);
 });
 
 const handleMonsterDefeat = () => {
@@ -81,9 +82,7 @@ const handleMonsterDefeat = () => {
     MessageType.INFO
   );
 
-  const nextMonsterIndex = monsters.value.indexOf(currentMonster.value) + 1;
-  currentMonster.value = monsters.value[nextMonsterIndex] || null;
-  initialHealth = currentMonster.value ? currentMonster.value.health : 0;
+  defeatMonster();
   if (!currentMonster.value) {
     logMessage(
       "You have defeated all monsters in this zone!",
@@ -134,8 +133,9 @@ const autoAttack = () => {
 
 const fetchNextMonsters = () => {
   getNextMonsters();
-  currentMonster.value = monsters.value[0];
-  initialHealth = currentMonster.value ? currentMonster.value.health : 0;
+  initialHealth.value = currentMonster.value
+    ? currentMonster.value.health
+    : null;
 };
 </script>
 
