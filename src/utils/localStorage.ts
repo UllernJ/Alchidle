@@ -1,12 +1,14 @@
 import { useAlchemy } from "../composable/useAlchemy";
 import { useBuildings, type Building } from "../composable/useBuildings";
 import { useGear, type Armor, type Weapon } from "../composable/useGear";
+import { useMonsters } from "../composable/useMonsters";
 import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 import type { Research } from "../data/research";
 import type { Infusion } from "../models/Infusion";
+import type { Monster } from "../models/Monster";
 import type { RESOURCE, WorkerStation } from "../types";
 import { serializeState, deserializeState } from "./stateSerializer";
 
@@ -28,6 +30,11 @@ type SessionState = {
   workerStations: WorkerStation[];
   resources: Record<string, number>;
   timestamp: number;
+  adventure: {
+    map: number;
+    zone: number;
+    remainingMonsters: Monster[];
+  };
 };
 
 export const saveSession = () => {
@@ -48,6 +55,7 @@ export const saveSession = () => {
   const { researchList } = useResearch();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
+  const { map, zone } = useMonsters();
 
   const state: SessionState = {
     currentFocus: currentFocus.value,
@@ -66,6 +74,11 @@ export const saveSession = () => {
     resources: Object.fromEntries(
       Object.entries(resources).map(([key, ref]) => [key, ref.value])
     ),
+    adventure: {
+      map: map.value,
+      zone: zone.value,
+      remainingMonsters: [],
+    },
     timestamp: Date.now(), // todo calculate time played
   };
 
@@ -91,6 +104,7 @@ export const loadState = () => {
   const { buildings } = useBuildings();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
+  const { map, zone, monsters } = useMonsters();
 
   const deserializedState = deserializeState(data);
 
@@ -112,6 +126,10 @@ export const loadState = () => {
   });
   unlockResearch(deserializedState.research);
   setInfusionEffect(deserializedState.infusions);
+  map.value = deserializedState.adventure?.map ?? 1;
+  zone.value = deserializedState.adventure?.zone ?? 1;
+  monsters.value = deserializedState.adventure?.remainingMonsters ?? [];
+
   return deserializedState.timestamp;
 };
 

@@ -1,15 +1,14 @@
 import { ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
+import type { Monster } from "../models/Monster";
 
 const DEFAULT_INCREASE = 1.1;
 const DEFAULT_MONSTERS = 10;
 
 const difficulty = ref<number>(1);
 const zone = ref<number>(1);
-const map = ref<number>(1);
-const monsters = ref(
-  MonsterFactory.getMonsters(DEFAULT_MONSTERS, difficulty.value, zone.value)
-);
+const map = ref<number>(0);
+const monsters = ref<Monster[]>([]);
 
 export function useMonsters() {
   const getNextMonsters = () => {

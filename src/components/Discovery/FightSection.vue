@@ -1,8 +1,12 @@
 <template>
   <section class="fight-cube">
-    <div class="zone-map-info">
+    <div class="zone-map-info" v-if="!isEmpty">
       <span class="zone-info">Zone: {{ zone }}</span>
       <span class="map-info">Map: {{ map }}</span>
+    </div>
+    <div class="info" v-else-if="isEmptyAndFirstTime">
+      <p>Explore the map to find monsters to fight!</p>
+      <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
     <section class="monster" v-if="currentMonster">
       <span class="monster-name">{{ currentMonster.name }}</span>
@@ -23,12 +27,12 @@
     <section class="attack">
       <button
         class="attack-button"
-        @click="attack"
+        @click="isEmpty ? fetchNextMonsters() : attack()"
         :disabled="isAttackOnCooldown"
       >
-        Attack
+        {{ isEmpty ? "Explore" : "Attack" }}
       </button>
-      <button class="attack-button" @click="autoAttack">
+      <button v-if="!isEmpty" class="attack-button" @click="autoAttack">
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
     </section>
@@ -56,6 +60,9 @@ const isAttackOnCooldown = ref(false);
 const currentMonster = ref<Monster | null>(monsters.value[0]);
 let initialHealth = currentMonster.value ? currentMonster.value.health : 0;
 const autoAttackInterval = ref<number | null>(null);
+
+const isEmpty = computed(() => monsters.value.length === 0);
+const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
 
 const monsterHealthPercentage = computed(() => {
   if (!currentMonster.value) return 0;
