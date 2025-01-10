@@ -1,15 +1,14 @@
 <template>
   <section class="fight-cube">
-    <div class="zone-map-info" v-if="!isEmpty">
-      <span class="zone-info">Zone: {{ zone }}</span>
-      <span class="map-info">Map: {{ map }}</span>
-    </div>
-    <div class="info" v-else-if="isEmptyAndFirstTime">
+    <div class="info" v-if="isEmptyAndFirstTime">
       <p>Explore the map to find monsters to fight!</p>
       <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
     <section class="monster" v-if="currentMonster">
-      <span class="monster-name">{{ currentMonster.name }}</span>
+      <Icon class="icon" :path="mapIcon" :size="56" />
+      <div class="header">
+        <span class="monster-name">{{ currentMonster.name }}</span>
+      </div>
       <Icon :path="currentMonster.icon" :size="124" />
       <div class="monster-description">
         <span>{{ currentMonster.attack }}</span>
@@ -36,6 +35,10 @@
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
     </section>
+    <div class="zone-map-info" v-if="!isEmpty && !isEmptyAndFirstTime">
+      <span class="zone-info">Zone: {{ zone }}</span>
+      <span class="map-info">Map: {{ map }}</span>
+    </div>
   </section>
 </template>
 
@@ -44,7 +47,7 @@ import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import { attackIcon } from "../../icons/icons";
+import { attackIcon, mapIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
@@ -141,6 +144,7 @@ const fetchNextMonsters = () => {
 
 <style scoped>
 .fight-cube {
+  position: relative;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
   display: flex;
@@ -151,10 +155,10 @@ const fetchNextMonsters = () => {
 }
 
 .zone-map-info {
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 1rem;
 }
 
 .zone-info,
@@ -169,6 +173,16 @@ const fetchNextMonsters = () => {
   align-items: center;
   gap: 1rem;
   box-sizing: border-box;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 }
 
 .monster-name {

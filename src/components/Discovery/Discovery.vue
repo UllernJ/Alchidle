@@ -18,7 +18,7 @@ import PlayerSection from "./PlayerSection.vue";
   box-sizing: border-box;
   background-color: #1a1a1a;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 4fr 1.5fr;
   height: 100%;
   width: 100%;
 }

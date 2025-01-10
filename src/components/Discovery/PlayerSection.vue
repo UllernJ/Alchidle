@@ -1,9 +1,6 @@
 <template>
   <section class="Player">
-    <h2>Player</h2>
-    <section class="icon-container">
-      <Icon :path="playerIcon" :size="100" />
-    </section>
+    <h2>Stats</h2>
     <div class="PlayerStats">
       <div class="Stat">
         <span>{{ Math.floor(attackPower) }}</span>
@@ -13,43 +10,25 @@
         <span>{{ Math.floor(defencePower) }}</span>
         <Icon :path="defenceIcon" :size="24" />
       </div>
-    </div>
-    <div class="health-bar">
-      <div
-        class="health-bar-inner"
-        :style="{ width: playerHealthPercentage + '%' }"
-      >
-        <span>{{
-          playerHealthPercentage > 0
-            ? Math.floor(playerHealthPercentage) + "%"
-            : null
-        }}</span>
+      <div class="Stat-regen">
+        <span> {{ health }} / {{ maxHealth }}</span>
+        <Icon :path="healthIcon" :size="20" color="red" />
       </div>
-    </div>
-    <div class="Stat-regen">
-      <span>+ {{ regen }}</span>
-      <Icon :path="healthIcon" :size="24" color="red" />
-      <span>/s</span>
+      <div class="Stat-regen">
+        <span>+ {{ regen }}</span>
+        <Icon :path="healthIcon" :size="20" color="red" />
+        <span>/s</span>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
-import {
-  attackIcon,
-  defenceIcon,
-  healthIcon,
-  playerIcon,
-} from "../../icons/icons";
+import { attackIcon, defenceIcon, healthIcon } from "../../icons/icons";
 import Icon from "../Icon.vue";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
-
-const playerHealthPercentage = computed(() => {
-  return (health.value / maxHealth.value) * 100;
-});
 </script>
 
 <style scoped>
@@ -59,7 +38,6 @@ const playerHealthPercentage = computed(() => {
   align-items: center;
   box-sizing: border-box;
   border-right: 1px solid #f1f1f1;
-  min-width: 15rem;
 }
 
 .icon-container {
@@ -69,9 +47,9 @@ const playerHealthPercentage = computed(() => {
 .PlayerStats {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   gap: 1rem;
-  padding: 0.5rem 2rem;
+  width: 100%;
 }
 
 .Stat {
@@ -81,34 +59,12 @@ const playerHealthPercentage = computed(() => {
 }
 
 .Stat span {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.health-bar {
-  height: 1.25rem;
-  width: 80%;
-  background-color: #444;
-  border: 2px solid #f1f1f1;
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 1rem;
-}
-
-.health-bar-inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: red;
-  border-radius: 8px;
-  transition: width 0.3s ease-in-out;
-  color: white;
+  font-size: 1.25em;
   font-weight: bold;
 }
 
 .Stat-regen {
-  font-size: 1em;
+  font-size: 0.8em;
   display: flex;
   align-items: center;
   gap: 0.1rem;
