@@ -5,7 +5,11 @@
       <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
     <section class="monster" v-if="currentMonster">
-      <Icon class="icon" :path="mapIcon" :size="56" />
+      <v-tooltip text="Explore map" location="top">
+        <template v-slot:activator="{ props }">
+          <Icon class="icon" :path="mapIcon" :size="56" v-bind="props" />
+        </template>
+      </v-tooltip>
       <div class="header">
         <span class="monster-name">{{ currentMonster.name }}</span>
       </div>
