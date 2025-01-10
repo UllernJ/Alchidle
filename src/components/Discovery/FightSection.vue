@@ -10,7 +10,8 @@
           <Icon
             @click="toggleMap"
             class="icon"
-            :path="!showMap ? mapIcon : cancelIcon"
+            :class="{ 'icon-active': showMap }"
+            :path="mapIcon"
             :size="56"
             v-bind="props"
           />
@@ -57,7 +58,7 @@ import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import { attackIcon, cancelIcon, mapIcon } from "../../icons/icons";
+import { attackIcon, mapIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
@@ -191,10 +192,15 @@ const fetchNextMonsters = () => {
   position: absolute;
   top: 0;
   left: 0;
+  outline: none;
   &:hover {
     cursor: pointer;
     opacity: 0.8;
   }
+}
+
+.icon-active {
+  opacity: 0.5;
 }
 
 .monster-name {

@@ -1,5 +1,6 @@
 import type { Building } from "../composable/useBuildings";
 import type { Armor, Weapon } from "../composable/useGear";
+import type { Monster } from "../models/Monster";
 import {
   alchemyLabIcon,
   bankIcon,
@@ -19,8 +20,12 @@ import {
   bankerIcon,
   minerIcon,
   scientistIcon,
+  badGnomeIcon,
+  trollIcon,
+  vampireIcon,
 } from "../icons/icons";
 import type { WorkerStation } from "../types";
+import type { SessionState } from "./localStorage";
 
 const iconMap: { [key: string]: string } = {
   Mine: mineIcon,
@@ -41,9 +46,12 @@ const iconMap: { [key: string]: string } = {
   Miner: minerIcon,
   Alchemist: alchemistIcon,
   Scientist: scientistIcon,
+  Gnome: badGnomeIcon,
+  Troll: trollIcon,
+  Vampire: vampireIcon,
 };
 
-export const serializeState = (state: any) => {
+export const serializeState = (state: SessionState) => {
   const serializedState = JSON.parse(JSON.stringify(state));
   serializedState.buildings.forEach((building: Building) => {
     delete building.icon;
@@ -57,10 +65,13 @@ export const serializeState = (state: any) => {
   serializedState.workerStations.forEach((station: WorkerStation) => {
     delete station.icon;
   });
+  serializedState.adventure.remainingMonsters.forEach((monster: Monster) => {
+    delete monster.icon;
+  });
   return serializedState;
 };
 
-export const deserializeState = (state: any) => {
+export const deserializeState = (state: SessionState) => {
   state.buildings.forEach((building: Building) => {
     building.icon = iconMap[building.name];
   });
@@ -72,6 +83,9 @@ export const deserializeState = (state: any) => {
   });
   state.workerStations.forEach((station: WorkerStation) => {
     station.icon = iconMap[station.name];
+  });
+  state.adventure.remainingMonsters.forEach((monster: Monster) => {
+    monster.icon = iconMap[monster.name];
   });
   return state;
 };

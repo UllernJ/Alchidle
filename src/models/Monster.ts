@@ -9,7 +9,7 @@ export class Monster {
     resource: RESOURCE;
     amount: number;
   };
-  icon: string;
+  icon?: string;
 
   constructor(
     name: string,

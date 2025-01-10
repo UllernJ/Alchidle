@@ -55,6 +55,12 @@ onMounted(() => {
   if (timestamp) {
     const now = Date.now();
     elapsedTime.value = Math.floor((now - timestamp) / 1000);
+    //if elapsed time was less than 10 minutes, dont show welcome back screen
+    if (elapsedTime.value < 600) {
+      generatedResources.value = calculateGeneratedResources(elapsedTime.value);
+      stopLoading();
+      return;
+    }
     generatedResources.value = calculateGeneratedResources(elapsedTime.value);
     showWelcomeBack.value = true;
   }
