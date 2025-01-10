@@ -111,6 +111,7 @@ const attack = () => {
       0,
       currentMonster.value.attack - defencePower.value
     );
+    playerHealth.value = Math.max(playerHealth.value, 0);
     if (playerHealth.value <= 0) {
       logMessage(
         "You have been defeated. You should rest now.",

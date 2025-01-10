@@ -29,12 +29,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useMonsters } from "../../composable/useMonsters";
-import { useMap } from "../../composable/useMap";
-import { mapIcon } from "../../icons/icons";
-import Icon from "../Icon.vue";
 
 const { monsters, MONSTERS_PER_MAP, zone, map } = useMonsters();
-const { toggleMap, showMap } = useMap();
 
 const monstersDefeated = computed(() => {
   return MONSTERS_PER_MAP - monsters.value.length;
