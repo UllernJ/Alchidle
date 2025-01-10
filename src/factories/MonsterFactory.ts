@@ -9,7 +9,6 @@ export class MonsterFactory {
       monster.name,
       Math.round(25 * difficulty * zoneMultiplier),
       Math.round(2 * difficulty * zoneMultiplier),
-      Math.round(5 * difficulty * zoneMultiplier),
       getRandomResource(),
       Math.floor(Math.random() * 5) * difficulty * zoneMultiplier,
       monster.icon
@@ -21,9 +20,12 @@ export class MonsterFactory {
     difficulty: number,
     zone: number
   ): Monster[] {
+    let difficultyMultiplier = difficulty;
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
-      monsters.push(this.createMonster(difficulty, zone));
+      //diffucultyMultiplier should be progressivly increased for each monster
+      difficultyMultiplier += 0.1;
+      monsters.push(this.createMonster(difficultyMultiplier, zone));
     }
     return monsters;
   }

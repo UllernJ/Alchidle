@@ -5,18 +5,6 @@
       <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
     <section class="monster" v-if="currentMonster">
-      <v-tooltip :text="!showMap ? 'Explore map' : 'Go back'" location="top">
-        <template v-slot:activator="{ props }">
-          <Icon
-            @click="toggleMap"
-            class="icon"
-            :class="{ 'icon-active': showMap }"
-            :path="mapIcon"
-            :size="56"
-            v-bind="props"
-          />
-        </template>
-      </v-tooltip>
       <div class="header">
         <span class="monster-name">{{ currentMonster.name }}</span>
       </div>
@@ -46,10 +34,6 @@
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
     </section>
-    <div class="zone-map-info" v-if="!isEmpty && !isEmptyAndFirstTime">
-      <span class="zone-info">Zone: {{ zone }}</span>
-      <span class="map-info">Map: {{ map }}</span>
-    </div>
   </section>
 </template>
 
@@ -58,19 +42,16 @@ import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import { attackIcon, mapIcon } from "../../icons/icons";
+import { attackIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
-import { useMap } from "../../composable/useMap";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
-const { getNextMonsters, zone, map, currentMonster, defeatMonster } =
-  useMonsters();
+const { getNextMonsters, map, currentMonster, defeatMonster } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
-const { toggleMap, showMap } = useMap();
 
 const isAttackOnCooldown = ref(false);
 const initialHealth = ref<number | null>(null);
@@ -104,6 +85,7 @@ const handleMonsterDefeat = () => {
       "You have defeated all monsters in this zone!",
       MessageType.SUCCESS
     );
+    logMessage("Proceeding to the next zone...", MessageType.WARNING);
     fetchNextMonsters();
   }
 };
@@ -157,7 +139,6 @@ const fetchNextMonsters = () => {
 
 <style scoped>
 .fight-cube {
-  position: relative;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
   display: flex;
@@ -167,40 +148,12 @@ const fetchNextMonsters = () => {
   height: 100%;
 }
 
-.zone-map-info {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.zone-info,
-.map-info {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
 .monster {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   box-sizing: border-box;
-}
-
-.icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  outline: none;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-}
-
-.icon-active {
-  opacity: 0.5;
 }
 
 .monster-name {

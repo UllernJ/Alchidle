@@ -3,7 +3,7 @@ import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 
 const DEFAULT_INCREASE = 1.1;
-const DEFAULT_MONSTERS = 10;
+const MONSTERS_PER_MAP = 40;
 const MAP_PER_ZONE = 25;
 
 const difficulty = ref<number>(1);
@@ -26,7 +26,7 @@ export function useMonsters() {
       highestUnlockedZone.value = zone.value;
     }
     monsters.value = MonsterFactory.getMonsters(
-      DEFAULT_MONSTERS,
+      MONSTERS_PER_MAP,
       difficulty.value,
       zone.value
     );
@@ -41,7 +41,7 @@ export function useMonsters() {
       difficulty.value /= DEFAULT_INCREASE;
     }
     monsters.value = MonsterFactory.getMonsters(
-      DEFAULT_MONSTERS,
+      MONSTERS_PER_MAP,
       difficulty.value,
       zone.value
     );
@@ -52,6 +52,7 @@ export function useMonsters() {
   };
 
   return {
+    MONSTERS_PER_MAP,
     monsters,
     getNextMonsters,
     goBack,
