@@ -1,9 +1,12 @@
 # Idle game
 
-This template should help get you started developing with Vue 3 and TypeScript
-in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the
-[script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup)
-to learn more.
+## Todo
 
-Learn more about the recommended Project Setup and IDE Support in the
-[Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+- Make combat more balanced
+
+- Infusions
+- Should Alchemy be a resource or only workers?
+
+- More research
+
+- Handle insane big numbers -> CHECK OUT ARRAY HANDLING

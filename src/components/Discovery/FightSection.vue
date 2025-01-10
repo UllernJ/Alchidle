@@ -18,7 +18,7 @@
           class="health-bar-inner"
           :style="{ width: monsterHealthPercentage + '%' }"
         >
-          <span>{{ monsterHealthPercentage }}%</span>
+          <span>{{ currentMonster.health }} / {{ initialHealth }}</span>
         </div>
       </div>
     </section>
@@ -164,7 +164,7 @@ const fetchNextMonsters = () => {
 }
 
 .health-bar {
-  height: 1.25rem;
+  height: 8%;
   width: 100%;
   background-color: #444;
   border: 2px solid #f1f1f1;
@@ -179,6 +179,10 @@ const fetchNextMonsters = () => {
   background-color: red;
   border-radius: 8px;
   transition: width 0.3s ease-in-out;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: center;
 }
 
 .attack {

@@ -2,7 +2,7 @@ import { computed, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 
-const DEFAULT_INCREASE = 1.1;
+const DEFAULT_INCREASE = 1.15;
 const MONSTERS_PER_MAP = 40;
 const MAP_PER_ZONE = 25;
 
