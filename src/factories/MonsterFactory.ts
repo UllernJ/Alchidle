@@ -24,7 +24,7 @@ export class MonsterFactory {
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
       //diffucultyMultiplier should be progressivly increased for each monster
-      difficultyMultiplier += 0.1;
+      difficultyMultiplier += 0.2;
       monsters.push(this.createMonster(difficultyMultiplier, zone));
     }
     return monsters;
