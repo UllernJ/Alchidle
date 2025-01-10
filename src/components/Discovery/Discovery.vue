@@ -1,15 +1,20 @@
 <template>
   <section class="container">
     <PlayerSection />
-    <ActionLog />
+    <component :is="showMap ? MapComponent : ActionLog" />
     <FightSection />
   </section>
 </template>
 
 <script lang="ts" setup>
 import ActionLog from "./ActionLog.vue";
+import Map from "./Map.vue";
 import FightSection from "./FightSection.vue";
 import PlayerSection from "./PlayerSection.vue";
+import { useMap } from "../../composable/useMap";
+
+const MapComponent = Map;
+const { showMap } = useMap();
 </script>
 
 <style scoped>

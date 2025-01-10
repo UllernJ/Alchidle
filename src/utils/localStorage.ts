@@ -34,6 +34,7 @@ type SessionState = {
     map: number;
     zone: number;
     remainingMonsters: Monster[];
+    difficulty: number;
   };
 };
 
@@ -55,7 +56,7 @@ export const saveSession = () => {
   const { researchList } = useResearch();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
-  const { map, zone, monsters } = useMonsters();
+  const { map, zone, monsters, difficulty } = useMonsters();
 
   const state: SessionState = {
     currentFocus: currentFocus.value,
@@ -78,6 +79,7 @@ export const saveSession = () => {
       map: map.value,
       zone: zone.value,
       remainingMonsters: monsters.value,
+      difficulty: difficulty.value,
     },
     timestamp: Date.now(), // todo calculate time played
   };
@@ -104,7 +106,7 @@ export const loadState = () => {
   const { buildings } = useBuildings();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
-  const { map, zone, monsters } = useMonsters();
+  const { map, zone, monsters, difficulty } = useMonsters();
 
   const deserializedState = deserializeState(data);
 
@@ -129,7 +131,7 @@ export const loadState = () => {
   map.value = deserializedState.adventure?.map ?? 1;
   zone.value = deserializedState.adventure?.zone ?? 1;
   monsters.value = deserializedState.adventure?.remainingMonsters ?? [];
-
+  difficulty.value = deserializedState.adventure?.difficulty ?? 1;
   return deserializedState.timestamp;
 };
 

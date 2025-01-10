@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, nextTick, useTemplateRef } from "vue";
+import { watch, nextTick, useTemplateRef, onMounted } from "vue";
 import { useActionLog } from "../../composable/useActionLog";
 
 const { log } = useActionLog();
@@ -22,6 +22,13 @@ const actionLog = useTemplateRef("actionLog");
 // Scroll to the bottom of the log when a new entry is added
 watch(log.value, async () => {
   await nextTick();
+  const logElement = actionLog.value;
+  if (logElement) {
+    logElement.scrollTop = logElement.scrollHeight;
+  }
+});
+
+onMounted(() => {
   const logElement = actionLog.value;
   if (logElement) {
     logElement.scrollTop = logElement.scrollHeight;

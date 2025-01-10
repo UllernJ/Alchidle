@@ -5,9 +5,15 @@
       <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
     <section class="monster" v-if="currentMonster">
-      <v-tooltip text="Explore map" location="top">
+      <v-tooltip :text="!showMap ? 'Explore map' : 'Go back'" location="top">
         <template v-slot:activator="{ props }">
-          <Icon class="icon" :path="mapIcon" :size="56" v-bind="props" />
+          <Icon
+            @click="toggleMap"
+            class="icon"
+            :path="!showMap ? mapIcon : cancelIcon"
+            :size="56"
+            v-bind="props"
+          />
         </template>
       </v-tooltip>
       <div class="header">
@@ -51,17 +57,19 @@ import { ref, computed, watch } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
-import { attackIcon, mapIcon } from "../../icons/icons";
+import { attackIcon, cancelIcon, mapIcon } from "../../icons/icons";
 import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
+import { useMap } from "../../composable/useMap";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { getNextMonsters, zone, map, currentMonster, defeatMonster } =
   useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
+const { toggleMap, showMap } = useMap();
 
 const isAttackOnCooldown = ref(false);
 const initialHealth = ref<number | null>(null);
