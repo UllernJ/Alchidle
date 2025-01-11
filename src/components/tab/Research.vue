@@ -2,13 +2,15 @@
   <div class="research-tab">
     <section class="research-list">
       <template v-for="research in researchList" :key="research.name">
-        <v-tooltip location="top">
+        <v-tooltip
+          location="top"
+          v-if="!research.unlocked && research.requirement()"
+        >
           <template v-slot:activator="{ props }">
             <button
               class="research"
               @click="unlockResearch(research)"
               :disabled="!canAfford(research)"
-              v-if="!research.unlocked && research.requirement()"
               v-bind="props"
             >
               <h2>{{ research.name }}</h2>

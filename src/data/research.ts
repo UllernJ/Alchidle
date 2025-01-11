@@ -141,6 +141,16 @@ const advancedMiningTechniquesResearch = ref<Research>({
   requirement: () => advancedMiningResearch.value.unlocked,
 });
 
+export const unlockAlchemy = ref<Research>({
+  name: "Alchemy",
+  description:
+    "Unlock the secrets of alchemy. Enchant every aspect of your life.",
+  cost: 0,
+  unlocked: false,
+  effect: () => {},
+  requirement: () => true,
+});
+
 export const getResearchList = () => {
   return ref<Research[]>([
     efficiencyResearch.value,
@@ -154,5 +164,6 @@ export const getResearchList = () => {
     advancedScienceResearch.value,
     advancedBankingResearch.value,
     advancedMiningTechniquesResearch.value,
+    unlockAlchemy.value,
   ]);
 };

@@ -23,7 +23,7 @@
             </button>
           </template>
           <div class="cost">
-            <p>{{ weapon.cost }}</p>
+            <p>Costs: {{ weapon.cost }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>
@@ -52,7 +52,7 @@
             </button>
           </template>
           <div class="cost">
-            <p>{{ armor.cost }}</p>
+            <p>Costs: {{ armor.cost }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>
@@ -91,8 +91,9 @@ const canAffordArmor = computed(() => {
 .title {
   display: flex;
   align-self: flex-start;
-  font-size: 1.5em;
+  font-size: 1.3em !important;
   font-weight: bold;
+  margin: 1rem 0;
 }
 
 .gear-container {
@@ -119,7 +120,8 @@ const canAffordArmor = computed(() => {
   border: 1px solid #f1f1f1;
   padding: 1rem;
   background-color: #2b2b2b;
-  width: 15%;
+  height: 100%;
+  width: 15rem;
   &:hover {
     cursor: pointer;
     background-color: #3a3939;
@@ -149,8 +151,5 @@ const canAffordArmor = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  &:last-child {
-    margin-top: -0.55rem;
-  }
 }
 </style>

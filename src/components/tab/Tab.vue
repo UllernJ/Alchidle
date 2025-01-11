@@ -1,13 +1,14 @@
 <template>
   <aside class="state-sidebar">
     <ul class="state-list">
-      <li class="state-item" v-for="state in states" :key="state">
+      <li class="state-item" v-for="state in states" :key="state.name">
         <button
           class="state-button"
-          @click="setState(state)"
-          :class="{ active: state === currentState }"
+          @click="setState(state.name)"
+          :class="{ active: state.name === currentState }"
+          :disabled="state.unlocked && !state.unlocked()"
         >
-          {{ state }}
+          {{ state.name }}
         </button>
       </li>
     </ul>
