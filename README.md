@@ -2,6 +2,7 @@
 
 ## Todo
 
+- Money is too OP, a player will always focus money
 - Make combat more balanced
 
 - Infusions
