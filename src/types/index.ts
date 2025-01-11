@@ -6,6 +6,7 @@ export type WorkerStation = {
   resource: RESOURCE;
   description: string;
   icon?: string;
+  requirement?: () => boolean;
 };
 
 export enum RESOURCE {

@@ -11,3 +11,7 @@
 - More research
 
 - Handle insane big numbers -> CHECK OUT ARRAY HANDLING
+
+- Punish player if dies -> lose resources or gear?
+
+- 50 50 chance of who attacks first

@@ -10,6 +10,7 @@ import {
   scientistIcon,
 } from "../icons/icons";
 import { MessageType, useMessage } from "./useMessage";
+import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 
 export enum WORKER {
   BANKER = "Banker",
@@ -38,15 +39,6 @@ const initialWorkerStations: WorkerStation[] = [
     icon: minerIcon,
   },
   {
-    name: WORKER.ALCHEMIST,
-    rate: 1,
-    resource: RESOURCE.ALCHEMY,
-    numberOfWorkers: 0,
-    cost: 50,
-    description: "Gather herbs for alchemy.",
-    icon: alchemistIcon,
-  },
-  {
     name: WORKER.SCIENTIST,
     rate: 1,
     resource: RESOURCE.SCIENCE,
@@ -54,6 +46,16 @@ const initialWorkerStations: WorkerStation[] = [
     cost: 50,
     description: "Researches new technologies.",
     icon: scientistIcon,
+  },
+  {
+    name: WORKER.ALCHEMIST,
+    rate: 1,
+    resource: RESOURCE.ALCHEMY,
+    numberOfWorkers: 0,
+    cost: 50,
+    description: "Gather herbs for alchemy.",
+    icon: alchemistIcon,
+    requirement: () => unlockAlchemyResearch.value.unlocked,
   },
 ];
 const workerStations = ref<WorkerStation[]>(initialWorkerStations);

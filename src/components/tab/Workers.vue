@@ -2,7 +2,7 @@
   <div class="worker-tab">
     <section class="worker-list">
       <template v-for="worker in workerStations" :key="worker.name">
-        <v-tooltip location="top">
+        <v-tooltip location="top" v-if="!worker.requirement">
           <template v-slot:activator="{ props }">
             <button
               class="worker"

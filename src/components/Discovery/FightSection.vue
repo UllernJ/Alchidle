@@ -48,7 +48,7 @@ import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 
-const { attackPower, health: playerHealth, defencePower } = usePlayer();
+const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
 const { getNextMonsters, map, currentMonster, defeatMonster } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
@@ -113,8 +113,9 @@ const attack = () => {
     );
     playerHealth.value = Math.max(playerHealth.value, 0);
     if (playerHealth.value <= 0) {
+      faint();
       logMessage(
-        "You have been defeated. You should rest now.",
+        "You have been defeated. The monsters looted you for 10% of your resources.",
         MessageType.ERROR
       );
     }
@@ -177,6 +178,7 @@ const fetchNextMonsters = () => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
   }
 }
 

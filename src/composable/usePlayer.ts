@@ -2,6 +2,7 @@ import { computed, ref } from "vue";
 import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import { isDev } from "../utils/dev";
+import { useResource } from "./useResource";
 
 const currentFocus = ref<RESOURCE | null>(null);
 const productionRate = ref<number>(1);
@@ -12,12 +13,6 @@ const maxHealth = ref<number>(100);
 const regen = ref<number>(1);
 
 export const usePlayer = () => {
-  isDev
-    ? (attackPowerMultiplier.value = 1000)
-    : (attackPowerMultiplier.value = 1);
-  isDev
-    ? (defencePowerMultiplier.value = 1000)
-    : (defencePowerMultiplier.value = 1);
   const { armors, weapons } = useGear();
   const setFocus = (type: RESOURCE) => {
     currentFocus.value = type;
@@ -57,6 +52,14 @@ export const usePlayer = () => {
     defencePowerMultiplier.value *= multiplier;
   };
 
+  const faint = () => {
+    const { subtractResource, resources } = useResource();
+    Object.values(RESOURCE).forEach((key) => {
+      const resource = resources[key as RESOURCE].value;
+      subtractResource(key as RESOURCE, resource * 0.1);
+    });
+  };
+
   return {
     currentFocus,
     productionRate,
@@ -72,5 +75,6 @@ export const usePlayer = () => {
     regenHealth,
     upgradeAttackPower,
     upgradeDefensePower,
+    faint,
   };
 };

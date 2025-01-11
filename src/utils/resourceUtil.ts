@@ -20,7 +20,7 @@ export const getResourceDropMessage = (
   }
   switch (resource) {
     case RESOURCE.MONEY:
-      return `You collected ${amount} gold from your foe!`;
+      return `You collected ${amount} gold coins from your foe!`;
     case RESOURCE.MINING:
       return `You collected ${amount} mining resources from your foe!`;
     case RESOURCE.ALCHEMY:

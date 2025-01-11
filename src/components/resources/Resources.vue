@@ -2,12 +2,17 @@
   <section>
     <Resource :type="RESOURCE.MONEY" :icon="moneyIcon" />
     <Resource :type="RESOURCE.MINING" :icon="miningIcon" />
-    <Resource :type="RESOURCE.ALCHEMY" :icon="alchemyIcon" />
     <Resource :type="RESOURCE.SCIENCE" :icon="scienceIcon" />
+    <Resource
+      :type="RESOURCE.ALCHEMY"
+      :icon="alchemyIcon"
+      v-if="unlockAlchemyResearch.unlocked"
+    />
   </section>
 </template>
 
 <script lang="ts" setup>
+import { unlockAlchemyResearch } from "../../data/research/research.alchemy";
 import {
   moneyIcon,
   alchemyIcon,
