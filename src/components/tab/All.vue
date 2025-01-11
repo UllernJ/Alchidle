@@ -16,7 +16,7 @@
       <span class="title">Gear</span>
       <Gear />
     </section>
-    <section>
+    <section v-if="ALCHEMY.unlocked && ALCHEMY.unlocked()">
       <Alchemy />
     </section>
   </div>
@@ -30,6 +30,7 @@ import Research from "./Research.vue";
 import Workers from "./Workers.vue";
 import { useResearch } from "../../composable/useResearch";
 import Alchemy from "./Alchemy.vue";
+import { ALCHEMY } from "../../composable/useTab";
 
 const { researchList } = useResearch();
 

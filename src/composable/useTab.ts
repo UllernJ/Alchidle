@@ -20,7 +20,7 @@ const BUILDINGS = ref<Tab>({ name: TAB_STATE.BUILDINGS });
 const WORKERS = ref<Tab>({ name: TAB_STATE.WORKERS });
 const RESEARCH = ref<Tab>({ name: TAB_STATE.RESEARCH });
 const GEAR = ref<Tab>({ name: TAB_STATE.GEAR });
-const ALCHEMY = ref<Tab>({
+export const ALCHEMY = ref<Tab>({
   name: TAB_STATE.ALCHEMY,
   unlocked: () => unlockAlchemy.value.unlocked,
 });

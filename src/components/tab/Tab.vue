@@ -8,7 +8,13 @@
           :class="{ active: state.name === currentState }"
           :disabled="state.unlocked && !state.unlocked()"
         >
-          {{ state.name }}
+          <div class="button-content">
+            {{ state.name }}
+            <v-icon
+              :icon="mdiLock"
+              v-if="state.unlocked && !state.unlocked()"
+            />
+          </div>
         </button>
       </li>
     </ul>
@@ -31,6 +37,7 @@ import Buildings from "./Buildings.vue";
 import Gear from "./Gear.vue";
 import Research from "./Research.vue";
 import Workers from "./Workers.vue";
+import { mdiLock } from "@mdi/js";
 
 const { getStates, setState, currentState } = useTab();
 
@@ -58,6 +65,7 @@ const states = getStates();
   padding: 0;
   display: flex;
   flex-direction: column;
+  width: 9rem;
   border-right: 1px solid #f1f1f1;
 }
 
@@ -81,13 +89,21 @@ const states = getStates();
   cursor: pointer;
   width: 100%;
   text-align: left;
-}
-
-.state-button:hover {
-  opacity: 0.8;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:disabled {
+    pointer-events: none;
+  }
 }
 
 .active {
   background-color: #1a1a1a;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 </style>

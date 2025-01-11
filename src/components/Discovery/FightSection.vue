@@ -82,10 +82,10 @@ const handleMonsterDefeat = () => {
   defeatMonster();
   if (!currentMonster.value) {
     logMessage(
-      "You have defeated all monsters in this zone!",
+      "You have defeated all monsters in this map!",
       MessageType.SUCCESS
     );
-    logMessage("Proceeding to the next zone...", MessageType.WARNING);
+    logMessage("Proceeding to the next map...", MessageType.WARNING);
     fetchNextMonsters();
   }
 };

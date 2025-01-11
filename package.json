@@ -13,7 +13,8 @@
     "eslint": "~9.17.0",
     "@vue/eslint-config-typescript": "~14.2.0",
     "prettier": "~3.4.2",
-    "vuetify": "~3.7.6"
+    "vuetify": "~3.7.6",
+    "@mdi/js": "~7.4.47"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

@@ -1,9 +1,6 @@
 <template>
   <div class="progress-container">
-    <div class="zone-map-info">
-      <span class="zone-info">Zone: {{ zone }}</span>
-      <span class="map-info">Map: {{ map }}</span>
-    </div>
+    <span class="map-info">Map: {{ map }}</span>
     <div class="progress-grid">
       <div
         v-for="index in MONSTERS_PER_MAP"
@@ -11,18 +8,6 @@
         :class="['progress-box', { defeated: index <= monstersDefeated }]"
       ></div>
     </div>
-    <!-- <v-tooltip :text="!showMap ? 'Explore map' : 'Go back'" location="top">
-      <template v-slot:activator="{ props }">
-        <Icon
-          @click="toggleMap"
-          class="icon"
-          :class="{ 'icon-active': showMap }"
-          :path="mapIcon"
-          :size="56"
-          v-bind="props"
-        />
-      </template>
-    </v-tooltip> -->
   </div>
 </template>
 
@@ -30,7 +15,7 @@
 import { computed } from "vue";
 import { useMonsters } from "../../composable/useMonsters";
 
-const { monsters, MONSTERS_PER_MAP, zone, map } = useMonsters();
+const { monsters, MONSTERS_PER_MAP, map } = useMonsters();
 
 const monstersDefeated = computed(() => {
   return MONSTERS_PER_MAP - monsters.value.length;
@@ -67,15 +52,9 @@ const monstersDefeated = computed(() => {
 .progress-box.defeated {
   background-color: green;
 }
-.zone-map-info {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
 
-.zone-info,
 .map-info {
+  width: 100%;
   font-size: 1rem;
   font-weight: bold;
 }

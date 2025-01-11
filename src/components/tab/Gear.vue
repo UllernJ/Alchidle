@@ -102,7 +102,7 @@ const canAffordArmor = computed(() => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
-  margin-left: 1rem;
+  padding: 1rem;
 }
 
 .gear-list {
