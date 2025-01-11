@@ -16,3 +16,8 @@
 button {
   border: unset;
 }
+
+h2 {
+  font-size: 1.3em;
+  margin: 0;
+}

@@ -12,9 +12,7 @@
             >
               <Icon :path="worker.icon" :size="80" />
               <div class="worker-description">
-                <p class="worker-name">
-                  {{ worker.name }} ({{ worker.numberOfWorkers }})
-                </p>
+                <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>
                 <div class="worker-rate">
                   <p>+{{ worker.rate }}/s</p>
                   <Icon :path="getResourceIcon(worker.resource)" :size="20" />
@@ -92,12 +90,6 @@ const canAfford = computed(() => {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-}
-
-.worker-name {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 0;
 }
 
 .worker-cost {

@@ -11,7 +11,7 @@
               v-if="!research.unlocked && research.requirement()"
               v-bind="props"
             >
-              <h2 class="research-name">{{ research.name }}</h2>
+              <h2>{{ research.name }}</h2>
             </button>
           </template>
           <span>{{ research.description }}</span>
@@ -70,7 +70,7 @@ const canAfford = computed(() => {
   background-color: #2b2b2b;
   text-align: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   height: 100%;
   width: 15rem;
   &:hover {

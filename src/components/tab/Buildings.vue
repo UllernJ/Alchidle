@@ -95,12 +95,6 @@ const canAfford = computed(() => {
   gap: 0.5rem;
 }
 
-.building-description h2 {
-  font-size: 1.2em;
-  margin: 0;
-  font-weight: bold;
-}
-
 .p {
   font-size: 1.2em;
   margin: 0;
