@@ -4,7 +4,6 @@ import type { Monster } from "../models/Monster";
 
 const DEFAULT_INCREASE = 1.15;
 const MONSTERS_PER_MAP = 40;
-const MAP_PER_ZONE = 25;
 
 const difficulty = ref<number>(1);
 const map = ref<number>(0);
