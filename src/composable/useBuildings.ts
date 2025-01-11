@@ -7,6 +7,7 @@ import {
   mineIcon,
   scienceLabIcon,
 } from "../icons/icons";
+import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 
 type Cost = {
   key: RESOURCE;
@@ -20,7 +21,7 @@ export type Building = {
   resource: RESOURCE;
   quantity: number;
   icon?: string;
-  unlocked?: boolean;
+  requirement?: () => boolean;
 };
 
 const buildings = ref<Building[]>([
@@ -51,19 +52,6 @@ const buildings = ref<Building[]>([
     icon: mineIcon,
   },
   {
-    name: "Alchemy Lab",
-    resource: RESOURCE.ALCHEMY,
-    cost: [
-      {
-        key: RESOURCE.ALCHEMY,
-        value: 100,
-      },
-    ],
-    description: "Increases your alchemy storage by 100%.",
-    quantity: 0,
-    icon: alchemyLabIcon,
-  },
-  {
     name: "Science Lab",
     resource: RESOURCE.SCIENCE,
     cost: [
@@ -75,6 +63,20 @@ const buildings = ref<Building[]>([
     description: "Increases your science storage by 100%.",
     quantity: 0,
     icon: scienceLabIcon,
+  },
+  {
+    name: "Alchemy Lab",
+    resource: RESOURCE.ALCHEMY,
+    cost: [
+      {
+        key: RESOURCE.ALCHEMY,
+        value: 100,
+      },
+    ],
+    description: "Increases your alchemy storage by 100%.",
+    quantity: 0,
+    icon: alchemyLabIcon,
+    requirement: () => unlockAlchemyResearch.value.unlocked,
   },
 ]);
 

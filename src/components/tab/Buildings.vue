@@ -2,7 +2,7 @@
   <div class="buildings-container">
     <section class="building-list">
       <template v-for="(building, index) in buildings" :key="index">
-        <v-tooltip location="top">
+        <v-tooltip location="top" v-if="!building.requirement">
           <template v-slot:activator="{ props }">
             <button
               class="building-item"
