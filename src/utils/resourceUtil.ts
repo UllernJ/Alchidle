@@ -1,3 +1,9 @@
+import {
+  alchemyIcon,
+  miningIcon,
+  moneyIcon,
+  scienceIcon,
+} from "../icons/icons";
 import { RESOURCE } from "../types";
 
 export const getRandomResource = (): RESOURCE => {
@@ -21,5 +27,20 @@ export const getResourceDropMessage = (
       return `You collected ${amount} alchemy resources from your foe!`;
     default:
       return `You collected some interesting books from your foe, somehow earning you ${amount} science points.`;
+  }
+};
+
+export const getResourceIcon = (resource: RESOURCE): string => {
+  switch (resource) {
+    case RESOURCE.MONEY:
+      return moneyIcon;
+    case RESOURCE.MINING:
+      return miningIcon;
+    case RESOURCE.ALCHEMY:
+      return alchemyIcon;
+    case RESOURCE.SCIENCE:
+      return scienceIcon;
+    default:
+      return "";
   }
 };

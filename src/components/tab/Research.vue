@@ -1,19 +1,27 @@
 <template>
-  <div class="container">
-    <template v-for="research in researchList" :key="research.name">
-      <button
-        :disabled="!canAfford(research)"
-        @click="unlockResearch(research)"
-        v-if="!research.unlocked && research.requirement()"
-      >
-        <p class="title">{{ research.name }}</p>
-        <p>{{ research.description }}</p>
-        <div class="cost">
-          <p>{{ research.cost }}</p>
-          <Icon :path="scienceIcon" :size="20" />
-        </div>
-      </button>
-    </template>
+  <div class="research-tab">
+    <section class="research-list">
+      <template v-for="research in researchList" :key="research.name">
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props }">
+            <button
+              class="research"
+              @click="unlockResearch(research)"
+              :disabled="!canAfford(research)"
+              v-if="!research.unlocked && research.requirement()"
+              v-bind="props"
+            >
+              <h2 class="research-name">{{ research.name }}</h2>
+            </button>
+          </template>
+          <span>{{ research.description }}</span>
+          <div class="research-cost">
+            <p>Costs: {{ research.cost }}</p>
+            <Icon :path="scienceIcon" :size="20" />
+          </div>
+        </v-tooltip>
+      </template>
+    </section>
   </div>
 </template>
 
@@ -37,46 +45,50 @@ const canAfford = computed(() => {
 </script>
 
 <style scoped>
-.title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.container {
-  margin-top: 1rem;
-  margin-left: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  height: 100%;
+.research-tab {
   width: 100%;
-}
-button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
-  border: 1px solid #f1f1f1;
-  padding: 1rem;
+  color: #ffffff;
+  margin-left: 1rem;
+}
+
+.research-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+}
+
+.research {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid white;
   background-color: #2b2b2b;
   text-align: center;
-  width: 20rem;
-  height: 9rem;
-
+  justify-content: center;
+  padding: 1rem;
+  height: 100%;
+  width: 15rem;
   &:hover {
     cursor: pointer;
     background-color: #3a3939;
   }
 }
 
-p {
-  margin: 0;
-  color: #ffffff;
-}
-
-.cost {
+.research-cost {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.p {
+  font-size: 1.2em;
+  margin: 0;
+  font-weight: bold;
 }
 </style>

@@ -1,26 +1,32 @@
 <template>
   <div class="buildings-container">
     <section class="building-list">
-      <button
-        v-for="(building, index) in buildings"
-        :key="index"
-        class="building-item"
-        @click="buyBuilding(index)"
-        :disabled="!canAfford(index)"
-      >
-        <Icon :path="building.icon" :size="76" />
-        <div class="building-description">
-          <h2>{{ building.name }} ({{ building.quantity }})</h2>
+      <template v-for="(building, index) in buildings" :key="index">
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props }">
+            <button
+              class="building-item"
+              @click="buyBuilding(index)"
+              :disabled="!canAfford(index)"
+              v-bind="props"
+            >
+              <Icon :path="building.icon" :size="76" />
+              <div class="building-description">
+                <h2>{{ building.name }} ({{ building.quantity }})</h2>
+              </div>
+            </button>
+          </template>
+          <span>{{ building.description }}</span>
           <div
             v-for="(cost, costIndex) in building.cost"
             :key="costIndex"
             class="cost"
           >
-            <p>{{ cost.value }}</p>
-            <Icon :path="icon(cost.key)" :size="20" />
+            <p>Costs: {{ cost.value }}</p>
+            <Icon :path="getResourceIcon(cost.key)" :size="20" />
           </div>
-        </div>
-      </button>
+        </v-tooltip>
+      </template>
     </section>
   </div>
 </template>
@@ -30,29 +36,10 @@ import { computed } from "vue";
 import { useBuildings } from "../../composable/useBuildings";
 import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
-import { RESOURCE } from "../../types";
-import {
-  alchemyIcon,
-  miningIcon,
-  moneyIcon,
-  scienceIcon,
-} from "../../icons/icons";
+import { getResourceIcon } from "../../utils/resourceUtil";
 
 const { buildings, buyBuilding } = useBuildings();
 const { resources } = useResource();
-
-const icon = (resource: RESOURCE) => {
-  switch (resource) {
-    case RESOURCE.MONEY:
-      return moneyIcon;
-    case RESOURCE.MINING:
-      return miningIcon;
-    case RESOURCE.ALCHEMY:
-      return alchemyIcon;
-    case RESOURCE.SCIENCE:
-      return scienceIcon;
-  }
-};
 
 const canAfford = computed(() => {
   return (index: number) => {
@@ -93,7 +80,7 @@ const canAfford = computed(() => {
   border: 1px solid #f1f1f1;
   padding: 1rem;
   background-color: #2b2b2b;
-  width: 15%;
+  width: 15rem;
   &:hover {
     cursor: pointer;
     background-color: #3a3939;
@@ -105,6 +92,7 @@ const canAfford = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .building-description h2 {
@@ -124,8 +112,5 @@ const canAfford = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  &:last-child {
-    margin-top: -0.55rem;
-  }
 }
 </style>

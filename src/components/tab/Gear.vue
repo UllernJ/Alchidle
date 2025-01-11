@@ -1,50 +1,62 @@
 <template>
   <div class="gear-container">
     <h2 class="title">Weapon</h2>
+
     <section class="gear-list">
-      <button
-        v-for="(weapon, index) in weapons"
-        :key="index"
-        class="gear-item"
-        @click="buyWeapon(index)"
-        :disabled="!canAffordWeapon(index)"
-      >
-        <Icon :path="weapon.path" :size="76" />
-        <div class="gear-description">
-          <h2>{{ weapon.name }}</h2>
-          <div class="cost">
-            <p>{{ weapon.damage }}</p>
-            <Icon :path="attackIcon" :size="20" />
-          </div>
+      <template v-for="(weapon, index) in weapons" :key="index">
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props }">
+            <button
+              class="gear-item"
+              @click="buyWeapon(index)"
+              :disabled="!canAffordWeapon(index)"
+              v-bind="props"
+            >
+              <Icon :path="weapon.path" :size="76" />
+              <div class="gear-description">
+                <h2>{{ weapon.name }}</h2>
+                <div class="cost">
+                  <p>{{ weapon.damage }}</p>
+                  <Icon :path="attackIcon" :size="20" />
+                </div>
+              </div>
+            </button>
+          </template>
           <div class="cost">
             <p>{{ weapon.cost }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
-        </div>
-      </button>
+        </v-tooltip>
+      </template>
     </section>
+
     <h2 class="title">Armor</h2>
     <section class="gear-list">
-      <button
-        v-for="(armor, index) in armors"
-        :key="index"
-        class="gear-item"
-        @click="buyArmor(index)"
-        :disabled="!canAffordArmor(index)"
-      >
-        <Icon :path="armor.path" :size="76" />
-        <div class="gear-description">
-          <h2>{{ armor.name }}</h2>
-          <div class="cost">
-            <p>{{ armor.defense }}</p>
-            <Icon :path="defenceIcon" :size="20" />
-          </div>
+      <template v-for="(armor, index) in armors" :key="index">
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props }">
+            <button
+              class="gear-item"
+              @click="buyArmor(index)"
+              :disabled="!canAffordArmor(index)"
+              v-bind="props"
+            >
+              <Icon :path="armor.path" :size="76" />
+              <div class="gear-description">
+                <h2>{{ armor.name }}</h2>
+                <div class="cost">
+                  <p>{{ armor.defense }}</p>
+                  <Icon :path="defenceIcon" :size="20" />
+                </div>
+              </div>
+            </button>
+          </template>
           <div class="cost">
             <p>{{ armor.cost }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
-        </div>
-      </button>
+        </v-tooltip>
+      </template>
     </section>
   </div>
 </template>

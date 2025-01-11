@@ -25,7 +25,7 @@ const initialWorkerStations: WorkerStation[] = [
     resource: RESOURCE.MONEY,
     numberOfWorkers: 0,
     cost: 50,
-    description: "Gathers food",
+    description: "Manages your economy.",
     icon: bankerIcon,
   },
   {
@@ -34,7 +34,7 @@ const initialWorkerStations: WorkerStation[] = [
     resource: RESOURCE.MINING,
     numberOfWorkers: 0,
     cost: 50,
-    description: "Mines for resources",
+    description: "Mines for ores.",
     icon: minerIcon,
   },
   {
@@ -43,7 +43,7 @@ const initialWorkerStations: WorkerStation[] = [
     resource: RESOURCE.ALCHEMY,
     numberOfWorkers: 0,
     cost: 50,
-    description: "Gather herbs for alchemy",
+    description: "Gather herbs for alchemy.",
     icon: alchemistIcon,
   },
   {
@@ -52,7 +52,7 @@ const initialWorkerStations: WorkerStation[] = [
     resource: RESOURCE.SCIENCE,
     numberOfWorkers: 0,
     cost: 50,
-    description: "Mad man",
+    description: "Researches new technologies.",
     icon: scientistIcon,
   },
 ];

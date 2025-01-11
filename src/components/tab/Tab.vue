@@ -11,12 +11,14 @@
         </button>
       </li>
     </ul>
-    <All v-if="currentState === TAB_STATE.ALL" />
-    <Workers v-else-if="currentState === TAB_STATE.WORKERS" />
-    <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
-    <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
-    <Gear v-else-if="currentState === TAB_STATE.GEAR" />
-    <Alchemy v-else-if="currentState === TAB_STATE.ALCHEMY" />
+    <div class="state-content">
+      <All v-if="currentState === TAB_STATE.ALL" />
+      <Workers v-else-if="currentState === TAB_STATE.WORKERS" />
+      <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
+      <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
+      <Gear v-else-if="currentState === TAB_STATE.GEAR" />
+      <Alchemy v-else-if="currentState === TAB_STATE.ALCHEMY" />
+    </div>
   </aside>
 </template>
 
@@ -35,6 +37,12 @@ const states = getStates();
 </script>
 
 <style scoped>
+.state-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .state-sidebar {
   background-color: #1a1a1a;
   display: flex;

@@ -20,9 +20,23 @@ export type Building = {
   resource: RESOURCE;
   quantity: number;
   icon?: string;
+  unlocked?: boolean;
 };
 
 const buildings = ref<Building[]>([
+  {
+    name: "Bank",
+    resource: RESOURCE.MONEY,
+    cost: [
+      {
+        key: RESOURCE.MONEY,
+        value: 100,
+      },
+    ],
+    description: "Increases your money storage by 100%.",
+    quantity: 0,
+    icon: bankIcon,
+  },
   {
     name: "Mine",
     resource: RESOURCE.MINING,
@@ -31,12 +45,8 @@ const buildings = ref<Building[]>([
         key: RESOURCE.MINING,
         value: 100,
       },
-      {
-        key: RESOURCE.MONEY,
-        value: 50,
-      },
     ],
-    description: "A mine to gather resources",
+    description: "Increases your mining storage by 100%.",
     quantity: 0,
     icon: mineIcon,
   },
@@ -48,12 +58,8 @@ const buildings = ref<Building[]>([
         key: RESOURCE.ALCHEMY,
         value: 100,
       },
-      {
-        key: RESOURCE.MONEY,
-        value: 50,
-      },
     ],
-    description: "An alchemy lab to transmute resources",
+    description: "Increases your alchemy storage by 100%.",
     quantity: 0,
     icon: alchemyLabIcon,
   },
@@ -65,31 +71,10 @@ const buildings = ref<Building[]>([
         key: RESOURCE.SCIENCE,
         value: 100,
       },
-      {
-        key: RESOURCE.MONEY,
-        value: 50,
-      },
     ],
-    description: "A science lab to research new technologies",
+    description: "Increases your science storage by 100%.",
     quantity: 0,
     icon: scienceLabIcon,
-  },
-  {
-    name: "Bank",
-    resource: RESOURCE.MONEY,
-    cost: [
-      {
-        key: RESOURCE.MONEY,
-        value: 100,
-      },
-      {
-        key: RESOURCE.MINING,
-        value: 50,
-      },
-    ],
-    description: "A bank to store your money",
-    quantity: 0,
-    icon: bankIcon,
   },
 ]);
 

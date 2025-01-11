@@ -45,17 +45,11 @@ const weapons = ref<Weapon[]>([
 ]);
 
 const armors = ref<Armor[]>([
-  { name: "Boots Armor", defense: 1, cost: 20, path: bootsIcon, quantity: 0 },
-  { name: "Hands Armor", defense: 2, cost: 50, path: handsIcon, quantity: 0 },
-  { name: "Pants Armor", defense: 5, cost: 100, path: pantsIcon, quantity: 0 },
-  {
-    name: "Hjelmet Armor",
-    defense: 10,
-    cost: 200,
-    path: helmetIcon,
-    quantity: 0,
-  },
-  { name: "Chest Plate", defense: 20, cost: 500, path: chestIcon, quantity: 0 },
+  { name: "Boots", defense: 1, cost: 20, path: bootsIcon, quantity: 0 },
+  { name: "Hands", defense: 2, cost: 50, path: handsIcon, quantity: 0 },
+  { name: "Pants", defense: 5, cost: 100, path: pantsIcon, quantity: 0 },
+  { name: "Hjelmet", defense: 10, cost: 200, path: helmetIcon, quantity: 0 },
+  { name: "Chestplate", defense: 20, cost: 500, path: chestIcon, quantity: 0 },
 ]);
 
 export const useGear = () => {

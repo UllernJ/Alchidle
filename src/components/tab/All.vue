@@ -10,7 +10,7 @@
     </section>
     <section v-if="!isEveryResearchUnlocked">
       <span class="title">Research</span>
-      <Research class="research" />
+      <Research />
     </section>
     <section>
       <span class="title">Gear</span>
@@ -52,7 +52,8 @@ const isEveryResearchUnlocked = computed(() => {
   margin-left: 1rem;
 }
 section {
-  padding: 1rem;
+  height: 100%;
+  width: 100%;
 }
 section:not(:first-child) {
   border-top: 1px solid #f1f1f1;
