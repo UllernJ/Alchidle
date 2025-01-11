@@ -155,6 +155,7 @@ const fetchNextMonsters = () => {
   align-items: center;
   gap: 1rem;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .monster-name {
@@ -164,12 +165,19 @@ const fetchNextMonsters = () => {
 }
 
 .health-bar {
-  height: 8%;
+  position: relative;
+  height: 12%;
   width: 100%;
   background-color: #444;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
   overflow: hidden;
+  & span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .health-bar-inner {
