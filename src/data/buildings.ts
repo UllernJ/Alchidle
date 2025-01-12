@@ -1,11 +1,6 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
-import {
-  bankIcon,
-  mineIcon,
-  scienceLabIcon,
-  alchemyLabIcon,
-} from "../icons/icons";
+import { bankIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 import { isDev } from "../utils/dev";
 import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
