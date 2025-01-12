@@ -27,6 +27,27 @@
           </div>
         </v-tooltip>
       </template>
+      <v-tooltip location="top" v-if="alchemyWorkers.required()">
+        <template v-slot:activator="{ props }">
+          <button
+            class="worker"
+            @click="buyAlchemist"
+            :disabled="!canAffordAlchemist"
+            v-bind="props"
+          >
+            <Icon :path="alchemistIcon" :size="80" />
+            <div class="worker-description">
+              <h2>
+                {{ alchemyWorkers.name }} ({{ alchemyWorkers.numberOfWorkers }})
+              </h2>
+            </div>
+          </button>
+        </template>
+        <div class="worker-cost">
+          <p class="worker-count">Costs: {{ alchemyWorkers.cost.value }}</p>
+          <Icon :path="moneyIcon" :size="20" />
+        </div>
+      </v-tooltip>
     </section>
   </div>
 </template>
@@ -37,10 +58,12 @@ import { useResource } from "../../composable/useResource";
 import { useWorkers } from "../../composable/useWorkers";
 import { RESOURCE, type WorkerStation } from "../../types";
 import Icon from "../Icon.vue";
-import { moneyIcon } from "../../icons/icons";
+import { alchemistIcon, moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
+import { useAlchemy } from "../../composable/useAlchemy";
 
 const { workerStations, addWorker } = useWorkers();
+const { alchemyWorkers, buyAlchemist } = useAlchemy();
 
 const { resources } = useResource();
 
@@ -48,6 +71,10 @@ const canAfford = computed(() => {
   return (worker: WorkerStation) => {
     return resources[RESOURCE.MONEY].value >= worker.cost;
   };
+});
+
+const canAffordAlchemist = computed(() => {
+  return resources[RESOURCE.MONEY].value >= alchemyWorkers.value.cost.value;
 });
 </script>
 

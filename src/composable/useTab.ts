@@ -13,6 +13,7 @@ export enum TAB_STATE {
 type Tab = {
   name: TAB_STATE;
   unlocked?: () => boolean;
+  alert?: boolean;
 };
 
 const ALL = ref<Tab>({ name: TAB_STATE.ALL });
@@ -23,13 +24,17 @@ const GEAR = ref<Tab>({ name: TAB_STATE.GEAR });
 export const ALCHEMY = ref<Tab>({
   name: TAB_STATE.ALCHEMY,
   unlocked: () => unlockAlchemyResearch.value.unlocked,
+  alert: true,
 });
 
 const currentState = ref<TAB_STATE>(TAB_STATE.ALL);
 
 export const useTab = () => {
-  const setState = (val: TAB_STATE) => {
-    currentState.value = val;
+  const setState = (val: Tab) => {
+    currentState.value = val.name;
+    if (val.alert) {
+      val.alert = false;
+    }
   };
   const getStates = (): Ref<Tab[]> => {
     return ref([

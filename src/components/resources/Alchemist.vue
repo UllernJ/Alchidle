@@ -1,13 +1,19 @@
 <template>
-  <div class="money-container">
+  <div class="container">
     <div class="header">
       <Icon :path="alchemyWorkers.icon" :size="40" />
-      <span>Alchemists</span>
+      <span>Alchemy</span>
     </div>
-    <span class="styled-button">
-      Workers: {{ alchemyWorkers.numberOfWorkers }}
-    </span>
-    <span> Effiency: {{ alchemyWorkers.efficiency }}x</span>
+    <div class="alchemy-info">
+      <span>
+        {{
+          alchemyWorkers.numberOfWorkers === 0
+            ? "You should hire alchemists to start infusing!"
+            : `Workers: ${alchemyWorkers.numberOfWorkers}`
+        }}
+      </span>
+      <span> Effiency: {{ alchemyWorkers.efficiency }}x</span>
+    </div>
   </div>
 </template>
 
@@ -19,13 +25,12 @@ const { alchemyWorkers } = useAlchemy();
 </script>
 
 <style scoped>
-.money-container {
+.container {
   background-color: #1a1a1a;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.33rem;
   border: 1px solid #f1f1f1;
   box-sizing: border-box;
   height: 100%;
@@ -44,12 +49,12 @@ const { alchemyWorkers } = useAlchemy();
   font-size: 1.5em;
 }
 
-.styled-button {
-  width: 12rem;
-  padding: 0.33rem 2rem;
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
-  }
+.alchemy-info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 </style>

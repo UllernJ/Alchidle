@@ -3,6 +3,8 @@ import { getInfusions } from "../data/alchemy";
 import { RESOURCE } from "../types";
 import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 import { alchemyIcon } from "../icons/icons";
+import { useResource } from "./useResource";
+import { isDev } from "../utils/dev";
 
 const employedAlchemists = computed(() => {
   let count = 0;
@@ -18,9 +20,9 @@ const alchemyWorkers = ref({
   efficiency: 1,
   cost: {
     key: RESOURCE.MONEY,
-    value: 100,
+    value: isDev ? 1 : 100,
   },
-  required: unlockAlchemyResearch.value.unlocked,
+  required: () => unlockAlchemyResearch.value.unlocked,
   icon: alchemyIcon,
 });
 const alchemistCount = computed(
@@ -42,6 +44,17 @@ export const useAlchemy = () => {
     }
   };
 
+  const buyAlchemist = () => {
+    const { resources, subtractResource } = useResource();
+    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value) {
+      subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
+      alchemyWorkers.value.numberOfWorkers++;
+      alchemyWorkers.value.cost.value = Math.round(
+        Math.pow(alchemyWorkers.value.cost.value, 1.15)
+      );
+    }
+  };
+
   return {
     infusions,
     alchemistCount,
@@ -49,5 +62,6 @@ export const useAlchemy = () => {
     allocateAlchemist,
     deallocateAlchemist,
     alchemyWorkers,
+    buyAlchemist,
   };
 };

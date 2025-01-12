@@ -2,7 +2,6 @@
 
 ## Todo
 
-- Money is too OP, a player will always focus money
 - Make combat more balanced
 
 - Infusions
@@ -12,6 +11,10 @@
 
 - Handle insane big numbers -> CHECK OUT ARRAY HANDLING
 
+- 50 50 chance of who attacks first
+
+## Somewhat finished
+
 - Punish player if dies -> lose resources or gear?
 
-- 50 50 chance of who attacks first
+- Money is too OP, a player will always focus money

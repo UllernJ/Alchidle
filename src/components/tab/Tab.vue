@@ -4,7 +4,7 @@
       <li class="state-item" v-for="state in states" :key="state.name">
         <button
           class="state-button"
-          @click="setState(state.name)"
+          @click="setState(state)"
           :class="{ active: state.name === currentState }"
           :disabled="state.unlocked && !state.unlocked()"
         >
@@ -13,6 +13,12 @@
             <v-icon
               :icon="mdiLock"
               v-if="state.unlocked && !state.unlocked()"
+            />
+            <v-icon
+              v-else-if="state.alert"
+              :icon="mdiAlertBox"
+              color="warning"
+              class="alert-icon"
             />
           </div>
         </button>
@@ -37,7 +43,7 @@ import Buildings from "./Buildings.vue";
 import Gear from "./Gear.vue";
 import Research from "./Research.vue";
 import Workers from "./Workers.vue";
-import { mdiLock } from "@mdi/js";
+import { mdiLock, mdiAlertBox } from "@mdi/js";
 
 const { getStates, setState, currentState } = useTab();
 
@@ -105,5 +111,21 @@ const states = getStates();
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+@keyframes alert-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.alert-icon {
+  animation: alert-blink 1s infinite;
 }
 </style>
