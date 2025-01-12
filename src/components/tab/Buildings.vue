@@ -9,7 +9,7 @@
           <template v-slot:activator="{ props }">
             <button
               class="building-item"
-              @click="buyBuilding(index)"
+              @click="upgradeBuilding(index)"
               :disabled="!canAfford(index)"
               v-bind="props"
             >
@@ -41,7 +41,7 @@ import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 
-const { buildings, buyBuilding } = useBuildings();
+const { buildings } = useBuildings();
 const { resources } = useResource();
 
 const canAfford = computed(() => {
@@ -55,6 +55,11 @@ const canAfford = computed(() => {
     return true;
   };
 });
+
+const upgradeBuilding = (index: number) => {
+  const building = buildings.value[index];
+  building.upgrade();
+};
 </script>
 
 <style scoped>

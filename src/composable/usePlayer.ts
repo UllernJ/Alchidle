@@ -5,7 +5,7 @@ import { isDev } from "../utils/dev";
 import { useResource } from "./useResource";
 
 const currentFocus = ref<RESOURCE | null>(null);
-const productionRate = ref<number>(1);
+const productionRate = ref<number>(isDev ? 100 : 1);
 const attackPowerMultiplier = ref<number>(isDev ? 1000 : 1);
 const defencePowerMultiplier = ref<number>(isDev ? 1000 : 1);
 const health = ref<number>(100);

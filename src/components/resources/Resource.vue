@@ -97,7 +97,7 @@ const gatherMessage = computed(() => {
 .loading-bar {
   height: 100%;
   background: #ffcc00;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.5s ease-in-out;
   border-radius: 8px;
 }
 

@@ -163,7 +163,7 @@ const getColorFromName = (name: string) => {
   height: 100%;
   background-color: green;
   border-radius: 8px;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.5s ease-in-out;
 }
 
 .infusion-progress,

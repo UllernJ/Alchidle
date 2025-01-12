@@ -13,6 +13,8 @@
 
 - 50 50 chance of who attacks first
 
+- Fix session storage (its shit rn)
+
 ## Somewhat finished
 
 - Punish player if dies -> lose resources or gear?
