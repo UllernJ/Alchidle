@@ -3,19 +3,12 @@ import type { WorkerStation } from "../types";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
-import {
-  alchemistIcon,
-  bankerIcon,
-  minerIcon,
-  scientistIcon,
-} from "../icons/icons";
+import { bankerIcon, minerIcon, scientistIcon } from "../icons/icons";
 import { MessageType, useMessage } from "./useMessage";
-import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 
 export enum WORKER {
   BANKER = "Banker",
   MINER = "Miner",
-  ALCHEMIST = "Alchemist",
   SCIENTIST = "Scientist",
 }
 
@@ -46,16 +39,6 @@ const initialWorkerStations: WorkerStation[] = [
     cost: 50,
     description: "Researches new technologies.",
     icon: scientistIcon,
-  },
-  {
-    name: WORKER.ALCHEMIST,
-    rate: 1,
-    resource: RESOURCE.ALCHEMY,
-    numberOfWorkers: 0,
-    cost: 50,
-    description: "Gather herbs for alchemy.",
-    icon: alchemistIcon,
-    requirement: () => unlockAlchemyResearch.value.unlocked,
   },
 ];
 const workerStations = ref<WorkerStation[]>(initialWorkerStations);
@@ -130,9 +113,6 @@ export const useWorkers = () => {
     addWorker,
     gatherResources,
     upgradeWorkerRate,
-    alchemists: computed(() =>
-      workerStations.value.find((w) => w.name === WORKER.ALCHEMIST)
-    ),
     calculateGeneratedResources,
   };
 };

@@ -1,9 +1,9 @@
-import { computed } from "vue";
-import { useWorkers } from "./useWorkers";
+import { computed, ref } from "vue";
 import { getInfusions } from "../data/alchemy";
+import { RESOURCE } from "../types";
+import { unlockAlchemyResearch } from "../data/research/research.alchemy";
+import { alchemistIcon, alchemyIcon } from "../icons/icons";
 
-const { alchemists } = useWorkers();
-const alchemistCount = computed(() => alchemists.value?.numberOfWorkers || 0);
 const employedAlchemists = computed(() => {
   let count = 0;
   for (const infusion of infusions.value) {
@@ -12,6 +12,20 @@ const employedAlchemists = computed(() => {
   return count;
 });
 const infusions = getInfusions();
+const alchemyWorkers = ref({
+  name: "Alchemist",
+  numberOfWorkers: 0,
+  efficiency: 1,
+  cost: {
+    key: RESOURCE.MONEY,
+    value: 100,
+  },
+  required: unlockAlchemyResearch.value.unlocked,
+  icon: alchemyIcon,
+});
+const alchemistCount = computed(
+  () => alchemyWorkers.value.numberOfWorkers || 0
+);
 
 export const useAlchemy = () => {
   const allocateAlchemist = (index: number) => {
@@ -34,5 +48,6 @@ export const useAlchemy = () => {
     employedAlchemists,
     allocateAlchemist,
     deallocateAlchemist,
+    alchemyWorkers,
   };
 };

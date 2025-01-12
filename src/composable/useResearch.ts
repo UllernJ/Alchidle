@@ -17,10 +17,12 @@ export const useResearch = () => {
       );
       return;
     }
-    if (!research.unlocked && research.effect) {
+    if (!research.unlocked) {
       subtractResource(RESOURCE.SCIENCE, research.cost);
-      research.effect();
       research.unlocked = true;
+    }
+    if (research.effect) {
+      research.effect();
     }
   };
 

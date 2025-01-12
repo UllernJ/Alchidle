@@ -64,20 +64,20 @@ const buildings = ref<Building[]>([
     quantity: 0,
     icon: scienceLabIcon,
   },
-  {
-    name: "Alchemy Lab",
-    resource: RESOURCE.ALCHEMY,
-    cost: [
-      {
-        key: RESOURCE.ALCHEMY,
-        value: 100,
-      },
-    ],
-    description: "Increases your alchemy storage by 100%.",
-    quantity: 0,
-    icon: alchemyLabIcon,
-    requirement: () => unlockAlchemyResearch.value.unlocked,
-  },
+  // {
+  //   name: "Alchemy Lab",
+  //   resource: null,
+  //   cost: [
+  //     {
+  //       key: RESOURCE.MONEY,
+  //       value: 100,
+  //     },
+  //   ],
+  //   description: "Increases your alchemy storage by 100%.",
+  //   quantity: 0,
+  //   icon: alchemyLabIcon,
+  //   requirement: () => unlockAlchemyResearch.value.unlocked,
+  // },
 ]);
 
 export const useBuildings = () => {

@@ -1,5 +1,5 @@
 import { ref, type Ref } from "vue";
-import { alchemyResearch } from "../data/research/research.alchemy";
+import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 
 export enum TAB_STATE {
   ALL = "All",
@@ -22,7 +22,7 @@ const RESEARCH = ref<Tab>({ name: TAB_STATE.RESEARCH });
 const GEAR = ref<Tab>({ name: TAB_STATE.GEAR });
 export const ALCHEMY = ref<Tab>({
   name: TAB_STATE.ALCHEMY,
-  unlocked: () => alchemyResearch.value.unlocked,
+  unlocked: () => unlockAlchemyResearch.value.unlocked,
 });
 
 const currentState = ref<TAB_STATE>(TAB_STATE.ALL);

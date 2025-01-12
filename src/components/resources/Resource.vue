@@ -27,10 +27,8 @@ const gatherMessage = computed(() => {
     return "Stealing money...";
   } else if (currentFocus.value === RESOURCE.MINING) {
     return "Mining rocks...";
-  } else if (currentFocus.value === RESOURCE.ALCHEMY) {
-    return "Brewing potions...";
   } else if (currentFocus.value === RESOURCE.SCIENCE) {
-    return "Studying science...";
+    return "Studying...";
   }
 });
 </script>

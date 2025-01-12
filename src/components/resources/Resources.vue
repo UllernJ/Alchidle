@@ -3,23 +3,15 @@
     <Resource :type="RESOURCE.MONEY" :icon="moneyIcon" />
     <Resource :type="RESOURCE.MINING" :icon="miningIcon" />
     <Resource :type="RESOURCE.SCIENCE" :icon="scienceIcon" />
-    <Resource
-      :type="RESOURCE.ALCHEMY"
-      :icon="alchemyIcon"
-      v-if="unlockAlchemyResearch.unlocked"
-    />
+    <Alchemist v-if="unlockAlchemyResearch.unlocked" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import { unlockAlchemyResearch } from "../../data/research/research.alchemy";
-import {
-  moneyIcon,
-  alchemyIcon,
-  miningIcon,
-  scienceIcon,
-} from "../../icons/icons";
+import { moneyIcon, miningIcon, scienceIcon } from "../../icons/icons";
 import { RESOURCE } from "../../types";
+import Alchemist from "./Alchemist.vue";
 import Resource from "./Resource.vue";
 </script>
 

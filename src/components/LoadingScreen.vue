@@ -1,38 +1,45 @@
 <template>
-  <div v-if="isLoading" class="loading-screen">
-    <div class="loading-container">
-      <div class="loading-spinner">
-        <svg viewBox="0 0 50 50">
-          <circle
-            cx="25"
-            cy="25"
-            r="20"
-            fill="none"
-            stroke-width="5"
-            stroke="#fff"
-            stroke-linecap="round"
-          />
-        </svg>
+  <v-overlay
+    :model-value="isLoading || showWelcomeBack"
+    location="top center"
+    origin="overlap"
+    class="loading-screen"
+  >
+    <div v-if="isLoading">
+      <div class="loading-container">
+        <div class="loading-spinner">
+          <svg viewBox="0 0 50 50">
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke-width="5"
+              stroke="#fff"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-if="showWelcomeBack" class="welcome-back-screen">
-    <div class="welcome-back-container">
-      <h2>Welcome Back!</h2>
-      <p>You were gone for {{ formatElapsedTime(elapsedTime) }}.</p>
-      <p>
-        Note that resources generated while you are away are only 25% of the
-        actual rate.
-      </p>
-      <ul>
-        <p>Resources generated while you were away:</p>
-        <li v-for="(amount, resource) in generatedResources" :key="resource">
-          {{ resource }}: {{ formatNumber(amount) }}
-        </li>
-      </ul>
-      <button @click="closeWelcomeBack">Close</button>
+    <div v-if="showWelcomeBack" class="welcome-back-screen">
+      <div class="welcome-back-container">
+        <h2>Welcome Back!</h2>
+        <p>You were gone for {{ formatElapsedTime(elapsedTime) }}.</p>
+        <p>
+          Note that resources generated while you are away are only 25% of the
+          actual rate.
+        </p>
+        <ul>
+          <p>Resources generated while you were away:</p>
+          <li v-for="(amount, resource) in generatedResources" :key="resource">
+            {{ resource }}: {{ formatNumber(amount) }}
+          </li>
+        </ul>
+        <button @click="closeWelcomeBack">Close</button>
+      </div>
     </div>
-  </div>
+  </v-overlay>
 </template>
 
 <script setup lang="ts">
@@ -105,9 +112,6 @@ const closeWelcomeBack = () => {
 }
 
 .welcome-back-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);

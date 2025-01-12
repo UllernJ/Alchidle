@@ -1,10 +1,6 @@
 import { ref } from "vue";
 import type { Research } from "../research";
-import { useWorkers, WORKER } from "../../composable/useWorkers";
 import { useMonsters } from "../../composable/useMonsters";
-
-const { upgradeWorkerRate } = useWorkers();
-const { map } = useMonsters();
 
 export const unlockAlchemyResearch = ref<Research>({
   name: "Alchemy",
@@ -12,8 +8,10 @@ export const unlockAlchemyResearch = ref<Research>({
     "Unlock the secrets of alchemy. Enchant every aspect of your life.",
   cost: 0,
   unlocked: false,
-  effect: () => {},
-  requirement: () => map.value >= 1,
+  requirement: () => {
+    const { map } = useMonsters();
+    return map.value >= 0;
+  },
 });
 
 export const alchemyResearch = ref<Research>({
@@ -21,9 +19,7 @@ export const alchemyResearch = ref<Research>({
   description: "Improves your alchemists, doubling their efficiency (2x).",
   cost: 100,
   unlocked: false,
-  effect: () => {
-    upgradeWorkerRate(WORKER.ALCHEMIST);
-  },
+  effect: () => {},
   requirement: () => unlockAlchemyResearch.value.unlocked,
 });
 
@@ -33,8 +29,6 @@ export const advancedAlchemyResearch = ref<Research>({
     "Further improves your alchemists, doubling their efficiency (2x).",
   cost: 200,
   unlocked: false,
-  effect: () => {
-    upgradeWorkerRate(WORKER.ALCHEMIST);
-  },
+  effect: () => {},
   requirement: () => alchemyResearch.value.unlocked,
 });

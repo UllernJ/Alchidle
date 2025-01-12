@@ -9,8 +9,6 @@ const resources = {
   [`max${RESOURCE.MINING}`]: ref<number>(200),
   [RESOURCE.SCIENCE]: ref<number>(0),
   [`max${RESOURCE.SCIENCE}`]: ref<number>(200),
-  [RESOURCE.ALCHEMY]: ref<number>(0),
-  [`max${RESOURCE.ALCHEMY}`]: ref<number>(200),
 };
 
 export const useResource = () => {
