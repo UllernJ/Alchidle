@@ -55,6 +55,18 @@ export const useAlchemy = () => {
     }
   };
 
+  const upgradeAlchemists = () => {
+    alchemyWorkers.value.efficiency *= 2;
+  };
+
+  const infusionProduction = () => {
+    for (const infusion of infusions.value) {
+      infusion.contribute(
+        infusion.workersAllocated * alchemyWorkers.value.efficiency
+      );
+    }
+  };
+
   return {
     infusions,
     alchemistCount,
@@ -63,5 +75,7 @@ export const useAlchemy = () => {
     deallocateAlchemist,
     alchemyWorkers,
     buyAlchemist,
+    upgradeAlchemists,
+    infusionProduction,
   };
 };
