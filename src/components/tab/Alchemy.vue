@@ -23,7 +23,7 @@
           </div>
         </section>
         <p class="infusion-progress">
-          {{ infusion.contribution }} / {{ infusion.cost }}
+          {{ infusion.contribution }} / {{ Math.round(infusion.cost) }}
         </p>
         <p class="infusion-workers">Workers: {{ infusion.workersAllocated }}</p>
         <section class="infusion-buttons">
