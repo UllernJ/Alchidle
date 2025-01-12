@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  path: string;
+  path: string | undefined;
   size: number;
   color?: string;
 }>();
