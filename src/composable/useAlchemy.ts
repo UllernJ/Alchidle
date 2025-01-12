@@ -2,7 +2,7 @@ import { computed, ref } from "vue";
 import { getInfusions } from "../data/alchemy";
 import { RESOURCE } from "../types";
 import { unlockAlchemyResearch } from "../data/research/research.alchemy";
-import { alchemistIcon, alchemyIcon } from "../icons/icons";
+import { alchemyIcon } from "../icons/icons";
 
 const employedAlchemists = computed(() => {
   let count = 0;

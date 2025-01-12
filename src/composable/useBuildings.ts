@@ -1,13 +1,7 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
 import { useResource } from "./useResource";
-import {
-  alchemyLabIcon,
-  bankIcon,
-  mineIcon,
-  scienceLabIcon,
-} from "../icons/icons";
-import { unlockAlchemyResearch } from "../data/research/research.alchemy";
+import { bankIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 
 type Cost = {
   key: RESOURCE;

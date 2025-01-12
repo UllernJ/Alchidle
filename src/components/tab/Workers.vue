@@ -15,10 +15,7 @@
                 <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>
                 <div class="worker-rate">
                   <p>+{{ worker.rate }}/s</p>
-                  <Icon
-                    :path="getResourceIcon(worker.resource) || null"
-                    :size="20"
-                  />
+                  <Icon :path="getResourceIcon(worker.resource)" :size="20" />
                 </div>
               </div>
             </button>

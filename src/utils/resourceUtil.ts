@@ -1,9 +1,4 @@
-import {
-  alchemyIcon,
-  miningIcon,
-  moneyIcon,
-  scienceIcon,
-} from "../icons/icons";
+import { miningIcon, moneyIcon, scienceIcon } from "../icons/icons";
 import { RESOURCE } from "../types";
 
 export const getRandomResource = (): RESOURCE => {
@@ -28,7 +23,7 @@ export const getResourceDropMessage = (
   }
 };
 
-export const getResourceIcon = (resource: RESOURCE | null): string => {
+export const getResourceIcon = (resource: RESOURCE): string => {
   switch (resource) {
     case RESOURCE.MONEY:
       return moneyIcon;

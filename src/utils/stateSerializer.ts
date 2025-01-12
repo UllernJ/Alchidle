@@ -62,9 +62,6 @@ export const serializeState = (state: SessionState) => {
   serializedState.armors.forEach((armor: Armor) => {
     delete armor.path;
   });
-  serializedState.workerStations.forEach((station: WorkerStation) => {
-    delete station.icon;
-  });
   serializedState.adventure.remainingMonsters.forEach((monster: Monster) => {
     delete monster.icon;
   });
