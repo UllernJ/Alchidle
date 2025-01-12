@@ -1,5 +1,5 @@
 import { useAlchemy } from "../composable/useAlchemy";
-import { useBuildings, type Building } from "../composable/useBuildings";
+import { useBuildings } from "../composable/useBuildings";
 import { useGear, type Armor, type Weapon } from "../composable/useGear";
 import { useMonsters } from "../composable/useMonsters";
 import { usePlayer } from "../composable/usePlayer";
@@ -7,6 +7,7 @@ import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 import type { Research } from "../data/research";
+import type { Building } from "../models/Building";
 import type { Infusion } from "../models/Infusion";
 import type { Monster } from "../models/Monster";
 import type { RESOURCE, WorkerStation } from "../types";

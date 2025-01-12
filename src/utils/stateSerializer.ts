@@ -1,4 +1,3 @@
-import type { Building } from "../composable/useBuildings";
 import type { Armor, Weapon } from "../composable/useGear";
 import type { Monster } from "../models/Monster";
 import {
@@ -26,6 +25,7 @@ import {
 } from "../icons/icons";
 import type { WorkerStation } from "../types";
 import type { SessionState } from "./localStorage";
+import type { Building } from "../models/Building";
 
 const iconMap: { [key: string]: string } = {
   Mine: mineIcon,
