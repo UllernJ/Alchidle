@@ -19,8 +19,8 @@
           :style="{ width: monsterHealthPercentage + '%' }"
         >
           <span
-            >{{ Math.round(currentMonster.health) }} /
-            {{ initialHealth ? Math.round(initialHealth) : null }}</span
+            >{{ formatNumber(currentMonster.health) }} /
+            {{ initialHealth ? formatNumber(initialHealth) : null }}</span
           >
         </div>
       </div>
@@ -50,6 +50,7 @@ import { useResource } from "../../composable/useResource";
 import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
+import { formatNumber } from "../../utils/number";
 
 const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
 const { getNextMonsters, map, currentMonster, defeatMonster } = useMonsters();

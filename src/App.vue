@@ -62,13 +62,6 @@ body,
   padding: 0;
 }
 
-.main-container {
-  display: grid;
-  grid-template-rows: 1fr 5fr;
-  height: 100%;
-  width: 100%;
-}
-
 .top-container {
   display: grid;
   grid-template-columns: 4fr 6fr;

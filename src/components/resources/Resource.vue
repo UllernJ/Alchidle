@@ -5,6 +5,7 @@ import { RESOURCE } from "../../types";
 import { useWorkers } from "../../composable/useWorkers";
 import { usePlayer } from "../../composable/usePlayer";
 import Icon from "../Icon.vue";
+import { formatNumber } from "../../utils/number";
 
 const { resources } = useResource();
 const { totalIncomePerSecond } = useWorkers();
@@ -39,10 +40,12 @@ const gatherMessage = computed(() => {
       <Icon :path="icon" :size="40" />
       <span>{{ type.toString() }}</span>
     </div>
-    <span> +{{ totalIncomePerSecond[props.type] }}/s</span>
+    <span>
+      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s</span
+    >
     <span>
       {{
-        `${Math.floor(resources[type].value)} / ${Math.floor(resources[`max${type}`].value)}`
+        `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
       }}
     </span>
     <div class="loading-bar-wrapper">

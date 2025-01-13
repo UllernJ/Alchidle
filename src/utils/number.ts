@@ -6,6 +6,6 @@ export const formatNumber = (num: number): string => {
   } else if (num >= 1e3) {
     return (num / 1e3).toFixed(1) + "K";
   } else {
-    return num.toString();
+    return Math.round(num).toString();
   }
 };

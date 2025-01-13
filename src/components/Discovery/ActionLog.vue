@@ -45,7 +45,15 @@ onMounted(() => {
   height: 100%;
   min-height: 100%;
   max-height: 15rem;
-
+  width: 100%;
+  background-image: url("../../assets/logo.png");
+  background-size: 25%;
+  background-position: bottom right;
+  background-position-x: 95%;
+  background-position-y: 95%;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-color: #1a1a1a;
   color: #fff;
 }
 
@@ -53,24 +61,28 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid #444;
+  box-sizing: border-box;
+  width: 100%;
+
+  height: fit-content;
 }
 
 .timestamp {
-  font-size: 1em;
+  font-size: 0.75em;
   color: #888;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
   margin-right: 0.5rem;
-  text-align: start;
   border-right: 1px solid #444;
-  min-width: 6rem;
   max-width: 5rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .message {
   padding: 0.5rem;
-  font-size: 1em;
+  font-size: 0.75em;
   text-align: start;
 }
 

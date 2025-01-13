@@ -66,10 +66,11 @@ const openDiscord = () => {
 
 <style scoped>
 .header {
+  max-height: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.85rem;
   background-color: #2b2b2b;
   border-left: 1px solid #f1f1f1;
   border-right: 1px solid #f1f1f1;
@@ -77,7 +78,7 @@ const openDiscord = () => {
 }
 
 .header-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: #ffffff;
 }
@@ -93,7 +94,7 @@ const openDiscord = () => {
   gap: 0.5rem;
   background-color: #2b2b2b;
   border: 1px solid #f1f1f1;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   color: #ffffff;

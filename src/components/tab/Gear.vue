@@ -16,14 +16,14 @@
               <div class="gear-description">
                 <h2>{{ weapon.name }}</h2>
                 <div class="cost">
-                  <p>{{ Math.round(weapon.damage) }}</p>
+                  <p>{{ formatNumber(weapon.damage) }}</p>
                   <Icon :path="attackIcon" :size="20" />
                 </div>
               </div>
             </button>
           </template>
           <div class="cost">
-            <p>Costs: {{ Math.round(weapon.cost) }}</p>
+            <p>Costs: {{ formatNumber(weapon.cost) }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>
@@ -45,14 +45,14 @@
               <div class="gear-description">
                 <h2>{{ armor.name }}</h2>
                 <div class="cost">
-                  <p>{{ Math.round(armor.defense) }}</p>
+                  <p>{{ formatNumber(armor.defense) }}</p>
                   <Icon :path="defenceIcon" :size="20" />
                 </div>
               </div>
             </button>
           </template>
           <div class="cost">
-            <p>Costs: {{ Math.round(armor.cost) }}</p>
+            <p>Costs: {{ formatNumber(armor.cost) }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>
@@ -68,6 +68,7 @@ import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { RESOURCE } from "../../types";
 import { attackIcon, defenceIcon, miningIcon } from "../../icons/icons";
+import { formatNumber } from "../../utils/number";
 
 const { weapons, armors, buyArmor, buyWeapon } = useGear();
 const { resources } = useResource();

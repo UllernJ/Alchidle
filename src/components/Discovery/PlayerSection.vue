@@ -3,19 +3,19 @@
     <h2>Stats</h2>
     <div class="PlayerStats">
       <div class="Stat">
-        <span>{{ Math.round(attackPower) }}</span>
+        <span>{{ formatNumber(attackPower) }}</span>
         <Icon :path="attackIcon" :size="24" />
       </div>
       <div class="Stat">
-        <span>{{ Math.round(defencePower) }}</span>
+        <span>{{ formatNumber(defencePower) }}</span>
         <Icon :path="defenceIcon" :size="24" />
       </div>
       <div class="Stat-regen">
-        <span> {{ Math.round(health) }} / {{ Math.round(maxHealth) }}</span>
+        <span> {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}</span>
         <Icon :path="healthIcon" :size="20" color="red" />
       </div>
       <div class="Stat-regen">
-        <span>+ {{ regen.toFixed(1) }}</span>
+        <span>+ {{ formatNumber(regen) }}</span>
         <Icon :path="healthIcon" :size="20" color="red" />
         <span>/s</span>
       </div>
@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { usePlayer } from "../../composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "../../icons/icons";
+import { formatNumber } from "../../utils/number";
 import Icon from "../Icon.vue";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
@@ -59,18 +60,18 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .Stat span {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
 }
 
 .Stat-regen {
-  font-size: 1em;
+  font-size: 0.75em;
   display: flex;
   align-items: center;
   gap: 0.1rem;

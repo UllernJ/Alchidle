@@ -23,7 +23,8 @@
           </div>
         </section>
         <p class="infusion-progress">
-          {{ infusion.contribution }} / {{ Math.round(infusion.cost) }}
+          {{ formatNumber(infusion.contribution) }} /
+          {{ formatNumber(infusion.cost) }}
         </p>
         <p class="infusion-workers">Workers: {{ infusion.workersAllocated }}</p>
         <section class="infusion-buttons">
@@ -51,6 +52,7 @@
 import { useAlchemy } from "../../composable/useAlchemy";
 import { infoIcon } from "../../icons/icons";
 import type { Infusion } from "../../models/Infusion";
+import { formatNumber } from "../../utils/number";
 import Icon from "../Icon.vue";
 
 const {
