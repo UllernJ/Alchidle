@@ -61,6 +61,10 @@ export const usePlayer = () => {
     regen.value *= multiplier;
   };
 
+  const setProductionRate = (value: number) => {
+    productionRate.value = value;
+  };
+
   const faint = () => {
     const { subtractResource, resources } = useResource();
     Object.values(RESOURCE).forEach((key) => {
@@ -87,5 +91,6 @@ export const usePlayer = () => {
     upgradeHealth,
     upgradeRegen,
     faint,
+    setProductionRate,
   };
 };

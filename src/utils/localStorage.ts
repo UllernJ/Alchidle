@@ -93,12 +93,12 @@ export const loadState = () => {
   if (!data) return;
   const {
     currentFocus,
-    productionRate,
     attackPowerMultiplier,
     defencePowerMultiplier,
     health,
     maxHealth,
     regen,
+    setProductionRate,
   } = usePlayer();
 
   const { armors, weapons } = useGear();
@@ -110,7 +110,7 @@ export const loadState = () => {
   const deserializedState = deserializeState(data);
 
   currentFocus.value = deserializedState.currentFocus;
-  productionRate.value = deserializedState.productionRate;
+  setProductionRate(deserializedState.productionRate);
   health.value = deserializedState.health;
   maxHealth.value = deserializedState.maxHealth;
   attackPowerMultiplier.value = deserializedState.attackPowerMultiplier;
