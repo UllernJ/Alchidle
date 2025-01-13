@@ -119,9 +119,10 @@ const upgradeBuilding = (index: number) => {
 
 .cost {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
+  font-size: 1.25em;
+  gap: 0.2rem;
 }
 
 .tooltip-header {
@@ -134,10 +135,6 @@ const upgradeBuilding = (index: number) => {
   margin-bottom: 0.5rem;
 }
 
-.tooltip-content span {
-  font-size: 1.25em;
-  margin-bottom: 0.5rem;
-}
 .cost {
   width: 100%;
   border-top: 1px solid #f1f1f1;

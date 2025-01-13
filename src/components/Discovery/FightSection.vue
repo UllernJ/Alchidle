@@ -18,7 +18,10 @@
           class="health-bar-inner"
           :style="{ width: monsterHealthPercentage + '%' }"
         >
-          <span>{{ currentMonster.health }} / {{ initialHealth }}</span>
+          <span
+            >{{ Math.round(currentMonster.health) }} /
+            {{ initialHealth ? Math.round(initialHealth) : null }}</span
+          >
         </div>
       </div>
     </section>
