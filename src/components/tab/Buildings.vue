@@ -50,7 +50,7 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 
 const { buildings } = useBuildings();
-const { resources, subtractResource } = useResource();
+const { resources } = useResource();
 
 const canAfford = computed(() => {
   return (index: number) => {
