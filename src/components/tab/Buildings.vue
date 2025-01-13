@@ -5,6 +5,7 @@
         <v-tooltip
           location="top"
           v-if="!building.requirement || building.requirement()"
+          content-class="custom-tooltip"
         >
           <template v-slot:activator="{ props }">
             <button
@@ -19,14 +20,21 @@
               </div>
             </button>
           </template>
-          <span>{{ building.description }}</span>
-          <div
-            v-for="(cost, costIndex) in building.cost"
-            :key="costIndex"
-            class="cost"
-          >
-            <p>Costs: {{ cost.value }}</p>
-            <Icon :path="getResourceIcon(cost.key)" :size="20" />
+          <div class="tooltip-content">
+            <div class="tooltip-header">
+              <h2>{{ building.name }}</h2>
+            </div>
+            <p class="description">{{ building.description }}</p>
+            <div class="building-costs">
+              <div
+                v-for="(cost, costIndex) in building.cost"
+                :key="costIndex"
+                class="cost"
+              >
+                <span>Costs: {{ cost.value }}</span>
+                <Icon :path="getResourceIcon(cost.key)" :size="20" />
+              </div>
+            </div>
           </div>
         </v-tooltip>
       </template>
@@ -42,7 +50,7 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 
 const { buildings } = useBuildings();
-const { resources } = useResource();
+const { resources, subtractResource } = useResource();
 
 const canAfford = computed(() => {
   return (index: number) => {
@@ -114,5 +122,27 @@ const upgradeBuilding = (index: number) => {
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
+}
+
+.tooltip-header {
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #f1f1f1;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.tooltip-content span {
+  font-size: 1.25em;
+  margin-bottom: 0.5rem;
+}
+.cost {
+  width: 100%;
+  border-top: 1px solid #f1f1f1;
+}
+.description {
+  font-size: 1.25em;
 }
 </style>

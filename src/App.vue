@@ -7,7 +7,9 @@ import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
-import { loadState, saveSession } from "./utils/localStorage";
+import { isFirstTime, loadState, saveSession } from "./utils/localStorage";
+import { MessageType } from "./composable/useMessage";
+import { useActionLog } from "./composable/useActionLog";
 
 let interval: number;
 let saveInterval: number;
@@ -15,6 +17,13 @@ const MINUTE = 60000;
 
 onMounted(() => {
   loadState();
+  if (isFirstTime()) {
+    const { logMessage } = useActionLog();
+    logMessage(
+      "You are born anew, in a new world, this looks familiar...",
+      MessageType.INFO
+    );
+  }
   interval = setInterval(backgroundActivity, 1000); // 1-second interval
   saveInterval = setInterval(() => {
     saveSession();
@@ -38,6 +47,7 @@ onUnmounted(() => {
   </main>
   <section class="content">
     <Tab />
+    <div></div>
   </section>
 </template>
 
@@ -51,5 +61,7 @@ main {
 }
 .content {
   margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 8fr 4fr;
 }
 </style>

@@ -154,3 +154,7 @@ const setInfusionEffect = (data: Infusion[]) => {
     }
   }
 };
+
+export const isFirstTime = () => {
+  return localStorage.getItem(KEY) === null;
+};

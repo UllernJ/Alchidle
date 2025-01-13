@@ -21,3 +21,17 @@ h2 {
   font-size: 1.3em;
   margin: 0;
 }
+
+/* Tooltip styles */
+.v-tooltip > .v-overlay__content {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: 1px solid #f1f1f1 !important;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  max-width: 22.5rem !important;
+  width: 100% !important;
+  color: #ffffff !important;
+  padding: 1rem !important;
+}

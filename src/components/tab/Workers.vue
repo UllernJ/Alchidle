@@ -2,7 +2,10 @@
   <div class="worker-tab">
     <section class="worker-list">
       <template v-for="worker in workerStations" :key="worker.name">
-        <v-tooltip location="top" v-if="!worker.requirement">
+        <v-tooltip
+          location="top"
+          v-if="!worker.requirement || worker.requirement()"
+        >
           <template v-slot:activator="{ props }">
             <button
               class="worker"
@@ -13,18 +16,24 @@
               <Icon :path="worker.icon" :size="80" />
               <div class="worker-description">
                 <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>
-                <div class="worker-rate">
-                  <p>+{{ worker.rate }}/s</p>
-                  <Icon :path="getResourceIcon(worker.resource)" :size="20" />
-                </div>
               </div>
             </button>
           </template>
-          <span>{{ worker.description }}</span>
-          <div class="worker-cost">
-            <p class="worker-count">Costs: {{ worker.cost }}</p>
-            <Icon :path="moneyIcon" :size="20" />
-          </div>
+          <section>
+            <div class="tooltip-header">
+              <h2>{{ worker.name }}</h2>
+            </div>
+            <p class="description">{{ worker.description }}</p>
+            <div class="worker-cost">
+              <span>Generates {{ worker.rate }}</span>
+              <Icon :path="getResourceIcon(worker.resource)" :size="20" />
+              <span>/s</span>
+            </div>
+            <div class="worker-cost">
+              <span>Costs: {{ worker.cost }}</span>
+              <Icon :path="moneyIcon" :size="20" />
+            </div>
+          </section>
         </v-tooltip>
       </template>
       <v-tooltip location="top" v-if="alchemyWorkers.required()">
@@ -43,10 +52,21 @@
             </div>
           </button>
         </template>
-        <div class="worker-cost">
-          <p class="worker-count">Costs: {{ alchemyWorkers.cost.value }}</p>
-          <Icon :path="moneyIcon" :size="20" />
-        </div>
+        <section class="tooltip-content">
+          <div class="tooltip-header">
+            <h2>{{ alchemyWorkers.name }}</h2>
+          </div>
+          <p class="description">Enchants every aspect of your life.</p>
+          <div class="worker-cost">
+            <span>Generates {{ alchemyWorkers.efficiency }}</span>
+            <Icon :path="alchemyIcon" :size="20" />
+            <span>/s</span>
+          </div>
+          <div class="worker-cost">
+            <span>Costs: {{ alchemyWorkers.cost.value }}</span>
+            <Icon :path="moneyIcon" :size="20" />
+          </div>
+        </section>
       </v-tooltip>
     </section>
   </div>
@@ -58,7 +78,7 @@ import { useResource } from "../../composable/useResource";
 import { useWorkers } from "../../composable/useWorkers";
 import { RESOURCE, type WorkerStation } from "../../types";
 import Icon from "../Icon.vue";
-import { alchemistIcon, moneyIcon } from "../../icons/icons";
+import { alchemistIcon, alchemyIcon, moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { useAlchemy } from "../../composable/useAlchemy";
 
@@ -111,6 +131,27 @@ const canAffordAlchemist = computed(() => {
   }
 }
 
+.tooltip-header {
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.worker-cost {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.25em;
+  gap: 0.2rem;
+  width: 100%;
+  &:last-child {
+    border-top: 1px solid #f1f1f1;
+    margin-top: 0.5rem;
+  }
+}
+
 .worker-description {
   width: 100%;
   display: flex;
@@ -119,24 +160,7 @@ const canAffordAlchemist = computed(() => {
   gap: 0.5rem;
 }
 
-.worker-cost {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-}
-
-.worker-rate {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-  font-size: 0.9em;
-}
-
-.p {
-  font-size: 1.2em;
-  margin: 0;
-  font-weight: bold;
+.description {
+  font-size: 1.25em;
 }
 </style>

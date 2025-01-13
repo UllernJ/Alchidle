@@ -15,6 +15,7 @@ const BANK = new Building(
       value: isDev ? 10 : 100,
     },
   ],
+  2,
   "Increases your money storage by 100%.",
   () => {
     upgradeStorage(RESOURCE.MONEY);
@@ -30,6 +31,7 @@ const MINE = new Building(
       value: 100,
     },
   ],
+  2,
   "Increases your mining storage by 100%.",
   () => {
     upgradeStorage(RESOURCE.MINING);
@@ -45,6 +47,7 @@ const SCIENCE_LAB = new Building(
       value: 100,
     },
   ],
+  2,
   "Increases your science storage by 100%.",
   () => {
     upgradeStorage(RESOURCE.SCIENCE);

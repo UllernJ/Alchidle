@@ -9,6 +9,7 @@ type Cost = {
 export class Building {
   name: string;
   cost: Cost[];
+  costMultiplier: number;
   description: string;
   effect: () => void;
   quantity: number;
@@ -18,6 +19,7 @@ export class Building {
   constructor(
     name: string,
     cost: Cost[],
+    costMultiplier: number,
     description: string,
     effect: () => void,
     quantity: number,
@@ -26,6 +28,7 @@ export class Building {
   ) {
     this.name = name;
     this.cost = cost;
+    this.costMultiplier = costMultiplier;
     this.description = description;
     this.effect = effect;
     this.quantity = quantity;
@@ -40,7 +43,7 @@ export class Building {
     });
     this.quantity += 1;
     this.cost.forEach((cost) => {
-      cost.value = Math.round(cost.value * 1.07);
+      cost.value = Math.round(cost.value * this.costMultiplier);
     });
     this.effect();
   }

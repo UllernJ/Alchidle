@@ -52,16 +52,17 @@ const states = getStates();
 
 <style scoped>
 .state-content {
-  display: flex;
-  flex-direction: column;
   width: 100%;
+  height: 45vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .state-sidebar {
   background-color: #1a1a1a;
   display: flex;
+  flex-direction: column;
   width: 100%;
-  min-height: 75vh;
   border: 1px solid #f1f1f1;
 }
 
@@ -70,31 +71,26 @@ const states = getStates();
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  width: 9rem;
-  border-right: 1px solid #f1f1f1;
+  width: 100%;
+  flex-direction: row;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .state-item {
-  text-align: left;
-
-  &:last-child {
-    border-bottom: 1px solid #f1f1f1;
-  }
-
-  &:not(:last-child, :first-child) {
-    border-top: 1px solid #f1f1f1;
-    border-bottom: 1px solid #f1f1f1;
+  width: 100%;
+  display: flex;
+  &:not(:last-child) {
+    border-right: 1px solid #f1f1f1;
   }
 }
 
 .state-button {
+  height: 100%;
   padding: 0.6rem 1.3rem;
   font-size: 0.9em;
   font-weight: bold;
   cursor: pointer;
   width: 100%;
-  text-align: left;
   &:hover {
     opacity: 0.8;
   }
@@ -108,9 +104,7 @@ const states = getStates();
 }
 
 .button-content {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  text-align: start;
 }
 
 @keyframes alert-blink {

@@ -3,8 +3,8 @@ import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 
 export enum TAB_STATE {
   ALL = "All",
-  BUILDINGS = "Buildings",
   WORKERS = "Workers",
+  BUILDINGS = "Buildings",
   RESEARCH = "Research",
   GEAR = "Gear",
   ALCHEMY = "Alchemy",
@@ -39,8 +39,8 @@ export const useTab = () => {
   const getStates = (): Ref<Tab[]> => {
     return ref([
       ALL.value,
-      BUILDINGS.value,
       WORKERS.value,
+      BUILDINGS.value,
       RESEARCH.value,
       GEAR.value,
       ALCHEMY.value,
