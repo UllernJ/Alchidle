@@ -53,7 +53,6 @@ const states = getStates();
 <style scoped>
 .state-content {
   width: 100%;
-  height: 45vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -86,7 +85,7 @@ const states = getStates();
 
 .state-button {
   height: 100%;
-  padding: 0.6rem 1.3rem;
+  padding: 0.8rem 1.3rem;
   font-size: 0.9em;
   font-weight: bold;
   cursor: pointer;

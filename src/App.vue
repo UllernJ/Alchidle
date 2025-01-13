@@ -41,27 +41,54 @@ onUnmounted(() => {
   <Popup />
 
   <IHeader />
-  <main>
-    <Resources />
-    <Discovery />
+  <main class="main-container">
+    <section class="top-container">
+      <Resources />
+      <Discovery />
+    </section>
+    <section class="content-container">
+      <Tab />
+      <div></div>
+    </section>
   </main>
-  <section class="content">
-    <Tab />
-    <div></div>
-  </section>
 </template>
 
 <style scoped>
-main {
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+  height: 100%;
+  width: 100%;
+}
+
+.top-container {
   display: grid;
   grid-template-columns: 4fr 6fr;
   gap: 1rem;
   overflow: hidden;
   height: 100%;
 }
-.content {
+
+.content-container {
   margin-top: 1rem;
   display: grid;
   grid-template-columns: 8fr 4fr;
+}
+
+@media (max-width: 1200px) {
+  .top-container {
+    grid-template-columns: 1fr;
+  }
+  .content-container {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

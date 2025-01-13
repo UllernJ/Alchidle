@@ -17,9 +17,6 @@ export const usePlayer = () => {
   const setFocus = (type: RESOURCE) => {
     currentFocus.value = type;
   };
-  const upgradeProductionRate = () => {
-    productionRate.value *= 2;
-  };
 
   const attackPower = computed(() => {
     const weaponPower = weapons.value.reduce(
@@ -52,6 +49,18 @@ export const usePlayer = () => {
     defencePowerMultiplier.value *= multiplier;
   };
 
+  const upgradeProductionRate = (multiplier: number = 1.1) => {
+    productionRate.value *= multiplier;
+  };
+
+  const upgradeHealth = (multiplier: number = 1.1) => {
+    maxHealth.value *= multiplier;
+  };
+
+  const upgradeRegen = (multiplier: number = 1.1) => {
+    regen.value *= multiplier;
+  };
+
   const faint = () => {
     const { subtractResource, resources } = useResource();
     Object.values(RESOURCE).forEach((key) => {
@@ -62,7 +71,7 @@ export const usePlayer = () => {
 
   return {
     currentFocus,
-    productionRate,
+    productionRate: computed(() => Math.round(productionRate.value)),
     attackPower,
     defencePower,
     health,
@@ -75,6 +84,8 @@ export const usePlayer = () => {
     regenHealth,
     upgradeAttackPower,
     upgradeDefensePower,
+    upgradeHealth,
+    upgradeRegen,
     faint,
   };
 };

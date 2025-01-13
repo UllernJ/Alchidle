@@ -12,7 +12,7 @@ export const efficiencyResearch = ref<Research>({
   cost: 100,
   unlocked: false,
   effect: () => {
-    upgradeProductionRate();
+    upgradeProductionRate(2);
   },
   requirement: () => true,
 });

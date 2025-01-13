@@ -3,19 +3,19 @@
     <h2>Stats</h2>
     <div class="PlayerStats">
       <div class="Stat">
-        <span>{{ Math.floor(attackPower) }}</span>
+        <span>{{ Math.round(attackPower) }}</span>
         <Icon :path="attackIcon" :size="24" />
       </div>
       <div class="Stat">
-        <span>{{ Math.floor(defencePower) }}</span>
+        <span>{{ Math.round(defencePower) }}</span>
         <Icon :path="defenceIcon" :size="24" />
       </div>
       <div class="Stat-regen">
-        <span> {{ health }} / {{ maxHealth }}</span>
+        <span> {{ Math.round(health) }} / {{ Math.round(maxHealth) }}</span>
         <Icon :path="healthIcon" :size="20" color="red" />
       </div>
       <div class="Stat-regen">
-        <span>+ {{ regen }}</span>
+        <span>+ {{ regen.toFixed(1) }}</span>
         <Icon :path="healthIcon" :size="20" color="red" />
         <span>/s</span>
       </div>
@@ -58,13 +58,19 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
   gap: 0.5rem;
 }
 
+h2 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
 .Stat span {
-  font-size: 1.25em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
 .Stat-regen {
-  font-size: 0.8em;
+  font-size: 1em;
   display: flex;
   align-items: center;
   gap: 0.1rem;

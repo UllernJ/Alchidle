@@ -73,5 +73,24 @@ export const useGear = () => {
     }
   };
 
-  return { weapons, armors, buyWeapon, buyArmor };
+  const upgradeWeapons = (multiplier: number = 1.1) => {
+    weapons.value.forEach((weapon) => {
+      weapon.damage *= multiplier;
+    });
+  };
+
+  const upgradeArmors = (multiplier: number = 1.1) => {
+    armors.value.forEach((armor) => {
+      armor.defense *= multiplier;
+    });
+  };
+
+  return {
+    weapons,
+    armors,
+    buyWeapon,
+    buyArmor,
+    upgradeWeapons,
+    upgradeArmors,
+  };
 };

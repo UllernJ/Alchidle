@@ -103,7 +103,7 @@ const gatherMessage = computed(() => {
 
 .styled-button {
   width: 12rem;
-  padding: 0.33rem 2rem;
+  padding: 0.5rem 2rem;
   border: 1px solid #f1f1f1;
   &:hover {
     opacity: 0.8;

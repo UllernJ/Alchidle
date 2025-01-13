@@ -16,14 +16,14 @@
               <div class="gear-description">
                 <h2>{{ weapon.name }}</h2>
                 <div class="cost">
-                  <p>{{ weapon.damage }}</p>
+                  <p>{{ Math.round(weapon.damage) }}</p>
                   <Icon :path="attackIcon" :size="20" />
                 </div>
               </div>
             </button>
           </template>
           <div class="cost">
-            <p>Costs: {{ weapon.cost }}</p>
+            <p>Costs: {{ Math.round(weapon.cost) }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>
@@ -45,14 +45,14 @@
               <div class="gear-description">
                 <h2>{{ armor.name }}</h2>
                 <div class="cost">
-                  <p>{{ armor.defense }}</p>
+                  <p>{{ Math.round(armor.defense) }}</p>
                   <Icon :path="defenceIcon" :size="20" />
                 </div>
               </div>
             </button>
           </template>
           <div class="cost">
-            <p>Costs: {{ armor.cost }}</p>
+            <p>Costs: {{ Math.round(armor.cost) }}</p>
             <Icon :path="miningIcon" :size="20" />
           </div>
         </v-tooltip>

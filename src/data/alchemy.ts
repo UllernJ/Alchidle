@@ -1,8 +1,17 @@
 import { ref } from "vue";
 import { usePlayer } from "../composable/usePlayer";
 import { Infusion } from "../models/Infusion";
+import { useGear } from "../composable/useGear";
 
-const { upgradeAttackPower, upgradeDefensePower } = usePlayer();
+const {
+  upgradeAttackPower,
+  upgradeDefensePower,
+  upgradeProductionRate,
+  upgradeRegen,
+  upgradeHealth,
+} = usePlayer();
+
+const { upgradeWeapons, upgradeArmors } = useGear();
 
 const infusePower = new Infusion(
   "Power Infusion",
@@ -29,7 +38,7 @@ const infuseEfficiency = new Infusion(
   100,
   0,
   () => {
-    console.log("Efficiency Infusion applied");
+    upgradeProductionRate();
   },
   1
 );
@@ -39,7 +48,7 @@ const infuseHealth = new Infusion(
   100,
   0,
   () => {
-    console.log("Health Infusion applied");
+    upgradeHealth();
   },
   1
 );
@@ -49,7 +58,7 @@ const infuseRegen = new Infusion(
   100,
   0,
   () => {
-    console.log("Regen Infusion applied");
+    upgradeRegen();
   },
   1
 );
@@ -59,7 +68,7 @@ const infuseWeapon = new Infusion(
   100,
   0,
   () => {
-    console.log("Gear Infusion applied");
+    upgradeWeapons();
   },
   1
 );
@@ -69,7 +78,7 @@ const infuseArmor = new Infusion(
   100,
   0,
   () => {
-    console.log("Armor Infusion applied");
+    upgradeArmors();
   },
   1
 );
