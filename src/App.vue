@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Resources from "./components/resources/Resources.vue";
-import Tab from "./components/tab/Tab.vue";
-import Popup from "./components/Popup.vue";
-import Discovery from "./components/Discovery/Discovery.vue";
+import IResources from "./components/resources/IResources.vue";
+import ITab from "./components/tab/ITab.vue";
+import IPopup from "./components/IPopup.vue";
+import IDiscovery from "./components/Discovery/IDiscovery.vue";
 import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
 import { onMounted, onUnmounted } from "vue";
@@ -38,16 +38,16 @@ onUnmounted(() => {
 
 <template>
   <LoadingScreen />
-  <Popup />
+  <i-popup />
 
-  <IHeader />
+  <i-header />
   <main class="main-container">
     <section class="top-container">
-      <Resources />
-      <Discovery />
+      <i-resources />
+      <i-discovery />
     </section>
     <section class="content-container">
-      <Tab />
+      <i-tab />
       <div></div>
     </section>
   </main>

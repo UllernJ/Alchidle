@@ -2,34 +2,34 @@
   <div class="container">
     <section>
       <span class="title">Workers</span>
-      <Workers />
+      <i-workers />
     </section>
     <section>
       <span class="title">Buildings</span>
-      <Buildings />
+      <i-buildings />
     </section>
     <section v-if="!isEveryResearchUnlocked">
       <span class="title">Research</span>
-      <Research />
+      <i-research />
     </section>
     <section>
       <span class="title">Gear</span>
-      <Gear />
+      <i-gear />
     </section>
     <section v-if="ALCHEMY.unlocked && ALCHEMY.unlocked()">
-      <Alchemy />
+      <i-alchemy />
     </section>
   </div>
 </template>
 
 <script lang="ts" setup>
+import IBuildings from "./IBuildings.vue";
+import IGear from "./IGear.vue";
+import IResearch from "./IResearch.vue";
+import IWorkers from "./IWorkers.vue";
+import IAlchemy from "./IAlchemy.vue";
 import { computed } from "vue";
-import Buildings from "./Buildings.vue";
-import Gear from "./Gear.vue";
-import Research from "./Research.vue";
-import Workers from "./Workers.vue";
 import { useResearch } from "../../composable/useResearch";
-import Alchemy from "./Alchemy.vue";
 import { ALCHEMY } from "../../composable/useTab";
 
 const { researchList } = useResearch();

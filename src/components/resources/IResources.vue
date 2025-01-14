@@ -1,18 +1,18 @@
 <template>
   <section>
-    <Resource
+    <i-resource
       :type="RESOURCE.MONEY"
       :icon="moneyIcon"
     />
-    <Resource
+    <i-resource
       :type="RESOURCE.MINING"
       :icon="miningIcon"
     />
-    <Resource
+    <i-resource
       :type="RESOURCE.SCIENCE"
       :icon="scienceIcon"
     />
-    <Alchemist v-if="unlockAlchemyResearch.unlocked" />
+    <i-alchemist v-if="unlockAlchemyResearch.unlocked" />
   </section>
 </template>
 
@@ -20,8 +20,8 @@
 import { unlockAlchemyResearch } from "../../data/research/research.alchemy";
 import { moneyIcon, miningIcon, scienceIcon } from "../../icons/icons";
 import { RESOURCE } from "../../types";
-import Alchemist from "./Alchemist.vue";
-import Resource from "./Resource.vue";
+import IAlchemist from "./IAlchemist.vue";
+import IResource from "./IResource.vue";
 </script>
 
 <style scoped>

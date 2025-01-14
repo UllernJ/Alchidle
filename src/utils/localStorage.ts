@@ -122,7 +122,7 @@ export const loadState = () => {
   workerStations.value = deserializedState.workerStations;
   Object.entries(deserializedState.resources).forEach(([key, value]) => {
     if (resources[key as RESOURCE]) {
-      resources[key as RESOURCE].value = value as number;
+      resources[key as RESOURCE].value = value;
     }
   });
   unlockResearch(deserializedState.research);

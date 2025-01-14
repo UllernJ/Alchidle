@@ -29,24 +29,24 @@
       </li>
     </ul>
     <div class="state-content">
-      <All v-if="currentState === TAB_STATE.ALL" />
-      <Workers v-else-if="currentState === TAB_STATE.WORKERS" />
-      <Buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
-      <Research v-else-if="currentState === TAB_STATE.RESEARCH" />
-      <Gear v-else-if="currentState === TAB_STATE.GEAR" />
-      <Alchemy v-else-if="currentState === TAB_STATE.ALCHEMY" />
+      <i-all v-if="currentState === TAB_STATE.ALL" />
+      <i-workers v-else-if="currentState === TAB_STATE.WORKERS" />
+      <i-buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
+      <i-research v-else-if="currentState === TAB_STATE.RESEARCH" />
+      <i-gear v-else-if="currentState === TAB_STATE.GEAR" />
+      <i-alchemy v-else-if="currentState === TAB_STATE.ALCHEMY" />
     </div>
   </aside>
 </template>
 
 <script lang="ts" setup>
 import { TAB_STATE, useTab } from "../../composable/useTab";
-import Alchemy from "./Alchemy.vue";
-import All from "./All.vue";
-import Buildings from "./Buildings.vue";
-import Gear from "./Gear.vue";
-import Research from "./Research.vue";
-import Workers from "./Workers.vue";
+import IAlchemy from "./IAlchemy.vue";
+import IAll from "./IAll.vue";
+import IBuildings from "./IBuildings.vue";
+import IGear from "./IGear.vue";
+import IResearch from "./IResearch.vue";
+import IWorkers from "./IWorkers.vue";
 import { mdiLock, mdiAlertBox } from "@mdi/js";
 
 const { getStates, setState, currentState } = useTab();

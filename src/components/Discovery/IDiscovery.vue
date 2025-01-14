@@ -2,7 +2,7 @@
   <section class="container">
     <PlayerSection />
     <ActionLog />
-    <Progress />
+    <IProgress />
     <FightSection />
   </section>
 </template>
@@ -11,7 +11,7 @@
 import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import PlayerSection from "./PlayerSection.vue";
-import Progress from "./Progress.vue";
+import IProgress from "./IProgress.vue";
 </script>
 
 <style scoped>

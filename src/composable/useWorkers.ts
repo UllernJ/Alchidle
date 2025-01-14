@@ -61,7 +61,9 @@ export const useWorkers = () => {
     }
   };
 
+  //todo refactor buildings to have effect.
   const upgradeWorkerRate = (worker: WORKER) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
     const station = workerStations.value.find((w) => w.name === worker);
     if (station) {
       station.rate *= 2;
