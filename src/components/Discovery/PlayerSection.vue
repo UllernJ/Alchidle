@@ -4,19 +4,33 @@
     <div class="PlayerStats">
       <div class="Stat">
         <span>{{ formatNumber(attackPower) }}</span>
-        <Icon :path="attackIcon" :size="24" />
+        <Icon
+          :path="attackIcon"
+          :size="24"
+        />
       </div>
       <div class="Stat">
         <span>{{ formatNumber(defencePower) }}</span>
-        <Icon :path="defenceIcon" :size="24" />
+        <Icon
+          :path="defenceIcon"
+          :size="24"
+        />
       </div>
       <div class="Stat-regen">
         <span> {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}</span>
-        <Icon :path="healthIcon" :size="20" color="red" />
+        <Icon
+          :path="healthIcon"
+          :size="20"
+          color="red"
+        />
       </div>
       <div class="Stat-regen">
         <span>+ {{ formatNumber(regen) }}</span>
-        <Icon :path="healthIcon" :size="20" color="red" />
+        <Icon
+          :path="healthIcon"
+          :size="20"
+          color="red"
+        />
         <span>/s</span>
       </div>
     </div>

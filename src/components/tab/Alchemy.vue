@@ -2,7 +2,10 @@
   <div class="alchemy-container">
     <section class="title-container">
       <span class="title">Alchemy</span>
-      <Icon :path="infoIcon" :size="24" />
+      <Icon
+        :path="infoIcon"
+        :size="24"
+      />
     </section>
     <section class="infusion-list">
       <div
@@ -13,32 +16,36 @@
           backgroundColor: getColorFromName(infusion.name),
         }"
       >
-        <p class="infusion-name">{{ infusion.name }}</p>
+        <p class="infusion-name">
+          {{ infusion.name }}
+        </p>
         <section class="progress-bar-container">
           <div class="progress-bar">
             <div
               class="progress-bar-inner"
               :style="{ width: infusionProgress(infusion) + '%' }"
-            ></div>
+            />
           </div>
         </section>
         <p class="infusion-progress">
           {{ formatNumber(infusion.contribution) }} /
           {{ formatNumber(infusion.cost) }}
         </p>
-        <p class="infusion-workers">Workers: {{ infusion.workersAllocated }}</p>
+        <p class="infusion-workers">
+          Workers: {{ infusion.workersAllocated }}
+        </p>
         <section class="infusion-buttons">
           <button
-            @click="allocateAlchemist(index)"
             :disabled="employedAlchemists >= alchemistCount"
             class="infusion-button"
+            @click="allocateAlchemist(index)"
           >
             +
           </button>
           <button
-            @click="deallocateAlchemist(index)"
             :disabled="infusion.workersAllocated === 0"
             class="infusion-button"
+            @click="deallocateAlchemist(index)"
           >
             -
           </button>

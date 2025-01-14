@@ -1,19 +1,25 @@
 <template>
   <div class="worker-tab">
     <section class="worker-list">
-      <template v-for="worker in workerStations" :key="worker.name">
+      <template
+        v-for="worker in workerStations"
+        :key="worker.name"
+      >
         <v-tooltip
-          location="top"
           v-if="!worker.requirement || worker.requirement()"
+          location="top"
         >
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <button
               class="worker"
-              @click="addWorker(worker.name)"
               :disabled="!canAfford(worker)"
               v-bind="props"
+              @click="addWorker(worker.name)"
             >
-              <Icon :path="worker.icon" :size="80" />
+              <Icon
+                :path="worker.icon"
+                :size="80"
+              />
               <div class="worker-description">
                 <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>
               </div>
@@ -23,28 +29,42 @@
             <div class="tooltip-header">
               <h2>{{ worker.name }}</h2>
             </div>
-            <p class="description">{{ worker.description }}</p>
+            <p class="description">
+              {{ worker.description }}
+            </p>
             <div class="worker-cost">
-              <span>Generates {{ worker.rate }}</span>
-              <Icon :path="getResourceIcon(worker.resource)" :size="20" />
+              <span>Generates {{ formatNumber(worker.rate) }}</span>
+              <Icon
+                :path="getResourceIcon(worker.resource)"
+                :size="20"
+              />
               <span>/s</span>
             </div>
             <div class="worker-cost">
-              <span>Costs: {{ worker.cost }}</span>
-              <Icon :path="moneyIcon" :size="20" />
+              <span>Costs: {{ formatNumber(worker.cost) }}</span>
+              <Icon
+                :path="moneyIcon"
+                :size="20"
+              />
             </div>
           </section>
         </v-tooltip>
       </template>
-      <v-tooltip location="top" v-if="alchemyWorkers.required()">
-        <template v-slot:activator="{ props }">
+      <v-tooltip
+        v-if="alchemyWorkers.required()"
+        location="top"
+      >
+        <template #activator="{ props }">
           <button
             class="worker"
-            @click="buyAlchemist"
             :disabled="!canAffordAlchemist"
             v-bind="props"
+            @click="buyAlchemist"
           >
-            <Icon :path="alchemistIcon" :size="80" />
+            <Icon
+              :path="alchemistIcon"
+              :size="80"
+            />
             <div class="worker-description">
               <h2>
                 {{ alchemyWorkers.name }} ({{ alchemyWorkers.numberOfWorkers }})
@@ -56,15 +76,23 @@
           <div class="tooltip-header">
             <h2>{{ alchemyWorkers.name }}</h2>
           </div>
-          <p class="description">Enchants every aspect of your life.</p>
+          <p class="description">
+            Enchants every aspect of your life.
+          </p>
           <div class="worker-cost">
-            <span>Generates {{ alchemyWorkers.efficiency }}</span>
-            <Icon :path="alchemyIcon" :size="20" />
+            <span>Generates {{ formatNumber(alchemyWorkers.efficiency) }}</span>
+            <Icon
+              :path="alchemyIcon"
+              :size="20"
+            />
             <span>/s</span>
           </div>
           <div class="worker-cost">
-            <span>Costs: {{ alchemyWorkers.cost.value }}</span>
-            <Icon :path="moneyIcon" :size="20" />
+            <span>Costs: {{ formatNumber(alchemyWorkers.cost.value) }}</span>
+            <Icon
+              :path="moneyIcon"
+              :size="20"
+            />
           </div>
         </section>
       </v-tooltip>
@@ -81,6 +109,7 @@ import Icon from "../Icon.vue";
 import { alchemistIcon, alchemyIcon, moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { useAlchemy } from "../../composable/useAlchemy";
+import { formatNumber } from "../../utils/number";
 
 const { workerStations, addWorker } = useWorkers();
 const { alchemyWorkers, buyAlchemist } = useAlchemy();
@@ -105,7 +134,7 @@ const canAffordAlchemist = computed(() => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
-  margin-left: 1rem;
+  padding: 1rem;
 }
 
 .worker-list {

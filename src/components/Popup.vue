@@ -1,5 +1,8 @@
 <template>
-  <div v-if="showPopup" :class="['popup', messageType.toLowerCase()]">
+  <div
+    v-if="showPopup"
+    :class="['popup', messageType.toLowerCase()]"
+  >
     <p>{{ message }}</p>
   </div>
 </template>

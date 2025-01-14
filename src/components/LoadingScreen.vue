@@ -22,7 +22,10 @@
         </div>
       </div>
     </div>
-    <div v-if="showWelcomeBack" class="welcome-back-screen">
+    <div
+      v-if="showWelcomeBack"
+      class="welcome-back-screen"
+    >
       <div class="welcome-back-container">
         <h2>Welcome Back!</h2>
         <p>You were gone for {{ formatElapsedTime(elapsedTime) }}.</p>
@@ -32,11 +35,16 @@
         </p>
         <ul>
           <p>Resources generated while you were away:</p>
-          <li v-for="(amount, resource) in generatedResources" :key="resource">
+          <li
+            v-for="(amount, resource) in generatedResources"
+            :key="resource"
+          >
             {{ resource }}: {{ formatNumber(amount) }}
           </li>
         </ul>
-        <button @click="closeWelcomeBack">Close</button>
+        <button @click="closeWelcomeBack">
+          Close
+        </button>
       </div>
     </div>
   </v-overlay>

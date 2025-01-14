@@ -1,25 +1,31 @@
 <template>
   <div class="research-tab">
     <section class="research-list">
-      <template v-for="research in researchList" :key="research.name">
+      <template
+        v-for="research in researchList"
+        :key="research.name"
+      >
         <v-tooltip
-          location="top"
           v-if="!research.unlocked && research.requirement()"
+          location="top"
         >
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <button
               class="research"
-              @click="unlockResearch(research)"
               :disabled="!canAfford(research)"
               v-bind="props"
+              @click="unlockResearch(research)"
             >
               <h2>{{ research.name }}</h2>
             </button>
           </template>
           <span>{{ research.description }}</span>
           <div class="research-cost">
-            <p>Costs: {{ research.cost }}</p>
-            <Icon :path="scienceIcon" :size="20" />
+            <p>Costs: {{ formatNumber(research.cost) }}</p>
+            <Icon
+              :path="scienceIcon"
+              :size="20"
+            />
           </div>
         </v-tooltip>
       </template>
@@ -35,6 +41,7 @@ import { scienceIcon } from "../../icons/icons";
 import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
 import type { Research } from "../../data/research";
+import { formatNumber } from "../../utils/number";
 
 const { researchList, unlockResearch } = useResearch();
 const { resources } = useResource();
@@ -53,7 +60,7 @@ const canAfford = computed(() => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
-  margin-left: 1rem;
+  padding: 1rem;
 }
 
 .research-list {

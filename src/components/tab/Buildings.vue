@@ -1,20 +1,26 @@
 <template>
   <div class="buildings-container">
     <section class="building-list">
-      <template v-for="(building, index) in buildings" :key="index">
+      <template
+        v-for="(building, index) in buildings"
+        :key="index"
+      >
         <v-tooltip
-          location="top"
           v-if="!building.requirement || building.requirement()"
+          location="top"
           content-class="custom-tooltip"
         >
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <button
               class="building-item"
-              @click="upgradeBuilding(index)"
               :disabled="!canAfford(index)"
               v-bind="props"
+              @click="upgradeBuilding(index)"
             >
-              <Icon :path="building.icon" :size="76" />
+              <Icon
+                :path="building.icon"
+                :size="76"
+              />
               <div class="building-description">
                 <h2>{{ building.name }} ({{ building.quantity }})</h2>
               </div>
@@ -24,15 +30,20 @@
             <div class="tooltip-header">
               <h2>{{ building.name }}</h2>
             </div>
-            <p class="description">{{ building.description }}</p>
+            <p class="description">
+              {{ building.description }}
+            </p>
             <div class="building-costs">
               <div
                 v-for="(cost, costIndex) in building.cost"
                 :key="costIndex"
                 class="cost"
               >
-                <span>Costs: {{ cost.value }}</span>
-                <Icon :path="getResourceIcon(cost.key)" :size="20" />
+                <span>Costs: {{ formatNumber(cost.value) }}</span>
+                <Icon
+                  :path="getResourceIcon(cost.key)"
+                  :size="20"
+                />
               </div>
             </div>
           </div>
@@ -48,6 +59,7 @@ import { useBuildings } from "../../composable/useBuildings";
 import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
+import { formatNumber } from "../../utils/number";
 
 const { buildings } = useBuildings();
 const { resources } = useResource();
@@ -77,7 +89,7 @@ const upgradeBuilding = (index: number) => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
-  margin-left: 1rem;
+  padding: 1rem;
 }
 
 .building-list {

@@ -1,8 +1,17 @@
 <template>
   <section>
-    <Resource :type="RESOURCE.MONEY" :icon="moneyIcon" />
-    <Resource :type="RESOURCE.MINING" :icon="miningIcon" />
-    <Resource :type="RESOURCE.SCIENCE" :icon="scienceIcon" />
+    <Resource
+      :type="RESOURCE.MONEY"
+      :icon="moneyIcon"
+    />
+    <Resource
+      :type="RESOURCE.MINING"
+      :icon="miningIcon"
+    />
+    <Resource
+      :type="RESOURCE.SCIENCE"
+      :icon="scienceIcon"
+    />
     <Alchemist v-if="unlockAlchemyResearch.unlocked" />
   </section>
 </template>

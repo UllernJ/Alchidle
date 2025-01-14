@@ -1,24 +1,53 @@
 <template>
   <header class="header">
-    <div class="header-title">Alchidle</div>
+    <div class="header-title">
+      Alchidle
+    </div>
     <div class="header-buttons">
-      <button @click="saveGame" class="header-button">
-        <Icon :path="saveIcon" :size="24" />
+      <button
+        class="header-button"
+        @click="saveGame"
+      >
+        <Icon
+          :path="saveIcon"
+          :size="24"
+        />
         <span>Save</span>
       </button>
-      <button @click="exportGame" class="header-button">
-        <Icon :path="exportIcon" :size="24" />
+      <button
+        class="header-button"
+        @click="exportGame"
+      >
+        <Icon
+          :path="exportIcon"
+          :size="24"
+        />
         <span>Export</span>
       </button>
-      <button @click="openSettings" class="header-button">
-        <Icon :path="settingsIcon" :size="24" />
+      <button
+        class="header-button"
+        @click="openSettings"
+      >
+        <Icon
+          :path="settingsIcon"
+          :size="24"
+        />
         <span>Settings</span>
       </button>
-      <button @click="openNews" class="header-button">
-        <Icon :path="newsIcon" :size="24" />
+      <button
+        class="header-button"
+        @click="openNews"
+      >
+        <Icon
+          :path="newsIcon"
+          :size="24"
+        />
         <span>News</span>
       </button>
-      <button @click="openDiscord" class="header-button discord">
+      <button
+        class="header-button discord"
+        @click="openDiscord"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 640 512"

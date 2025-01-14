@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="header">
-      <Icon :path="alchemyWorkers.icon" :size="40" />
+      <Icon
+        :path="alchemyWorkers.icon"
+        :size="40"
+      />
       <span>Alchemy</span>
     </div>
     <div class="alchemy-info">

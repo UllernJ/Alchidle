@@ -31,7 +31,7 @@ export const alchemyResearch = ref<Research>({
 export const advancedAlchemyResearch = ref<Research>({
   name: "Advanced Alchemy",
   description:
-    "Further improves your alchemists, doubling their efficiency (2x).",
+"Further improves your alchemists, doubling their efficiency (2x).",
   cost: 25000,
   unlocked: false,
   effect: () => {

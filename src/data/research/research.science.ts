@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import type { Research } from "../research";
 import { useWorkers, WORKER } from "../../composable/useWorkers";
-import { alchemyResearch } from "./research.alchemy";
 import {
   advancedMiningResearch,
   mathematicsResearch,
@@ -18,9 +17,7 @@ export const scienceResearch = ref<Research>({
     upgradeWorkerRate(WORKER.SCIENTIST);
   },
   requirement: () =>
-    alchemyResearch.value.unlocked &&
-    mathematicsResearch.value.unlocked &&
-    advancedMiningResearch.value.unlocked,
+    mathematicsResearch.value.unlocked && advancedMiningResearch.value.unlocked,
 });
 
 export const advancedScienceResearch = ref<Research>({

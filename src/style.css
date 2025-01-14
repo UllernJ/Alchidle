@@ -3,8 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
   margin: 1rem;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+
+  color: #ffffff;
   background-color: #242424;
 
   font-synthesis: none;
@@ -34,4 +34,9 @@ h2 {
   width: 100% !important;
   color: #ffffff !important;
   padding: 1rem !important;
+}
+
+button {
+  background-color: #6b6b6b;
+  color: #ffffff;
 }

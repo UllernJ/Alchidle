@@ -8,7 +8,11 @@
     :width="size"
     :height="size"
   >
-    <path :d="path" :fill="color || '#fff'" fill-opacity="1" />
+    <path
+      :d="path"
+      :fill="color || '#fff'"
+      fill-opacity="1"
+    />
   </svg>
 </template>
 

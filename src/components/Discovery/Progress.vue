@@ -6,7 +6,7 @@
         v-for="index in MONSTERS_PER_MAP"
         :key="index"
         :class="['progress-box', { defeated: index <= monstersDefeated }]"
-      ></div>
+      />
     </div>
   </div>
 </template>

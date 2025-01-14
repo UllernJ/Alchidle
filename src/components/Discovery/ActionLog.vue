@@ -1,9 +1,12 @@
 <template>
-  <div ref="actionLog" class="action-log">
+  <div
+    ref="actionLog"
+    class="action-log"
+  >
     <div
-      class="log-entry"
       v-for="entry in log"
       :key="entry.timestamp"
+      class="log-entry"
       :class="entry.logType"
     >
       <span class="timestamp">{{ entry.timestamp }}</span>

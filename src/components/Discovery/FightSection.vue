@@ -1,39 +1,55 @@
 <template>
   <section class="fight-cube">
-    <div class="info" v-if="isEmptyAndFirstTime">
+    <div
+      v-if="isEmptyAndFirstTime"
+      class="info"
+    >
       <p>Explore the map to find monsters to fight!</p>
       <p>Click on the Explore button to find monsters and gather resources.</p>
     </div>
-    <section class="monster" v-if="currentMonster">
+    <section
+      v-if="currentMonster"
+      class="monster"
+    >
       <div class="header">
         <span class="monster-name">{{ currentMonster.name }}</span>
       </div>
-      <Icon :path="currentMonster.icon" :size="124" />
+
+      <Icon
+        :path="currentMonster.icon"
+        :size="124"
+      />
+      
       <div class="monster-description">
         <span>{{ currentMonster.attack }}</span>
-        <Icon :path="attackIcon" :size="24" />
+        <Icon
+          :path="attackIcon"
+          :size="24"
+        />
       </div>
       <div class="health-bar">
         <div
           class="health-bar-inner"
           :style="{ width: monsterHealthPercentage + '%' }"
         >
-          <span
-            >{{ formatNumber(currentMonster.health) }} /
-            {{ initialHealth ? formatNumber(initialHealth) : null }}</span
-          >
+          <span>{{ formatNumber(currentMonster.health) }} /
+            {{ initialHealth ? formatNumber(initialHealth) : null }}</span>
         </div>
       </div>
     </section>
     <section class="attack">
       <button
         class="attack-button"
-        @click="isEmpty ? fetchNextMonsters() : attack()"
         :disabled="isAttackOnCooldown"
+        @click="isEmpty ? fetchNextMonsters() : attack()"
       >
         {{ isEmpty ? "Explore" : "Attack" }}
       </button>
-      <button v-if="!isEmpty" class="attack-button" @click="autoAttack">
+      <button
+        v-if="!isEmpty"
+        class="attack-button"
+        @click="autoAttack"
+      >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
     </section>

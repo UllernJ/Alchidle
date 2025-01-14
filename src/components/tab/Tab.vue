@@ -1,18 +1,22 @@
 <template>
   <aside class="state-sidebar">
     <ul class="state-list">
-      <li class="state-item" v-for="state in states" :key="state.name">
+      <li
+        v-for="state in states"
+        :key="state.name"
+        class="state-item"
+      >
         <button
           class="state-button"
-          @click="setState(state)"
           :class="{ active: state.name === currentState }"
           :disabled="state.unlocked && !state.unlocked()"
+          @click="setState(state)"
         >
           <div class="button-content">
             {{ state.name }}
             <v-icon
-              :icon="mdiLock"
               v-if="state.unlocked && !state.unlocked()"
+              :icon="mdiLock"
             />
             <v-icon
               v-else-if="state.alert"
@@ -53,8 +57,6 @@ const states = getStates();
 <style scoped>
 .state-content {
   width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .state-sidebar {
@@ -63,6 +65,9 @@ const states = getStates();
   flex-direction: column;
   width: 100%;
   border: 1px solid #f1f1f1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 50vh;
 }
 
 .state-list {

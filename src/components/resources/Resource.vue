@@ -31,18 +31,21 @@ const gatherMessage = computed(() => {
   } else if (currentFocus.value === RESOURCE.SCIENCE) {
     return "Studying...";
   }
+  return "No idea what to do...";
 });
 </script>
 
 <template>
   <div class="money-container">
     <div class="header">
-      <Icon :path="icon" :size="40" />
+      <Icon
+        :path="icon"
+        :size="40"
+      />
       <span>{{ type.toString() }}</span>
     </div>
     <span>
-      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s</span
-    >
+      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s</span>
     <span>
       {{
         `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
@@ -55,9 +58,12 @@ const gatherMessage = computed(() => {
           width: progress + '%',
           background: progress > 90 ? 'red' : '',
         }"
-      ></div>
+      />
     </div>
-    <button class="styled-button" @click="setFocus(type)">
+    <button
+      class="styled-button"
+      @click="setFocus(type)"
+    >
       {{ currentFocus == type ? gatherMessage : "Gather" }}
     </button>
   </div>
@@ -91,7 +97,7 @@ const gatherMessage = computed(() => {
 .loading-bar-wrapper {
   width: 100%;
   height: 1.25rem;
-  border: 2px solid #ffcc00;
+  border: 2px solid #f1f1f1;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 0.5rem;
