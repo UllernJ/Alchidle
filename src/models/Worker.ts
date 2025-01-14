@@ -41,10 +41,16 @@ export class Worker {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
     this.numberOfWorkers++;
-    this.cost.value = this.cost.value * 1.07;
+    this.cost.value = Math.round(this.cost.value * 1.07);
   }
 
   upgradeRate(multiplier: number): void {
     this.rate *= multiplier;
+  }
+
+  restoreFromSave(numberOfWorkers: number): void {
+    for (let i = 0; i < numberOfWorkers; i++) {
+      this.cost.value = this.cost.value * 1.07
+    }
   }
 }

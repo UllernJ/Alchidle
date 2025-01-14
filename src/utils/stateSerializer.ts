@@ -26,6 +26,7 @@ export const serializeState = (state: SessionState) => {
       return { name: worker.name, numberOfWorkers: worker.numberOfWorkers };
     }),
     resources: state.resources,
+    timestamp: Date.now(),
   };
   
 };

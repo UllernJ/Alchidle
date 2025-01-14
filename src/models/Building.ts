@@ -47,4 +47,13 @@ export class Building {
     });
     this.effect();
   }
+
+  restoreFromSave(quantity: number) {
+    for (let i = 0; i < quantity; i++) {
+      this.cost.forEach((cost) => {
+        cost.value = Math.round(cost.value * this.costMultiplier);
+      });
+    }
+    this.quantity = quantity;
+  }
 }
