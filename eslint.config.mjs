@@ -12,7 +12,6 @@ export default defineConfigWithVueTs(
   ESLint.configs.recommended,
   pluginVue.configs["flat/essential"],
   vueTsConfigs.recommendedTypeChecked,
-  vueTsConfigs.recommendedTypeCheckedOnly,
   Oxlint.configs["flat/recommended"],
   eslintConfigPrettier,
 );

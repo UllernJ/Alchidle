@@ -14,7 +14,7 @@
               class="worker"
               :disabled="!canAfford(worker)"
               v-bind="props"
-              @click="addWorker(worker.name)"
+              @click="worker.buy()"
             >
               <Icon
                 :path="worker.icon"
@@ -41,7 +41,7 @@
               <span>/s</span>
             </div>
             <div class="worker-cost">
-              <span>Costs: {{ formatNumber(worker.cost) }}</span>
+              <span>Costs: {{ formatNumber(worker.cost.value) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
@@ -104,21 +104,22 @@
 import { computed } from "vue";
 import { useResource } from "../../composable/useResource";
 import { useWorkers } from "../../composable/useWorkers";
-import { RESOURCE, type WorkerStation } from "../../types";
+import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
 import { alchemistIcon, alchemyIcon, moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { useAlchemy } from "../../composable/useAlchemy";
 import { formatNumber } from "../../utils/number";
+import type { Worker } from "../../models/Worker";
 
-const { workerStations, addWorker } = useWorkers();
+const { workerStations } = useWorkers();
 const { alchemyWorkers, buyAlchemist } = useAlchemy();
 
 const { resources } = useResource();
 
 const canAfford = computed(() => {
-  return (worker: WorkerStation) => {
-    return resources[RESOURCE.MONEY].value >= worker.cost;
+  return (worker: Worker) => {
+    return resources[worker.cost.resource].value >= worker.cost.value;
   };
 });
 

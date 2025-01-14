@@ -1,9 +1,8 @@
 import { ref } from "vue";
 import type { Research } from "../research";
-import { useWorkers, WORKER } from "../../composable/useWorkers";
 import { efficiencyResearch } from "./research.player";
+import { BANKER, MINER } from "../workers";
 
-const { upgradeWorkerRate } = useWorkers();
 
 export const mathematicsResearch = ref<Research>({
   name: "Mathematics",
@@ -11,7 +10,7 @@ export const mathematicsResearch = ref<Research>({
   cost: 100,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.BANKER);
+    BANKER.value.upgradeRate(2);
   },
   requirement: () => efficiencyResearch.value.unlocked,
 });
@@ -22,7 +21,7 @@ export const advancedMiningResearch = ref<Research>({
   cost: 100,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.MINER);
+    MINER.value.upgradeRate(2);
   },
   requirement: () => efficiencyResearch.value.unlocked,
 });
@@ -33,7 +32,7 @@ export const advancedBankingResearch = ref<Research>({
   cost: 200,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.BANKER);
+    BANKER.value.upgradeRate(2);
   },
   requirement: () => mathematicsResearch.value.unlocked,
 });
@@ -44,7 +43,7 @@ export const advancedMiningTechniquesResearch = ref<Research>({
   cost: 200,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.MINER);
+    MINER.value.upgradeRate(2);
   },
   requirement: () => advancedMiningResearch.value.unlocked,
 });

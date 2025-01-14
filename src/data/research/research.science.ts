@@ -1,12 +1,11 @@
 import { ref } from "vue";
 import type { Research } from "../research";
-import { useWorkers, WORKER } from "../../composable/useWorkers";
 import {
   advancedMiningResearch,
   mathematicsResearch,
 } from "./research.resource";
+import { SCIENTIST } from "../workers";
 
-const { upgradeWorkerRate } = useWorkers();
 
 export const scienceResearch = ref<Research>({
   name: "Science",
@@ -14,7 +13,7 @@ export const scienceResearch = ref<Research>({
   cost: 100,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.SCIENTIST);
+    SCIENTIST.value.upgradeRate(2);
   },
   requirement: () =>
     mathematicsResearch.value.unlocked && advancedMiningResearch.value.unlocked,
@@ -27,7 +26,7 @@ export const advancedScienceResearch = ref<Research>({
   cost: 200,
   unlocked: false,
   effect: () => {
-    upgradeWorkerRate(WORKER.SCIENTIST);
+    SCIENTIST.value.upgradeRate(2);
   },
   requirement: () => scienceResearch.value.unlocked,
 });

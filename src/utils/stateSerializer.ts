@@ -1,88 +1,31 @@
 import type { Armor, Weapon } from "../composable/useGear";
-import type { Monster } from "../models/Monster";
-import {
-  alchemyLabIcon,
-  bankIcon,
-  mineIcon,
-  scienceLabIcon,
-  axeIcon,
-  bootsIcon,
-  chestIcon,
-  handsIcon,
-  helmetIcon,
-  knifeIcon,
-  mightyBladeIcon,
-  pantsIcon,
-  stickIcon,
-  swordIcon,
-  alchemistIcon,
-  bankerIcon,
-  minerIcon,
-  scientistIcon,
-  badGnomeIcon,
-  trollIcon,
-  vampireIcon,
-} from "../icons/icons";
-import type { WorkerStation } from "../types";
 import type { SessionState } from "./localStorage";
 import type { Building } from "../models/Building";
-
-const iconMap: { [key: string]: string } = {
-  Mine: mineIcon,
-  "Alchemy Lab": alchemyLabIcon,
-  "Science Lab": scienceLabIcon,
-  Bank: bankIcon,
-  Stick: stickIcon,
-  Knife: knifeIcon,
-  Axe: axeIcon,
-  Sword: swordIcon,
-  "Mighty Blade": mightyBladeIcon,
-  Boots: bootsIcon,
-  Hands: handsIcon,
-  Pants: pantsIcon,
-  Hjelmet: helmetIcon,
-  Chestplate: chestIcon,
-  Banker: bankerIcon,
-  Miner: minerIcon,
-  Alchemist: alchemistIcon,
-  Scientist: scientistIcon,
-  Gnome: badGnomeIcon,
-  Troll: trollIcon,
-  Vampire: vampireIcon,
-};
+import type { Worker } from "../models/Worker";
+import type { Research } from "../data/research";
 
 export const serializeState = (state: SessionState) => {
-  const serializedState = JSON.parse(JSON.stringify(state));
-  serializedState.buildings.forEach((building: Building) => {
-    delete building.icon;
-  });
-  serializedState.weapons.forEach((weapon: Weapon) => {
-    delete weapon.path;
-  });
-  serializedState.armors.forEach((armor: Armor) => {
-    delete armor.path;
-  });
-  serializedState.adventure.remainingMonsters.forEach((monster: Monster) => {
-    delete monster.icon;
-  });
-  return serializedState;
-};
-
-export const deserializeState = (state: SessionState) => {
-  state.buildings.forEach((building: Building) => {
-    building.icon = iconMap[building.name];
-  });
-  state.weapons.forEach((weapon: Weapon) => {
-    weapon.path = iconMap[weapon.name];
-  });
-  state.armors.forEach((armor: Armor) => {
-    armor.path = iconMap[armor.name];
-  });
-  state.workerStations.forEach((station: WorkerStation) => {
-    station.icon = iconMap[station.name];
-  });
-  state.adventure.remainingMonsters.forEach((monster: Monster) => {
-    monster.icon = iconMap[monster.name];
-  });
-  return state;
+  return {
+    buildings: state.buildings.map((building: Building) => {
+      return { name: building.name, quantity: building.quantity };
+    }),
+    weapons: state.weapons.map((weapon: Weapon) => {
+      return { name: weapon.name, quantity: weapon.quantity };
+    }),
+    armors: state.armors.map((armor: Armor) => {
+      return { name: armor.name, quantity: armor.quantity };
+    }),
+    adventure: {
+      remainingMonsters: state.adventure.remainingMonsters,
+      test: state.adventure.map,
+    },
+    research: state.research.map((research: Research) => {
+      return { name: research.name, unlocked: research.unlocked };
+    }),
+    workerStations: state.workerStations.map((worker: Worker) => {
+      return { name: worker.name, numberOfWorkers: worker.numberOfWorkers };
+    }),
+    resources: state.resources,
+  };
+  
 };
