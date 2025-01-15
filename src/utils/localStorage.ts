@@ -159,6 +159,6 @@ const initArmors = (armorsData: { name: string; quantity: number }[]) => {
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   const { map, monsters } = useMonsters();
-  map.value = data.map;
+  map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters;
 };

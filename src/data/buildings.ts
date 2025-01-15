@@ -12,7 +12,7 @@ const BANK = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 10 : 200,
+      value: isDev ? 10 : 100,
     },
   ],
   2,
@@ -28,7 +28,7 @@ const MINE = new Building(
   [
     {
       key: RESOURCE.MINING,
-      value: 200,
+      value: 100,
     },
   ],
   2,
@@ -44,7 +44,7 @@ const SCIENCE_LAB = new Building(
   [
     {
       key: RESOURCE.SCIENCE,
-      value: 200,
+      value: 100,
     },
   ],
   2,

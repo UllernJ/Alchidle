@@ -17,7 +17,7 @@ export const serializeState = (state: SessionState) => {
     }),
     adventure: {
       remainingMonsters: state.adventure.remainingMonsters,
-      test: state.adventure.map,
+      map: state.adventure.map,
     },
     research: state.research.map((research: Research) => {
       return { name: research.name, unlocked: research.unlocked };
