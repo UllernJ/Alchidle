@@ -22,7 +22,7 @@
                 :size="76"
               />
               <div class="gear-description">
-                <h2>{{ weapon.name }}</h2>
+                <h2>{{ weapon.name }} ({{ weapon.quantity }})</h2>
                 <div class="cost">
                   <p>{{ formatNumber(weapon.damage) }}</p>
                   <Icon
@@ -33,11 +33,12 @@
               </div>
             </button>
           </template>
-          <div class="cost">
+          <div :class="['cost', { 'text-red': !canAffordWeapon(index) }]">
             <p>Costs: {{ formatNumber(weapon.cost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
+              :color="canAffordWeapon(index) ? '' : 'red'"
             />
           </div>
         </v-tooltip>
@@ -65,7 +66,7 @@
                 :size="76"
               />
               <div class="gear-description">
-                <h2>{{ armor.name }}</h2>
+                <h2>{{ armor.name }} ({{ armor.quantity }})</h2>
                 <div class="cost">
                   <p>{{ formatNumber(armor.defense) }}</p>
                   <Icon
@@ -76,11 +77,12 @@
               </div>
             </button>
           </template>
-          <div class="cost">
+          <div :class="['cost', { 'text-red': !canAffordArmor(index) }]">
             <p>Costs: {{ formatNumber(armor.cost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
+              :color="canAffordArmor(index) ? '' : 'red'"
             />
           </div>
         </v-tooltip>

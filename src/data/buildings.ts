@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
-import { bankIcon, mineIcon, scienceLabIcon } from "../icons/icons";
+import { bankIcon, hospitalIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 import { isDev } from "../utils/dev";
 import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
+import { usePlayer } from "../composable/usePlayer";
 
 const { upgradeStorage } = useResource();
 
@@ -56,6 +57,31 @@ const SCIENCE_LAB = new Building(
   scienceLabIcon
 );
 
+const HOSPITAL = new Building(
+  "Hospital",
+  [
+    {
+      key: RESOURCE.MONEY,
+      value: 200,
+    },
+    {
+      key: RESOURCE.MINING,
+      value: 100,
+    },
+  ],
+  2.5,
+  "Increases regeneration rate by 10%",
+  () => {
+    const { upgradeRegen } = usePlayer();
+    upgradeRegen(1.1);
+  },
+  0,
+  hospitalIcon,
+  () => {
+    return true;
+  }
+);
+
 export const getBuildings = () => {
-  return ref<Building[]>([BANK, MINE, SCIENCE_LAB]);
+  return ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL]);
 };

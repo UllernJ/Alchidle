@@ -10,7 +10,7 @@ export const BANKER = ref<Worker>(new Worker(
   0,
   {
     resource: RESOURCE.MONEY,
-    value: 50,
+    value: 25,
   },
   "Manages your economy.",
   bankerIcon
@@ -36,7 +36,7 @@ export const SCIENTIST = ref<Worker>(new Worker(
   0,
   {
     resource: RESOURCE.MONEY,
-    value: 50,
+    value: 100,
   },
   "Researches new technologies.",
   scientistIcon

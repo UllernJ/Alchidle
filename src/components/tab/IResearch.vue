@@ -80,7 +80,7 @@ const canAfford = computed(() => {
   text-align: center;
   justify-content: center;
   padding: 1.5rem 1rem;
-  height: 100%;
+  height: 5rem;
   width: 15rem;
   &:hover {
     cursor: pointer;
@@ -91,13 +91,14 @@ const canAfford = computed(() => {
 .research-cost {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 0.2rem;
+  border-top: 1px solid #f1f1f1;
+  margin-top: 2rem;
 }
 
-.p {
+p {
   font-size: 1.2em;
   margin: 0;
-  font-weight: bold;
 }
 </style>

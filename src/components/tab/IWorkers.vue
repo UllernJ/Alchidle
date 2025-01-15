@@ -40,11 +40,12 @@
               />
               <span>/s</span>
             </div>
-            <div class="worker-cost">
-              <span>Costs: {{ formatNumber(worker.cost.value) }}</span>
+            <div :class="['worker-cost', { 'text-red': !canAfford(worker) }]">
+              <span>{{ formatNumber(worker.cost.value) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
+                :color="canAfford(worker) ? '' : 'red'"
               />
             </div>
           </section>
@@ -87,11 +88,12 @@
             />
             <span>/s</span>
           </div>
-          <div class="worker-cost">
+          <div :class="['worker-cost', { 'text-red': !canAffordAlchemist }]">
             <span>Costs: {{ formatNumber(alchemyWorkers.cost.value) }}</span>
             <Icon
               :path="moneyIcon"
               :size="20"
+              :color="canAffordAlchemist ? '' : 'red'"
             />
           </div>
         </section>

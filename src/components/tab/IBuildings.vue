@@ -1,10 +1,7 @@
 <template>
   <div class="buildings-container">
     <section class="building-list">
-      <template
-        v-for="(building, index) in buildings"
-        :key="index"
-      >
+      <template v-for="(building, index) in buildings" :key="index">
         <v-tooltip
           v-if="!building.requirement || building.requirement()"
           location="top"
@@ -17,10 +14,7 @@
               v-bind="props"
               @click="upgradeBuilding(index)"
             >
-              <Icon
-                :path="building.icon"
-                :size="76"
-              />
+              <Icon :path="building.icon" :size="76" />
               <div class="building-description">
                 <h2>{{ building.name }} ({{ building.quantity }})</h2>
               </div>
@@ -37,13 +31,12 @@
               <div
                 v-for="(cost, costIndex) in building.cost"
                 :key="costIndex"
-                class="cost"
+                :class="['cost', { 'text-red': !canAffordResource(cost) }]"
               >
-                <span>Costs: {{ formatNumber(cost.value) }}</span>
-                <Icon
-                  :path="getResourceIcon(cost.key)"
-                  :size="20"
-                />
+                <span>{{
+                  formatNumber(cost.value)
+                }}</span>
+                <Icon :path="getResourceIcon(cost.key)" :size="20" :color="canAffordResource(cost) ? '' : 'red'"/>
               </div>
             </div>
           </div>
@@ -60,6 +53,7 @@ import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { formatNumber } from "../../utils/number";
+import type { RESOURCE } from "../../types";
 
 const { buildings } = useBuildings();
 const { resources } = useResource();
@@ -73,6 +67,12 @@ const canAfford = computed(() => {
       }
     }
     return true;
+  };
+});
+
+const canAffordResource = computed(() => {
+  return (cost: { key: RESOURCE; value: number }) => {
+    return resources[cost.key].value >= cost.value;
   };
 });
 
@@ -135,6 +135,9 @@ const upgradeBuilding = (index: number) => {
   align-items: center;
   font-size: 1.25em;
   gap: 0.2rem;
+  &:first-child {
+    border-top: 1px solid #f1f1f1;
+  }
 }
 
 .tooltip-header {
@@ -147,11 +150,13 @@ const upgradeBuilding = (index: number) => {
   margin-bottom: 0.5rem;
 }
 
-.cost {
-  width: 100%;
-  border-top: 1px solid #f1f1f1;
-}
 .description {
   font-size: 1.25em;
+}
+
+.building-costs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

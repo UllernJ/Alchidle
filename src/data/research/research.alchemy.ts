@@ -12,7 +12,7 @@ export const unlockAlchemyResearch = ref<Research>({
   unlocked: false,
   requirement: () => {
     const { map } = useMonsters();
-    return map.value >= 0;
+    return map.value >= 5;
   },
 });
 
