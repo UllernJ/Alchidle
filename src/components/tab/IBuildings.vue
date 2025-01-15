@@ -1,7 +1,10 @@
 <template>
   <div class="buildings-container">
     <section class="building-list">
-      <template v-for="(building, index) in buildings" :key="index">
+      <template
+        v-for="(building, index) in buildings"
+        :key="index"
+      >
         <v-tooltip
           v-if="!building.requirement || building.requirement()"
           location="top"
@@ -14,7 +17,10 @@
               v-bind="props"
               @click="upgradeBuilding(index)"
             >
-              <Icon :path="building.icon" :size="76" />
+              <Icon
+                :path="building.icon"
+                :size="76"
+              />
               <div class="building-description">
                 <h2>{{ building.name }} ({{ building.quantity }})</h2>
               </div>
@@ -36,7 +42,11 @@
                 <span>{{
                   formatNumber(cost.value)
                 }}</span>
-                <Icon :path="getResourceIcon(cost.key)" :size="20" :color="canAffordResource(cost) ? '' : 'red'"/>
+                <Icon
+                  :path="getResourceIcon(cost.key)"
+                  :size="20"
+                  :color="canAffordResource(cost) ? '' : 'red'"
+                />
               </div>
             </div>
           </div>

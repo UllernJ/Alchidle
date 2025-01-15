@@ -1,17 +1,30 @@
-// eslint.config.mjs
-import ESLint from "@eslint/js";
-import Oxlint from "eslint-plugin-oxlint";
-import pluginVue from "eslint-plugin-vue";
-import {
-  defineConfigWithVueTs,
-  vueTsConfigs,
-} from "@vue/eslint-config-typescript";
-import eslintConfigPrettier from "eslint-config-prettier";
+import pluginJs from '@eslint/js';
+import pluginVue from 'eslint-plugin-vue';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-export default defineConfigWithVueTs(
-  ESLint.configs.recommended,
-  pluginVue.configs["flat/essential"],
-  vueTsConfigs.recommendedTypeChecked,
-  Oxlint.configs["flat/recommended"],
-  eslintConfigPrettier,
-);
+export default [
+    { files: ['**/*.{js,mjs,cjs,ts,vue}'] },
+    { languageOptions: { globals: globals.browser } },
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    ...pluginVue.configs['flat/recommended'],
+    {
+        files: ['**/*.vue'],
+        languageOptions: {
+            parserOptions: { parser: tseslint.parser }
+        }
+    },
+    {
+        rules: {
+            'vue/multi-word-component-names': 'off',
+            '@typescript-eslint/no-unused-expressions': [
+                'error',
+                {
+                    allowShortCircuit: true,
+                    allowTernary: true
+                }
+            ]
+        }
+    },
+];

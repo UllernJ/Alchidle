@@ -8,7 +8,9 @@ const MONSTERS_PER_MAP = 40;
 const difficulty = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
-const currentMonster = computed(() => monsters.value[0] || null);
+const currentMonster = computed(() => {
+  return monsters.value.find((monster) => monster.health > 0) || null;
+});
 
 export function useMonsters() {
   const getNextMonsters = () => {
@@ -29,18 +31,12 @@ export function useMonsters() {
     );
   };
 
-  const defeatMonster = () => {
-    monsters.value.shift();
-  };
-
   return {
-    MONSTERS_PER_MAP,
     monsters,
     getNextMonsters,
     goBack,
     difficulty,
     map,
     currentMonster,
-    defeatMonster,
   };
 }

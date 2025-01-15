@@ -8,9 +8,10 @@ export const getRandomResource = (): RESOURCE => {
 
 export const getResourceDropMessage = (
   resource: RESOURCE,
-  amount: number
+  amount: number | string
 ): string => {
-  if (amount === 0) {
+  //amount is formatted to a string.
+  if (amount == 0) {
     return "You didn't get anything from your foe.";
   }
   switch (resource) {

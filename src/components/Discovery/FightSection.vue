@@ -67,9 +67,11 @@ import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
+import { deeepClone } from "../../utils/object";
+import type { Monster } from "../../models/Monster";
 
 const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
-const { getNextMonsters, map, currentMonster, defeatMonster } = useMonsters();
+const { getNextMonsters, map, currentMonster } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
@@ -89,17 +91,16 @@ const monsterHealthPercentage = computed(() => {
   return Math.floor((currentMonster.value.health / initialHealth.value) * 100);
 });
 
-const handleMonsterDefeat = () => {
-  if (!currentMonster.value) return;
+const handleMonsterDefeat = (monster: Monster) => {
+  if (!monster) return;
 
-  const { resource, amount } = currentMonster.value.drop;
+  const { resource, amount } = monster.drop;
   addResource(resource, amount);
   logMessage(
-    getResourceDropMessage(resource, Math.floor(amount)),
+    getResourceDropMessage(resource, formatNumber(amount)),
     MessageType.INFO
   );
 
-  defeatMonster();
   if (!currentMonster.value) {
     logMessage(
       "You have defeated all monsters in this map!",
@@ -118,14 +119,15 @@ const attack = () => {
   }
 
   isAttackOnCooldown.value = true;
-  currentMonster.value.health -= attackPower.value;
+  const trueCurrentMonster = deeepClone(currentMonster.value) as Monster;
+  const didMonsterDie = (currentMonster.value.health -= attackPower.value) <= 0;
 
   setTimeout(() => {
     isAttackOnCooldown.value = false;
   }, 1000);
 
-  if (currentMonster.value.health <= 0) {
-    handleMonsterDefeat();
+  if (didMonsterDie) {
+    handleMonsterDefeat(trueCurrentMonster);
   } else {
     playerHealth.value -= Math.max(
       0,
@@ -138,16 +140,25 @@ const attack = () => {
         "You have been defeated. The monsters looted you for 10% of your resources.",
         MessageType.ERROR
       );
+      clearAutoAttack();
     }
   }
 };
 
 const autoAttack = () => {
   if (autoAttackInterval.value) {
+    clearAutoAttack();
+  } else {
+    logMessage("Auto Attack started.", MessageType.INFO);
+    autoAttackInterval.value = setInterval(attack, 1000);
+  }
+};
+
+const clearAutoAttack = () => {
+  if (autoAttackInterval.value) {
+    logMessage("Auto Attack stopped.", MessageType.WARNING);
     clearInterval(autoAttackInterval.value);
     autoAttackInterval.value = null;
-  } else {
-    autoAttackInterval.value = setInterval(attack, 1000);
   }
 };
 

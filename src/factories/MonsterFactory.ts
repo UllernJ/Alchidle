@@ -1,4 +1,4 @@
-import { badGnomeIcon, trollIcon, vampireIcon } from "../icons/icons";
+import { badGnomeIcon, golemIcon, troglodyteIcon, trollIcon, vampireIcon, witchIcon } from "../icons/icons";
 import { Monster } from "../models/Monster";
 import { getRandomResource } from "../utils/resourceUtil";
 
@@ -10,7 +10,7 @@ export class MonsterFactory {
       Math.round(25 * difficulty),
       Math.round(2 * difficulty),
       getRandomResource(),
-      Math.floor(Math.random() * 5) * difficulty,
+      Math.floor(Math.random() * 2) * difficulty,
       monster.icon
     );
   }
@@ -39,6 +39,18 @@ export class MonsterFactory {
         name: "Vampire",
         icon: vampireIcon,
       },
+      {
+        name: "Witch",
+        icon: witchIcon,
+      },
+      {
+        name: "Golem",
+        icon: golemIcon,
+      },
+      {
+        name: "Troglodyte",
+        icon: troglodyteIcon,
+      }
     ];
     return monsters[Math.floor(Math.random() * monsters.length)];
   }
