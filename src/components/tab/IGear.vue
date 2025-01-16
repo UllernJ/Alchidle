@@ -34,7 +34,7 @@
             </button>
           </template>
           <div :class="['cost', { 'text-red': !canAffordWeapon(index) }]">
-            <p>Costs: {{ formatNumber(weapon.cost) }}</p>
+            <p>{{ formatNumber(weapon.cost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
@@ -78,7 +78,7 @@
             </button>
           </template>
           <div :class="['cost', { 'text-red': !canAffordArmor(index) }]">
-            <p>Costs: {{ formatNumber(armor.cost) }}</p>
+            <p>{{ formatNumber(armor.cost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"

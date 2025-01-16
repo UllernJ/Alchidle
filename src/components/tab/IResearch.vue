@@ -20,11 +20,12 @@
             </button>
           </template>
           <span>{{ research.description }}</span>
-          <div class="research-cost">
-            <p>Costs: {{ formatNumber(research.cost) }}</p>
+          <div :class="['research-cost', { 'text-red': !canAfford(research) }]">
+            <p>{{ formatNumber(research.cost) }}</p>
             <Icon
               :path="scienceIcon"
               :size="20"
+              :color="canAfford(research) ? '' : 'red'"
             />
           </div>
         </v-tooltip>

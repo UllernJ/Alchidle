@@ -2,13 +2,22 @@ import { ref } from "vue";
 import {
   combatTrainingResearch,
   efficiencyResearch,
+  efficiencyResearchI,
+  efficiencyResearchII,
+  efficiencyResearchIII,
+  efficiencyResearchIV,
   fortificationResearch,
 } from "./research/research.player";
 import {
-  advancedBankingResearch,
   advancedMiningResearch,
-  advancedMiningTechniquesResearch,
+  advancedMiningResearchI,
+  advancedMiningResearchII,
+  advancedMiningResearchIII,
+  advancedMiningResearchIV,
   mathematicsResearch,
+  mathematicsResearchII,
+  mathematicsResearchIII,
+  mathematicsResearchIV,
 } from "./research/research.resource";
 import {
   advancedAlchemyResearch,
@@ -42,8 +51,17 @@ export const getResearchList = () => {
     fortificationResearch.value,
     advancedAlchemyResearch.value,
     advancedScienceResearch.value,
-    advancedBankingResearch.value,
-    advancedMiningTechniquesResearch.value,
     blacksmithingResearch.value,
+    efficiencyResearchI.value,
+    efficiencyResearchII.value,
+    efficiencyResearchIII.value,
+    efficiencyResearchIV.value,
+    mathematicsResearchII.value,
+    mathematicsResearchIII.value,
+    mathematicsResearchIV.value,
+    advancedMiningResearchI.value,
+    advancedMiningResearchII.value,
+    advancedMiningResearchIII.value,
+    advancedMiningResearchIV.value
   ]);
 };

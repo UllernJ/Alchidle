@@ -35,8 +35,6 @@ export const blacksmithingResearch = ref<Research>({
   description: "Unlocks the ability to craft weapons and armor.",
   cost: 100,
   unlocked: false,
-  effect: () => {
-    
-  },
+  effect: () => {},
   requirement: () => true,
 });
