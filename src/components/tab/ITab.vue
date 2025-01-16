@@ -1,5 +1,8 @@
 <template>
-  <aside class="state-sidebar">
+  <aside
+    ref="sidebar"
+    class="state-sidebar"
+  >
     <ul class="state-list">
       <li
         v-for="state in states"
@@ -40,6 +43,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useTemplateRef, watch } from "vue";
 import { TAB_STATE, useTab } from "../../composable/useTab";
 import IAlchemy from "./IAlchemy.vue";
 import IAll from "./IAll.vue";
@@ -50,8 +54,16 @@ import IWorkers from "./IWorkers.vue";
 import { mdiLock, mdiAlertBox } from "@mdi/js";
 
 const { getStates, setState, currentState } = useTab();
-
 const states = getStates();
+
+const sidebar = useTemplateRef("sidebar")
+
+watch(currentState, () => {
+  if (sidebar.value) {
+    sidebar.value.scrollTo({ top: 0, behavior: "smooth" });
+  }
+});
+
 </script>
 
 <style scoped>
@@ -78,6 +90,10 @@ const states = getStates();
   width: 100%;
   flex-direction: row;
   border-bottom: 1px solid #f1f1f1;
+  position: sticky;
+  top: 0;
+  background-color: #1a1a1a;
+  z-index: 1;
 }
 
 .state-item {

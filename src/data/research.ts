@@ -17,6 +17,7 @@ import {
 } from "./research/research.alchemy";
 import {
   advancedScienceResearch,
+  blacksmithingResearch,
   scienceResearch,
 } from "./research/research.science";
 
@@ -43,5 +44,6 @@ export const getResearchList = () => {
     advancedScienceResearch.value,
     advancedBankingResearch.value,
     advancedMiningTechniquesResearch.value,
+    blacksmithingResearch.value,
   ]);
 };
