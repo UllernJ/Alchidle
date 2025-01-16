@@ -3,7 +3,7 @@
     :model-value="isLoading || showWelcomeBack"
     location="top center"
     origin="overlap"
-    class="loading-screen"
+    class="overlay"
   >
     <div v-if="isLoading">
       <div class="loading-container">
@@ -88,17 +88,6 @@ const closeWelcomeBack = () => {
 </script>
 
 <style scoped>
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .loading-container {
   display: flex;

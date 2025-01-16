@@ -5,6 +5,7 @@ import IPopup from "./components/IPopup.vue";
 import IDiscovery from "./components/Discovery/IDiscovery.vue";
 import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
+import IMultipliers from "./components/IMultipliers.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { isFirstTime, saveSession } from "./utils/localStorage";
@@ -36,8 +37,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <LoadingScreen />
   <i-popup />
+  <LoadingScreen />
+  <i-multipliers />
 
   <i-header />
   <main class="main-container">
@@ -47,7 +49,7 @@ onUnmounted(() => {
     </section>
     <section class="content-container">
       <i-tab />
-      <div></div>
+      <div />
     </section>
   </main>
 </template>

@@ -4,13 +4,18 @@ import { useGear } from "./useGear";
 import { isDev } from "../utils/dev";
 import { useResource } from "./useResource";
 
-const currentFocus = ref<RESOURCE | null>(null);
-const productionRate = ref<number>(isDev ? 100 : 1);
+//!multipliers
 const attackPowerMultiplier = ref<number>(isDev ? 1000 : 1);
 const defencePowerMultiplier = ref<number>(isDev ? 1000 : 1);
+const healthMultiplier = ref<number>(isDev ? 1000 : 1);
+const regenMultiplier = ref<number>(isDev ? 1000 : 1);
+const productionRate = ref<number>(isDev ? 100 : 1);
+
+//!player stats
+const currentFocus = ref<RESOURCE | null>(null);
 const health = ref<number>(100);
-const maxHealth = ref<number>(100);
-const regen = ref<number>(1);
+const maxHealth = computed(() => 100 * healthMultiplier.value);
+const regen = computed(() => 1 * regenMultiplier.value);
 
 export const usePlayer = () => {
   const { armors, weapons } = useGear();
@@ -54,11 +59,11 @@ export const usePlayer = () => {
   };
 
   const upgradeHealth = (multiplier: number = 1.1) => {
-    maxHealth.value *= multiplier;
+    healthMultiplier.value *= multiplier;
   };
 
   const upgradeRegen = (multiplier: number = 1.1) => {
-    regen.value *= multiplier;
+    regenMultiplier.value *= multiplier;
   };
 
   const setProductionRate = (value: number) => {
@@ -83,6 +88,8 @@ export const usePlayer = () => {
     regen,
     attackPowerMultiplier,
     defencePowerMultiplier,
+    healthMultiplier,
+    regenMultiplier,
     setFocus,
     upgradeProductionRate,
     regenHealth,

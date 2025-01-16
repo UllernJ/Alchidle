@@ -33,17 +33,29 @@
         />
         <span>/s</span>
       </div>
+      <v-btn
+        color="primary"
+        density="compact"
+        flat
+        :icon="mdiMultiplicationBox"
+        size="large"
+        :border="true"
+        @click="toggleMultipliers"
+      />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { useMultipliers } from "../../composable/useMultipliers";
 import { usePlayer } from "../../composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "../../icons/icons";
 import { formatNumber } from "../../utils/number";
 import Icon from "../Icon.vue";
+import { mdiMultiplicationBox } from "@mdi/js";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
+const { toggleMultipliers } = useMultipliers()
 </script>
 
 <style scoped>

@@ -70,7 +70,7 @@ const HOSPITAL = new Building(
     },
   ],
   2.5,
-  "Increases regeneration rate by 10%",
+  "Increases regeneration rate by 10%.",
   () => {
     const { upgradeRegen } = usePlayer();
     upgradeRegen(1.1);
