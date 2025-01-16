@@ -76,19 +76,7 @@ const { monsters, map } = useMonsters();
 
 .map-info {
   width: 100%;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: bold;
-}
-
-.icon {
-  outline: none;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-}
-
-.icon-active {
-  opacity: 0.5;
 }
 </style>

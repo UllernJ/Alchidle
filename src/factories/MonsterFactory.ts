@@ -1,26 +1,54 @@
-import { badGnomeIcon, golemIcon, troglodyteIcon, trollIcon, vampireIcon, witchIcon } from "../icons/icons";
+import {
+  badGnomeIcon,
+  golemIcon,
+  troglodyteIcon,
+  trollIcon,
+  vampireIcon,
+  witchIcon,
+} from "../icons/icons";
 import { Monster } from "../models/Monster";
 import { getRandomResource } from "../utils/resourceUtil";
 
 export class MonsterFactory {
-  private static createMonster(difficulty: number): Monster {
+  private static createMonster(
+    baseDamage: number,
+    baseHealth: number,
+    difficulty: number,
+    mapNumber: number
+  ): Monster {
     const monster = this.getRandomMonster();
     return new Monster(
       monster.name,
-      Math.round(25 * difficulty),
-      Math.round(2 * difficulty),
+      Math.round(baseDamage * difficulty),
+      Math.round(baseHealth * difficulty),
       getRandomResource(),
-      Math.floor(Math.random() * 2) * difficulty,
+      Math.floor(Math.random() * 2) * difficulty * mapNumber,
       monster.icon
     );
   }
 
-  static getMonsters(monsterCount: number, difficulty: number): Monster[] {
-    let difficultyMultiplier = difficulty;
+  static getMonsters(
+    monsterCount: number,
+    baseDamage: number,
+    baseHealth: number,
+    mapNumber: number
+  ): Monster[] {
+    let _baseDamage = baseDamage;
+    let _baseHealth = baseHealth;
+    let difficultyMultiplier = 1;
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
-      difficultyMultiplier += 0.2;
-      monsters.push(this.createMonster(difficultyMultiplier));
+      monsters.push(
+        this.createMonster(
+          _baseDamage,
+          _baseHealth,
+          difficultyMultiplier,
+          mapNumber
+        )
+      );
+      difficultyMultiplier += 0.05;
+      _baseDamage *= 1.001;
+      _baseHealth *= 1.001;
     }
     return monsters;
   }
@@ -50,7 +78,7 @@ export class MonsterFactory {
       {
         name: "Troglodyte",
         icon: troglodyteIcon,
-      }
+      },
     ];
     return monsters[Math.floor(Math.random() * monsters.length)];
   }

@@ -52,6 +52,13 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </button>
+      <!-- <button
+        v-if="isDev"
+        class="attack-button"
+        @click="fetchNextMonsters()"
+      >
+        go next
+      </button> -->
     </section>
   </section>
 </template>
@@ -191,7 +198,7 @@ const fetchNextMonsters = () => {
 }
 
 .monster-name {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 1rem;
 }
@@ -210,6 +217,7 @@ const fetchNextMonsters = () => {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
+    font-size: 0.75em;
   }
 }
 

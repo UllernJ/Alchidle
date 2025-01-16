@@ -2,39 +2,42 @@ import { computed, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 
-const DEFAULT_INCREASE = 1.15;
 const MONSTERS_PER_MAP = 40;
 
 const difficulty = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
-const currentMonster = computed(() => {
-  return monsters.value.find((monster) => monster.health > 0) || null;
-});
+const BASE_HEALTH = ref<number>(30);
+const BASE_DAMAGE = ref<number>(2);
+const currentMonster = computed(
+  () => monsters.value.find((monster) => monster.health > 0) || null
+);
 
 export function useMonsters() {
   const getNextMonsters = () => {
     map.value += 1;
-    difficulty.value *= DEFAULT_INCREASE;
-    monsters.value = MonsterFactory.getMonsters(
+    const listOfMonsters = MonsterFactory.getMonsters(
       MONSTERS_PER_MAP,
-      difficulty.value
+      BASE_HEALTH.value,
+      BASE_DAMAGE.value,
+      map.value
     );
-  };
-
-  const goBack = () => {
-    map.value -= 1;
-    difficulty.value /= DEFAULT_INCREASE;
-    monsters.value = MonsterFactory.getMonsters(
-      MONSTERS_PER_MAP,
-      difficulty.value
-    );
+    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack * 0.75;
+    BASE_HEALTH.value = listOfMonsters[listOfMonsters.length - 1].health * 0.75;
+    monsters.value = listOfMonsters;
+    const consolData = monsters.value.map((monster) => {
+      return {
+        health: monster.health,
+        attack: monster.attack,
+        drop: monster.drop.amount,
+      };
+    })
+    console.log(consolData);
   };
 
   return {
     monsters,
     getNextMonsters,
-    goBack,
     difficulty,
     map,
     currentMonster,

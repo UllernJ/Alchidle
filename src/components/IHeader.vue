@@ -107,7 +107,7 @@ const openDiscord = () => {
 }
 
 .header-title {
-  font-size: 1.25rem;
+  font-size: 1.25em;
   font-weight: bold;
   color: #ffffff;
 }
