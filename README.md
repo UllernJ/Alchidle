@@ -2,12 +2,11 @@
 
 ## Todo
 
-- Make combat more balanced
+- Infusions (add more info and make them more useful)
 
-- Infusions
-- Should Alchemy be a resource or only workers?
+- Rework alchemy, invent new resource.
 
-- More research
+- More research (Some shit should be the same research with some form of count, multiplier
 
 - Handle insane big numbers -> CHECK OUT ARRAY HANDLING
 
@@ -20,3 +19,5 @@
 - Punish player if dies -> lose resources or gear?
 
 - Money is too OP, a player will always focus money
+
+- Make combat more balanced (based on feedback, looks to be somewhat balanced)
