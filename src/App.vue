@@ -88,5 +88,8 @@ onUnmounted(() => {
   .content-container {
     grid-template-columns: 1fr;
   }
+  .main-container {
+    grid-template-rows: .4fr 1fr;
+  }
 }
 </style>

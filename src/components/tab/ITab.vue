@@ -88,9 +88,11 @@ watch(currentState, () => {
   padding: 0;
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: row;
   border-bottom: 1px solid #f1f1f1;
   position: sticky;
+  height: fit-content;
   top: 0;
   background-color: #1a1a1a;
   z-index: 1;
@@ -99,6 +101,7 @@ watch(currentState, () => {
 .state-item {
   width: 100%;
   display: flex;
+  height: fit-content;
   &:not(:last-child) {
     border-right: 1px solid #f1f1f1;
   }
@@ -129,5 +132,13 @@ watch(currentState, () => {
 .alert-icon {
   animation: alert-blink 1s infinite;
   margin-left: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .state-sidebar {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-height: fit-content !important;
+}
 }
 </style>
