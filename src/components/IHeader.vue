@@ -54,7 +54,7 @@
         color="white"
         base-color="grey-darken-1"
         density="compact"
-        width="200"
+        width="10rem"
         @click="openDiscord"
       >
         <v-icon
@@ -108,7 +108,7 @@ const openDiscord = () => {
 
 <style scoped>
 .header {
-  max-height: 4rem;
+  max-height: 3.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

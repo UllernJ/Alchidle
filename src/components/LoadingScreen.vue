@@ -1,8 +1,7 @@
 <template>
   <v-overlay
     :model-value="isLoading || showWelcomeBack"
-    location="top center"
-    origin="overlap"
+    scroll-strategy="reposition"
     class="overlay"
   >
     <div v-if="isLoading">

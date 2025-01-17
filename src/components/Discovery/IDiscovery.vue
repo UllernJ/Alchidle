@@ -20,7 +20,7 @@ import IProgress from "./IProgress.vue";
   box-sizing: border-box;
   background-color: #1a1a1a;
   display: grid;
-  grid-template-columns: 1.2fr 4fr 1.5fr 1.5fr;
+  grid-template-columns: 2fr 7fr 3fr 3fr;
   height: 100%;
   width: 100%;
 }

@@ -14,19 +14,14 @@
           :key="key"
           class="multiplier-item"
         >
-          <span class="multiplier-key">{{ key }}:</span>
-          <span class="multiplier-value">{{ formatNumber(value.value) }}x</span>
+          <span class="multiplier-key">{{ formatKey(key) }}:</span>
+          <span class="multiplier-value">{{ formatNumber(value.value) }}</span>
         </div>
       </v-card-text>
       <v-card-actions>
         <v-btn
           :prepend-icon="mdiClose"
           :active="true"
-          active-color="secondary"
-          density="default"
-          color="primary"
-          variant="text"
-          class="close-button"
           @click="toggleMultipliers"
         >
           Close
@@ -43,6 +38,11 @@ import { formatNumber } from "../utils/number";
 
 const { getMultipliers, showMultipliers, toggleMultipliers } = useMultipliers();
 const multipliers = getMultipliers();
+
+const formatKey = (key: string) => {
+  return key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
+};
+
 </script>
 
 <style scoped>

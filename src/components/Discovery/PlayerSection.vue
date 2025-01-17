@@ -33,15 +33,20 @@
         />
         <span>/s</span>
       </div>
-      <v-btn
-        color="primary"
-        density="compact"
-        flat
-        :icon="mdiMultiplicationBox"
-        size="large"
-        :border="true"
-        @click="toggleMultipliers"
-      />
+      <v-tooltip location="top">
+        <template #activator="{ props }">
+          <v-btn
+            variant="outlined"
+            density="compact"
+            :icon="mdiMultiplicationBox"
+            size="x-large"
+            :border="true"
+            v-bind="props"
+            @click="toggleMultipliers"
+          />
+        </template>
+        <span>View multipliers</span>
+      </v-tooltip>
     </div>
   </section>
 </template>

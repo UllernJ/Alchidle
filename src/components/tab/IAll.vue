@@ -1,19 +1,15 @@
 <template>
   <div class="container">
     <section>
-      <span class="title">Workers</span>
       <i-workers />
     </section>
     <section>
-      <span class="title">Buildings</span>
       <i-buildings />
     </section>
     <section v-if="!isEveryResearchUnlocked">
-      <span class="title">Research</span>
       <i-research />
     </section>
     <section v-if="GEAR.unlocked && GEAR.unlocked()">
-      <span class="title">Gear</span>
       <i-gear />
     </section>
     <section v-if="ALCHEMY.unlocked && ALCHEMY.unlocked()">
@@ -46,11 +42,6 @@ const isEveryResearchUnlocked = computed(() => {
   gap: 1rem;
   width: 100%;
   height: 100%;
-}
-.title {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-left: 1rem;
 }
 section {
   height: 100%;

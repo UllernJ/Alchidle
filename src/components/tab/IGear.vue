@@ -1,5 +1,6 @@
 <template>
   <div class="gear-container">
+    <h1>Gear</h1>
     <h2 class="title">
       Weapon
     </h2>
@@ -155,7 +156,6 @@ const canAffordArmor = computed(() => {
   flex-direction: column;
   align-items: center;
 }
-
 
 .gear-description p {
   font-size: 1.2em;

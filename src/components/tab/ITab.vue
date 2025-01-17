@@ -79,7 +79,10 @@ watch(currentState, () => {
   border: 1px solid #f1f1f1;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 50vh;
+  scrollbar-width: thin;
+  scrollbar-color: #f1f1f1 #1a1a1a;
+  overflow: overlay;
+  max-height: 60vh;
 }
 
 .state-list {

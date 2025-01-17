@@ -1,5 +1,6 @@
 <template>
   <div class="buildings-container">
+    <h1>Buildings</h1>
     <section class="building-list">
       <template
         v-for="(building, index) in buildings"

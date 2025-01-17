@@ -1,5 +1,6 @@
 <template>
   <div class="research-tab">
+    <h1>Research</h1>
     <section class="research-list">
       <template
         v-for="research in researchList"

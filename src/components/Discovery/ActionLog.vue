@@ -42,12 +42,16 @@ onMounted(() => {
 <style scoped>
 .action-log {
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #f1f1f1 #1a1a1a;
+  overflow: overlay;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   height: 100%;
   min-height: 100%;
   max-height: 15rem;
+  height: fit-content;
   width: 100%;
   background-image: url("../../assets/logo.png");
   background-size: 25%;
@@ -66,8 +70,6 @@ onMounted(() => {
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-
-  height: fit-content;
 }
 
 .timestamp {
@@ -76,7 +78,7 @@ onMounted(() => {
   padding: 0 0.5rem;
   margin-right: 0.5rem;
   border-right: 1px solid #444;
-  max-width: 5rem;
+  max-width: 6rem;
   width: 100%;
   height: 100%;
   display: flex;

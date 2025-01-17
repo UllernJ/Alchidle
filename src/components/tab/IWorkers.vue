@@ -1,5 +1,6 @@
 <template>
   <div class="worker-tab">
+    <h1>Workers</h1>
     <section class="worker-list">
       <template
         v-for="worker in workerStations"
