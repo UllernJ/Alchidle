@@ -17,14 +17,14 @@
 
       <Icon
         :path="currentMonster.icon"
-        :size="124"
+        :size="96"
       />
       
       <div class="monster-description">
         <span>{{ formatNumber(currentMonster.attack) }}</span>
         <Icon
           :path="attackIcon"
-          :size="24"
+          :size="20"
         />
       </div>
       <div class="health-bar">
@@ -201,7 +201,7 @@ const fetchNextMonsters = () => {
 }
 
 .monster-name {
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: bold;
   margin-bottom: 1rem;
 }
@@ -220,7 +220,7 @@ const fetchNextMonsters = () => {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    font-size: 0.75em;
+    font-size: 0.7em;
   }
 }
 
@@ -233,7 +233,7 @@ const fetchNextMonsters = () => {
   transition: width 0.3s ease-in-out;
   color: white;
   font-weight: bold;
-  font-size: 1em;
+  font-size: .9em;
   text-align: center;
 }
 
@@ -250,6 +250,7 @@ const fetchNextMonsters = () => {
   border-radius: 5px;
   transition: background-color 0.3s ease;
   width: 100%;
+  font-size: .9em;
 }
 
 .attack-button:hover {

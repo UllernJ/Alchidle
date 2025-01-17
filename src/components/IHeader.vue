@@ -9,14 +9,14 @@
         color="white"
         base-color="grey-darken-1"
         :prepend-icon="mdiContentSave"
-        size="x-large"
+        size="large"
         density="compact"
         @click="saveGame"
       >
         Save
       </v-btn>
       <v-btn
-        size="x-large"
+        size="large"
         color="white"
         base-color="grey-darken-1"
         variant="outlined"
@@ -30,7 +30,7 @@
         variant="outlined"
         color="white"
         base-color="grey-darken-1"
-        size="x-large"
+        size="large"
         density="compact"
         :prepend-icon="mdiCog"
         @click="openSettings"
@@ -41,7 +41,7 @@
         variant="outlined"
         color="white"
         base-color="grey-darken-1"
-        size="x-large"
+        size="large"
         density="compact"
         :prepend-icon="mdiNewspaper"
         @click="openNews"
@@ -49,7 +49,7 @@
         News
       </v-btn>
       <v-btn
-        size="x-large"
+        size="large"
         variant="outlined"
         color="white"
         base-color="grey-darken-1"
@@ -108,11 +108,11 @@ const openDiscord = () => {
 
 <style scoped>
 .header {
-  max-height: 3.5rem;
+  max-height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.85rem;
+  padding: 1rem;
   background-color: #2b2b2b;
   border-left: 1px solid #f1f1f1;
   border-right: 1px solid #f1f1f1;

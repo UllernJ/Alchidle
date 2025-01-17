@@ -40,13 +40,10 @@ const gatherMessage = computed(() => {
     <div class="header">
       <Icon
         :path="icon"
-        :size="40"
+        :size="30"
       />
       <span>{{ type.toString() }}</span>
     </div>
-    <span class="income">
-      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s
-    </span>
     <span class="resource-values">
       {{
         `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
@@ -61,15 +58,20 @@ const gatherMessage = computed(() => {
         }"
       />
     </div>
-    <v-btn
-      color="white"
-      variant="outlined"
-      :active="currentFocus == type"
-      width="50%"
-      @click="setFocus(type)"
-    >
-      {{ currentFocus == type ? gatherMessage : "Gather" }}
-    </v-btn>
+    <div class="button-container">
+      <v-btn
+        color="white"
+        variant="outlined"
+        :active="currentFocus == type"
+        width="50%"
+        @click="setFocus(type)"
+      >
+        {{ currentFocus == type ? gatherMessage : "Gather" }}
+      </v-btn>
+      <span class="income">
+        +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s
+      </span>
+    </div>
   </div>
 </template>
 
@@ -99,10 +101,6 @@ const gatherMessage = computed(() => {
   font-size: 1.5em;
 }
 
-.income, .resource-values {
-  font-size: 1em;
-}
-
 .loading-bar-wrapper {
   width: 100%;
   height: 1.25rem;
@@ -117,6 +115,15 @@ const gatherMessage = computed(() => {
   background: #ffcc00;
   transition: width 0.5s ease-in-out;
   border-radius: 8px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 2rem;
 }
 
 

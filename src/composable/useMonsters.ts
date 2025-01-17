@@ -2,7 +2,7 @@ import { computed, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 
-const MONSTERS_PER_MAP = 40;
+const MONSTERS_PER_MAP = 30;
 
 const difficulty = ref<number>(1);
 const map = ref<number>(0);

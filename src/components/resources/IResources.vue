@@ -28,6 +28,6 @@ import IResource from "./IResource.vue";
 section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: .5rem;
 }
 </style>

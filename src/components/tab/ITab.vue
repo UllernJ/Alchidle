@@ -69,6 +69,11 @@ watch(currentState, () => {
 <style scoped>
 .state-content {
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  scrollbar-width: thin;
+  scrollbar-color: #f1f1f1 #1a1a1a;
+  max-height: 53vh;
 }
 
 .state-sidebar {
@@ -76,13 +81,9 @@ watch(currentState, () => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: fit-content;
+  margin: 0;
   border: 1px solid #f1f1f1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #f1f1f1 #1a1a1a;
-  overflow: overlay;
-  max-height: 60vh;
 }
 
 .state-list {
@@ -91,7 +92,6 @@ watch(currentState, () => {
   padding: 0;
   display: flex;
   width: 100%;
-  height: 100%;
   flex-direction: row;
   border-bottom: 1px solid #f1f1f1;
   position: sticky;
