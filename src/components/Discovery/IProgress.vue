@@ -12,7 +12,7 @@
             v-if="monster.drop.amount > 0"
             class="icon"
             :path="getResourceIcon(monster.drop.resource)"
-            :size="24"
+            :size="20"
           />
         </div>
       </div>

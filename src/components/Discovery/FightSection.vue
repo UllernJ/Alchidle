@@ -21,7 +21,7 @@
       />
       
       <div class="monster-description">
-        <span>{{ currentMonster.attack }}</span>
+        <span>{{ formatNumber(currentMonster.attack) }}</span>
         <Icon
           :path="attackIcon"
           :size="24"
@@ -38,20 +38,23 @@
       </div>
     </section>
     <section class="attack">
-      <button
+      <v-btn
         class="attack-button"
+        variant="outlined"
+        color="white"
         :disabled="isAttackOnCooldown"
         @click="isEmpty ? fetchNextMonsters() : attack()"
       >
         {{ isEmpty ? "Explore" : "Attack" }}
-      </button>
-      <button
+      </v-btn>
+      <v-btn
         v-if="!isEmpty"
         class="attack-button"
+        variant="outlined"
         @click="autoAttack"
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
-      </button>
+      </v-btn>
       <!-- <button
         v-if="isDev"
         class="attack-button"
@@ -244,19 +247,9 @@ const fetchNextMonsters = () => {
 }
 
 .attack-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #2b2b2b;
-  width: fit-content;
-  height: 100%;
-  padding: 1rem;
-  border: 1px solid #f1f1f1;
-  text-align: center;
   border-radius: 5px;
   transition: background-color 0.3s ease;
   width: 100%;
-  font-size: 0.75em;
 }
 
 .attack-button:hover {

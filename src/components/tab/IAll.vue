@@ -57,6 +57,7 @@ section {
   width: 100%;
 }
 section:not(:first-child) {
+  box-sizing: border-box;
   border-top: 1px solid #f1f1f1;
 }
 

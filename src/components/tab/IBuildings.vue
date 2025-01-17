@@ -11,8 +11,11 @@
           content-class="custom-tooltip"
         >
           <template #activator="{ props }">
-            <button
-              class="building-item"
+            <v-btn 
+              color="white"
+              variant="outlined"
+              height="7rem"
+              width="15rem"
               :disabled="!canAfford(index)"
               v-bind="props"
               @click="upgradeBuilding(index)"
@@ -24,7 +27,7 @@
               <div class="building-description">
                 <h2>{{ building.name }} ({{ building.quantity }})</h2>
               </div>
-            </button>
+            </v-btn>
           </template>
           <div class="tooltip-content">
             <div class="tooltip-header">
@@ -110,20 +113,7 @@ const upgradeBuilding = (index: number) => {
   width: 100%;
 }
 
-.building-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #f1f1f1;
-  padding: 1rem;
-  background-color: #2b2b2b;
-  width: 15rem;
-  &:hover {
-    cursor: pointer;
-    background-color: #3a3939;
-  }
-}
+
 
 .building-description {
   width: 100%;

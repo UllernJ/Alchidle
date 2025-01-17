@@ -36,7 +36,7 @@ const gatherMessage = computed(() => {
 </script>
 
 <template>
-  <div class="money-container">
+  <div class="resource-container">
     <div class="header">
       <Icon
         :path="icon"
@@ -44,9 +44,10 @@ const gatherMessage = computed(() => {
       />
       <span>{{ type.toString() }}</span>
     </div>
-    <span>
-      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s</span>
-    <span>
+    <span class="income">
+      +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s
+    </span>
+    <span class="resource-values">
       {{
         `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
       }}
@@ -60,27 +61,20 @@ const gatherMessage = computed(() => {
         }"
       />
     </div>
-    <button
-      class="styled-button"
+    <v-btn
+      color="white"
+      variant="outlined"
+      :active="currentFocus == type"
+      width="50%"
       @click="setFocus(type)"
     >
       {{ currentFocus == type ? gatherMessage : "Gather" }}
-    </button>
+    </v-btn>
   </div>
 </template>
 
 <style scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-weight: bold;
-  margin-top: -0.75rem;
-  font-size: 1.5em;
-}
-
-.money-container {
+.resource-container {
   background-color: #1a1a1a;
   padding: 1.1rem;
   text-align: center;
@@ -92,6 +86,21 @@ const gatherMessage = computed(() => {
   border: 1px solid #f1f1f1;
   height: 100%;
   box-sizing: border-box;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  margin-top: -0.75rem;
+  font-size: 1.5em;
+}
+
+.income, .resource-values {
+  font-size: 1em;
 }
 
 .loading-bar-wrapper {
@@ -110,13 +119,5 @@ const gatherMessage = computed(() => {
   border-radius: 8px;
 }
 
-.styled-button {
-  width: 12rem;
-  padding: 0.5rem 2rem;
-  border: 1px solid #f1f1f1;
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
-  }
-}
+
 </style>

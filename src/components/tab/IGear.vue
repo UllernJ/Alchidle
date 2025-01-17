@@ -11,8 +11,11 @@
       >
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <button
-              class="gear-item"
+            <v-btn
+              color="white"
+              variant="outlined"
+              height="7rem"
+              width="15rem"
               :disabled="!canAffordWeapon(index)"
               v-bind="props"
               @click="buyWeapon(index)"
@@ -31,7 +34,7 @@
                   />
                 </div>
               </div>
-            </button>
+            </v-btn>
           </template>
           <div :class="['cost', { 'text-red': !canAffordWeapon(index) }]">
             <p>{{ formatNumber(weapon.cost) }}</p>
@@ -55,8 +58,11 @@
       >
         <v-tooltip location="top">
           <template #activator="{ props }">
-            <button
-              class="gear-item"
+            <v-btn
+              color="white"
+              variant="outlined"
+              height="7rem"
+              width="15rem"
               :disabled="!canAffordArmor(index)"
               v-bind="props"
               @click="buyArmor(index)"
@@ -75,7 +81,7 @@
                   />
                 </div>
               </div>
-            </button>
+            </v-btn>
           </template>
           <div :class="['cost', { 'text-red': !canAffordArmor(index) }]">
             <p>{{ formatNumber(armor.cost) }}</p>
@@ -143,22 +149,6 @@ const canAffordArmor = computed(() => {
   width: 100%;
 }
 
-.gear-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #f1f1f1;
-  padding: 1rem;
-  background-color: #2b2b2b;
-  height: 100%;
-  width: 15rem;
-  &:hover {
-    cursor: pointer;
-    background-color: #3a3939;
-  }
-}
-
 .gear-description {
   width: 100%;
   display: flex;
@@ -166,11 +156,6 @@ const canAffordArmor = computed(() => {
   align-items: center;
 }
 
-.gear-description h2 {
-  font-size: 1.2em;
-  margin: 0;
-  font-weight: bold;
-}
 
 .gear-description p {
   font-size: 1.2em;

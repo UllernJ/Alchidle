@@ -10,14 +10,17 @@
           location="top"
         >
           <template #activator="{ props }">
-            <button
-              class="research"
+            <v-btn
+              color="white"
+              variant="outlined"
+              height="7rem"
+              width="15rem"
               :disabled="!canAfford(research)"
               v-bind="props"
               @click="unlockResearch(research)"
             >
               <h2>{{ research.name }}</h2>
-            </button>
+            </v-btn>
           </template>
           <span>{{ research.description }}</span>
           <div :class="['research-cost', { 'text-red': !canAfford(research) }]">
@@ -70,23 +73,6 @@ const canAfford = computed(() => {
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
-}
-
-.research {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid white;
-  background-color: #2b2b2b;
-  text-align: center;
-  justify-content: center;
-  padding: 1.5rem 1rem;
-  height: 5rem;
-  width: 15rem;
-  &:hover {
-    cursor: pointer;
-    background-color: #3a3939;
-  }
 }
 
 .research-cost {

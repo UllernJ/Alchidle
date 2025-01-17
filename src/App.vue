@@ -37,36 +37,40 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <i-popup />
-  <LoadingScreen />
-  <i-multipliers />
-
-  <i-header />
-  <main class="main-container">
-    <section class="top-container">
-      <i-resources />
-      <i-discovery />
-    </section>
-    <section class="content-container">
-      <i-tab />
-      <div />
-    </section>
-  </main>
+  <v-app
+    id="app"
+    theme="dark"
+  >
+    <i-popup />
+    <LoadingScreen />
+    <i-multipliers />
+  
+    <i-header />
+    <v-main class="main-container">
+      <section class="top-container">
+        <i-resources />
+        <i-discovery />
+      </section>
+      <section class="content-container">
+        <i-tab />
+      </section>
+    </v-main>
+  </v-app>
 </template>
 
 <style scoped>
-html,
-body,
-#app {
+
+.main-container {
   height: 100%;
-  margin: 0;
-  padding: 0;
+  display: grid;
+  grid-template-rows: 1fr 1.5fr;
+    background-color: #242424 !important;
 }
 
 .top-container {
   display: grid;
-  grid-template-columns: 4fr 6fr;
-  gap: 1rem;
+  grid-template-columns: 3.5fr 6fr;
+  gap: .75rem;
   overflow: hidden;
   height: 100%;
 }

@@ -9,9 +9,9 @@
         :key="state.name"
         class="state-item"
       >
-        <button
-          class="state-button"
-          :class="{ active: state.name === currentState }"
+        <v-btn
+          width="100%"
+          :active="state.name === currentState"
           :disabled="state.unlocked && !state.unlocked()"
           @click="setState(state)"
         >
@@ -28,7 +28,7 @@
               class="alert-icon"
             />
           </div>
-        </button>
+        </v-btn>
       </li>
     </ul>
     <div class="state-content">
@@ -104,26 +104,13 @@ watch(currentState, () => {
   }
 }
 
-.state-button {
-  height: 100%;
-  padding: 0.8rem 1.3rem;
-  font-size: 0.9em;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  &:hover {
-    opacity: 0.8;
-  }
-  &:disabled {
-    pointer-events: none;
-  }
-}
-
 .active {
   background-color: #1a1a1a;
 }
 
 .button-content {
+  display: flex;
+  align-items: center;
   text-align: start;
 }
 
@@ -141,5 +128,6 @@ watch(currentState, () => {
 
 .alert-icon {
   animation: alert-blink 1s infinite;
+  margin-left: 0.5rem;
 }
 </style>

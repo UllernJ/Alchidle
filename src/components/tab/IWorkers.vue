@@ -10,8 +10,11 @@
           location="top"
         >
           <template #activator="{ props }">
-            <button
-              class="worker"
+            <v-btn
+              color="white"
+              variant="outlined"
+              height="7rem"
+              width="15rem"
               :disabled="!canAfford(worker)"
               v-bind="props"
               @click="worker.buy()"
@@ -23,7 +26,7 @@
               <div class="worker-description">
                 <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>
               </div>
-            </button>
+            </v-btn>
           </template>
           <section>
             <div class="tooltip-header">
@@ -56,8 +59,11 @@
         location="top"
       >
         <template #activator="{ props }">
-          <button
-            class="worker"
+          <v-btn
+            color="white"
+            variant="outlined"
+            height="7rem"
+            width="15rem"
             :disabled="!canAffordAlchemist"
             v-bind="props"
             @click="buyAlchemist"
@@ -71,7 +77,7 @@
                 {{ alchemyWorkers.name }} ({{ alchemyWorkers.numberOfWorkers }})
               </h2>
             </div>
-          </button>
+          </v-btn>
         </template>
         <section class="tooltip-content">
           <div class="tooltip-header">
@@ -146,21 +152,6 @@ const canAffordAlchemist = computed(() => {
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
-}
-
-.worker {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #f1f1f1;
-  padding: 1rem;
-  background-color: #2b2b2b;
-  width: 15rem;
-  &:hover {
-    cursor: pointer;
-    background-color: #3a3939;
-  }
 }
 
 .tooltip-header {

@@ -35,20 +35,20 @@
           Workers: {{ infusion.workersAllocated }}
         </p>
         <section class="infusion-buttons">
-          <button
+          <v-btn
             :disabled="employedAlchemists >= alchemistCount"
             class="infusion-button"
             @click="allocateAlchemist(index)"
           >
             +
-          </button>
-          <button
+          </v-btn>
+          <v-btn
             :disabled="infusion.workersAllocated === 0"
             class="infusion-button"
             @click="deallocateAlchemist(index)"
           >
             -
-          </button>
+          </v-btn>
         </section>
       </div>
     </section>
@@ -100,7 +100,7 @@ const getColorFromName = (name: string) => {
 
 <style scoped>
 .alchemy-container {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,7 +113,6 @@ const getColorFromName = (name: string) => {
   align-items: center;
   gap: 0.5rem;
   align-self: flex-start;
-  margin-bottom: 1rem;
   padding: 0.5rem;
   & > span {
     font-size: 1.5em;
@@ -144,12 +143,12 @@ const getColorFromName = (name: string) => {
   align-items: center;
   font-size: 1em;
   font-weight: bold;
-  margin-bottom: 0.5rem;
   min-width: 10rem;
 }
 
 .progress-bar-container {
-  width: 50%;
+  max-width: 50%;
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -164,7 +163,6 @@ const getColorFromName = (name: string) => {
   border-radius: 8px;
   box-sizing: border-box;
   overflow: hidden;
-  margin-bottom: 0.5rem;
   margin: 0;
 }
 
@@ -193,7 +191,6 @@ const getColorFromName = (name: string) => {
   background-color: #2b2b2b;
   border: 1px solid #f1f1f1;
   padding: 0.5rem;
-  margin-top: 0.5rem;
   min-width: 2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;

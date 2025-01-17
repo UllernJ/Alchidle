@@ -1,8 +1,8 @@
 <template>
   <v-overlay
     v-model="showMultipliers"
+    scroll-strategy="reposition"
     class="overlay"
-    absolute
   >
     <v-card class="multipliers-card">
       <v-card-title class="headline">
