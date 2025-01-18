@@ -13,9 +13,20 @@
           backgroundColor: getColorFromName(infusion.name),
         }"
       >
-        <p class="infusion-name">
+        <span class="infusion-name">
+          <v-tooltip
+            location="top"
+          >
+            <template #activator="{ props }">
+              <v-icon
+                :icon="mdiInformationBoxOutline"
+                v-bind="props"
+              />
+            </template>
+            <span>{{ infusion.description }}</span>
+          </v-tooltip>
           {{ infusion.name }}
-        </p>
+        </span>
         <section class="progress-bar-container">
           <div class="progress-bar">
             <div
@@ -58,6 +69,7 @@ import IAlchemyWorker from "./IAlchemyWorker.vue";
 import { useAlchemy } from "../../../composable/useAlchemy";
 import type { Infusion } from "../../../models/Infusion";
 import { formatNumber } from "../../../utils/number";
+import { mdiInformationBoxOutline } from "@mdi/js";
 
 const {
   infusions,
@@ -148,9 +160,11 @@ const getColorFromName = (name: string) => {
 .infusion-name {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   font-size: 1em;
   font-weight: bold;
-  min-width: 10rem;
+  width: 100%;
+  max-width: 12rem;
 }
 
 .progress-bar-container {

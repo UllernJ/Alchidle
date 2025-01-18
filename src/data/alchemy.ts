@@ -76,7 +76,7 @@ const infuseWeapon = new Infusion(
     upgradeWeapons();
   },
   1,
-  "Upgrades all weapons damage by 1.1x"
+  "Increases all weapons damage by 1.1x"
 );
 
 const infuseArmor = new Infusion(
@@ -87,7 +87,7 @@ const infuseArmor = new Infusion(
     upgradeArmors();
   },
   1,
-  "Upgrades all armors defense by 1.1x"
+  "Increases all armors defense by 1.1x"
 );
 
 export const getInfusions = () => {

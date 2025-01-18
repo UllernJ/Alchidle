@@ -69,4 +69,12 @@ const canAffordAlchemist = computed(() => {
 </script>
 
 <style scoped>
+.worker-cost {
+  padding: 0.5rem 0rem;
+  display: flex;
+  align-items: center;
+  &:last-child {
+    border-top: 1px solid #f1f1f1;
+  }
+}
 </style>
