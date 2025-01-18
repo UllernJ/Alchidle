@@ -49,10 +49,10 @@ import { useResource } from "../../composable/useResource";
 import { scienceIcon } from "../../icons/icons";
 import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
-import type { Research } from "../../data/research";
 import { formatNumber } from "../../utils/number";
+import type { Research } from "../../models/research/Research";
 
-const { researchList, unlockResearch } = useResearch();
+const { researchList } = useResearch();
 const { resources } = useResource();
 
 const canAfford = computed(() => {
