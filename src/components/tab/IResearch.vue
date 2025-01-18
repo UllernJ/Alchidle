@@ -20,7 +20,7 @@
               v-bind="props"
               @click="research.unlock()"
             >
-              <h2>{{ research.name }}</h2>
+              <h2>{{ research.getName() }}</h2>
             </v-btn>
           </template>
           <span>{{ research.description }}</span>

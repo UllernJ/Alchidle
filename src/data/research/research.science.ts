@@ -5,27 +5,17 @@ import {
   mathematicsResearch,
 } from "./research.resource";
 import { SCIENTIST } from "../workers";
+import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 
 export const scienceResearch = ref(
-  new Research(
+  new UpgradeableResearch(
     "Science",
     "Improves your scientists, doubling their efficiency (2x).",
-    100,
+    1,
     () =>
       mathematicsResearch.value.unlocked &&
       advancedMiningResearch.value.unlocked,
-    () => {
-      SCIENTIST.value.upgradeRate(2);
-    }
-  )
-);
-
-export const advancedScienceResearch = ref(
-  new Research(
-    "Advanced Science",
-    "Further improves your scientists, doubling their efficiency (2x).",
-    200,
-    () => scienceResearch.value.unlocked,
+    2,
     () => {
       SCIENTIST.value.upgradeRate(2);
     }

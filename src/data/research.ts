@@ -25,7 +25,6 @@ import {
   unlockAlchemyResearch,
 } from "./research/research.alchemy";
 import {
-  advancedScienceResearch,
   blacksmithingResearch,
   scienceResearch,
 } from "./research/research.science";
@@ -42,7 +41,6 @@ export const getResearchList = () => {
       combatTrainingResearch.value,
       fortificationResearch.value,
       advancedAlchemyResearch.value,
-      advancedScienceResearch.value,
       blacksmithingResearch.value,
       efficiencyResearchI.value,
       efficiencyResearchII.value,
