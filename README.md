@@ -6,7 +6,7 @@
 
 - Rework alchemy, invent new resource.
 
-- More research (Some shit should be the same research with some form of count, multiplier
+- More research -> add logic for unlocking better
 
 - Handle insane big numbers -> CHECK OUT ARRAY HANDLING
 
