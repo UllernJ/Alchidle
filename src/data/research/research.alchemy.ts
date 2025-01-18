@@ -1,42 +1,43 @@
 import { ref } from "vue";
-import type { Research } from "../research";
+import { Research } from "../../models/research/Research";
 import { useMonsters } from "../../composable/useMonsters";
 import { isDev } from "../../utils/dev";
 import { useAlchemy } from "../../composable/useAlchemy";
 
-export const unlockAlchemyResearch = ref<Research>({
-  name: "Alchemy",
-  description:
+export const unlockAlchemyResearch = ref(
+  new Research(
+    "Alchemy",
     "Unlock the secrets of alchemy. Enchant every aspect of your life.",
-  cost: isDev ? 0 : 1000,
-  unlocked: false,
-  requirement: () => {
-    const { map } = useMonsters();
-    return map.value >= 5 || isDev;
-  },
-});
+    isDev ? 0 : 1000,
+    () => {
+      const { map } = useMonsters();
+      return map.value >= 5 || isDev;
+    }
+  )
+);
 
-export const alchemyResearch = ref<Research>({
-  name: "Alchemy enchantment",
-  description: "Improves your alchemists, doubling their efficiency (2x).",
-  cost: 5000,
-  unlocked: false,
-  effect: () => {
-    const { upgradeAlchemists } = useAlchemy();
-    upgradeAlchemists();
-  },
-  requirement: () => unlockAlchemyResearch.value.unlocked,
-});
+export const alchemyResearch = ref(
+  new Research(
+    "Alchemy enchantment",
+    "Improves your alchemists, doubling their efficiency (2x).",
+    5000,
+    () => unlockAlchemyResearch.value.unlocked,
+    () => {
+      const { upgradeAlchemists } = useAlchemy();
+      upgradeAlchemists();
+    }
+  )
+);
 
-export const advancedAlchemyResearch = ref<Research>({
-  name: "Advanced Alchemy",
-  description:
+export const advancedAlchemyResearch = ref(
+  new Research(
+    "Advanced Alchemy",
     "Further improves your alchemists, doubling their efficiency (2x).",
-  cost: 25000,
-  unlocked: false,
-  effect: () => {
-    const { upgradeAlchemists } = useAlchemy();
-    upgradeAlchemists();
-  },
-  requirement: () => alchemyResearch.value.unlocked,
-});
+    25000,
+    () => alchemyResearch.value.unlocked,
+    () => {
+      const { upgradeAlchemists } = useAlchemy();
+      upgradeAlchemists();
+    }
+  )
+);

@@ -18,7 +18,7 @@
               width="15rem"
               :disabled="!canAfford(research)"
               v-bind="props"
-              @click="unlockResearch(research)"
+              @click="research.unlock()"
             >
               <h2>{{ research.name }}</h2>
             </v-btn>

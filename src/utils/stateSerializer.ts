@@ -2,7 +2,7 @@ import type { Armor, Weapon } from "../composable/useGear";
 import type { SessionState } from "./localStorage";
 import type { Building } from "../models/Building";
 import type { Worker } from "../models/Worker";
-import type { Research } from "../data/research";
+import type { Research } from "../models/research/Research";
 
 export const serializeState = (state: SessionState) => {
   return {

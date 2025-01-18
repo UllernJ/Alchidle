@@ -1,85 +1,92 @@
 import { ref } from "vue";
-import type { Research } from "../research";
+import { Research } from "../../models/research/Research";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 
 const { upgradeProductionRate, upgradeAttackPower, upgradeDefensePower } =
   usePlayer();
-  const { map } = useMonsters();
+const { map } = useMonsters();
 
-export const efficiencyResearch = ref<Research>({
-  name: "Efficiency",
-  description: "Improves your own efficiency, doubling production rate (2x).",
-  cost: 100,
-  unlocked: false,
-  effect: () => {
-    upgradeProductionRate(2);
-  },
-  requirement: () => true,
-});
+export const efficiencyResearch = ref(
+  new Research(
+    "Efficiency",
+    "Improves your own efficiency, doubling production rate (2x).",
+    100,
+    () => true,
+    () => {
+      upgradeProductionRate(2);
+    }
+  )
+);
 
-export const efficiencyResearchI = ref<Research>({
-  name: "Efficiency",
-  description: "Improves your own efficiency, doubling production rate (2x).",
-  cost: 1000,
-  unlocked: false,
-  effect: () => {
-    upgradeProductionRate(2);
-  },
-  requirement: () => efficiencyResearch.value.unlocked && map.value >= 2,
-});
+export const efficiencyResearchI = ref(
+  new Research(
+    "Efficiency",
+    "Improves your own efficiency, doubling production rate (2x).",
+    1000,
+    () => efficiencyResearch.value.unlocked && map.value >= 2,
+    () => {
+      upgradeProductionRate(2);
+    }
+  )
+);
 
-export const efficiencyResearchII = ref<Research>({
-  name: "Efficiency",
-  description: "Improves your own efficiency, doubling production rate (2x).",
-  cost: 10000,
-  unlocked: false,
-  effect: () => {
-    upgradeProductionRate(2);
-  },
-  requirement: () => efficiencyResearchI.value.unlocked && map.value >= 3,
-});
+export const efficiencyResearchII = ref(
+  new Research(
+    "Efficiency",
+    "Improves your own efficiency, doubling production rate (2x).",
+    10000,
+    () => efficiencyResearchI.value.unlocked && map.value >= 3,
+    () => {
+      upgradeProductionRate(2);
+    }
+  )
+);
 
-export const efficiencyResearchIII = ref<Research>({
-  name: "Efficiency",
-  description: "Improves your own efficiency, doubling production rate (2x).",
-  cost: 100000,
-  unlocked: false,
-  effect: () => {
-    upgradeProductionRate(2);
-  },
-  requirement: () => efficiencyResearchII.value.unlocked && map.value >= 4,
-});
+export const efficiencyResearchIII = ref(
+  new Research(
+    "Efficiency",
+    "Improves your own efficiency, doubling production rate (2x).",
+    100000,
+    () => efficiencyResearchII.value.unlocked && map.value >= 4,
+    () => {
+      upgradeProductionRate(2);
+    }
+  )
+);
 
-export const efficiencyResearchIV = ref<Research>({
-  name: "Efficiency",
-  description: "Improves your own efficiency, doubling production rate (2x).",
-  cost: 1000000,
-  unlocked: false,
-  effect: () => {
-    upgradeProductionRate(2);
-  },
-  requirement: () => efficiencyResearchIII.value.unlocked && map.value >= 5,
-});
+export const efficiencyResearchIV = ref(
+  new Research(
+    "Efficiency",
+    "Improves your own efficiency, doubling production rate (2x).",
+    1000000,
+    () => efficiencyResearchIII.value.unlocked && map.value >= 5,
+    () => {
+      upgradeProductionRate(2);
+    }
+  )
+);
 
-export const combatTrainingResearch = ref<Research>({
-  name: "Combat Training",
-  description: "Increases your attack power by 10% (1.1x).",
-  cost: 10000,
-  unlocked: false,
-  effect: () => {
-    upgradeAttackPower();
-  },
-  requirement: () => map.value >= 2,
-});
+export const combatTrainingResearch = ref(
+  new Research(
+    "Combat Training",
+    "Increases your attack power by 10% (1.1x).",
+    10000,
+    () => map.value >= 2,
+    () => {
+      upgradeAttackPower();
+    }
+  )
+);
 
-export const fortificationResearch = ref<Research>({
-  name: "Fortification",
-  description: "Increases your defense power by 10% (1.1x).",
-  cost: 150,
-  unlocked: false,
-  effect: () => {
-    upgradeDefensePower();
-  },
-  requirement: () => combatTrainingResearch.value.unlocked,
-});
+export const fortificationResearch = ref(
+  new Research(
+    "Fortification",
+    "Increases your defense power by 10% (1.1x).",
+    150,
+    () => combatTrainingResearch.value.unlocked,
+    () => {
+      upgradeDefensePower();
+    }
+  )
+);

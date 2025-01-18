@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { Research } from "../research";
+import { Research } from "../../models/research/Research";
 import { efficiencyResearch } from "./research.player";
 import { BANKER, MINER } from "../workers";
 import { useMonsters } from "../../composable/useMonsters";
@@ -7,102 +7,111 @@ import { useMonsters } from "../../composable/useMonsters";
 const { map } = useMonsters();
 
 //!money
-export const mathematicsResearch = ref<Research>({
-  name: "Mathematics",
-  description: "Improves your bankers, doubling their efficiency (2x).",
-  cost: 100,
-  unlocked: false,
-  effect: () => {
-    BANKER.value.upgradeRate(2);
-  },
-  requirement: () => efficiencyResearch.value.unlocked,
-});
+export const mathematicsResearch = ref(
+  new Research(
+    "Mathematics",
+    "Improves your bankers, doubling their efficiency (2x).",
+    100,
+    () => efficiencyResearch.value.unlocked,
+    () => {
+      BANKER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const mathematicsResearchII = ref<Research>({
-  name: "Mathematics II",
-  description: "Further improves your bankers, doubling their efficiency (2x).",
-  cost: 500,
-  unlocked: false,
-  effect: () => {
-    BANKER.value.upgradeRate(2);
-  },
-  requirement: () => mathematicsResearch.value.unlocked && map.value >= 2,
-});
+export const mathematicsResearchII = ref(
+  new Research(
+    "Mathematics II",
+    "Further improves your bankers, doubling their efficiency (2x).",
+    500,
+    () => mathematicsResearch.value.unlocked && map.value >= 2,
+    () => {
+      BANKER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const mathematicsResearchIII = ref<Research>({
-  name: "Mathematics III",
-  description: "Further improves your bankers, doubling their efficiency (2x).",
-  cost: 3000,
-  unlocked: false,
-  effect: () => {
-    BANKER.value.upgradeRate(2);
-  },
-  requirement: () => mathematicsResearch.value.unlocked && map.value >= 3,
-});
+export const mathematicsResearchIII = ref(
+  new Research(
+    "Mathematics III",
+    "Further improves your bankers, doubling their efficiency (2x).",
+    3000,
+    () => mathematicsResearch.value.unlocked && map.value >= 3,
+    () => {
+      BANKER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const mathematicsResearchIV = ref<Research>({
-  name: "Mathematics IV",
-  description: "Further improves your bankers, doubling their efficiency (2x).",
-  cost: 10000,
-  unlocked: false,
-  effect: () => {
-    BANKER.value.upgradeRate(2);
-  },
-  requirement: () => mathematicsResearch.value.unlocked && map.value >= 4,
-});
+export const mathematicsResearchIV = ref(
+  new Research(
+    "Mathematics IV",
+    "Further improves your bankers, doubling their efficiency (2x).",
+    10000,
+    () => mathematicsResearch.value.unlocked && map.value >= 4,
+    () => {
+      BANKER.value.upgradeRate(2);
+    }
+  )
+);
 
 //!mining
-export const advancedMiningResearch = ref<Research>({
-  name: "Mining",
-  description: "Improves your miners, doubling their efficiency (2x).",
-  cost: 100,
-  unlocked: false,
-  effect: () => {
-    MINER.value.upgradeRate(2);
-  },
-  requirement: () => efficiencyResearch.value.unlocked,
-});
+export const advancedMiningResearch = ref(
+  new Research(
+    "Mining",
+    "Improves your miners, doubling their efficiency (2x).",
+    100,
+    () => efficiencyResearch.value.unlocked,
+    () => {
+      MINER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const advancedMiningResearchI = ref<Research>({
-  name: "Advanced Mining I",
-  description: "Further improves your miners, doubling their efficiency (2x).",
-  cost: 500,
-  unlocked: false,
-  effect: () => {
-    MINER.value.upgradeRate(2);
-  },
-  requirement: () => advancedMiningResearch.value.unlocked,
-});
+export const advancedMiningResearchI = ref(
+  new Research(
+    "Advanced Mining I",
+    "Further improves your miners, doubling their efficiency (2x).",
+    500,
+    () => advancedMiningResearch.value.unlocked,
+    () => {
+      MINER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const advancedMiningResearchII = ref<Research>({
-  name: "Advanced Mining II",
-  description: "Further improves your miners, doubling their efficiency (2x).",
-  cost: 3000,
-  unlocked: false,
-  effect: () => {
-    MINER.value.upgradeRate(2);
-  },
-  requirement: () => advancedMiningResearchI.value.unlocked && map.value >= 2,
-});
+export const advancedMiningResearchII = ref(
+  new Research(
+    "Advanced Mining II",
+    "Further improves your miners, doubling their efficiency (2x).",
+    3000,
+    () => advancedMiningResearchI.value.unlocked && map.value >= 2,
+    () => {
+      MINER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const advancedMiningResearchIII = ref<Research>({
-  name: "Advanced Mining III",
-  description: "Further improves your miners, doubling their efficiency (2x).",
-  cost: 10000,
-  unlocked: false,
-  effect: () => {
-    MINER.value.upgradeRate(2);
-  },
-  requirement: () => advancedMiningResearchII.value.unlocked && map.value >= 3,
-});
+export const advancedMiningResearchIII = ref(
+  new Research(
+    "Advanced Mining III",
+    "Further improves your miners, doubling their efficiency (2x).",
+    10000,
+    () => advancedMiningResearchII.value.unlocked && map.value >= 3,
+    () => {
+      MINER.value.upgradeRate(2);
+    }
+  )
+);
 
-export const advancedMiningResearchIV = ref<Research>({
-  name: "Advanced Mining IV",
-  description: "Further improves your miners, doubling their efficiency (2x).",
-  cost: 30000,
-  unlocked: false,
-  effect: () => {
-    MINER.value.upgradeRate(2);
-  },
-  requirement: () => advancedMiningResearchIII.value.unlocked && map.value >= 4,
-});
+export const advancedMiningResearchIV = ref(
+  new Research(
+    "Advanced Mining IV",
+    "Further improves your miners, doubling their efficiency (2x).",
+    30000,
+    () => advancedMiningResearchIII.value.unlocked && map.value >= 4,
+    () => {
+      MINER.value.upgradeRate(2);
+    }
+  )
+);
