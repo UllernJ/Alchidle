@@ -63,7 +63,7 @@ onUnmounted(() => {
 .main-container {
   height: 100%;
   display: grid;
-  grid-template-rows: 36% 64%;
+  grid-template-rows: 1fr 3fr;
     background-color: #242424 !important;
 }
 
@@ -89,7 +89,7 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
   }
   .main-container {
-    grid-template-rows: .4fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 }
 </style>

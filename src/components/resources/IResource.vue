@@ -40,7 +40,7 @@ const gatherMessage = computed(() => {
     <div class="header">
       <Icon
         :path="icon"
-        :size="30"
+        size="1.2em"
       />
       <span>{{ type.toString() }}</span>
     </div>
@@ -78,12 +78,13 @@ const gatherMessage = computed(() => {
 <style scoped>
 .resource-container {
   background-color: #1a1a1a;
-  padding: 1.1rem;
+  padding: .5rem;
   text-align: center;
   color: rgba(255, 255, 255, 0.87);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.33rem;
   border: 1px solid #f1f1f1;
   height: 100%;
@@ -103,7 +104,7 @@ const gatherMessage = computed(() => {
 
 .loading-bar-wrapper {
   width: 100%;
-  height: 1.25rem;
+  height: 1.2rem;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
   overflow: hidden;
