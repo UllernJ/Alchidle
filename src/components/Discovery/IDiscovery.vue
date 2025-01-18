@@ -23,5 +23,7 @@ import IProgress from "./IProgress.vue";
   grid-template-columns: 2fr 8fr 3fr 3fr;
   height: 100%;
   width: 100%;
+  max-height: 49vh;
+  height: 100%;
 }
 </style>

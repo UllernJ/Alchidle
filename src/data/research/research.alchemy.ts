@@ -12,7 +12,7 @@ export const unlockAlchemyResearch = ref<Research>({
   unlocked: false,
   requirement: () => {
     const { map } = useMonsters();
-    return map.value >= 5;
+    return map.value >= 5 || isDev;
   },
 });
 
@@ -31,7 +31,7 @@ export const alchemyResearch = ref<Research>({
 export const advancedAlchemyResearch = ref<Research>({
   name: "Advanced Alchemy",
   description:
-"Further improves your alchemists, doubling their efficiency (2x).",
+    "Further improves your alchemists, doubling their efficiency (2x).",
   cost: 25000,
   unlocked: false,
   effect: () => {

@@ -25,8 +25,19 @@ export const serializeState = (state: SessionState) => {
     workerStations: state.workerStations.map((worker: Worker) => {
       return { name: worker.name, numberOfWorkers: worker.numberOfWorkers };
     }),
+    alchemy: {
+      infusions: state.alchemy.infusions.map((infusion) => {
+        return {
+          name: infusion.name,
+          workersAllocated: infusion.workersAllocated,
+          level: infusion.level,
+          contribution: infusion.contribution,
+        };
+      }),
+      alchemyWorkers: state.alchemy.alchemyWorkers,
+    },
+    multipliers: state.multipliers,
     resources: state.resources,
     timestamp: Date.now(),
   };
-  
 };

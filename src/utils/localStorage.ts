@@ -4,6 +4,8 @@ import { useBuildings } from "../composable/useBuildings";
 import { useGear, type Armor, type Weapon } from "../composable/useGear";
 import { MessageType } from "../composable/useMessage";
 import { useMonsters } from "../composable/useMonsters";
+import { useMultipliers } from "../composable/useMultipliers";
+import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
@@ -22,13 +24,23 @@ export type SessionState = {
   armors: Armor[];
   weapons: Weapon[];
   buildings: Building[];
-  infusions: Infusion[];
   research: Research[];
   workerStations: Worker[];
   resources: Record<string, number>;
+  alchemy: {
+    infusions: Infusion[];
+    alchemyWorkers: number;
+  };
   adventure: {
     map: number;
     remainingMonsters: Monster[];
+  };
+  multipliers: {
+    attackPowerMultiplier: number;
+    defencePowerMultiplier: number;
+    healthMultiplier: number;
+    productionRate: number;
+    regenMultiplier: number;
   };
 };
 
@@ -38,26 +50,37 @@ export const saveSession = () => {
 
   const { armors, weapons } = useGear();
   const { buildings } = useBuildings();
-  const { infusions } = useAlchemy();
+  const { infusions, alchemyWorkers } = useAlchemy();
   const { researchList } = useResearch();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
-
+  const { getMultipliers } = useMultipliers();
+  const multipliers = getMultipliers();
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
     buildings: buildings.value,
-    infusions: infusions.value,
     research: researchList.value,
     workerStations: workerStations.value,
     resources: Object.fromEntries(
       Object.entries(resources).map(([key, ref]) => [key, ref.value])
     ),
+    alchemy: {
+      alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
+      infusions: infusions.value,
+    },
     adventure: {
       map: map.value,
       remainingMonsters: monsters.value,
-    }
+    },
+    multipliers: {
+      attackPowerMultiplier: multipliers.attackPowerMultiplier.value,
+      defencePowerMultiplier: multipliers.defencePowerMultiplier.value,
+      healthMultiplier: multipliers.healthMultiplier.value,
+      productionRate: multipliers.productionRate.value,
+      regenMultiplier: multipliers.regenMultiplier.value,
+    },
   };
 
   const serializedState = serializeState(state);
@@ -77,7 +100,8 @@ export const loadState = () => {
   initWeapons(data.weapons);
   initArmors(data.armors);
   initAdventure(data.adventure);
-  //todo: init infusions
+  initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
+  initMultipliers(data.multipliers);
   return data.timestamp;
 };
 
@@ -161,4 +185,56 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   const { map, monsters } = useMonsters();
   map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters;
+};
+
+const initInfusions = (
+  data: {
+    name: string;
+    workersAllocated: number;
+    level: number;
+    contribution: number;
+  }[],
+  numberOfWorkers: number
+) => {
+  const { infusions, alchemyWorkers } = useAlchemy();
+  data.forEach((infusion) => {
+    const savedInfusion = infusions.value.find((i) => i.name === infusion.name);
+    if (savedInfusion) {
+      savedInfusion.workersAllocated = infusion.workersAllocated;
+      savedInfusion.level = infusion.level;
+      savedInfusion.contribution = infusion.contribution;
+      for (let i = 1; i < infusion.level; i++) {
+        savedInfusion.cost = Math.round(savedInfusion.cost * 1.07);
+      }
+    }
+  });
+
+  for (let i = 1; i <= numberOfWorkers; i++) {
+    alchemyWorkers.value.numberOfWorkers++;
+    alchemyWorkers.value.cost.value = Math.round(
+      alchemyWorkers.value.cost.value * 1.07
+    );
+  }
+};
+
+const initMultipliers = (data: {
+  attackPowerMultiplier: number;
+  defencePowerMultiplier: number;
+  healthMultiplier: number;
+  productionRate: number;
+  regenMultiplier: number;
+}) => {
+  const { getMultipliers } = useMultipliers();
+  const { setProductionRate } = usePlayer();
+  const {
+    attackPowerMultiplier,
+    defencePowerMultiplier,
+    healthMultiplier,
+    regenMultiplier,
+  } = getMultipliers();
+  attackPowerMultiplier.value = data.attackPowerMultiplier;
+  defencePowerMultiplier.value = data.defencePowerMultiplier;
+  healthMultiplier.value = data.healthMultiplier;
+  setProductionRate(data.productionRate);
+  regenMultiplier.value = data.regenMultiplier;
 };

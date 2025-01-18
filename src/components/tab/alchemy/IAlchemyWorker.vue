@@ -15,11 +15,11 @@
       >
         <Icon
           :path="alchemistIcon"
-          :size="80"
+          size="4em"
         />
         <div class="worker-description">
           <h2>
-            {{ alchemyWorkers.name }} ({{ alchemyWorkers.numberOfWorkers }})
+            {{ alchemyWorkers.name }} ({{ formatNumber(alchemyWorkers.numberOfWorkers) }})
           </h2>
         </div>
       </v-btn>
@@ -67,3 +67,6 @@ const canAffordAlchemist = computed(() => {
   return resources[RESOURCE.MONEY].value >= alchemyWorkers.value.cost.value;
 });
 </script>
+
+<style scoped>
+</style>

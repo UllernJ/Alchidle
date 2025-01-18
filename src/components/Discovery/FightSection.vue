@@ -195,7 +195,7 @@ const fetchNextMonsters = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: .5rem;
   box-sizing: border-box;
   width: 100%;
 }
@@ -267,5 +267,9 @@ const fetchNextMonsters = () => {
   flex-direction: row;
   align-items: center;
   gap: 0.25rem;
+}
+
+.info {
+  font-size: .9em;
 }
 </style>

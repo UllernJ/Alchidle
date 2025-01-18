@@ -29,7 +29,7 @@
           {{ formatNumber(infusion.cost) }}
         </p>
         <p class="infusion-workers">
-          Workers: {{ infusion.workersAllocated }}
+          Workers: {{ formatNumber(infusion.workersAllocated) }}
         </p>
         <section class="infusion-buttons">
           <v-btn
@@ -154,7 +154,7 @@ const getColorFromName = (name: string) => {
 }
 
 .progress-bar-container {
-  max-width: 50%;
+  max-width: 48%;
   width: 100%;
   height: 100%;
   display: flex;
@@ -180,8 +180,9 @@ const getColorFromName = (name: string) => {
   transition: width 0.5s ease-in-out;
 }
 
-.infusion-progress,
+.infusion-progress
 .infusion-workers {
+  width: 100%;
   flex: 1;
   font-size: 1rem;
 }
