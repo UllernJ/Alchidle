@@ -3,6 +3,7 @@ import { Research } from "../../models/research/Research";
 import { useMonsters } from "../../composable/useMonsters";
 import { isDev } from "../../utils/dev";
 import { useAlchemy } from "../../composable/useAlchemy";
+import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 
 export const unlockAlchemyResearch = ref(
   new Research(
@@ -16,25 +17,13 @@ export const unlockAlchemyResearch = ref(
   )
 );
 
-export const alchemyResearch = ref(
-  new Research(
-    "Alchemy enchantment",
-    "Improves your alchemists, doubling their efficiency (2x).",
-    5000,
-    () => unlockAlchemyResearch.value.unlocked,
-    () => {
-      const { upgradeAlchemists } = useAlchemy();
-      upgradeAlchemists();
-    }
-  )
-);
-
 export const advancedAlchemyResearch = ref(
-  new Research(
+  new UpgradeableResearch(
     "Advanced Alchemy",
     "Further improves your alchemists, doubling their efficiency (2x).",
     25000,
-    () => alchemyResearch.value.unlocked,
+    () => unlockAlchemyResearch.value.unlocked,
+    4,
     () => {
       const { upgradeAlchemists } = useAlchemy();
       upgradeAlchemists();

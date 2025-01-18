@@ -14,6 +14,7 @@ import type { Building } from "../models/Building";
 import type { Infusion } from "../models/Infusion";
 import type { Monster } from "../models/Monster";
 import type { Research } from "../models/research/Research";
+import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 import type { Worker } from "../models/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
@@ -24,7 +25,7 @@ export type SessionState = {
   armors: Armor[];
   weapons: Weapon[];
   buildings: Building[];
-  research: Research[];
+  research: (Research | UpgradeableResearch)[];
   workerStations: Worker[];
   resources: Record<string, number>;
   alchemy: {
@@ -127,12 +128,16 @@ const initResources = (resourcesData: Record<string, number>) => {
   });
 };
 
-const initResearch = (researchData: { name: string; unlocked: boolean }[]) => {
+const initResearch = (researchData: { name: string; unlocked: boolean; level?: number; multiplier?: number }[]) => {
   const { researchList } = useResearch();
   researchList.value.forEach((research) => {
     const savedResearch = researchData.find((r) => r.name === research.name);
     if (savedResearch) {
       research.unlocked = savedResearch.unlocked;
+      if (research instanceof UpgradeableResearch && savedResearch.level !== undefined) {
+        research.level = savedResearch.level;
+        research.multiplier = savedResearch.multiplier!;
+      }
     }
     if (research.effect && research.unlocked) {
       research.effect();

@@ -3,6 +3,7 @@ import type { SessionState } from "./localStorage";
 import type { Building } from "../models/Building";
 import type { Worker } from "../models/Worker";
 import type { Research } from "../models/research/Research";
+import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 
 export const serializeState = (state: SessionState) => {
   return {
@@ -19,8 +20,19 @@ export const serializeState = (state: SessionState) => {
       remainingMonsters: state.adventure.remainingMonsters,
       map: state.adventure.map,
     },
-    research: state.research.map((research: Research) => {
-      return { name: research.name, unlocked: research.unlocked };
+    research: state.research.map((research: Research | UpgradeableResearch) => {
+      const baseData = {
+        name: research.name,
+        unlocked: research.unlocked,
+      };
+      if (research instanceof UpgradeableResearch) {
+        return {
+          ...baseData,
+          level: research.level,
+          multiplier: research.multiplier,
+        };
+      }
+      return baseData;
     }),
     workerStations: state.workerStations.map((worker: Worker) => {
       return { name: worker.name, numberOfWorkers: worker.numberOfWorkers };

@@ -1,9 +1,6 @@
 import { ref } from "vue";
 import { Research } from "../../models/research/Research";
-import {
-  advancedMiningResearch,
-  mathematicsResearch,
-} from "./research.resource";
+import { mathematicsResearch, miningResearch } from "./research.resource";
 import { SCIENTIST } from "../workers";
 import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 
@@ -11,10 +8,8 @@ export const scienceResearch = ref(
   new UpgradeableResearch(
     "Science",
     "Improves your scientists, doubling their efficiency (2x).",
-    1,
-    () =>
-      mathematicsResearch.value.unlocked &&
-      advancedMiningResearch.value.unlocked,
+    1000,
+    () => mathematicsResearch.value.unlocked && miningResearch.value.unlocked,
     2,
     () => {
       SCIENTIST.value.upgradeRate(2);
