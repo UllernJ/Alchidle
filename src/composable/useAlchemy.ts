@@ -20,7 +20,7 @@ const alchemyWorkers = ref({
   efficiency: 1,
   cost: {
     key: RESOURCE.MONEY,
-    value: isDev ? 1 : 100,
+    value: isDev ? 10 : 100,
   },
   required: () => unlockAlchemyResearch.value.unlocked,
   icon: alchemyIcon,
@@ -44,10 +44,12 @@ export const useAlchemy = () => {
     }
   };
 
-  const buyAlchemist = () => {
+  const buyAlchemist = (isStateLoad = false) => {
     const { resources, subtractResource } = useResource();
-    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value) {
-      subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
+    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value || isStateLoad) {
+      if (!isStateLoad) {
+        subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
+      }
       alchemyWorkers.value.numberOfWorkers++;
       alchemyWorkers.value.cost.value = Math.round(
         Math.pow(alchemyWorkers.value.cost.value, 1.15)

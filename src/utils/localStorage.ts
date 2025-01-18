@@ -30,7 +30,7 @@ export type SessionState = {
   alchemy: {
     infusions: Infusion[];
     alchemyWorkers: number;
-  };
+  }
   adventure: {
     map: number;
     remainingMonsters: Monster[];
@@ -40,8 +40,8 @@ export type SessionState = {
     defencePowerMultiplier: number;
     healthMultiplier: number;
     productionRate: number;
-    regenMultiplier: number;
-  };
+    regenMultiplier: number
+  }
 };
 
 export const saveSession = () => {
@@ -80,7 +80,7 @@ export const saveSession = () => {
       healthMultiplier: multipliers.healthMultiplier.value,
       productionRate: multipliers.productionRate.value,
       regenMultiplier: multipliers.regenMultiplier.value,
-    },
+    }
   };
 
   const serializedState = serializeState(state);
@@ -187,54 +187,32 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   monsters.value = data.remainingMonsters;
 };
 
-const initInfusions = (
-  data: {
-    name: string;
-    workersAllocated: number;
-    level: number;
-    contribution: number;
-  }[],
-  numberOfWorkers: number
-) => {
-  const { infusions, alchemyWorkers } = useAlchemy();
-  data.forEach((infusion) => {
+const initInfusions = (data: { name: string; workersAllocated: number, level: number, contribution: number }[], numberOfWorkers: number) => {
+  const { infusions, alchemyWorkers, buyAlchemist } = useAlchemy();
+  data.forEach((infusion => {
     const savedInfusion = infusions.value.find((i) => i.name === infusion.name);
     if (savedInfusion) {
       savedInfusion.workersAllocated = infusion.workersAllocated;
       savedInfusion.level = infusion.level;
-      savedInfusion.contribution = infusion.contribution;
+      savedInfusion.contribution = infusion.contribution; 
       for (let i = 1; i < infusion.level; i++) {
         savedInfusion.cost = Math.round(savedInfusion.cost * 1.07);
       }
     }
-  });
+  }));
 
   for (let i = 1; i <= numberOfWorkers; i++) {
-    alchemyWorkers.value.numberOfWorkers++;
-    alchemyWorkers.value.cost.value = Math.round(
-      alchemyWorkers.value.cost.value * 1.07
-    );
+    buyAlchemist(true);
   }
-};
+}
 
-const initMultipliers = (data: {
-  attackPowerMultiplier: number;
-  defencePowerMultiplier: number;
-  healthMultiplier: number;
-  productionRate: number;
-  regenMultiplier: number;
-}) => {
+const initMultipliers = (data: { attackPowerMultiplier: number; defencePowerMultiplier: number; healthMultiplier: number; productionRate: number; regenMultiplier: number }) => {
   const { getMultipliers } = useMultipliers();
   const { setProductionRate } = usePlayer();
-  const {
-    attackPowerMultiplier,
-    defencePowerMultiplier,
-    healthMultiplier,
-    regenMultiplier,
-  } = getMultipliers();
+  const { attackPowerMultiplier, defencePowerMultiplier, healthMultiplier, regenMultiplier } = getMultipliers();
   attackPowerMultiplier.value = data.attackPowerMultiplier;
   defencePowerMultiplier.value = data.defencePowerMultiplier;
   healthMultiplier.value = data.healthMultiplier;
   setProductionRate(data.productionRate);
   regenMultiplier.value = data.regenMultiplier;
-};
+}

@@ -11,7 +11,7 @@
         width="15rem"
         :disabled="!canAffordAlchemist"
         v-bind="props"
-        @click="buyAlchemist"
+        @click="buyAlchemist()"
       >
         <Icon
           :path="alchemistIcon"
