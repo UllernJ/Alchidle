@@ -109,8 +109,8 @@ const getColorFromName = (name: string) => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: space-around;
+  width: 50%;
   gap: 1rem;
   padding: 1rem;
 }

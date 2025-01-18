@@ -126,6 +126,11 @@ const gatherMessage = computed(() => {
   width: 100%;
   height: 2rem;
 }
+.income {
+  font-size: 1em;
+  font-weight: 600;
+  width: 20%;
+}
 
 
 </style>

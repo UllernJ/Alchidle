@@ -8,6 +8,7 @@
       <span>Alchemy</span>
       <v-tooltip
         text="Alchemy allows you to create powerful infusions that can be used to enhance your abilities."
+        location="top"
       >
         <template #activator="{ props }">
           <v-icon
