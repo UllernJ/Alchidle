@@ -28,7 +28,7 @@
             : `Workers: ${alchemyWorkers.numberOfWorkers}`
         }}
       </span>
-      <span> Effiency: {{ alchemyWorkers.efficiency }}x</span>
+      <span v-show="alchemyWorkers.numberOfWorkers !== 0"> Effiency: {{ alchemyWorkers.efficiency }}x</span>
     </div>
   </div>
 </template>
