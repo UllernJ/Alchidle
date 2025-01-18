@@ -19,13 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import IBuildings from "./IBuildings.vue";
-import IGear from "./IGear.vue";
-import IResearch from "./IResearch.vue";
-import IWorkers from "./IWorkers.vue";
-import IAlchemy from "./IAlchemy.vue";
-import { computed } from "vue";
-import { useResearch } from "../../composable/useResearch";
+import IBuildings from './IBuildings.vue';
+import IGear from './IGear.vue';
+import IResearch from './IResearch.vue';
+import IWorkers from './IWorkers.vue';
+import IAlchemy from './alchemy/IAlchemy.vue';
+import { computed } from 'vue';
+import { useResearch } from '../../composable/useResearch';
 import { ALCHEMY, GEAR } from "../../composable/useTab";
 
 const { researchList } = useResearch();

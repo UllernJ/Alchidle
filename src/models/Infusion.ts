@@ -6,13 +6,15 @@ export class Infusion {
   level: number;
   unlocked?: boolean;
   workersAllocated: number;
+  description: string;
 
   constructor(
     name: string,
     cost: number,
     contribution: number,
     effect: () => void,
-    level: number
+    level: number,
+    description: string
   ) {
     this.name = name;
     this.cost = cost;
@@ -20,6 +22,7 @@ export class Infusion {
     this.effect = effect;
     this.level = level;
     this.workersAllocated = 0;
+    this.description = description;
   }
 
   contribute(amount: number) {

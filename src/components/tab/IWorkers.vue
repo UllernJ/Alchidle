@@ -55,56 +55,6 @@
           </section>
         </v-tooltip>
       </template>
-      <v-tooltip
-        v-if="alchemyWorkers.required()"
-        location="top"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            color="white"
-            variant="outlined"
-            height="7rem"
-            width="15rem"
-            :disabled="!canAffordAlchemist"
-            v-bind="props"
-            @click="buyAlchemist"
-          >
-            <Icon
-              :path="alchemistIcon"
-              :size="80"
-            />
-            <div class="worker-description">
-              <h2>
-                {{ alchemyWorkers.name }} ({{ alchemyWorkers.numberOfWorkers }})
-              </h2>
-            </div>
-          </v-btn>
-        </template>
-        <section class="tooltip-content">
-          <div class="tooltip-header">
-            <h2>{{ alchemyWorkers.name }}</h2>
-          </div>
-          <p class="description">
-            Enchants every aspect of your life.
-          </p>
-          <div class="worker-cost">
-            <span>Generates {{ formatNumber(alchemyWorkers.efficiency) }}</span>
-            <Icon
-              :path="alchemyIcon"
-              :size="20"
-            />
-            <span>/s</span>
-          </div>
-          <div :class="['worker-cost', { 'text-red': !canAffordAlchemist }]">
-            <span>Costs: {{ formatNumber(alchemyWorkers.cost.value) }}</span>
-            <Icon
-              :path="moneyIcon"
-              :size="20"
-              :color="canAffordAlchemist ? '' : 'red'"
-            />
-          </div>
-        </section>
-      </v-tooltip>
     </section>
   </div>
 </template>
@@ -113,16 +63,13 @@
 import { computed } from "vue";
 import { useResource } from "../../composable/useResource";
 import { useWorkers } from "../../composable/useWorkers";
-import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
-import { alchemistIcon, alchemyIcon, moneyIcon } from "../../icons/icons";
+import {  moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
-import { useAlchemy } from "../../composable/useAlchemy";
 import { formatNumber } from "../../utils/number";
 import type { Worker } from "../../models/Worker";
 
 const { workerStations } = useWorkers();
-const { alchemyWorkers, buyAlchemist } = useAlchemy();
 
 const { resources } = useResource();
 
@@ -132,9 +79,6 @@ const canAfford = computed(() => {
   };
 });
 
-const canAffordAlchemist = computed(() => {
-  return resources[RESOURCE.MONEY].value >= alchemyWorkers.value.cost.value;
-});
 </script>
 
 <style scoped>

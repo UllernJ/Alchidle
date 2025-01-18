@@ -34,6 +34,10 @@
           </div>
         </v-tooltip>
       </template>
+      <span
+        v-if="isEverythingResearched"
+        class="text-success"
+      >Looks like you've researched everything.</span>
     </section>
   </div>
 </template>
@@ -56,6 +60,11 @@ const canAfford = computed(() => {
     return resources[RESOURCE.SCIENCE].value >= research.cost;
   };
 });
+
+const isEverythingResearched = computed(() => {
+  return researchList.value.every((research) => research.unlocked);
+});
+
 </script>
 
 <style scoped>

@@ -1,11 +1,8 @@
 <template>
   <div class="alchemy-container">
-    <section class="title-container">
-      <span class="title">Alchemy</span>
-      <Icon
-        :path="infoIcon"
-        :size="24"
-      />
+    <section class="top-container">
+      <i-alchemist />
+      <i-alchemy-worker />
     </section>
     <section class="infusion-list">
       <div
@@ -56,11 +53,11 @@
 </template>
 
 <script setup lang="ts">
-import { useAlchemy } from "../../composable/useAlchemy";
-import { infoIcon } from "../../icons/icons";
-import type { Infusion } from "../../models/Infusion";
-import { formatNumber } from "../../utils/number";
-import Icon from "../Icon.vue";
+import IAlchemist from "./IAlchemist.vue";
+import IAlchemyWorker from "./IAlchemyWorker.vue";
+import { useAlchemy } from "../../../composable/useAlchemy";
+import type { Infusion } from "../../../models/Infusion";
+import { formatNumber } from "../../../utils/number";
 
 const {
   infusions,
@@ -105,6 +102,16 @@ const getColorFromName = (name: string) => {
   flex-direction: column;
   align-items: center;
   color: #ffffff;
+  padding: 1rem;
+}
+
+.top-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
   padding: 1rem;
 }
 

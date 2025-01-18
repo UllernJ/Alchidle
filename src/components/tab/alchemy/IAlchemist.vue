@@ -3,9 +3,21 @@
     <div class="header">
       <Icon
         :path="alchemyWorkers.icon"
-        :size="40"
+        size="1.2em"
       />
       <span>Alchemy</span>
+      <v-tooltip
+        text="Alchemy allows you to create powerful infusions that can be used to enhance your abilities."
+      >
+        <template #activator="{ props }">
+          <v-icon
+            :icon="mdiInformationBoxOutline"
+            color="white"
+            size="1.25em"
+            v-bind="props"
+          />
+        </template>
+      </v-tooltip>
     </div>
     <div class="alchemy-info">
       <span>
@@ -21,8 +33,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAlchemy } from "../../composable/useAlchemy";
-import Icon from "../Icon.vue";
+import { mdiInformationBoxOutline } from "@mdi/js";
+import { useAlchemy } from "../../../composable/useAlchemy";
+import Icon from "../../Icon.vue";
 
 const { alchemyWorkers } = useAlchemy();
 </script>
@@ -30,15 +43,8 @@ const { alchemyWorkers } = useAlchemy();
 <style scoped>
 .container {
   background-color: #1a1a1a;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: 1px solid #f1f1f1;
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .header {
@@ -53,6 +59,7 @@ const { alchemyWorkers } = useAlchemy();
 }
 
 .alchemy-info {
+  font-size: 1.1em;
   height: 100%;
   display: flex;
   flex-direction: column;

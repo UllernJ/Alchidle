@@ -1,6 +1,5 @@
 <template>
   <aside
-    ref="sidebar"
     class="state-sidebar"
   >
     <ul class="state-list">
@@ -31,7 +30,10 @@
         </v-btn>
       </li>
     </ul>
-    <div class="state-content">
+    <div
+      ref="sidebar"
+      class="state-content"
+    >
       <i-all v-if="currentState === TAB_STATE.ALL" />
       <i-workers v-else-if="currentState === TAB_STATE.WORKERS" />
       <i-buildings v-else-if="currentState === TAB_STATE.BUILDINGS" />
@@ -45,7 +47,7 @@
 <script lang="ts" setup>
 import { useTemplateRef, watch } from "vue";
 import { TAB_STATE, useTab } from "../../composable/useTab";
-import IAlchemy from "./IAlchemy.vue";
+import IAlchemy from "./alchemy/IAlchemy.vue";
 import IAll from "./IAll.vue";
 import IBuildings from "./IBuildings.vue";
 import IGear from "./IGear.vue";

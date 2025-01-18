@@ -39,7 +39,7 @@
             variant="outlined"
             density="compact"
             :icon="mdiMultiplicationBox"
-            size="x-large"
+            size="large"
             :border="true"
             v-bind="props"
             @click="toggleMultipliers"
@@ -56,8 +56,7 @@ import { useMultipliers } from "../../composable/useMultipliers";
 import { usePlayer } from "../../composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "../../icons/icons";
 import { formatNumber } from "../../utils/number";
-import Icon from "../Icon.vue";
-import { mdiMultiplicationBox } from "@mdi/js";
+import Icon from "../Icon.vue";import { mdiMultiplicationBox } from "@mdi/js";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers()

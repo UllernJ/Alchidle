@@ -2,8 +2,9 @@ import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { MessageType, useMessage } from "./useMessage";
 import { getResearchList, type Research } from "../data/research";
+import type { Ref } from "vue";
 
-const researchList = getResearchList();
+const researchList: Ref<Research[]> = getResearchList();
 
 export const useResearch = () => {
   const { resources, subtractResource } = useResource();

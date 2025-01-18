@@ -20,7 +20,8 @@ const infusePower = new Infusion(
   () => {
     upgradeAttackPower();
   },
-  1
+  1,
+  "Increases the player's attack power by 1.1x"
 );
 
 const infuseDefense = new Infusion(
@@ -30,7 +31,8 @@ const infuseDefense = new Infusion(
   () => {
     upgradeDefensePower();
   },
-  1
+  1,
+  "Increases the player's defense power by 1.1x"
 );
 
 const infuseEfficiency = new Infusion(
@@ -40,7 +42,8 @@ const infuseEfficiency = new Infusion(
   () => {
     upgradeProductionRate();
   },
-  1
+  1,
+  "Increases the player's production rate by 1.1x"
 );
 
 const infuseHealth = new Infusion(
@@ -50,7 +53,8 @@ const infuseHealth = new Infusion(
   () => {
     upgradeHealth();
   },
-  1
+  1,
+  "Increases the player's health by 1.1x"
 );
 
 const infuseRegen = new Infusion(
@@ -60,7 +64,8 @@ const infuseRegen = new Infusion(
   () => {
     upgradeRegen();
   },
-  1
+  1,
+  "Increases the player's health regeneration rate by 1.1x"
 );
 
 const infuseWeapon = new Infusion(
@@ -70,7 +75,8 @@ const infuseWeapon = new Infusion(
   () => {
     upgradeWeapons();
   },
-  1
+  1,
+  "Upgrades all weapons damage by 1.1x"
 );
 
 const infuseArmor = new Infusion(
@@ -80,7 +86,8 @@ const infuseArmor = new Infusion(
   () => {
     upgradeArmors();
   },
-  1
+  1,
+  "Upgrades all armors defense by 1.1x"
 );
 
 export const getInfusions = () => {
