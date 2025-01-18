@@ -55,7 +55,7 @@ const { monsters, map } = useMonsters();
   width: 100%;
   padding-top: 100%;
   background-color: #444;
-  border: 2px solid #f1f1f1;
+  border: 1px solid #f1f1f1;
   border-radius: 4px;
   position: relative;
 }
@@ -76,7 +76,7 @@ const { monsters, map } = useMonsters();
 
 .map-info {
   width: 100%;
-  font-size: 1em;
+  font-size: .9em;
   font-weight: bold;
 }
 </style>

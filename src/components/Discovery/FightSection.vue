@@ -17,7 +17,7 @@
 
       <Icon
         :path="currentMonster.icon"
-        :size="96"
+        size="5.5em"
       />
       
       <div class="monster-description">
@@ -187,7 +187,7 @@ const fetchNextMonsters = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: .5rem;
   height: 100%;
 }
 
@@ -243,7 +243,7 @@ const fetchNextMonsters = () => {
   align-items: center;
   width: 100%;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: .75rem;
 }
 
 .attack-button {
@@ -256,10 +256,6 @@ const fetchNextMonsters = () => {
 .attack-button:hover {
   cursor: pointer;
   background-color: #3a3939;
-}
-
-.player-health {
-  margin-top: 1rem;
 }
 
 .monster-description {
