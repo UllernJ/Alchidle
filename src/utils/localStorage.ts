@@ -128,18 +128,38 @@ const initResources = (resourcesData: Record<string, number>) => {
   });
 };
 
-const initResearch = (researchData: { name: string; unlocked: boolean; level?: number; multiplier?: number }[]) => {
+const initResearch = (
+  researchData: {
+    name: string;
+    unlocked: boolean;
+    level?: number;
+    multiplier?: number;
+  }[]
+) => {
   const { researchList } = useResearch();
   researchList.value.forEach((research) => {
     const savedResearch = researchData.find((r) => r.name === research.name);
     if (savedResearch) {
       research.unlocked = savedResearch.unlocked;
-      if (research instanceof UpgradeableResearch && savedResearch.level !== undefined) {
+      if (
+        research instanceof UpgradeableResearch &&
+        savedResearch.level !== undefined
+      ) {
         research.level = savedResearch.level;
         research.multiplier = savedResearch.multiplier!;
+        for (let i = 0; i < research.level; i++) {
+          research.cost = Math.round(research.cost * research.multiplier);
+          if (research.effect) {
+            research.effect();
+          }
+        }
       }
     }
-    if (research.effect && research.unlocked) {
+    if (
+      research.effect &&
+      research.unlocked &&
+      !(research instanceof UpgradeableResearch)
+    ) {
       research.effect();
     }
   });
