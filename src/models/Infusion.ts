@@ -31,7 +31,7 @@ export class Infusion {
       this.effect();
       this.level++;
       this.contribution = 0;
-      this.cost *= 1.07;
+      this.cost *= 2.5;
     }
   }
 }

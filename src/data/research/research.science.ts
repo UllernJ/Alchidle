@@ -11,7 +11,7 @@ export const scienceResearch = ref(
     "Improves your scientists, doubling their efficiency (2x).",
     1000,
     () => mathematicsResearch.value.level >= 1 && miningResearch.value.level >= 1,
-    2,
+    5,
     RESEARCH_INTERVAL.EVERY_SECOND,
     () => {
       SCIENTIST.value.upgradeRate(2);

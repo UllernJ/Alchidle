@@ -14,7 +14,7 @@ export const efficiencyResearch = ref(
     "Improves your own efficiency, doubling production rate (2x).",
     100,
     () => true,
-    2,
+    5,
     RESEARCH_INTERVAL.EVERY,
     () => {
       upgradeProductionRate(2);

@@ -24,7 +24,7 @@ export const advancedAlchemyResearch = ref(
     "Further improves your alchemists, doubling their efficiency (2x).",
     25000,
     () => unlockAlchemyResearch.value.unlocked,
-    4,
+    25,
     RESEARCH_INTERVAL.EVERY_TENTH,
     () => {
       const { upgradeAlchemists } = useAlchemy();
