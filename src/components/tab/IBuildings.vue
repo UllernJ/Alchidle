@@ -31,15 +31,20 @@
             </v-btn>
           </template>
           <div class="tooltip-content">
-            <div class="tooltip-header">
-              <h2>{{ building.name }}</h2>
-            </div>
+            <h2
+              v-if="amountToBuy !== 1"
+              class="tooltip-header"
+            >
+              <!-- todo format -->
+              {{ `${amountToBuy}x` }}
+            </h2>
+
             <p class="description">
               {{ building.description }}
             </p>
             <div class="building-costs">
               <div
-                v-for="(cost, costIndex) in building.cost"
+                v-for="(cost, costIndex) in building.getTotalPriceForQuantity(amountToBuy)"
                 :key="costIndex"
                 :class="['cost', { 'text-red': !canAffordResource(cost) }]"
               >
@@ -68,14 +73,17 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { formatNumber } from "../../utils/number";
 import type { RESOURCE } from "../../types";
+import { usePlayer } from "../../composable/usePlayer";
 
 const { buildings } = useBuildings();
 const { resources } = useResource();
+const { amountToBuy } = usePlayer();
 
 const canAfford = computed(() => {
   return (index: number) => {
     const building = buildings.value[index];
-    for (const cost of building.cost) {
+    if (!building) return false;
+    for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
       if (resources[cost.key].value < cost.value) {
         return false;
       }
@@ -92,7 +100,7 @@ const canAffordResource = computed(() => {
 
 const upgradeBuilding = (index: number) => {
   const building = buildings.value[index];
-  building.upgrade();
+  building.buy(amountToBuy.value);
 };
 </script>
 
@@ -143,12 +151,6 @@ const upgradeBuilding = (index: number) => {
 
 .tooltip-header {
   font-size: 1.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #f1f1f1;
-  width: 100%;
-  margin-bottom: 0.5rem;
 }
 
 .description {

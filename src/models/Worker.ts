@@ -4,12 +4,12 @@ import type { RESOURCE } from "../types";
 export class Worker {
   name: string;
   rate: number;
-  resource: RESOURCE
+  resource: RESOURCE;
   numberOfWorkers: number;
   cost: {
-    resource: RESOURCE
-    value: number
-  }
+    resource: RESOURCE;
+    value: number;
+  };
   description: string;
   icon: string;
   requirement?: () => boolean;
@@ -20,8 +20,8 @@ export class Worker {
     resource: RESOURCE,
     numberOfWorkers: number,
     cost: {
-      resource: RESOURCE
-      value: number
+      resource: RESOURCE;
+      value: number;
     },
     description: string,
     icon: string,
@@ -37,7 +37,7 @@ export class Worker {
     this.requirement = requirement;
   }
 
-  buy(): void {
+   buy(): void {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
     this.numberOfWorkers++;
@@ -50,7 +50,24 @@ export class Worker {
 
   restoreFromSave(numberOfWorkers: number): void {
     for (let i = 0; i < numberOfWorkers; i++) {
-      this.cost.value = this.cost.value * 1.07
+      this.cost.value = Math.round(this.cost.value * 1.07);
+    }
+  }
+  getTotalPriceFromQuantity(quantity: number): number {
+    let total = 0;
+    let currentCost = this.cost.value;
+
+    for (let i = 0; i < quantity; i++) {
+      total += currentCost;
+      currentCost = Math.round(currentCost * 1.07);
+    }
+
+    return total;
+  }
+
+  buyQuantity(quantity: number): void {
+    for (let i = 0; i < quantity; i++) {
+      this.buy();
     }
   }
 }

@@ -16,9 +16,9 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(worker)"
+              :disabled="!canAfford(worker.getTotalPriceFromQuantity(amountToBuy))"
               v-bind="props"
-              @click="worker.buy()"
+              @click="worker.buyQuantity(amountToBuy)"
             >
               <Icon
                 :path="worker.icon"
@@ -30,9 +30,10 @@
             </v-btn>
           </template>
           <section>
-            <div class="tooltip-header">
-              <h2>{{ worker.name }}</h2>
-            </div>
+            <h2 v-if="amountToBuy !== 1">
+              {{ amountToBuy + 'x' }}
+            </h2>
+
             <p class="description">
               {{ worker.description }}
             </p>
@@ -44,12 +45,12 @@
               />
               <span>/s</span>
             </div>
-            <div :class="['worker-cost', { 'text-red': !canAfford(worker) }]">
-              <span>{{ formatNumber(worker.cost.value) }}</span>
+            <div :class="['worker-cost', { 'text-red': !canAfford(worker.getTotalPriceFromQuantity(amountToBuy)) }]">
+              <span>{{ formatNumber(worker.getTotalPriceFromQuantity(amountToBuy)) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
-                :color="canAfford(worker) ? '' : 'red'"
+                :color="canAfford(worker.getTotalPriceFromQuantity(amountToBuy)) ? '' : 'red'"
               />
             </div>
           </section>
@@ -67,15 +68,17 @@ import Icon from "../Icon.vue";
 import {  moneyIcon } from "../../icons/icons";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { formatNumber } from "../../utils/number";
-import type { Worker } from "../../models/Worker";
+import { usePlayer } from "../../composable/usePlayer";
+import { RESOURCE } from "../../types";
 
 const { workerStations } = useWorkers();
+const { amountToBuy } = usePlayer();
 
 const { resources } = useResource();
 
 const canAfford = computed(() => {
-  return (worker: Worker) => {
-    return resources[worker.cost.resource].value >= worker.cost.value;
+  return (cost: number) => {
+    return resources[RESOURCE.MONEY].value >= cost;
   };
 });
 
@@ -99,12 +102,8 @@ const canAfford = computed(() => {
   width: 100%;
 }
 
-.tooltip-header {
+h2 {
   font-size: 1.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #f1f1f1;
 }
 
 .worker-cost {

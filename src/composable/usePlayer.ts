@@ -17,6 +17,9 @@ const health = ref<number>(100);
 const maxHealth = computed(() => 100 * healthMultiplier.value);
 const regen = computed(() => 1 * regenMultiplier.value);
 
+//!player controls
+const amountToBuy = ref<number>(1);
+
 export const usePlayer = () => {
   const { armors, weapons } = useGear();
   const setFocus = (type: RESOURCE) => {
@@ -79,6 +82,7 @@ export const usePlayer = () => {
   };
 
   return {
+    amountToBuy,
     currentFocus,
     productionRate: computed(() => Math.round(productionRate.value)),
     attackPower,

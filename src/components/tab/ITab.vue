@@ -1,35 +1,69 @@
 <template>
-  <aside
-    class="state-sidebar"
-  >
-    <ul class="state-list">
-      <li
-        v-for="state in states"
-        :key="state.name"
-        class="state-item"
-      >
-        <v-btn
-          width="100%"
-          :active="state.name === currentState"
-          :disabled="state.unlocked && !state.unlocked()"
-          @click="setState(state)"
+  <aside class="state-sidebar">
+    <div class="state-list">
+      <ul class="list">
+        <li
+          v-for="state in states"
+          :key="state.name"
+          class="state-item"
         >
-          <div class="button-content">
-            {{ state.name }}
-            <v-icon
-              v-if="state.unlocked && !state.unlocked()"
-              :icon="mdiLock"
-            />
-            <v-icon
-              v-else-if="state.alert"
-              :icon="mdiAlertBox"
-              color="warning"
-              class="alert-icon"
-            />
-          </div>
+          <v-btn
+            width="100%"
+            :active="state.name === currentState"
+            :disabled="state.unlocked && !state.unlocked()"
+            @click="setState(state)"
+          >
+            <div class="button-content">
+              {{ state.name }}
+              <v-icon
+                v-if="state.unlocked && !state.unlocked()"
+                :icon="mdiLock"
+              />
+              <v-icon
+                v-else-if="state.alert"
+                :icon="mdiAlertBox"
+                color="warning"
+                class="alert-icon"
+              />
+            </div>
+          </v-btn>
+        </li>
+      </ul>
+      <section class="buy-buttons">
+        <v-btn
+          rounded="0"
+          class="button"
+          :active="amountToBuy === 1"
+          @click="amountToBuy = 1"
+        >
+          1
         </v-btn>
-      </li>
-    </ul>
+        <v-btn
+          rounded="0"
+          class="button"
+          :active="amountToBuy === 5"
+          @click="amountToBuy = 5"
+        >
+          5
+        </v-btn>
+        <v-btn
+          rounded="0"
+          class="button"
+          :active="amountToBuy === 10"
+          @click="amountToBuy = 10"
+        >
+          10
+        </v-btn>
+        <v-btn
+          rounded="0"
+          class="button"
+          :active="amountToBuy === 20"
+          @click="amountToBuy = 20"
+        >
+          20
+        </v-btn>
+      </section>
+    </div>
     <div
       ref="sidebar"
       class="state-content"
@@ -54,18 +88,19 @@ import IGear from "./IGear.vue";
 import IResearch from "./IResearch.vue";
 import IWorkers from "./IWorkers.vue";
 import { mdiLock, mdiAlertBox } from "@mdi/js";
+import { usePlayer } from "../../composable/usePlayer";
 
+const { amountToBuy } = usePlayer();
 const { getStates, setState, currentState } = useTab();
 const states = getStates();
 
-const sidebar = useTemplateRef("sidebar")
+const sidebar = useTemplateRef("sidebar");
 
 watch(currentState, () => {
   if (sidebar.value) {
     sidebar.value.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
-
 </script>
 
 <style scoped>
@@ -89,24 +124,43 @@ watch(currentState, () => {
 }
 
 .state-list {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #f1f1f1;
+  background-color: #1a1a1a;
+}
+
+.list {
   list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   width: 100%;
   flex-direction: row;
   border-bottom: 1px solid #f1f1f1;
-  position: sticky;
-  height: fit-content;
-  top: 0;
-  background-color: #1a1a1a;
-  z-index: 1;
 }
 
 .state-item {
   width: 100%;
   display: flex;
   height: fit-content;
+  &:not(:last-child) {
+    border-right: 1px solid #f1f1f1;
+  }
+}
+
+.buy-buttons {
+  height: 25%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-top: 1px solid #f1f1f1;
+}
+
+.button {
+  flex-grow: 1;
   &:not(:last-child) {
     border-right: 1px solid #f1f1f1;
   }
@@ -141,9 +195,9 @@ watch(currentState, () => {
 
 @media (max-width: 1200px) {
   .state-sidebar {
-  overflow-x: hidden;
-  overflow-y: hidden;
-  max-height: fit-content !important;
-}
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-height: fit-content !important;
+  }
 }
 </style>

@@ -13,7 +13,7 @@ const BANK = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 10 : 100,
+      value: isDev ? 1 : 100,
     },
   ],
   2,
