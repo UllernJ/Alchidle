@@ -39,6 +39,7 @@ h2 {
 .v-btn {
   background-color: #2b2b2b !important;
   text-transform: none !important;
+  box-shadow: none !important;
   &:disabled {
     pointer-events: auto !important;
     cursor: auto;

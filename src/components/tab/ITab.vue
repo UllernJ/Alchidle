@@ -130,7 +130,6 @@ watch(currentState, () => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #f1f1f1;
   background-color: #1a1a1a;
 }
 
@@ -146,24 +145,18 @@ watch(currentState, () => {
   width: 100%;
   display: flex;
   height: fit-content;
-  &:not(:last-child) {
-    border-right: 1px solid #f1f1f1;
-  }
+  border-right: 1px solid #f1f1f1;
 }
 
 .buy-buttons {
-  height: 25%;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  border-top: 1px solid #f1f1f1;
+  width: fit-content;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .button {
-  flex-grow: 1;
-  &:not(:last-child) {
-    border-right: 1px solid #f1f1f1;
-  }
+  border-right: 1px solid #f1f1f1;
 }
 
 .active {
