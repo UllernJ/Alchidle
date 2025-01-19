@@ -1,0 +1,8 @@
+export enum RESEARCH_INTERVAL {
+  EVERY = 1,
+  EVERY_SECOND = 2,
+  EVERY_THIRD = 3,
+  EVERY_FOURTH = 4,
+  EVERY_FIFTH = 5,
+  EVERY_TENTH = 10,
+}

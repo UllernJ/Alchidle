@@ -4,6 +4,7 @@ import { useMonsters } from "../../composable/useMonsters";
 import { isDev } from "../../utils/dev";
 import { useAlchemy } from "../../composable/useAlchemy";
 import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
+import { RESEARCH_INTERVAL } from "../../models/research/ResearchInterval";
 
 export const unlockAlchemyResearch = ref(
   new Research(
@@ -24,6 +25,7 @@ export const advancedAlchemyResearch = ref(
     25000,
     () => unlockAlchemyResearch.value.unlocked,
     4,
+    RESEARCH_INTERVAL.EVERY_TENTH,
     () => {
       const { upgradeAlchemists } = useAlchemy();
       upgradeAlchemists();

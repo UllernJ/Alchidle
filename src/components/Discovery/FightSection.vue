@@ -55,13 +55,13 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
-      <!-- <button
+      <v-btn
         v-if="isDev"
         class="attack-button"
         @click="fetchNextMonsters()"
       >
         go next
-      </button> -->
+      </v-btn>
     </section>
   </section>
 </template>
@@ -79,6 +79,7 @@ import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
 import { deeepClone } from "../../utils/object";
 import type { Monster } from "../../models/Monster";
+import { isDev } from "../../utils/dev";
 
 const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
 const { getNextMonsters, map, currentMonster } = useMonsters();

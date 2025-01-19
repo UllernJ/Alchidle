@@ -7,7 +7,7 @@
         :key="research.name"
       >
         <v-tooltip
-          v-if="!research.unlocked && research.requirement()"
+          v-if="!research.unlocked && research.requirement() || research instanceof UpgradeableResearch && research.requirement()"
           location="top"
         >
           <template #activator="{ props }">
@@ -51,6 +51,7 @@ import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
 import { formatNumber } from "../../utils/number";
 import type { Research } from "../../models/research/Research";
+import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 
 const { researchList } = useResearch();
 const { resources } = useResource();

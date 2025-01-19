@@ -147,6 +147,7 @@ const initResearch = (
       ) {
         research.level = savedResearch.level;
         research.multiplier = savedResearch.multiplier!;
+        research.setNextRequirement();
         for (let i = 0; i < research.level; i++) {
           research.cost = Math.round(research.cost * research.multiplier);
           if (research.effect) {

@@ -6,6 +6,7 @@ import {
 } from "./research/research.player";
 import {
   mathematicsResearch,
+  miningResearch,
 } from "./research/research.resource";
 import {
   advancedAlchemyResearch,
@@ -21,6 +22,7 @@ export const getResearchList = () => {
     [
       efficiencyResearch.value,
       mathematicsResearch.value,
+      miningResearch.value,
       unlockAlchemyResearch.value,
       scienceResearch.value,
       combatTrainingResearch.value,

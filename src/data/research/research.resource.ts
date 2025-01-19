@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { efficiencyResearch } from "./research.player";
 import { BANKER, MINER } from "../workers";
 import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
+import { RESEARCH_INTERVAL } from "../../models/research/ResearchInterval";
 
 export const mathematicsResearch = ref(
   new UpgradeableResearch(
@@ -10,6 +11,7 @@ export const mathematicsResearch = ref(
     100,
     () => efficiencyResearch.value.level >= 1,
     2.75,
+    RESEARCH_INTERVAL.EVERY,
     () => {
       BANKER.value.upgradeRate(2);
     }
@@ -23,6 +25,7 @@ export const miningResearch = ref(
     100,
     () => efficiencyResearch.value.level >= 1,
     2.75,
+    RESEARCH_INTERVAL.EVERY,
     () => {
       MINER.value.upgradeRate(2);
     }
