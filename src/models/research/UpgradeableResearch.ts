@@ -43,7 +43,7 @@ export class UpgradeableResearch extends Research {
       return;
     }
     const { map } = useMonsters();
-    this.requirement = () =>  map.value >= this.interval * this.level;
+    this.requirement = () =>  map.value >= this.interval * (this.level + 1);
   }
 
 }
