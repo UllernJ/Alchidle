@@ -53,13 +53,6 @@ onMounted(() => {
   max-height: 15rem;
   height: fit-content;
   width: 100%;
-  background-image: url("../../assets/logo.png");
-  background-size: 25%;
-  background-position: bottom right;
-  background-position-x: 95%;
-  background-position-y: 95%;
-  background-repeat: no-repeat;
-  background-blend-mode: overlay;
   background-color: #1a1a1a;
   color: #fff;
 }

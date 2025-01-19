@@ -29,6 +29,6 @@ export const getResearchList = () => {
       fortificationResearch.value,
       advancedAlchemyResearch.value,
       blacksmithingResearch.value,
-    ].sort((a, b) => a.cost - b.cost)
+    ]
   );
 };
