@@ -46,9 +46,9 @@ export class MonsterFactory {
           mapNumber
         )
       );
-      difficultyMultiplier += 0.05;
-      _baseDamage *= 1.001;
-      _baseHealth *= 1.001;
+      difficultyMultiplier += 0.059;
+      _baseDamage *= 1.002;
+      _baseHealth *= 1.002;
     }
     return monsters;
   }

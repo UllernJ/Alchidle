@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { usePlayer } from "../../composable/usePlayer";
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
@@ -179,6 +179,12 @@ const fetchNextMonsters = () => {
     ? currentMonster.value.health
     : null;
 };
+
+onMounted(() => {
+  if(currentMonster.value) {
+    initialHealth.value = currentMonster.value.health;
+  }
+});
 </script>
 
 <style scoped>

@@ -190,7 +190,7 @@ const initWeapons = (weaponsData: { name: string; quantity: number }[]) => {
       weapon.quantity = weaponData.quantity;
       if (weapon.quantity > 0) {
         for (let i = 0; i < weapon.quantity; i++) {
-          weapon.cost = Math.round(weapon.cost * 1.07);
+          weapon.cost = Math.round(weapon.cost * 1.15);
         }
       }
     }
@@ -205,7 +205,7 @@ const initArmors = (armorsData: { name: string; quantity: number }[]) => {
       armor.quantity = armorData.quantity;
       if (armor.quantity > 0) {
         for (let i = 0; i < armor.quantity; i++) {
-          armor.cost = Math.round(armor.cost * 1.07);
+          armor.cost = Math.round(armor.cost * 1.15);
         }
       }
     }

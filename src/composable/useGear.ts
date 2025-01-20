@@ -33,11 +33,11 @@ export type Armor = {
 const weapons = ref<Weapon[]>([
   { name: "Stick", damage: 1, cost: 50, path: stickIcon, quantity: 0 },
   { name: "Knife", damage: 2, cost: 100, path: knifeIcon, quantity: 0 },
-  { name: "Axe", damage: 5, cost: 200, path: axeIcon, quantity: 0 },
-  { name: "Sword", damage: 10, cost: 400, path: swordIcon, quantity: 0 },
+  { name: "Axe", damage: 4, cost: 200, path: axeIcon, quantity: 0 },
+  { name: "Sword", damage: 8, cost: 400, path: swordIcon, quantity: 0 },
   {
     name: "Mighty Blade",
-    damage: 20,
+    damage: 16,
     cost: 1000,
     path: mightyBladeIcon,
     quantity: 0,
@@ -47,9 +47,9 @@ const weapons = ref<Weapon[]>([
 const armors = ref<Armor[]>([
   { name: "Boots", defense: 1, cost: 50, path: bootsIcon, quantity: 0 },
   { name: "Hands", defense: 2, cost: 100, path: handsIcon, quantity: 0 },
-  { name: "Pants", defense: 5, cost: 200, path: pantsIcon, quantity: 0 },
-  { name: "Hjelmet", defense: 10, cost: 400, path: helmetIcon, quantity: 0 },
-  { name: "Chestplate", defense: 20, cost: 1000, path: chestIcon, quantity: 0 },
+  { name: "Pants", defense: 4, cost: 200, path: pantsIcon, quantity: 0 },
+  { name: "Hjelmet", defense: 8, cost: 400, path: helmetIcon, quantity: 0 },
+  { name: "Chestplate", defense: 16, cost: 1000, path: chestIcon, quantity: 0 },
 ]);
 
 export const useGear = () => {
@@ -60,7 +60,7 @@ export const useGear = () => {
     if (resources[RESOURCE.MINING].value >= weapon.cost) {
       subtractResource(RESOURCE.MINING, weapon.cost);
       weapon.quantity++;
-      weapon.cost = Math.round(weapon.cost * 1.07);
+      weapon.cost = Math.round(weapon.cost * 1.15);
     }
   };
 
@@ -69,7 +69,7 @@ export const useGear = () => {
     if (resources[RESOURCE.MINING].value >= armor.cost) {
       subtractResource(RESOURCE.MINING, armor.cost);
       armor.quantity++;
-      armor.cost = Math.round(armor.cost * 1.07);
+      armor.cost = Math.round(armor.cost * 1.15);
     }
   };
 

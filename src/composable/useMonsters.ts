@@ -8,7 +8,7 @@ const difficulty = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
 const BASE_HEALTH = ref<number>(30);
-const BASE_DAMAGE = ref<number>(7);
+const BASE_DAMAGE = ref<number>(4);
 const currentMonster = computed(
   () => monsters.value.find((monster) => monster.health > 0) || null
 );
@@ -22,8 +22,8 @@ export function useMonsters() {
       BASE_DAMAGE.value,
       map.value
     );
-    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack * 1.15;
-    BASE_HEALTH.value = listOfMonsters[listOfMonsters.length - 1].health * 1.15;
+    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack * 1.001;
+    BASE_HEALTH.value = listOfMonsters[listOfMonsters.length - 1].health;
     monsters.value = listOfMonsters;
     const consolData = monsters.value.map((monster) => {
       return {
