@@ -1,10 +1,12 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
-import { bankIcon, hospitalIcon, mineIcon, scienceLabIcon } from "../icons/icons";
+import { bankIcon, hospitalIcon, hutIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 import { isDev } from "../utils/dev";
 import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
+import { BANKER, MINER, SCIENTIST } from "./workers";
+import { workerHutBlueprintResearch } from "./research/research.buildings";
 
 const { upgradeStorage } = useResource();
 
@@ -82,6 +84,32 @@ const HOSPITAL = new Building(
   }
 );
 
+const WORKER_HUT = new Building(
+  "Worker Hut",
+  [
+    {
+      key: RESOURCE.MONEY,
+      value: isDev ? 1 : 1500,
+    },
+    {
+      key: RESOURCE.MINING,
+      value: isDev ? 1 : 3000,
+    },
+  ],
+  4,
+  "Increases workers production by 1%.",
+  () => {
+    MINER.value.rate *= 1.01;
+    BANKER.value.rate *= 1.01;
+    SCIENTIST.value.rate *= 1.01;
+  },
+  0,
+  hutIcon,
+  () => {
+    return workerHutBlueprintResearch.value.unlocked;
+  }
+);
+
 export const getBuildings = () => {
-  return ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL]);
+  return ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL, WORKER_HUT]);
 };

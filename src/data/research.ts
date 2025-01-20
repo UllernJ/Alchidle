@@ -17,6 +17,7 @@ import {
   explortationResearch,
   scienceResearch,
 } from "./research/research.science";
+import { workerHutBlueprintResearch } from "./research/research.buildings";
 
 export const getResearchList = () => {
   return ref(
@@ -30,7 +31,8 @@ export const getResearchList = () => {
       fortificationResearch.value,
       advancedAlchemyResearch.value,
       blacksmithingResearch.value,
-      explortationResearch.value
+      explortationResearch.value,
+      workerHutBlueprintResearch.value,
     ].sort((a, b) => a.cost - b.cost)
   );
 };

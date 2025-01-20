@@ -61,9 +61,11 @@ export const saveSession = () => {
     buildings: buildings.value,
     research: researchList.value,
     workerStations: workerStations.value,
-    resources: Object.fromEntries(
-      Object.entries(resources).map(([key, ref]) => [key, ref.value])
-    ),
+    resources: {
+      Money: resources.Money.value,
+      Mining: resources.Mining.value,
+      Science: resources.Science.value,
+    },
     alchemy: {
       alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
       infusions: infusions.value,
@@ -93,7 +95,6 @@ export const loadState = () => {
     return;
   }
   const data = JSON.parse(state);
-  initResources(data.resources);
   initWorkers(data.workerStations);
   initResearch(data.research);
   initBuildings(data.buildings);
@@ -101,6 +102,7 @@ export const loadState = () => {
   initArmors(data.armors);
   initAdventure(data.adventure);
   initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
+  initResources(data.resources);
   initMultipliers(data.multipliers);
   return data.timestamp;
 };
@@ -123,7 +125,11 @@ const initResources = (resourcesData: Record<string, number>) => {
   const { resources } = useResource();
   Object.entries(resourcesData).forEach(([key, value]) => {
     const resource = resources[key as RESOURCE];
-    resource.value = value;
+    if (resource) {
+      resource.value = value;
+    } else {
+      console.warn(`Resource key ${key} not found in resources`);
+    }
   });
 };
 

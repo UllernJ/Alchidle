@@ -56,7 +56,6 @@ export class Building {
 
   buy(quantity: number) {
     for (let i = 0; i < quantity; i++) {
-      console.log("test");
       this.upgrade();
     }
   }
@@ -66,6 +65,7 @@ export class Building {
       this.cost.forEach((cost) => {
         cost.value = Math.round(cost.value * this.costMultiplier);
       });
+      this.effect();
     }
     this.quantity = quantity;
   }
