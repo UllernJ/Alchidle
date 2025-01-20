@@ -31,25 +31,25 @@ export type Armor = {
 };
 
 const weapons = ref<Weapon[]>([
-  { name: "Stick", damage: 1, cost: 20, path: stickIcon, quantity: 0 },
-  { name: "Knife", damage: 2, cost: 50, path: knifeIcon, quantity: 0 },
-  { name: "Axe", damage: 5, cost: 100, path: axeIcon, quantity: 0 },
-  { name: "Sword", damage: 10, cost: 200, path: swordIcon, quantity: 0 },
+  { name: "Stick", damage: 1, cost: 50, path: stickIcon, quantity: 0 },
+  { name: "Knife", damage: 2, cost: 100, path: knifeIcon, quantity: 0 },
+  { name: "Axe", damage: 5, cost: 200, path: axeIcon, quantity: 0 },
+  { name: "Sword", damage: 10, cost: 400, path: swordIcon, quantity: 0 },
   {
     name: "Mighty Blade",
     damage: 20,
-    cost: 500,
+    cost: 1000,
     path: mightyBladeIcon,
     quantity: 0,
   },
 ]);
 
 const armors = ref<Armor[]>([
-  { name: "Boots", defense: 1, cost: 20, path: bootsIcon, quantity: 0 },
-  { name: "Hands", defense: 2, cost: 50, path: handsIcon, quantity: 0 },
-  { name: "Pants", defense: 5, cost: 100, path: pantsIcon, quantity: 0 },
-  { name: "Hjelmet", defense: 10, cost: 200, path: helmetIcon, quantity: 0 },
-  { name: "Chestplate", defense: 20, cost: 500, path: chestIcon, quantity: 0 },
+  { name: "Boots", defense: 1, cost: 50, path: bootsIcon, quantity: 0 },
+  { name: "Hands", defense: 2, cost: 100, path: handsIcon, quantity: 0 },
+  { name: "Pants", defense: 5, cost: 200, path: pantsIcon, quantity: 0 },
+  { name: "Hjelmet", defense: 10, cost: 400, path: helmetIcon, quantity: 0 },
+  { name: "Chestplate", defense: 20, cost: 1000, path: chestIcon, quantity: 0 },
 ]);
 
 export const useGear = () => {

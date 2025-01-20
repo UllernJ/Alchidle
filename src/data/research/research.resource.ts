@@ -10,7 +10,7 @@ export const mathematicsResearch = ref(
     "Improves your bankers, doubling their efficiency (2x).",
     100,
     () => efficiencyResearch.value.level >= 1,
-    4,
+    3,
     RESEARCH_INTERVAL.EVERY,
     () => {
       BANKER.value.upgradeRate(2);
@@ -24,7 +24,7 @@ export const miningResearch = ref(
     "Improves your miners, doubling their efficiency (2x).",
     100,
     () => efficiencyResearch.value.level >= 1,
-    4,
+    3,
     RESEARCH_INTERVAL.EVERY,
     () => {
       MINER.value.upgradeRate(2);

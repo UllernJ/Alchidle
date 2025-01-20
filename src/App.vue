@@ -6,6 +6,7 @@ import IDiscovery from "./components/Discovery/IDiscovery.vue";
 import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
 import IMultipliers from "./components/IMultipliers.vue";
+import PlayerSection from "./components/PlayerSection.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { isFirstTime, saveSession } from "./utils/localStorage";
@@ -53,6 +54,7 @@ onUnmounted(() => {
       </section>
       <section class="content-container">
         <i-tab />
+        <player-section />
       </section>
     </v-main>
   </v-app>
@@ -78,7 +80,7 @@ onUnmounted(() => {
 .content-container {
   margin-top: 1rem;
   display: grid;
-  grid-template-columns: 6fr 4fr;
+  grid-template-columns: 6.5fr 1fr;
 }
 
 @media (max-width: 1200px) {

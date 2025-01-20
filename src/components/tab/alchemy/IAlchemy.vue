@@ -14,9 +14,7 @@
         }"
       >
         <span class="infusion-name">
-          <v-tooltip
-            location="top"
-          >
+          <v-tooltip location="top">
             <template #activator="{ props }">
               <v-icon
                 :icon="mdiInformationBoxOutline"
@@ -25,7 +23,7 @@
             </template>
             <span>{{ infusion.description }}</span>
           </v-tooltip>
-          {{ infusion.name }}
+          {{ `${infusion.name} (${infusion.level})` }}
         </span>
         <section class="progress-bar-container">
           <div class="progress-bar">
@@ -33,29 +31,29 @@
               class="progress-bar-inner"
               :style="{ width: infusionProgress(infusion) + '%' }"
             />
+            <span class="progress-text">
+              {{ formatNumber(infusion.contribution) }} /
+              {{ formatNumber(infusion.cost) }}
+            </span>
           </div>
         </section>
-        <p class="infusion-progress">
-          {{ formatNumber(infusion.contribution) }} /
-          {{ formatNumber(infusion.cost) }}
-        </p>
         <p class="infusion-workers">
           Workers: {{ formatNumber(infusion.workersAllocated) }}
         </p>
         <section class="infusion-buttons">
-          <v-btn
-            :disabled="employedAlchemists >= alchemistCount"
-            class="infusion-button"
-            @click="allocateAlchemist(index)"
-          >
-            +
-          </v-btn>
           <v-btn
             :disabled="infusion.workersAllocated === 0"
             class="infusion-button"
             @click="deallocateAlchemist(index)"
           >
             -
+          </v-btn>
+          <v-btn
+            :disabled="employedAlchemists >= alchemistCount"
+            class="infusion-button"
+            @click="allocateAlchemist(index)"
+          >
+            +
           </v-btn>
         </section>
       </div>
@@ -178,13 +176,17 @@ const getColorFromName = (name: string) => {
 
 .progress-bar {
   width: 100%;
-  height: 1.25rem;
+  height: 1.33rem;
   background-color: #444;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
   box-sizing: border-box;
   overflow: hidden;
   margin: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-bar-inner {
@@ -192,13 +194,19 @@ const getColorFromName = (name: string) => {
   background-color: green;
   border-radius: 8px;
   transition: width 0.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.infusion-progress
-.infusion-workers {
+.progress-text {
+  position: absolute;
   width: 100%;
-  flex: 1;
-  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+  z-index: 1;
+  font-size: .8em;
+  text-align: center;
 }
 
 .infusion-buttons {
@@ -226,4 +234,5 @@ const getColorFromName = (name: string) => {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
 </style>

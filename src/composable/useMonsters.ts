@@ -8,7 +8,7 @@ const difficulty = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
 const BASE_HEALTH = ref<number>(30);
-const BASE_DAMAGE = ref<number>(2);
+const BASE_DAMAGE = ref<number>(5);
 const currentMonster = computed(
   () => monsters.value.find((monster) => monster.health > 0) || null
 );

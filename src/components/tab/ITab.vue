@@ -29,7 +29,10 @@
           </v-btn>
         </li>
       </ul>
-      <section class="buy-buttons">
+      <section
+        v-if="currentState !== TAB_STATE.ALCHEMY && currentState !== TAB_STATE.RESEARCH"
+        class="buy-buttons"
+      >
         <v-btn
           rounded="0"
           class="button"

@@ -11,7 +11,7 @@ export const scienceResearch = ref(
     "Improves your scientists, doubling their efficiency (2x).",
     1000,
     () => mathematicsResearch.value.level >= 1 && miningResearch.value.level >= 1,
-    5,
+    4,
     RESEARCH_INTERVAL.EVERY_SECOND,
     () => {
       SCIENTIST.value.upgradeRate(2);
@@ -23,7 +23,7 @@ export const blacksmithingResearch = ref(
   new Research(
     "Blacksmithing",
     "Unlocks the ability to craft weapons and armor.",
-    100,
+    50,
     () => true
   )
 );
