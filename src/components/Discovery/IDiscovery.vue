@@ -1,9 +1,7 @@
 <!-- eslint-disable vue/no-lone-template -->
 <template>
-  <section class="container">    
-    <template class="log">
-      <ActionLog />
-    </template>
+  <section class="container">
+    <ActionLog />
     <IProgress v-if="explortationResearch.unlocked && !isEveryMonsterDefeated" />
     <div v-else />
     <FightSection v-if="explortationResearch.unlocked" />
