@@ -125,4 +125,9 @@ const openDiscord = () => {
   display: flex;
   gap: 1rem;
 }
+@media screen and (max-width: 500px) {
+  .header-buttons {
+    display: none;
+  }
+}
 </style>

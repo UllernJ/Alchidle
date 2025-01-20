@@ -1,6 +1,9 @@
+<!-- eslint-disable vue/no-lone-template -->
 <template>
   <section class="container">    
-    <ActionLog />
+    <template class="log">
+      <ActionLog />
+    </template>
     <IProgress v-if="explortationResearch.unlocked && !isEveryMonsterDefeated" />
     <div v-else />
     <FightSection v-if="explortationResearch.unlocked" />
@@ -27,5 +30,17 @@ const { isEveryMonsterDefeated } = useMonsters()
   height: 100%;
   width: 100%;
   height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 500) {
+  .log {
+    display: none;
+  }
 }
 </style>

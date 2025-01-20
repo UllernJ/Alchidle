@@ -93,4 +93,10 @@ onUnmounted(() => {
     grid-template-rows: 1fr 1fr;
   }
 }
+@media screen and (max-width: 500px) {
+  .content-container > .Player {
+    grid-row: 1;
+    
+  }
+}
 </style>
