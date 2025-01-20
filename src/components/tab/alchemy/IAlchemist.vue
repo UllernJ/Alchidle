@@ -46,6 +46,7 @@ const { alchemyWorkers } = useAlchemy();
   background-color: #1a1a1a;
   display: flex;
   flex-direction: column;
+  min-width: 22rem;
 }
 
 .header {

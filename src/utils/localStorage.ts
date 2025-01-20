@@ -210,9 +210,10 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   const { map, monsters, BASE_DAMAGE, BASE_HEALTH } = useMonsters();
   map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters;
-
-  BASE_DAMAGE.value = monsters.value[monsters.value.length - 1].attack * 1.15;
-  BASE_HEALTH.value = monsters.value[monsters.value.length - 1].health * 1.15;
+  if (monsters.value.length > 0) {
+    BASE_DAMAGE.value = monsters.value[monsters.value.length - 1].attack * 1.15;
+    BASE_HEALTH.value = monsters.value[monsters.value.length - 1].health * 1.15;
+  }
 };
 
 const initInfusions = (
@@ -232,7 +233,7 @@ const initInfusions = (
       savedInfusion.level = infusion.level;
       savedInfusion.contribution = infusion.contribution;
       for (let i = 1; i < infusion.level; i++) {
-        savedInfusion.cost = Math.round(savedInfusion.cost * 1.07);
+        savedInfusion.cost *= 2.5;
       }
     }
   });

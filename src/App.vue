@@ -45,7 +45,7 @@ onUnmounted(() => {
     <i-popup />
     <LoadingScreen />
     <i-multipliers />
-  
+
     <i-header />
     <v-main class="main-container">
       <section class="top-container">
@@ -61,18 +61,17 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-
 .main-container {
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 2fr;
-    background-color: #242424 !important;
+  background-color: #242424 !important;
 }
 
 .top-container {
   display: grid;
   grid-template-columns: 3.5fr 6fr;
-  gap: .75rem;
+  gap: 0.75rem;
   overflow: hidden;
   height: 100%;
 }

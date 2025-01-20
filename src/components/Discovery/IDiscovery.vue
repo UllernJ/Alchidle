@@ -1,16 +1,20 @@
 <template>
   <section class="container">    
     <ActionLog />
-    <IProgress v-if="explortationResearch.unlocked" />
+    <IProgress v-if="explortationResearch.unlocked && !isEveryMonsterDefeated" />
+    <div v-else />
     <FightSection v-if="explortationResearch.unlocked" />
   </section>
 </template>
 
 <script lang="ts" setup>
+import { useMonsters } from "../../composable/useMonsters";
 import { explortationResearch } from "../../data/research/research.science";
 import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import IProgress from "./IProgress.vue";
+
+const { isEveryMonsterDefeated } = useMonsters()
 </script>
 
 <style scoped>

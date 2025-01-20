@@ -183,13 +183,15 @@ const fetchNextMonsters = () => {
 
 <style scoped>
 .fight-cube {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: .5rem;
   height: 100%;
+  width: 100%;
 }
 
 .monster {
