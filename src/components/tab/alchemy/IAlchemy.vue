@@ -162,11 +162,11 @@ const getColorFromName = (name: string) => {
   font-size: 1em;
   font-weight: bold;
   width: 100%;
-  max-width: 12rem;
+  max-width: 15%;
 }
 
 .progress-bar-container {
-  max-width: 48%;
+  max-width: 60%;
   width: 100%;
   height: 100%;
   display: flex;
@@ -176,7 +176,7 @@ const getColorFromName = (name: string) => {
 
 .progress-bar {
   width: 100%;
-  height: 1.33rem;
+  height: 1.4rem;
   background-color: #444;
   border: 2px solid #f1f1f1;
   border-radius: 8px;
