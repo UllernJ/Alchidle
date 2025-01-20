@@ -1,12 +1,13 @@
 <template>
   <section class="container">    
     <ActionLog />
-    <IProgress />
-    <FightSection />
+    <IProgress v-if="explortationResearch.unlocked" />
+    <FightSection v-if="explortationResearch.unlocked" />
   </section>
 </template>
 
 <script lang="ts" setup>
+import { explortationResearch } from "../../data/research/research.science";
 import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import IProgress from "./IProgress.vue";
@@ -21,7 +22,6 @@ import IProgress from "./IProgress.vue";
   grid-template-columns: 8fr 3fr 3fr;
   height: 100%;
   width: 100%;
-  max-height: 49vh;
   height: 100%;
 }
 </style>

@@ -4,6 +4,8 @@ import { mathematicsResearch, miningResearch } from "./research.resource";
 import { SCIENTIST } from "../workers";
 import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 import { RESEARCH_INTERVAL } from "../../models/research/ResearchInterval";
+import { useActionLog } from "../../composable/useActionLog";
+import { MessageType } from "../../composable/useMessage";
 
 export const scienceResearch = ref(
   new UpgradeableResearch(
@@ -24,6 +26,19 @@ export const blacksmithingResearch = ref(
     "Blacksmithing",
     "Unlocks the ability to craft weapons and armor.",
     50,
-    () => true
+    () => explortationResearch.value.unlocked
+  )
+);
+
+export const explortationResearch = ref(
+  new Research(
+    "Exploration",
+    "Unlocks the ability to explore the world.",
+    25,
+    () => true,
+    () => {
+      const { logMessage } = useActionLog()
+      logMessage("You have unlocked the ability to explore the world.", MessageType.INFO)
+    }
   )
 );
