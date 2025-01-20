@@ -14,6 +14,8 @@
 
 - Fix session storage (its shit rn)
 
+- Bosses? extra maps? rewards?
+
 ## Somewhat finished
 
 - Punish player if dies -> lose resources or gear?

@@ -208,9 +208,12 @@ const initArmors = (armorsData: { name: string; quantity: number }[]) => {
 };
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
-  const { map, monsters } = useMonsters();
+  const { map, monsters, BASE_DAMAGE, BASE_HEALTH } = useMonsters();
   map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters;
+
+  BASE_DAMAGE.value = monsters.value[monsters.value.length - 1].attack * 1.15;
+  BASE_HEALTH.value = monsters.value[monsters.value.length - 1].health * 1.15;
 };
 
 const initInfusions = (

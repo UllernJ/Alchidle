@@ -113,7 +113,7 @@ watch(currentState, () => {
   overflow-y: overlay;
   scrollbar-width: thin;
   scrollbar-color: #f1f1f1 #1a1a1a;
-  max-height: 53vh;
+  max-height: 55vh;
 }
 
 .state-sidebar {
@@ -123,7 +123,10 @@ watch(currentState, () => {
   width: 100%;
   height: fit-content;
   margin: 0;
-  border: 1px solid #f1f1f1;
+  border-left: 1px solid #f1f1f1;
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+
 }
 
 .state-list {

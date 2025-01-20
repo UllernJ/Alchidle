@@ -15,10 +15,6 @@ const currentMonster = computed(
 
 export function useMonsters() {
   const getNextMonsters = () => {
-    if(BASE_HEALTH.value === 30 && monsters.value.length !== 0) {
-      BASE_DAMAGE.value = monsters.value[monsters.value.length - 1].attack * 1.15;
-      BASE_HEALTH.value = monsters.value[monsters.value.length - 1].health * 1.15;
-    }
     map.value += 1;
     const listOfMonsters = MonsterFactory.getMonsters(
       MONSTERS_PER_MAP,
@@ -45,5 +41,10 @@ export function useMonsters() {
     difficulty,
     map,
     currentMonster,
+    isEveryMonsterDefeated: computed(() =>
+      monsters.value.every((monster) => monster.health <= 0)
+    ),
+    BASE_DAMAGE,
+    BASE_HEALTH,
   };
 }

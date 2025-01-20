@@ -80,9 +80,7 @@ const { toggleMultipliers } = useMultipliers()
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  border-right: 1px solid #f1f1f1;
-  border-top: 1px solid #f1f1f1;
-  border-bottom: 1px solid #f1f1f1;
+  border: 1px solid #f1f1f1;
 }
 
 .icon-container {
