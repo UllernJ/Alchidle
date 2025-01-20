@@ -110,7 +110,6 @@ const getColorFromName = (name: string) => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   color: #ffffff;
   padding: 1rem;
 }
@@ -119,9 +118,8 @@ const getColorFromName = (name: string) => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
   width: 50%;
-  gap: 1rem;
+  gap: 5rem;
   padding: 1rem;
 }
 

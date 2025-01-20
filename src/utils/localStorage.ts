@@ -46,9 +46,6 @@ export type SessionState = {
 };
 
 export const saveSession = () => {
-  const { logMessage } = useActionLog();
-  logMessage("Saving game...", MessageType.INFO);
-
   const { armors, weapons } = useGear();
   const { buildings } = useBuildings();
   const { infusions, alchemyWorkers } = useAlchemy();
@@ -86,6 +83,8 @@ export const saveSession = () => {
 
   const serializedState = serializeState(state);
   localStorage.setItem(KEY, JSON.stringify(serializedState));
+  const { logMessage } = useActionLog();
+  logMessage("Game was saved", MessageType.SUCCESS);
 };
 
 export const loadState = () => {

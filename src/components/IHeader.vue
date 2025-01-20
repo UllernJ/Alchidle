@@ -81,14 +81,10 @@
 
 <script setup lang="ts">
 import { saveSession } from "../utils/localStorage";
-import { useActionLog } from "../composable/useActionLog";
-import { MessageType } from "../composable/useMessage";
 import { mdiCog, mdiContentSave, mdiExport, mdiNewspaper } from "@mdi/js";
 
 const saveGame = () => {
   saveSession();
-  const { logMessage } = useActionLog();
-  logMessage("Game was saved", MessageType.SUCCESS);
 };
 
 const exportGame = () => {};
