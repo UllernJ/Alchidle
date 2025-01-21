@@ -29,8 +29,11 @@
         <h2>Welcome Back!</h2>
         <p>You were gone for {{ formatElapsedTime(elapsedTime) }}.</p>
         <p>
-          Note that resources generated while you are away are only 25% of the
-          actual rate.
+          Your workers have been slacking off, but they still managed to
+          generate some resources for you.
+          <br>
+          They generated 25% of what they would have generated if you were
+          active.
         </p>
         <ul>
           <p>Resources generated while you were away:</p>
@@ -87,7 +90,6 @@ const closeWelcomeBack = () => {
 </script>
 
 <style scoped>
-
 .loading-container {
   display: flex;
   justify-content: center;
