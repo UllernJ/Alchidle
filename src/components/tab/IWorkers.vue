@@ -16,7 +16,7 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(worker.getTotalPriceFromQuantity(amountToBuy))"
+              :disabled="!canAffordAmount(worker)"
               v-bind="props"
               @click="worker.buyQuantity(amountToBuy)"
             >
@@ -37,7 +37,10 @@
             <p class="description">
               {{ worker.description }}
             </p>
-            <div class="worker-cost">
+            <div
+              v-if="worker instanceof Worker"
+              class="worker-cost"
+            >
               <span>Generates {{ formatNumber(worker.production.rate) }}</span>
               <Icon
                 :path="getResourceIcon(worker.production.resource)"
@@ -45,12 +48,12 @@
               />
               <span>/s</span>
             </div>
-            <div :class="['worker-cost', { 'text-red': !canAfford(worker.getTotalPriceFromQuantity(amountToBuy)) }]">
+            <div :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]">
               <span>{{ formatNumber(worker.getTotalPriceFromQuantity(amountToBuy)) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
-                :color="canAfford(worker.getTotalPriceFromQuantity(amountToBuy)) ? '' : 'red'"
+                :color="canAffordAmount(worker) ? '' : 'red'"
               />
             </div>
           </section>
@@ -70,6 +73,8 @@ import { getResourceIcon } from "../../utils/resourceUtil";
 import { formatNumber } from "../../utils/number";
 import { usePlayer } from "../../composable/usePlayer";
 import { RESOURCE } from "../../types";
+import type { BaseWorker } from "../../models/worker/BaseWorker";
+import { Worker } from "../../models/worker/Worker";
 
 const { workerStations } = useWorkers();
 const { amountToBuy } = usePlayer();
@@ -81,6 +86,12 @@ const canAfford = computed(() => {
     return resources[RESOURCE.MONEY].value >= cost;
   };
 });
+
+const canAffordAmount = computed(() => {
+  return (worker: BaseWorker) => {
+    return canAfford.value(worker.getTotalPriceFromQuantity(amountToBuy.value));
+  };
+})
 
 </script>
 

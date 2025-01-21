@@ -45,4 +45,21 @@ export class BaseWorker {
       this.cost.value = Math.round(this.cost.value * 1.07);
     }
   }
+  getTotalPriceFromQuantity(quantity: number): number {
+    let total = 0;
+    let currentCost = this.cost.value;
+
+    for (let i = 0; i < quantity; i++) {
+      total += currentCost;
+      currentCost = Math.round(currentCost * 1.07);
+    }
+
+    return total;
+  }
+
+  buyQuantity(quantity: number): void {
+    for (let i = 0; i < quantity; i++) {
+      this.buy();
+    }
+  }
 }

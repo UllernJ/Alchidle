@@ -15,6 +15,7 @@ import type { Infusion } from "../models/Infusion";
 import type { Monster } from "../models/Monster";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
+import type { BaseWorker } from "../models/worker/BaseWorker";
 import type { Worker } from "../models/worker/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
@@ -26,7 +27,7 @@ export type SessionState = {
   weapons: Weapon[];
   buildings: Building[];
   research: (Research | UpgradeableResearch)[];
-  workerStations: Worker[];
+  workerStations: Worker[] | BaseWorker[];
   resources: Record<string, number>;
   alchemy: {
     infusions: Infusion[];

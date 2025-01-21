@@ -77,8 +77,9 @@
                 <div class="cost">
                   <p>{{ formatNumber(armor.defense) }}</p>
                   <Icon
-                    :path="defenceIcon"
+                    :path="healthIcon"
                     :size="20"
+                    color="red"
                   />
                 </div>
               </div>
@@ -104,7 +105,7 @@ import { useGear } from "../../composable/useGear";
 import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { RESOURCE } from "../../types";
-import { attackIcon, defenceIcon, miningIcon } from "../../icons/icons";
+import { attackIcon, defenceIcon, healthIcon, miningIcon } from "../../icons/icons";
 import { formatNumber } from "../../utils/number";
 
 const { weapons, armors, buyArmor, buyWeapon } = useGear();

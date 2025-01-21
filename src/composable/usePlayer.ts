@@ -3,6 +3,7 @@ import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import { isDev } from "../utils/dev";
 import { useResource } from "./useResource";
+import { TRAINER } from "../data/workers";
 
 //!multipliers
 const attackPowerMultiplier = ref<number>(isDev ? 1000 : 1);
@@ -14,7 +15,7 @@ const productionRate = ref<number>(isDev ? 100 : 1);
 //!player stats
 const currentFocus = ref<RESOURCE | null>(null);
 const health = ref<number>(100);
-const maxHealth = computed(() => 100 * healthMultiplier.value);
+const baseMaxHealth = ref<number>(100);
 const regen = computed(() => 1 * regenMultiplier.value);
 
 //!player controls
@@ -35,11 +36,15 @@ export const usePlayer = () => {
   });
 
   const defencePower = computed(() => {
+    return defencePowerMultiplier.value * (TRAINER.value.numberOfWorkers * 5);
+  });
+
+  const maxHealth = computed(() => {
     const armor = armors.value.reduce(
       (acc, armor) => acc + armor.defense * armor.quantity,
-      1
+      0
     );
-    return defencePowerMultiplier.value * armor;
+    return (baseMaxHealth.value + armor) * healthMultiplier.value;
   });
 
   const regenHealth = () => {
