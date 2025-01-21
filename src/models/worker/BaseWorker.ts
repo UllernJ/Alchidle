@@ -10,7 +10,7 @@ export class BaseWorker {
   };
   description: string;
   icon: string;
-  multiplier?: number;
+  multiplier: number;
   requirement?: () => boolean;
 
   constructor(
@@ -22,7 +22,7 @@ export class BaseWorker {
     },
     description: string,
     icon: string,
-    multiplier?: number,
+    multiplier: number,
     requirement?: () => boolean
   ) {
     this.name = name;
@@ -37,12 +37,13 @@ export class BaseWorker {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
     this.numberOfWorkers++;
-    this.cost.value = Math.round(this.cost.value * 1.07);
+    this.cost.value = this.cost.value * this.multiplier;
   }
 
   restoreFromSave(numberOfWorkers: number) {
+    this.numberOfWorkers = numberOfWorkers;
     for (let i = 0; i < numberOfWorkers; i++) {
-      this.cost.value = Math.round(this.cost.value * 1.07);
+      this.cost.value = this.cost.value * this.multiplier;
     }
   }
   getTotalPriceFromQuantity(quantity: number): number {
@@ -51,7 +52,7 @@ export class BaseWorker {
 
     for (let i = 0; i < quantity; i++) {
       total += currentCost;
-      currentCost = Math.round(currentCost * 1.07);
+      currentCost = currentCost * this.multiplier;
     }
 
     return total;

@@ -20,7 +20,7 @@ export class Worker extends BaseWorker {
     },
     description: string,
     icon: string,
-    multiplier?: number,
+    multiplier: number,
     requirement?: () => boolean
   ) {
     super(name, numberOfWorkers, cost, description, icon, multiplier, requirement);

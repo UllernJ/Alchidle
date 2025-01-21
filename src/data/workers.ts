@@ -13,7 +13,8 @@ export const BANKER = ref<Worker>(new Worker(
     value: 25,
   },
   "Manages your economy.",
-  bankerIcon
+  bankerIcon,
+  1.07
 ));
 
 export const MINER = ref<Worker>(new Worker(
@@ -25,7 +26,8 @@ export const MINER = ref<Worker>(new Worker(
     value: 50,
   },
   "Mines for ores.",
-  minerIcon
+  minerIcon,
+  1.07
 ));
 
 export const SCIENTIST = ref<Worker>(new Worker(
@@ -37,7 +39,8 @@ export const SCIENTIST = ref<Worker>(new Worker(
     value: 100,
   },
   "Researches new technologies.",
-  scientistIcon
+  scientistIcon,
+  1.07
 ))
 
 export const TRAINER = ref<BaseWorker>(new BaseWorker(

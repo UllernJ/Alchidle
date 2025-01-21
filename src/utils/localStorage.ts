@@ -116,7 +116,6 @@ const initWorkers = (workers: { name: string; numberOfWorkers: number }[]) => {
   WORKERS.value.forEach((worker) => {
     const savedWorker = workers.find((w) => w.name === worker.name);
     if (savedWorker) {
-      worker.numberOfWorkers = savedWorker.numberOfWorkers;
       worker.restoreFromSave(savedWorker.numberOfWorkers);
     }
   });
