@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { bankerIcon, minerIcon, scientistIcon, trainerIcon } from "../icons/icons";
+import { bankerIcon, minerIcon, priestIcon, scientistIcon, trainerIcon } from "../icons/icons";
 import { Worker } from "../models/worker/Worker";
 import { RESOURCE } from "../types";
 import { BaseWorker } from "../models/worker/BaseWorker";
@@ -52,5 +52,17 @@ export const TRAINER = ref<BaseWorker>(new BaseWorker(
   1.75
 ));
 
+export const PRIEST = ref<BaseWorker>(new BaseWorker(
+  "Priest",
+  0,
+  {
+    resource: RESOURCE.MONEY,
+    value: 300,
+  },
+  "Increases your health regeneration by 1.",
+  priestIcon,
+  3
+));
 
-export const WORKERS = ref<BaseWorker[]>([BANKER.value, MINER.value, SCIENTIST.value, TRAINER.value]);
+
+export const WORKERS = ref<BaseWorker[]>([BANKER.value, MINER.value, SCIENTIST.value, TRAINER.value, PRIEST.value]);

@@ -3,7 +3,7 @@ import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import { isDev } from "../utils/dev";
 import { useResource } from "./useResource";
-import { TRAINER } from "../data/workers";
+import { PRIEST, TRAINER } from "../data/workers";
 
 //!multipliers
 const attackPowerMultiplier = ref<number>(isDev ? 1000 : 1);
@@ -13,12 +13,12 @@ const regenMultiplier = ref<number>(isDev ? 1000 : 1);
 const productionRate = ref<number>(isDev ? 100 : 1);
 
 //!player stats
-const currentFocus = ref<RESOURCE | null>(null);
 const health = ref<number>(100);
 const baseMaxHealth = ref<number>(100);
-const regen = computed(() => 1 * regenMultiplier.value);
+const regen = computed(() => (1 + 1 * PRIEST.value.numberOfWorkers) * regenMultiplier.value);
 
 //!player controls
+const currentFocus = ref<RESOURCE | null>(null);
 const amountToBuy = ref<number>(1);
 
 export const usePlayer = () => {
