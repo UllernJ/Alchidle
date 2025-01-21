@@ -14,9 +14,9 @@ export const useWorkers = () => {
     const { currentFocus, productionRate } = usePlayer();
     const incomePerResource: Partial<Record<RESOURCE, number>> = {};
 
-    workerStations.value.forEach(({ resource, rate, numberOfWorkers }) => {
-      incomePerResource[resource] =
-        (incomePerResource[resource] || 0) + rate * numberOfWorkers;
+    workerStations.value.forEach(({ production, numberOfWorkers }) => {
+      incomePerResource[production.resource] =
+        (incomePerResource[production.resource] || 0) + production.rate * numberOfWorkers;
     });
 
     if (currentFocus.value !== null) {
@@ -33,18 +33,18 @@ export const useWorkers = () => {
       addResource(currentFocus.value, productionRate.value);
     }
     workerStations.value.forEach((station) => {
-      const generated = station.rate * station.numberOfWorkers;
-      addResource(station.resource, generated);
+      const generated = station.production.rate * station.numberOfWorkers;
+      addResource(station.production.resource, generated);
     });
   };
 
   const calculateGeneratedResources = (elapsedTime: number) => {
     const generated: Record<string, number> = {};
     workerStations.value.forEach((station) => {
-      const rate = station.rate * station.numberOfWorkers;
+      const rate = station.production.rate * station.numberOfWorkers;
       const amount = Math.floor((rate * elapsedTime) / 4);
-      generated[station.resource] = (generated[station.resource] || 0) + amount;
-      addResource(station.resource, amount);
+      generated[station.production.resource] = (generated[station.production.resource] || 0) + amount;
+      addResource(station.production.resource, amount);
     });
     return generated;
   };

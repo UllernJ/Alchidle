@@ -1,12 +1,11 @@
 import { ref } from "vue";
 import { bankerIcon, minerIcon, scientistIcon } from "../icons/icons";
-import { Worker } from "../models/Worker";
+import { Worker } from "../models/worker/Worker";
 import { RESOURCE } from "../types";
 
 export const BANKER = ref<Worker>(new Worker(
   "Banker",
-  1,
-  RESOURCE.MONEY,
+  { resource: RESOURCE.MONEY, rate: 25 },
   0,
   {
     resource: RESOURCE.MONEY,
@@ -18,8 +17,7 @@ export const BANKER = ref<Worker>(new Worker(
 
 export const MINER = ref<Worker>(new Worker(
   "Miner",
-  1,
-  RESOURCE.MINING,
+  { resource: RESOURCE.MINING, rate: 1 },
   0,
   {
     resource: RESOURCE.MONEY,
@@ -31,8 +29,7 @@ export const MINER = ref<Worker>(new Worker(
 
 export const SCIENTIST = ref<Worker>(new Worker(
   "Scientist",
-  1,
-  RESOURCE.SCIENCE,
+  { resource: RESOURCE.SCIENCE, rate: 1 },
   0,
   {
     resource: RESOURCE.MONEY,

@@ -47,13 +47,16 @@ export class MonsterFactory {
         )
       );
       difficultyMultiplier += 0.059;
+      if (i + 1 === monsterCount - 1) {
+        difficultyMultiplier *= 2;
+      }
       _baseDamage *= 1.002;
       _baseHealth *= 1.002;
     }
     return monsters;
   }
 
-  private static getRandomMonster() {
+  private static getRandomMonster(isBoss = false) {
     const monsters = [
       {
         name: "Gnome",
@@ -80,6 +83,10 @@ export class MonsterFactory {
         icon: troglodyteIcon,
       },
     ];
-    return monsters[Math.floor(Math.random() * monsters.length)];
+    const monster = monsters[Math.floor(Math.random() * monsters.length)];
+    if (isBoss) {
+      monster.name = "Boss " + monster.name;
+    }
+    return monster;
   }
 }

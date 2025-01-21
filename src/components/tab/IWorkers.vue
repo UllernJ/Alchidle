@@ -38,9 +38,9 @@
               {{ worker.description }}
             </p>
             <div class="worker-cost">
-              <span>Generates {{ formatNumber(worker.rate) }}</span>
+              <span>Generates {{ formatNumber(worker.production.rate) }}</span>
               <Icon
-                :path="getResourceIcon(worker.resource)"
+                :path="getResourceIcon(worker.production.resource)"
                 :size="20"
               />
               <span>/s</span>

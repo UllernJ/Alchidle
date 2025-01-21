@@ -99,9 +99,9 @@ const WORKER_HUT = new Building(
   4,
   "Increases workers production by 1%.",
   () => {
-    MINER.value.rate *= 1.01;
-    BANKER.value.rate *= 1.01;
-    SCIENTIST.value.rate *= 1.01;
+    MINER.value.upgradeRate(1.01);
+    BANKER.value.upgradeRate(1.01);
+    SCIENTIST.value.upgradeRate(1.01);
   },
   0,
   hutIcon,

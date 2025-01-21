@@ -15,7 +15,7 @@ import type { Infusion } from "../models/Infusion";
 import type { Monster } from "../models/Monster";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
-import type { Worker } from "../models/Worker";
+import type { Worker } from "../models/worker/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
 

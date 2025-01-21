@@ -1,7 +1,7 @@
 import type { Armor, Weapon } from "../composable/useGear";
 import type { SessionState } from "./localStorage";
 import type { Building } from "../models/Building";
-import type { Worker } from "../models/Worker";
+import type { Worker } from "../models/worker/Worker";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 
