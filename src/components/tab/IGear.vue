@@ -105,7 +105,7 @@ import { useGear } from "../../composable/useGear";
 import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { RESOURCE } from "../../types";
-import { attackIcon, defenceIcon, healthIcon, miningIcon } from "../../icons/icons";
+import { attackIcon, healthIcon, miningIcon } from "../../icons/icons";
 import { formatNumber } from "../../utils/number";
 
 const { weapons, armors, buyArmor, buyWeapon } = useGear();

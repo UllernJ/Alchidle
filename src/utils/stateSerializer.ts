@@ -1,9 +1,9 @@
 import type { Armor, Weapon } from "../composable/useGear";
 import type { SessionState } from "./localStorage";
 import type { Building } from "../models/Building";
-import type { Worker } from "../models/worker/Worker";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
+import type { BaseWorker } from "../models/worker/BaseWorker";
 
 export const serializeState = (state: SessionState) => {
   return {
@@ -34,7 +34,7 @@ export const serializeState = (state: SessionState) => {
       }
       return baseData;
     }),
-    workerStations: state.workerStations.map((worker: Worker) => {
+    workerStations: state.workerStations.map((worker: BaseWorker) => {
       return { name: worker.name, numberOfWorkers: worker.numberOfWorkers };
     }),
     alchemy: {
