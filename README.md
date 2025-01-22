@@ -15,6 +15,8 @@
 - Fix session storage (its shit rn)
 
 - Bosses? extra maps? rewards?
+- Fix balancing, things should stagnate
+- When things stagnate the player should do some sort of reborn (restart the game with extra perks)
 
 ## Somewhat finished
 
