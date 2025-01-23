@@ -6,7 +6,7 @@ import { useAlchemy } from "../composable/useAlchemy";
 import { useMonsters } from "../composable/useMonsters";
 import { Research } from "../models/research/Research";
 import { usePlayer } from "../composable/usePlayer";
-import { BANKER, MINER, SCIENTIST, TRAINER } from "./workers";
+import { BANKER, MINER, PRIEST, SCIENTIST, TRAINER } from "./workers";
 import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
 
@@ -213,6 +213,20 @@ export const hostpitalBlueprintResearch = ref(
   )
 );
 
+export const upgradePriestResearch = ref(
+  new UpgradeableResearch(
+    "Upgrade Priest",
+    "Improves your priests, doubling their healing power.",
+    2500,
+    () => map.value >= 2,
+    2,
+    RESEARCH_INTERVAL.EVERY_FIFTH,
+    () => {
+      PRIEST.value.upgrade(2);
+    }
+  )
+);
+
 
 
 export const researchList = [
@@ -230,5 +244,6 @@ export const researchList = [
   blockingResearch.value,
   hostpitalBlueprintResearch.value,
   blockingTrainingResearch.value, 
-  trainerUpgradeResearch.value
-];
+  trainerUpgradeResearch.value,
+  upgradePriestResearch.value
+].sort((a, b) => a.name.localeCompare(b.name));

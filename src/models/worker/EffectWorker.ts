@@ -28,6 +28,7 @@ export class EffectWorker extends BaseWorker {
 
     upgrade(multiplier: number): void {
         this.produce.rate *= multiplier;
+        this.description = `Increases ${this.produce.resource} by ${this.produce.rate}.`;
     }
 }
 
