@@ -46,7 +46,7 @@ export class MonsterFactory {
           mapNumber
         )
       );
-      difficultyMultiplier += 0.059;
+      difficultyMultiplier += 0.025;
       if (i + 1 === monsterCount - 1) {
         difficultyMultiplier *= 2;
       }

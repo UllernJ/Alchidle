@@ -6,7 +6,7 @@ import { useAlchemy } from "../composable/useAlchemy";
 import { useMonsters } from "../composable/useMonsters";
 import { Research } from "../models/research/Research";
 import { usePlayer } from "../composable/usePlayer";
-import { BANKER, MINER, SCIENTIST } from "./workers";
+import { BANKER, MINER, SCIENTIST, TRAINER } from "./workers";
 import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
 
@@ -58,6 +58,35 @@ export const blockingResearch = ref(
     "Unlocks trainers, who can train your defence. Protects you from incoming damage.",
     500,
     () => explortationResearch.value.unlocked && map.value >= 3
+  )
+);
+
+export const trainerUpgradeResearch = ref(
+  new UpgradeableResearch(
+    "Trainer Upgrade",
+    "Improves your trainers, doubling their blocking.",
+    15000,
+    () => blockingResearch.value.unlocked,
+    5,
+    RESEARCH_INTERVAL.EVERY_THIRD,
+    () => {
+      TRAINER.value.upgrade(2)
+    }
+  )
+);
+
+export const blockingTrainingResearch = ref(
+  new UpgradeableResearch(
+    "Blocking Training",
+    "Increases your defense power by 100%.",
+    30000,
+    () => blockingResearch.value.unlocked && trainerUpgradeResearch.value.level >= 1,
+    10,
+    RESEARCH_INTERVAL.EVERY_FIFTH,
+    () => {
+      const { upgradeDefensePower } = usePlayer();
+      upgradeDefensePower(2);
+    }
   )
 );
 
@@ -199,5 +228,7 @@ export const researchList = [
   explortationResearch.value,
   workerHutBlueprintResearch.value,
   blockingResearch.value,
-  hostpitalBlueprintResearch.value
-].sort((a, b) => a.cost - b.cost);
+  hostpitalBlueprintResearch.value,
+  blockingTrainingResearch.value, 
+  trainerUpgradeResearch.value
+];
