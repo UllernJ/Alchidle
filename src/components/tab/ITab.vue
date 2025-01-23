@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, watch } from "vue";
+import { onBeforeMount, useTemplateRef, watch } from "vue";
 import { TAB_STATE, useTab } from "../../composable/useTab";
 import IAlchemy from "./alchemy/IAlchemy.vue";
 import IAll from "./IAll.vue";
@@ -94,8 +94,7 @@ import { mdiLock, mdiAlertBox } from "@mdi/js";
 import { usePlayer } from "../../composable/usePlayer";
 
 const { amountToBuy } = usePlayer();
-const { getStates, setState, currentState } = useTab();
-const states = getStates();
+const { states, setState, currentState, loadTabState } = useTab();
 
 const sidebar = useTemplateRef("sidebar");
 
@@ -103,6 +102,10 @@ watch(currentState, () => {
   if (sidebar.value) {
     sidebar.value.scrollTo({ top: 0, behavior: "smooth" });
   }
+});
+
+onBeforeMount(() => {
+  loadTabState();
 });
 </script>
 

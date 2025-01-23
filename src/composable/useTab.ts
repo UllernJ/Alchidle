@@ -25,6 +25,7 @@ export const GEAR = ref<Tab>({
   unlocked: () => blacksmithingResearch.value.unlocked,
   alert: true,
 });
+
 export const ALCHEMY = ref<Tab>({
   name: TAB_STATE.ALCHEMY,
   unlocked: () => unlockAlchemyResearch.value.unlocked,
@@ -39,16 +40,42 @@ export const useTab = () => {
     if (val.alert) {
       val.alert = false;
     }
+    saveTabState();
   };
-  const getStates = (): Ref<Tab[]> => {
-    return ref([
-      ALL.value,
-      WORKERS.value,
-      BUILDINGS.value,
-      RESEARCH.value,
-      GEAR.value,
-      ALCHEMY.value,
-    ]);
+
+  const states: Ref<Tab[]> = ref([
+    ALL.value,
+    WORKERS.value,
+    BUILDINGS.value,
+    RESEARCH.value,
+    GEAR.value,
+    ALCHEMY.value,
+  ]);
+
+  const saveTabState = () => {
+    const stateToSave = {
+      currentState: currentState.value,
+      states: states.value.map((tab) => ({
+        name: tab.name,
+        alert: tab.alert,
+      })),
+    };
+    localStorage.setItem("tabState", JSON.stringify(stateToSave));
   };
-  return { currentState, setState, getStates };
+
+  const loadTabState = () => {
+    const savedState = localStorage.getItem("tabState");
+    if (savedState) {
+      const parsedState = JSON.parse(savedState);
+      currentState.value = parsedState.currentState;
+      parsedState.states.forEach((savedTab: Tab) => {
+        const tab = states.value.find((t) => t.name === savedTab.name);
+        if (tab) {
+          tab.alert = savedTab.alert;
+        }
+      });
+    }
+  };
+
+  return { currentState, setState, states, loadTabState };
 };
