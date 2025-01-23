@@ -3,15 +3,23 @@
     <span class="map-info">Map: {{ map }}</span>
     <div class="progress-grid">
       <div
-        v-for="monster, index in monsters"
+        v-for="(monster, index) in monsters"
         :key="index"
-        :class="['progress-box', { defeated: monster.health <= 0 }, { current: index === current }]"
+        :class="[
+          'progress-box',
+          { defeated: monster.health <= 0 },
+          { current: index === current },
+        ]"
       >
         <div class="icon-container">
           <Icon
             v-if="monster.drop.amount > 0"
             class="icon"
-            :path="getResourceIcon(monster.drop.resource)"
+            :path="
+              index !== monsters.length - 1
+                ? getResourceIcon(monster.drop.resource)
+                : upgradeIcon
+            "
             :size="20"
           />
         </div>
@@ -24,12 +32,22 @@
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import { upgradeIcon } from "../../icons/icons";
+import { useActionLog } from "../../composable/useActionLog";
+import { MessageType } from "../../composable/useMessage";
 
 const { monsters, map } = useMonsters();
 
 const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
+const { logMessage } = useActionLog();
 
+watch(current, (newIndex) => {
+  if (newIndex === monsters.value.length - 1) {
+    logMessage("That was a though one, but you made it!", MessageType.INFO);
+    logMessage("Maybe you unlocked new research?", MessageType.INFO);
+  }
+});
 </script>
 
 <style scoped>
@@ -83,7 +101,7 @@ const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
 
 .map-info {
   width: 100%;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: bold;
 }
 </style>
