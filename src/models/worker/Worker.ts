@@ -1,3 +1,5 @@
+import { useActionLog } from "../../composable/useActionLog";
+import { MessageType } from "../../composable/useMessage";
 import type { RESOURCE } from "../../types";
 import { BaseWorker } from "./BaseWorker";
 
@@ -31,5 +33,7 @@ export class Worker extends BaseWorker {
 
   upgradeRate(multiplier: number): void {
     this.production.rate *= multiplier;
+    const { logMessage } = useActionLog()
+    logMessage(`${this.name} production has improved!`, MessageType.INFO);
   }
 }

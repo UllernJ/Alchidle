@@ -5,7 +5,7 @@
       <div
         v-for="monster, index in monsters"
         :key="index"
-        :class="['progress-box', { defeated: monster.health <= 0 }]"
+        :class="['progress-box', { defeated: monster.health <= 0 }, { current: index === current }]"
       >
         <div class="icon-container">
           <Icon
@@ -24,8 +24,11 @@
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
+import { computed } from "vue";
 
 const { monsters, map } = useMonsters();
+
+const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
 
 </script>
 
@@ -62,6 +65,10 @@ const { monsters, map } = useMonsters();
 
 .progress-box.defeated {
   background-color: green;
+}
+
+.current {
+  border: 2px solid yellow;
 }
 
 .icon-container {

@@ -6,7 +6,7 @@ import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
-import { workerHutBlueprintResearch } from "./research";
+import { hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
 
 const { upgradeStorage } = useResource();
 
@@ -80,7 +80,7 @@ const HOSPITAL = new Building(
   0,
   hospitalIcon,
   () => {
-    return true;
+    return hostpitalBlueprintResearch.value.unlocked;
   }
 );
 

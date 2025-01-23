@@ -109,7 +109,7 @@ export const combatTrainingResearch = ref(
     "Combat Training",
     "Increases your attack power by 10%.",
     10000,
-    () => map.value >= 2,
+    () => map.value >= 3,
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
@@ -162,12 +162,24 @@ export const advancedAlchemyResearch = ref(
     "Advanced Alchemy",
     "Further improves your alchemists, doubling their efficiency (2x).",
     25000,
-    () => unlockAlchemyResearch.value.unlocked,
-    25,
+    () => unlockAlchemyResearch.value.unlocked && map.value >= 10,
+    20,
     RESEARCH_INTERVAL.EVERY_TENTH,
     () => {
       const { upgradeAlchemists } = useAlchemy();
       upgradeAlchemists();
+    }
+  )
+);
+
+export const hostpitalBlueprintResearch = ref(
+  new Research(
+    "Blueprint: Hospital",
+    "Unlocks the ability to build hospitals, increasing your health regen.",
+    isDev ? 0 : 25000,
+    () => {
+      const { map } = useMonsters();
+      return map.value >= 4 || isDev;
     }
   )
 );
@@ -187,4 +199,5 @@ export const researchList = [
   explortationResearch.value,
   workerHutBlueprintResearch.value,
   blockingResearch.value,
+  hostpitalBlueprintResearch.value
 ].sort((a, b) => a.cost - b.cost);
