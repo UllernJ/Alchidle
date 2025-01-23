@@ -3,6 +3,7 @@ import { bankerIcon, minerIcon, priestIcon, scientistIcon, trainerIcon } from ".
 import { Worker } from "../models/worker/Worker";
 import { RESOURCE } from "../types";
 import { BaseWorker } from "../models/worker/BaseWorker";
+import { blacksmithingResearch, blockingResearch } from "./research/research.science";
 
 export const BANKER = ref<Worker>(new Worker(
   "Banker",
@@ -27,7 +28,8 @@ export const MINER = ref<Worker>(new Worker(
   },
   "Mines for ores.",
   minerIcon,
-  1.07
+  1.07,
+  () => blacksmithingResearch.value.unlocked
 ));
 
 export const SCIENTIST = ref<Worker>(new Worker(
@@ -43,29 +45,30 @@ export const SCIENTIST = ref<Worker>(new Worker(
   1.07
 ))
 
-export const TRAINER = ref<BaseWorker>(new BaseWorker(
-  "Trainer",
-  0,
-  {
-    resource: RESOURCE.MONEY,
-    value: 100,
-  },
-  "Increases your defence by 5.",
-  trainerIcon,
-  1.75
-));
-
 export const PRIEST = ref<BaseWorker>(new BaseWorker(
   "Priest",
   0,
   {
     resource: RESOURCE.MONEY,
-    value: 300,
+    value: 100,
   },
   "Increases your health regeneration by 1.",
   priestIcon,
-  3
+  1.75
+));
+
+export const TRAINER = ref<BaseWorker>(new BaseWorker(
+  "Trainer",
+  0,
+  {
+    resource: RESOURCE.MONEY,
+    value: 300,
+  },
+  "Increases your defence by 5.",
+  trainerIcon,
+  1.75,
+  () => blockingResearch.value.unlocked
 ));
 
 
-export const WORKERS = ref<BaseWorker[]>([BANKER.value, MINER.value, SCIENTIST.value, TRAINER.value, PRIEST.value]);
+export const WORKERS = ref<BaseWorker[]>([BANKER.value, MINER.value, SCIENTIST.value, PRIEST.value, TRAINER.value]);

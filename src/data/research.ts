@@ -14,6 +14,7 @@ import {
 } from "./research/research.alchemy";
 import {
   blacksmithingResearch,
+  blockingResearch,
   explortationResearch,
   scienceResearch,
 } from "./research/research.science";
@@ -33,6 +34,7 @@ export const getResearchList = () => {
       blacksmithingResearch.value,
       explortationResearch.value,
       workerHutBlueprintResearch.value,
+      blockingResearch.value
     ].sort((a, b) => a.cost - b.cost)
   );
 };

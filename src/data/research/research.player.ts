@@ -5,8 +5,6 @@ import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
 import { RESEARCH_INTERVAL } from "../../models/research/ResearchInterval";
 import { blacksmithingResearch } from "./research.science";
 
-const { upgradeProductionRate, upgradeAttackPower, upgradeDefensePower } =
-  usePlayer();
 const { map } = useMonsters();
 
 export const efficiencyResearch = ref(
@@ -18,6 +16,7 @@ export const efficiencyResearch = ref(
     2.5,
     RESEARCH_INTERVAL.EVERY,
     () => {
+      const { upgradeProductionRate } = usePlayer();
       upgradeProductionRate(2);
     }
   )
@@ -32,6 +31,7 @@ export const combatTrainingResearch = ref(
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
+      const { upgradeAttackPower } = usePlayer();
       upgradeAttackPower();
     }
   )
@@ -46,6 +46,7 @@ export const fortificationResearch = ref(
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
+      const { upgradeDefensePower } = usePlayer();
       upgradeDefensePower();
     }
   )

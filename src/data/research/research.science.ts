@@ -12,7 +12,8 @@ export const scienceResearch = ref(
     "Science",
     "Improves your scientists, doubling their efficiency (2x).",
     1000,
-    () => mathematicsResearch.value.level >= 1 && miningResearch.value.level >= 1,
+    () =>
+      mathematicsResearch.value.level >= 1 && miningResearch.value.level >= 1,
     4,
     RESEARCH_INTERVAL.EVERY_SECOND,
     () => {
@@ -24,7 +25,7 @@ export const scienceResearch = ref(
 export const blacksmithingResearch = ref(
   new Research(
     "Blacksmithing",
-    "Unlocks the ability to craft weapons and armor.",
+    "Unlocks the ability buy miners and craft weapons and armor.",
     50,
     () => explortationResearch.value.unlocked
   )
@@ -37,8 +38,20 @@ export const explortationResearch = ref(
     25,
     () => true,
     () => {
-      const { logMessage } = useActionLog()
-      logMessage("You have unlocked the ability to explore the world.", MessageType.INFO)
+      const { logMessage } = useActionLog();
+      logMessage(
+        "You have unlocked the ability to explore the world.",
+        MessageType.INFO
+      );
     }
+  )
+);
+
+export const blockingResearch = ref(
+  new Research(
+    "Blocking",
+    "Unlocks trainers, who can train your defence. Protects you from incoming damage.",
+    500,
+    () => explortationResearch.value.unlocked
   )
 );
