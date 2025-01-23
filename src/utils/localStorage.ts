@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { useActionLog } from "../composable/useActionLog";
 import { useAlchemy } from "../composable/useAlchemy";
 import { useBuildings } from "../composable/useBuildings";
@@ -21,6 +22,7 @@ import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
 
 const KEY = "session";
+export const isLoadingFromSave = ref(false);
 
 export type SessionState = {
   armors: Armor[];
@@ -105,6 +107,7 @@ export const loadState = () => {
   initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
   initResources(data.resources);
   initMultipliers(data.multipliers);
+  isLoadingFromSave.value = true;
   return data.timestamp;
 };
 

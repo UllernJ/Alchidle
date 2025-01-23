@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { useMonsters } from "../../composable/useMonsters";
-import { explortationResearch } from "../../data/research/research.science";
+import { explortationResearch } from "../../data/research";
 import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import IProgress from "./IProgress.vue";

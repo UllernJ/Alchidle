@@ -1,10 +1,10 @@
 import { computed, ref } from "vue";
 import { getInfusions } from "../data/alchemy";
 import { RESOURCE } from "../types";
-import { unlockAlchemyResearch } from "../data/research/research.alchemy";
 import { alchemyIcon } from "../icons/icons";
 import { useResource } from "./useResource";
 import { isDev } from "../utils/dev";
+import { unlockAlchemyResearch } from "../data/research";
 
 const employedAlchemists = computed(() => {
   let count = 0;

@@ -1,6 +1,5 @@
 import { ref, type Ref } from "vue";
-import { unlockAlchemyResearch } from "../data/research/research.alchemy";
-import { blacksmithingResearch } from "../data/research/research.science";
+import { blacksmithingResearch, unlockAlchemyResearch } from "../data/research";
 
 export enum TAB_STATE {
   ALL = "All",

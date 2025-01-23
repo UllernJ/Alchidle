@@ -6,7 +6,7 @@ import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
-import { workerHutBlueprintResearch } from "./research/research.buildings";
+import { workerHutBlueprintResearch } from "./research";
 
 const { upgradeStorage } = useResource();
 

@@ -3,14 +3,6 @@ import { usePlayer } from "../composable/usePlayer";
 import { Infusion } from "../models/Infusion";
 import { useGear } from "../composable/useGear";
 
-const {
-  upgradeAttackPower,
-  upgradeDefensePower,
-  upgradeProductionRate,
-  upgradeRegen,
-  upgradeHealth,
-} = usePlayer();
-
 const { upgradeWeapons, upgradeArmors } = useGear();
 
 const infusePower = new Infusion(
@@ -18,6 +10,7 @@ const infusePower = new Infusion(
   100,
   0,
   () => {
+    const { upgradeAttackPower } = usePlayer();
     upgradeAttackPower();
   },
   1,
@@ -29,6 +22,7 @@ const infuseDefense = new Infusion(
   100,
   0,
   () => {
+    const { upgradeDefensePower } = usePlayer();
     upgradeDefensePower();
   },
   1,
@@ -40,6 +34,7 @@ const infuseEfficiency = new Infusion(
   100,
   0,
   () => {
+    const { upgradeProductionRate } = usePlayer();
     upgradeProductionRate();
   },
   1,
@@ -51,6 +46,7 @@ const infuseHealth = new Infusion(
   100,
   0,
   () => {
+    const { upgradeHealth } = usePlayer();
     upgradeHealth();
   },
   1,
@@ -62,6 +58,7 @@ const infuseRegen = new Infusion(
   100,
   0,
   () => {
+    const { upgradeRegen } = usePlayer();
     upgradeRegen();
   },
   1,

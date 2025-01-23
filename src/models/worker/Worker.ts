@@ -13,7 +13,6 @@ export class Worker extends BaseWorker {
       resource: RESOURCE;
       rate: number;
     },
-    numberOfWorkers: number,
     cost: {
       resource: RESOURCE;
       value: number;
@@ -23,7 +22,7 @@ export class Worker extends BaseWorker {
     multiplier: number,
     requirement?: () => boolean
   ) {
-    super(name, numberOfWorkers, cost, description, icon, multiplier, requirement);
+    super(name, cost, description, icon, multiplier, requirement);
     this.production = {
       resource: production.resource,
       rate: production.rate,

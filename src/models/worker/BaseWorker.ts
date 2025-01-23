@@ -15,7 +15,6 @@ export class BaseWorker {
 
   constructor(
     name: string,
-    numberOfWorkers: number,
     cost: {
       resource: RESOURCE;
       value: number;
@@ -26,7 +25,7 @@ export class BaseWorker {
     requirement?: () => boolean
   ) {
     this.name = name;
-    this.numberOfWorkers = numberOfWorkers;
+    this.numberOfWorkers = 0;
     this.cost = cost;
     this.description = description;
     this.icon = icon;
