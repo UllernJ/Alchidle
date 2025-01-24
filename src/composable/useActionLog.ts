@@ -13,7 +13,7 @@ const log = ref<Log[]>([]);
 export const useActionLog = () => {
   const logMessage = (message: string, logType: MessageType) => {
     // If we are loading from a save, we don't want to log messages
-    if (isLoadingFromSave.value) {
+    if (!isLoadingFromSave.value) {
       log.value.push({
         timestamp: new Date().toLocaleTimeString(),
         message,

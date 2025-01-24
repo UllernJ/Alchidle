@@ -97,6 +97,7 @@ export const loadState = () => {
   if (!state) {
     return;
   }
+  isLoadingFromSave.value = true
   const data = JSON.parse(state);
   initWorkers(data.workerStations);
   initResearch(data.research);
@@ -107,7 +108,7 @@ export const loadState = () => {
   initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
   initResources(data.resources);
   initMultipliers(data.multipliers);
-  isLoadingFromSave.value = true;
+  isLoadingFromSave.value = false;
   return data.timestamp;
 };
 
