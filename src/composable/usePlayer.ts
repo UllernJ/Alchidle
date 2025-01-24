@@ -15,7 +15,7 @@ const productionRate = ref<number>(isDev ? 100 : 1);
 //!player stats
 const health = ref<number>(100);
 const baseMaxHealth = ref<number>(100);
-const regen = computed(() => (1 + 1 * PRIEST.value.numberOfWorkers) * regenMultiplier.value);
+const regen = computed(() => (1 + PRIEST.value.getProduction()) * regenMultiplier.value);
 
 //!player controls
 const currentFocus = ref<RESOURCE | null>(null);
@@ -36,7 +36,7 @@ export const usePlayer = () => {
   });
 
   const defencePower = computed(() => {
-    return defencePowerMultiplier.value * (TRAINER.value.numberOfWorkers * 5);
+    return defencePowerMultiplier.value * (TRAINER.value.getProduction());
   });
 
   const maxHealth = computed(() => {

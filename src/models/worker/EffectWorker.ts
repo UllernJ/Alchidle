@@ -30,6 +30,10 @@ export class EffectWorker extends BaseWorker {
         this.produce.rate *= multiplier;
         this.description = `Increases ${this.produce.resource} by ${this.produce.rate}.`;
     }
+
+    getProduction() {
+        return this.numberOfWorkers * this.produce.rate;
+    }
 }
 
 export enum EFFECT_RESOURCE {
