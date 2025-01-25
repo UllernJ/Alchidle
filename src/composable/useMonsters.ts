@@ -23,7 +23,7 @@ export function useMonsters() {
       map.value
     );
     BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack * 0.7;
-    BASE_HEALTH.value = listOfMonsters[listOfMonsters.length - 1].health * 0.7;
+    BASE_HEALTH.value = BASE_DAMAGE.value * 10;
     monsters.value = listOfMonsters;
     const consolData = monsters.value.map((monster) => {
       return {
