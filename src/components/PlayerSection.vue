@@ -33,12 +33,20 @@
         />
       </div>
       <div class="Stat-regen">
-        <span> {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}</span>
-        <Icon
-          :path="healthIcon"
-          :size="20"
-          color="red"
-        />
+        <div class="health-bar">
+          <div
+            class="health-bar-inner"
+            :style="{ width: healthPercentage + '%' }"
+          />
+          <span class="health-text">
+            {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}
+            <Icon
+              :path="healthIcon"
+              :size="20"
+              color="white"
+            />
+          </span>
+        </div>
       </div>
       <div class="Stat-regen">
         <span>+ {{ formatNumber(regen) }}</span>
@@ -54,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useMultipliers } from "../composable/useMultipliers";
 import { usePlayer } from "../composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "../icons/icons";
@@ -62,7 +71,11 @@ import { mdiMultiplicationBox } from "@mdi/js";
 import { formatNumber } from "../utils/number";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
-const { toggleMultipliers } = useMultipliers()
+const { toggleMultipliers } = useMultipliers();
+
+const healthPercentage = computed(() => {
+  return (health.value / maxHealth.value) * 100;
+});
 </script>
 
 <style scoped>
@@ -115,6 +128,44 @@ h2 {
   font-size: 0.75em;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.1rem;
+  width: 100%;
+}
+
+.health-bar {
+  position: relative;
+  width: 90%;
+  height: 1.5rem;
+  background-color: #444;
+  border: 2px solid #f1f1f1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 0.5rem;
+}
+
+.health-bar-inner {
+  height: 100%;
+  background-color: red;
+  transition: width 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: inherit;
+}
+
+.health-text {
+  font-size: 0.85em;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: #fff;
+  z-index: 1;
 }
 </style>

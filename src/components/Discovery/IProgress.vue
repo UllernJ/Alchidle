@@ -1,6 +1,14 @@
 <template>
   <div class="progress-container">
-    <span class="map-info">Map: {{ map }}</span>
+    <div class="map-info">
+      <span>Map: {{ map }}</span>
+      <v-btn
+        :icon="mdiBagPersonal"
+        size="large"
+        density="compact"
+        variant="outlined"
+      />
+    </div>
     <div class="progress-grid">
       <div
         v-for="(monster, index) in monsters"
@@ -34,6 +42,7 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
+import { mdiBagPersonal, mdiBagPersonalOutline } from "@mdi/js";
 
 const { monsters, map } = useMonsters();
 
@@ -90,6 +99,9 @@ const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
 }
 
 .map-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   font-size: 0.9em;
   font-weight: bold;
