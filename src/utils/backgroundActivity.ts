@@ -6,8 +6,8 @@ const { gatherResources } = useWorkers();
 const { regenHealth } = usePlayer();
 const { infusionProduction } = useAlchemy();
 
-export const backgroundActivity = () => {
-  infusionProduction();
-  gatherResources();
-  regenHealth();
+export const backgroundActivity = (ticksPerSecond: number = 1) => {
+  infusionProduction(ticksPerSecond);
+  gatherResources(ticksPerSecond);
+  regenHealth(ticksPerSecond);
 };

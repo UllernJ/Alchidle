@@ -31,13 +31,13 @@ export const useWorkers = () => {
     return incomePerResource;
   });
 
-  const gatherResources = () => {
+  const gatherResources = (ticksPerSecond: number = 1) => {
     const { currentFocus, productionRate } = usePlayer();
     if (currentFocus.value !== null) {
-      addResource(currentFocus.value, productionRate.value);
+      addResource(currentFocus.value, productionRate.value / ticksPerSecond);
     }
     workers.value.forEach((station) => {
-      const generated = station.production.rate * station.numberOfWorkers;
+      const generated = (station.production.rate * station.numberOfWorkers) / ticksPerSecond;
       addResource(station.production.resource, generated);
     });
   };

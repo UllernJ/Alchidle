@@ -47,8 +47,8 @@ export const usePlayer = () => {
     return (baseMaxHealth.value + armor) * healthMultiplier.value;
   });
 
-  const regenHealth = () => {
-    health.value += regen.value;
+  const regenHealth = (ticksPerSecond: number = 1) => {
+    health.value += regen.value / ticksPerSecond;
     if (health.value > maxHealth.value) {
       health.value = maxHealth.value;
     }

@@ -16,6 +16,8 @@ import { useActionLog } from "./composable/useActionLog";
 let interval: number;
 let saveInterval: number;
 const MINUTE = 60000;
+const INTERVAL = 100 // .1 second
+const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
 
 onMounted(() => {
   if (isFirstTime()) {
@@ -25,7 +27,7 @@ onMounted(() => {
       MessageType.INFO
     );
   }
-  interval = setInterval(backgroundActivity, 1000); // 1-second interval
+  interval = setInterval(() => backgroundActivity(TICKS), INTERVAL);
   saveInterval = setInterval(() => {
     saveSession();
   }, MINUTE);

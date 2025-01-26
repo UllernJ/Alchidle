@@ -61,10 +61,10 @@ export const useAlchemy = () => {
     alchemyWorkers.value.efficiency *= 2;
   };
 
-  const infusionProduction = () => {
+  const infusionProduction = (ticksPerSecond: number = 1) => {
     for (const infusion of infusions.value) {
       infusion.contribute(
-        infusion.workersAllocated * alchemyWorkers.value.efficiency
+        (infusion.workersAllocated * alchemyWorkers.value.efficiency) / ticksPerSecond
       );
     }
   };
