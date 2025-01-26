@@ -1,6 +1,8 @@
 import { computed, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
+import { useActionLog } from "./useActionLog";
+import { MessageType } from "./useMessage";
 
 const MONSTERS_PER_MAP = 30;
 
@@ -15,6 +17,7 @@ const currentMonster = computed(
 
 export function useMonsters() {
   const getNextMonsters = () => {
+    log();
     map.value += 1;
     const listOfMonsters = MonsterFactory.getMonsters(
       MONSTERS_PER_MAP,
@@ -34,6 +37,14 @@ export function useMonsters() {
     })
     console.log(consolData);
   };
+
+  const log = () => {
+    if (map.value !== 0) {
+    const { logMessage } = useActionLog();
+    logMessage("That was a though one, but you made it!", MessageType.INFO);
+    logMessage("Maybe you unlocked new research?", MessageType.INFO);
+    }
+  }
 
   return {
     monsters,

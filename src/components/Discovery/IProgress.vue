@@ -32,22 +32,12 @@
 import { useMonsters } from "../../composable/useMonsters";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
-import { useActionLog } from "../../composable/useActionLog";
-import { MessageType } from "../../composable/useMessage";
 
 const { monsters, map } = useMonsters();
 
 const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
-const { logMessage } = useActionLog();
-
-watch(current, (newIndex) => {
-  if (newIndex === monsters.value.length - 1) {
-    logMessage("That was a though one, but you made it!", MessageType.INFO);
-    logMessage("Maybe you unlocked new research?", MessageType.INFO);
-  }
-});
 </script>
 
 <style scoped>
