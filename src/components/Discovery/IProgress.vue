@@ -42,7 +42,7 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
-import { mdiBagPersonal, mdiBagPersonalOutline } from "@mdi/js";
+import { mdiBagPersonal } from "@mdi/js";
 
 const { monsters, map } = useMonsters();
 
