@@ -1,12 +1,13 @@
 import { useResource } from "../../composable/useResource";
 import type { RESOURCE } from "../../types";
+import { BigNumber } from "../BigNumber";
 
 export class BaseWorker {
   name: string;
-  numberOfWorkers: number;
+  numberOfWorkers: BigNumber;
   cost: {
     resource: RESOURCE;
-    value: number;
+    value: BigNumber;
   };
   description: string;
   icon: string;
@@ -17,7 +18,7 @@ export class BaseWorker {
     name: string,
     cost: {
       resource: RESOURCE;
-      value: number;
+      value: BigNumber;
     },
     description: string,
     icon: string,
@@ -25,7 +26,7 @@ export class BaseWorker {
     requirement?: () => boolean
   ) {
     this.name = name;
-    this.numberOfWorkers = 0;
+    this.numberOfWorkers = BigNumber.fromString("0");
     this.cost = cost;
     this.description = description;
     this.icon = icon;
@@ -35,23 +36,21 @@ export class BaseWorker {
   buy() {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
-    this.numberOfWorkers++;
-    this.cost.value = this.cost.value * this.multiplier;
+    this.numberOfWorkers.add([1]);
+    this.cost.value.multiply([this.multiplier]);
   }
 
-  restoreFromSave(numberOfWorkers: number) {
+  restoreFromSave(numberOfWorkers: BigNumber) {
     this.numberOfWorkers = numberOfWorkers;
-    for (let i = 0; i < numberOfWorkers; i++) {
-      this.cost.value = this.cost.value * this.multiplier;
-    }
   }
-  getTotalPriceFromQuantity(quantity: number): number {
-    let total = 0;
+  getTotalPriceFromQuantity(quantity: number): BigNumber {
+    const total = BigNumber.new();
     let currentCost = this.cost.value;
 
     for (let i = 0; i < quantity; i++) {
-      total += currentCost;
-      currentCost = currentCost * this.multiplier;
+      total.add(currentCost.numbers);
+      currentCost = BigNumber.fromString(currentCost.toString());
+      currentCost.multiply([this.multiplier]);
     }
 
     return total;

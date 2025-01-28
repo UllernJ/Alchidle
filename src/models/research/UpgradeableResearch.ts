@@ -1,5 +1,6 @@
 import { useMonsters } from "../../composable/useMonsters";
 import { convertNumToRoman } from "../../utils/string";
+import type { BigNumber } from "../BigNumber";
 import { Research } from "./Research";
 import type { RESEARCH_INTERVAL } from "./ResearchInterval";
 
@@ -11,7 +12,7 @@ export class UpgradeableResearch extends Research {
   constructor(
     name: string,
     description: string,
-    cost: number,
+    cost: BigNumber,
     requirement: () => boolean,
     multiplier: number,
     interval: RESEARCH_INTERVAL,
@@ -30,7 +31,7 @@ export class UpgradeableResearch extends Research {
     super.unlock();
     this.unlocked = false;
     this.level++;
-    this.cost = Math.round(this.cost * this.multiplier);
+    this.cost.multiply([this.multiplier]);
     this.setNextRequirement();
   }
 

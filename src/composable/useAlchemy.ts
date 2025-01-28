@@ -2,9 +2,10 @@ import { computed, ref } from "vue";
 import { getInfusions } from "../data/alchemy";
 import { RESOURCE } from "../types";
 import { alchemyIcon } from "../icons/icons";
-import { useResource } from "./useResource";
+import { MONEY } from "./useResource";
 import { isDev } from "../utils/dev";
 import { unlockAlchemyResearch } from "../data/research";
+import { BigNumber } from "../models/BigNumber";
 
 const employedAlchemists = computed(() => {
   let count = 0;
@@ -45,10 +46,10 @@ export const useAlchemy = () => {
   };
 
   const buyAlchemist = (isStateLoad = false) => {
-    const { resources, subtractResource } = useResource();
-    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value || isStateLoad) {
+    const cost = BigNumber.fromString(alchemyWorkers.value.cost.value.toString()); //todo fix this
+    if (MONEY.value.canAfford(cost) || isStateLoad) {
       if (!isStateLoad) {
-        subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
+        MONEY.value.deductAmount(cost);
       }
       alchemyWorkers.value.numberOfWorkers++;
       alchemyWorkers.value.cost.value = Math.round(

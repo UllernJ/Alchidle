@@ -5,7 +5,7 @@ import { usePlayer } from "./usePlayer";
 import { WORKERS } from "../data/workers";
 import { Worker } from "../models/worker/Worker";
 import { BaseWorker } from "../models/worker/BaseWorker";
-
+import { BigNumber } from "../models/BigNumber";
 
 const workerStations = WORKERS
 const workers = computed(() => WORKERS.value.filter((worker) => worker instanceof Worker));
@@ -15,42 +15,19 @@ export const useWorkers = () => {
   const { addResource } = useResource();
 
   const totalIncomePerSecond = computed(() => {
-    const { currentFocus, productionRate } = usePlayer();
-    const incomePerResource: Partial<Record<RESOURCE, number>> = {};
-
-    workers.value.forEach(({ production, numberOfWorkers }) => {
-      incomePerResource[production.resource] =
-        (incomePerResource[production.resource] || 0) + production.rate * numberOfWorkers;
-    });
-
-    if (currentFocus.value !== null) {
-      incomePerResource[currentFocus.value] =
-        (incomePerResource[currentFocus.value] || 0) + productionRate.value;
-    }
-
-    return incomePerResource;
+    return 0;
   });
 
   const gatherResources = (ticksPerSecond: number = 1) => {
     const { currentFocus, productionRate } = usePlayer();
     if (currentFocus.value !== null) {
-      addResource(currentFocus.value, productionRate.value / ticksPerSecond);
+      const generated = BigNumber.fromString(productionRate.value.toString());
+      addResource(currentFocus.value, generated);
     }
-    workers.value.forEach((station) => {
-      const generated = (station.production.rate * station.numberOfWorkers) / ticksPerSecond;
-      addResource(station.production.resource, generated);
-    });
   };
 
   const calculateGeneratedResources = (elapsedTime: number) => {
-    const generated: Record<string, number> = {};
-    workers.value.forEach((station) => {
-      const rate = station.production.rate * station.numberOfWorkers;
-      const amount = Math.floor((rate * elapsedTime) / 4);
-      generated[station.production.resource] = (generated[station.production.resource] || 0) + amount;
-      addResource(station.production.resource, amount);
-    });
-    return generated;
+    return elapsedTime;
   };
 
   return {

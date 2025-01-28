@@ -1,20 +1,21 @@
 import type { RESOURCE } from "../../types";
+import { BigNumber } from "../BigNumber";
 import { BaseWorker } from "./BaseWorker";
 
 export class EffectWorker extends BaseWorker {
     produce: {
-        rate: number;
+        rate: BigNumber;
         resource: EFFECT_RESOURCE;
     }
     constructor(
         name: string,
         produce: {
-            rate: number;
+            rate: BigNumber;
             resource: EFFECT_RESOURCE;
         },
         cost: {
         resource: RESOURCE;
-        value: number;
+        value: BigNumber;
         },
         description: string,
         icon: string,
@@ -27,12 +28,14 @@ export class EffectWorker extends BaseWorker {
     }
 
     upgrade(multiplier: number): void {
-        this.produce.rate *= multiplier;
+        this.produce.rate.multiply([multiplier]);
         this.description = `Increases ${this.produce.resource} by ${this.produce.rate}.`;
     }
 
     getProduction() {
-        return this.numberOfWorkers * this.produce.rate;
+        const temp = BigNumber.fromString(this.produce.rate.toString());
+        temp.multiply([this.numberOfWorkers]);
+        return temp;
     }
 }
 

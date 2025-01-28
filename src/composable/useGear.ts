@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { useResource } from "./useResource";
+import { MONEY } from "./useResource";
 import {
   axeIcon,
   bootsIcon,
@@ -12,13 +12,13 @@ import {
   stickIcon,
   swordIcon,
 } from "../icons/icons";
-import { RESOURCE } from "../types";
+import { BigNumber } from "../models/BigNumber";
 
 export type Weapon = {
   name: string;
   damage: number;
   path?: string;
-  cost: number;
+  cost: BigNumber;
   quantity: number;
 };
 
@@ -26,50 +26,72 @@ export type Armor = {
   name: string;
   defense: number;
   path?: string;
-  cost: number;
+  cost: BigNumber;
   quantity: number;
 };
 
 const weapons = ref<Weapon[]>([
-  { name: "Stick", damage: 1, cost: 50, path: stickIcon, quantity: 0 },
-  { name: "Knife", damage: 2, cost: 100, path: knifeIcon, quantity: 0 },
-  { name: "Axe", damage: 4, cost: 200, path: axeIcon, quantity: 0 },
-  { name: "Sword", damage: 8, cost: 400, path: swordIcon, quantity: 0 },
+  {
+    name: "Stick",
+    damage: 1,
+    cost: BigNumber.fromString("50"),
+    path: stickIcon,
+    quantity: 0,
+  },
+  {
+    name: "Knife",
+    damage: 2,
+    cost: BigNumber.fromString("100"),
+    path: knifeIcon,
+    quantity: 0,
+  },
+  {
+    name: "Axe",
+    damage: 4,
+    cost: BigNumber.fromString("200"),
+    path: axeIcon,
+    quantity: 0,
+  },
+  {
+    name: "Sword",
+    damage: 8,
+    cost: BigNumber.fromString("400"),
+    path: swordIcon,
+    quantity: 0,
+  },
   {
     name: "Mighty Blade",
     damage: 16,
-    cost: 1000,
+    cost: BigNumber.fromString("1000"),
     path: mightyBladeIcon,
     quantity: 0,
   },
 ]);
 
 const armors = ref<Armor[]>([
-  { name: "Boots", defense: 1, cost: 50, path: bootsIcon, quantity: 0 },
-  { name: "Hands", defense: 2, cost: 100, path: handsIcon, quantity: 0 },
-  { name: "Pants", defense: 4, cost: 200, path: pantsIcon, quantity: 0 },
-  { name: "Hjelmet", defense: 8, cost: 400, path: helmetIcon, quantity: 0 },
-  { name: "Chestplate", defense: 16, cost: 1000, path: chestIcon, quantity: 0 },
+  { name: "Boots", defense: 1, cost: BigNumber.fromString("50"), path: bootsIcon, quantity: 0 },
+  { name: "Hands", defense: 2, cost: BigNumber.fromString("100"), path: handsIcon, quantity: 0 },
+  { name: "Pants", defense: 4, cost: BigNumber.fromString("200"), path: pantsIcon, quantity: 0 },
+  { name: "Hjelmet", defense: 8, cost: BigNumber.fromString("400"), path: helmetIcon, quantity: 0 },
+  { name: "Chestplate", defense: 16, cost: BigNumber.fromString("1000"), path: chestIcon, quantity: 0 },
 ]);
 
 export const useGear = () => {
-  const { subtractResource, resources } = useResource();
-
   const buyWeapon = (index: number) => {
     const weapon = weapons.value[index];
-    if (resources[RESOURCE.MINING].value >= weapon.cost) {
-      subtractResource(RESOURCE.MINING, weapon.cost);
+    if (MONEY.value.canAfford(weapon.cost)) {
+      MONEY.value.deductAmount(weapon.cost);
       weapon.quantity++;
-      weapon.cost = Math.round(weapon.cost * 1.15);
+      weapon.cost.multiply([1.15]);
     }
   };
 
   const buyArmor = (index: number) => {
     const armor = armors.value[index];
-    if (resources[RESOURCE.MINING].value >= armor.cost) {
-      subtractResource(RESOURCE.MINING, armor.cost);
+    if (MONEY.value.canAfford(armor.cost)) {
+      MONEY.value.deductAmount(armor.cost);
       armor.quantity++;
-      armor.cost = Math.round(armor.cost * 1.15);
+      armor.cost.multiply([1.15]);
     }
   };
 

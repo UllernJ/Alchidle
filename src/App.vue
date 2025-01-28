@@ -12,12 +12,17 @@ import { backgroundActivity } from "./utils/backgroundActivity";
 import { isFirstTime, saveSession } from "./utils/localStorage";
 import { MessageType } from "./composable/useMessage";
 import { useActionLog } from "./composable/useActionLog";
+import { Resource } from "./models/Resource";
+import { RESOURCE } from "./types";
 
 let interval: number;
 let saveInterval: number;
 const MINUTE = 60000;
-const INTERVAL = 100 // .1 second
-const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
+const INTERVAL = 1000 // 1 second
+
+const money = new Resource(RESOURCE.MONEY)
+console.log(money.maxAmount.toString())
+
 
 onMounted(() => {
   if (isFirstTime()) {
@@ -27,7 +32,7 @@ onMounted(() => {
       MessageType.INFO
     );
   }
-  interval = setInterval(() => backgroundActivity(TICKS), INTERVAL);
+  interval = setInterval(() => backgroundActivity(), INTERVAL);
   saveInterval = setInterval(() => {
     saveSession();
   }, MINUTE);

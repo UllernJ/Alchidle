@@ -1,11 +1,12 @@
 import { MessageType, useMessage } from "../../composable/useMessage";
-import { useResource } from "../../composable/useResource";
+import { SCIENCE, useResource } from "../../composable/useResource";
 import { RESOURCE } from "../../types";
+import type { BigNumber } from "../BigNumber";
 
 export class Research {
   name: string;
   description: string;
-  cost: number;
+  cost: BigNumber;
   unlocked: boolean;
   effect?: () => void;
   requirement: () => boolean;
@@ -13,7 +14,7 @@ export class Research {
   constructor(
     name: string,
     description: string,
-    cost: number,
+    cost: BigNumber,
     requirement: () => boolean,
     effect?: () => void
   ) {
@@ -26,13 +27,11 @@ export class Research {
   }
 
   unlock() {
-    const { subtractResource } = useResource();
-
     if (!this.canAfford()) {
       return;
     }
     if (!this.unlocked) {
-      subtractResource(RESOURCE.SCIENCE, this.cost);
+      SCIENCE.value.deductAmount(this.cost);
       this.unlocked = true;
     }
     if (this.effect) {
@@ -41,8 +40,8 @@ export class Research {
   }
 
   canAfford() {
-    const { resources } = useResource();
-    const value = resources[RESOURCE.SCIENCE].value >= this.cost;
+    const { canAfford } = useResource();
+    const value = canAfford(RESOURCE.SCIENCE, this.cost);
     if (!value) {
       const { establishMessage } = useMessage();
       establishMessage(

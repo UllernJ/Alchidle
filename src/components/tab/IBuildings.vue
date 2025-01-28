@@ -17,7 +17,6 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(index)"
               v-bind="props"
               @click="upgradeBuilding(index)"
             >
@@ -30,12 +29,11 @@
               </div>
             </v-btn>
           </template>
-          <div class="tooltip-content">
+          <!-- <div class="tooltip-content">
             <h2
               v-if="amountToBuy !== 1"
               class="tooltip-header"
             >
-              <!-- todo format -->
               {{ `${amountToBuy}x` }}
             </h2>
 
@@ -58,7 +56,7 @@
                 />
               </div>
             </div>
-          </div>
+          </div> -->
         </v-tooltip>
       </template>
     </section>
@@ -66,37 +64,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useBuildings } from "../../composable/useBuildings";
-import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
-import { getResourceIcon } from "../../utils/resourceUtil";
-import { formatNumber } from "../../utils/number";
-import type { RESOURCE } from "../../types";
 import { usePlayer } from "../../composable/usePlayer";
 
 const { buildings } = useBuildings();
-const { resources } = useResource();
 const { amountToBuy } = usePlayer();
 
-const canAfford = computed(() => {
-  return (index: number) => {
-    const building = buildings.value[index];
-    if (!building) return false;
-    for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
-      if (resources[cost.key].value < cost.value) {
-        return false;
-      }
-    }
-    return true;
-  };
-});
-
-const canAffordResource = computed(() => {
-  return (cost: { key: RESOURCE; value: number }) => {
-    return resources[cost.key].value >= cost.value;
-  };
-});
 
 const upgradeBuilding = (index: number) => {
   const building = buildings.value[index];

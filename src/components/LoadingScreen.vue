@@ -53,36 +53,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useLoading } from "../composable/useLoading";
-import { loadState } from "../utils/localStorage";
 import { formatNumber } from "../utils/number";
-import { useWorkers } from "../composable/useWorkers";
 import { formatElapsedTime } from "../utils/time";
 
-const { isLoading, stopLoading } = useLoading();
+const { isLoading } = useLoading();
 const showWelcomeBack = ref(false);
 const elapsedTime = ref(0);
 const generatedResources = ref<Record<string, number>>({});
 
-const { calculateGeneratedResources } = useWorkers();
-
-onMounted(() => {
-  const timestamp = loadState();
-  if (timestamp) {
-    const now = Date.now();
-    elapsedTime.value = Math.floor((now - timestamp) / 1000);
-    //if elapsed time was less than 10 minutes, dont show welcome back screen
-    if (elapsedTime.value < 600) {
-      generatedResources.value = calculateGeneratedResources(elapsedTime.value);
-      stopLoading();
-      return;
-    }
-    generatedResources.value = calculateGeneratedResources(elapsedTime.value);
-    showWelcomeBack.value = true;
-  }
-  stopLoading();
-});
+// onMounted(() => {
+//   const timestamp = loadState();
+//   if (timestamp) {
+//     const now = Date.now();
+//     elapsedTime.value = Math.floor((now - timestamp) / 1000);
+//     //if elapsed time was less than 10 minutes, dont show welcome back screen
+//     if (elapsedTime.value < 600) {
+//       generatedResources.value = calculateGeneratedResources(elapsedTime.value);
+//       stopLoading();
+//       return;
+//     }
+//     generatedResources.value = calculateGeneratedResources(elapsedTime.value);
+//     showWelcomeBack.value = true;
+//   }
+//   stopLoading();
+// });
 
 const closeWelcomeBack = () => {
   showWelcomeBack.value = false;

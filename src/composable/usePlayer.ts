@@ -2,20 +2,19 @@ import { computed, ref } from "vue";
 import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import { isDev } from "../utils/dev";
-import { useResource } from "./useResource";
-import { PRIEST, TRAINER } from "../data/workers";
+import { BigNumber } from "../models/BigNumber";
 
 //!multipliers
 const attackPowerMultiplier = ref<number>(isDev ? 1000 : 1);
 const defencePowerMultiplier = ref<number>(isDev ? 1000 : 1);
 const healthMultiplier = ref<number>(isDev ? 1000 : 1);
 const regenMultiplier = ref<number>(isDev ? 1000 : 1);
-const productionRate = ref<number>(isDev ? 100 : 1);
+const productionRate = ref<number>(isDev ? 1 : 1);
 
 //!player stats
 const health = ref<number>(100);
 const baseMaxHealth = ref<number>(100);
-const regen = computed(() => (1 + PRIEST.value.getProduction()) * regenMultiplier.value);
+const regen = computed(() => 1)
 
 //!player controls
 const currentFocus = ref<RESOURCE | null>(null);
@@ -36,7 +35,8 @@ export const usePlayer = () => {
   });
 
   const defencePower = computed(() => {
-    return defencePowerMultiplier.value * (TRAINER.value.getProduction());
+    return 1;
+    // return defencePowerMultiplier.value * (TRAINER.value.getProduction());
   });
 
   const maxHealth = computed(() => {
@@ -78,18 +78,10 @@ export const usePlayer = () => {
     productionRate.value = value;
   };
 
-  const faint = () => {
-    const { subtractResource, resources } = useResource();
-    Object.values(RESOURCE).forEach((key) => {
-      const resource = resources[key as RESOURCE].value;
-      subtractResource(key as RESOURCE, resource * 0.1);
-    });
-  };
-
   return {
     amountToBuy,
     currentFocus,
-    productionRate: computed(() => Math.round(productionRate.value)),
+    productionRate: computed(() => BigNumber.fromString(productionRate.value.toString())),
     attackPower,
     defencePower,
     health,
@@ -106,7 +98,6 @@ export const usePlayer = () => {
     upgradeDefensePower,
     upgradeHealth,
     upgradeRegen,
-    faint,
     setProductionRate,
   };
 };

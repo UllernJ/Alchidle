@@ -8,7 +8,6 @@ import { useMonsters } from "../composable/useMonsters";
 import { useMultipliers } from "../composable/useMultipliers";
 import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
-import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 import { WORKERS } from "../data/workers";
 import type { Building } from "../models/Building";
@@ -18,7 +17,6 @@ import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 import type { BaseWorker } from "../models/worker/BaseWorker";
 import type { Worker } from "../models/worker/Worker";
-import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
 
 const KEY = "session";
@@ -30,7 +28,6 @@ export type SessionState = {
   buildings: Building[];
   research: (Research | UpgradeableResearch)[];
   workerStations: Worker[] | BaseWorker[];
-  resources: Record<string, number>;
   alchemy: {
     infusions: Infusion[];
     alchemyWorkers: number;
@@ -54,7 +51,6 @@ export const saveSession = () => {
   const { infusions, alchemyWorkers } = useAlchemy();
   const { researchList } = useResearch();
   const { workerStations } = useWorkers();
-  const { resources } = useResource();
   const { map, monsters } = useMonsters();
   const { getMultipliers } = useMultipliers();
   const multipliers = getMultipliers();
@@ -64,11 +60,6 @@ export const saveSession = () => {
     buildings: buildings.value,
     research: researchList.value,
     workerStations: workerStations.value,
-    resources: {
-      Money: resources.Money.value,
-      Mining: resources.Mining.value,
-      Science: resources.Science.value,
-    },
     alchemy: {
       alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
       infusions: infusions.value,
@@ -106,7 +97,7 @@ export const loadState = () => {
   initArmors(data.armors);
   initAdventure(data.adventure);
   initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
-  initResources(data.resources);
+  // initResources(data.resources);
   initMultipliers(data.multipliers);
   isLoadingFromSave.value = false;
   return data.timestamp;
@@ -121,18 +112,6 @@ const initWorkers = (workers: { name: string; numberOfWorkers: number }[]) => {
     const savedWorker = workers.find((w) => w.name === worker.name);
     if (savedWorker) {
       worker.restoreFromSave(savedWorker.numberOfWorkers);
-    }
-  });
-};
-
-const initResources = (resourcesData: Record<string, number>) => {
-  const { resources } = useResource();
-  Object.entries(resourcesData).forEach(([key, value]) => {
-    const resource = resources[key as RESOURCE];
-    if (resource) {
-      resource.value = value;
-    } else {
-      console.warn(`Resource key ${key} not found in resources`);
     }
   });
 };
@@ -158,7 +137,7 @@ const initResearch = (
         research.multiplier = savedResearch.multiplier!;
         research.setNextRequirement();
         for (let i = 0; i < research.level; i++) {
-          research.cost = Math.round(research.cost * research.multiplier);
+          research.cost.multiply([research.multiplier]);
           if (research.effect) {
             research.effect();
           }
@@ -194,7 +173,7 @@ const initWeapons = (weaponsData: { name: string; quantity: number }[]) => {
       weapon.quantity = weaponData.quantity;
       if (weapon.quantity > 0) {
         for (let i = 0; i < weapon.quantity; i++) {
-          weapon.cost = Math.round(weapon.cost * 1.15);
+          weapon.cost.multiply([1.15]);
         }
       }
     }
@@ -209,7 +188,7 @@ const initArmors = (armorsData: { name: string; quantity: number }[]) => {
       armor.quantity = armorData.quantity;
       if (armor.quantity > 0) {
         for (let i = 0; i < armor.quantity; i++) {
-          armor.cost = Math.round(armor.cost * 1.15);
+          armor.cost.multiply([1.15]);
         }
       }
     }

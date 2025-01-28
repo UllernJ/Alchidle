@@ -16,7 +16,6 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(research)"
               v-bind="props"
               @click="research.unlock()"
             >
@@ -24,12 +23,12 @@
             </v-btn>
           </template>
           <span>{{ research.description }}</span>
-          <div :class="['research-cost', { 'text-red': !canAfford(research) }]">
-            <p>{{ formatNumber(research.cost) }}</p>
+          <div :class="['research-cost', { 'text-red': !canAfford(RESOURCE.SCIENCE, research.cost) }]">
+            <p>{{ research.cost.toString() }}</p>
             <Icon
               :path="scienceIcon"
               :size="20"
-              :color="canAfford(research) ? '' : 'red'"
+              :color="canAfford(RESOURCE.SCIENCE, research.cost) ? '' : 'red'"
             />
           </div>
         </v-tooltip>
@@ -45,22 +44,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useResearch } from "../../composable/useResearch";
-import { useResource } from "../../composable/useResource";
 import { scienceIcon } from "../../icons/icons";
-import { RESOURCE } from "../../types";
 import Icon from "../Icon.vue";
-import { formatNumber } from "../../utils/number";
-import type { Research } from "../../models/research/Research";
 import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
+import { useResource } from "../../composable/useResource";
+import { RESOURCE } from "../../types";
 
 const { researchList } = useResearch();
-const { resources } = useResource();
-
-const canAfford = computed(() => {
-  return (research: Research) => {
-    return resources[RESOURCE.SCIENCE].value >= research.cost;
-  };
-});
+const { canAfford } = useResource();
 
 const isEverythingResearched = computed(() => {
   return researchList.value.every((research) => research.unlocked);

@@ -6,7 +6,7 @@
         v-for="worker in workerStations"
         :key="worker.name"
       >
-        <v-tooltip
+        <!-- <v-tooltip
           v-if="!worker.requirement || worker.requirement()"
           location="top"
         >
@@ -41,7 +41,7 @@
               v-if="worker instanceof Worker"
               class="worker-cost"
             >
-              <span>Generates {{ formatNumber(worker.production.rate) }}</span>
+              <span>Generates {{ worker.production.rate }}</span>
               <Icon
                 :path="getResourceIcon(worker.production.resource)"
                 :size="20"
@@ -49,7 +49,6 @@
               <span>/s</span>
             </div>
             <div :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]">
-              <span>{{ formatNumber(worker.getTotalPriceFromQuantity(amountToBuy)) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
@@ -57,41 +56,17 @@
               />
             </div>
           </section>
-        </v-tooltip>
+        </v-tooltip> -->
       </template>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useResource } from "../../composable/useResource";
 import { useWorkers } from "../../composable/useWorkers";
-import Icon from "../Icon.vue";
-import {  moneyIcon } from "../../icons/icons";
-import { getResourceIcon } from "../../utils/resourceUtil";
-import { formatNumber } from "../../utils/number";
-import { usePlayer } from "../../composable/usePlayer";
-import { RESOURCE } from "../../types";
-import type { BaseWorker } from "../../models/worker/BaseWorker";
-import { Worker } from "../../models/worker/Worker";
 
 const { workerStations } = useWorkers();
-const { amountToBuy } = usePlayer();
 
-const { resources } = useResource();
-
-const canAfford = computed(() => {
-  return (cost: number) => {
-    return resources[RESOURCE.MONEY].value >= cost;
-  };
-});
-
-const canAffordAmount = computed(() => {
-  return (worker: BaseWorker) => {
-    return canAfford.value(worker.getTotalPriceFromQuantity(amountToBuy.value));
-  };
-})
 
 </script>
 

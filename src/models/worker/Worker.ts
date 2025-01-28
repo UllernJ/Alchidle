@@ -2,22 +2,23 @@ import { useActionLog } from "../../composable/useActionLog";
 import { MessageType } from "../../composable/useMessage";
 import type { RESOURCE } from "../../types";
 import { BaseWorker } from "./BaseWorker";
+import { BigNumber } from "../BigNumber";
 
 export class Worker extends BaseWorker {
   production: {
     resource: RESOURCE;
-    rate: number;
+    rate: BigNumber;
   };
 
   constructor(
     name: string,
     production: {
       resource: RESOURCE;
-      rate: number;
+      rate: BigNumber;
     },
     cost: {
       resource: RESOURCE;
-      value: number;
+      value: BigNumber;
     },
     description: string,
     icon: string,
@@ -32,8 +33,8 @@ export class Worker extends BaseWorker {
   }
 
   upgradeRate(multiplier: number): void {
-    this.production.rate *= multiplier;
-    const { logMessage } = useActionLog()
+    this.production.rate.multiply([multiplier]);
+    const { logMessage } = useActionLog();
     logMessage(`${this.name} production has improved!`, MessageType.INFO);
   }
 }

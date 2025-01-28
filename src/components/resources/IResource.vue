@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useResource } from "../../composable/useResource";
 import { RESOURCE } from "../../types";
-import { useWorkers } from "../../composable/useWorkers";
 import { usePlayer } from "../../composable/usePlayer";
 import Icon from "../Icon.vue";
-import { formatNumber } from "../../utils/number";
+import { BigNumber } from "../../models/BigNumber";
 
-const { resources } = useResource();
-const { totalIncomePerSecond } = useWorkers();
+const { getResource } = useResource();
 const { setFocus, currentFocus } = usePlayer();
 
 const props = defineProps<{
@@ -16,12 +14,21 @@ const props = defineProps<{
   icon: string;
 }>();
 
+const _progress = ref(0);
+
 const progress = computed(() => {
-  const currentValue = resources[props.type].value;
-  const maxValue =
-    resources[`max${props.type}` as keyof typeof resources].value;
-  return (currentValue / maxValue) * 100;
+  const resource = getResource(props.type);
+  const percentage = resource.amount.getPercentageOf(resource.maxAmount);
+  if(percentage === 0 && resource.amount.compare(BigNumber.fromString("0")) !== 0) {
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    _progress.value++
+    return _progress.value
+  }
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+  _progress.value = percentage;
+  return percentage;
 });
+
 
 const gatherMessage = computed(() => {
   if (currentFocus.value === RESOURCE.MONEY) {
@@ -46,7 +53,7 @@ const gatherMessage = computed(() => {
     </div>
     <span class="resource-values">
       {{
-        `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
+        `${getResource(props.type).amount}/${getResource(props.type).maxAmount}`
       }}
     </span>
     <div class="loading-bar-wrapper">
@@ -68,9 +75,6 @@ const gatherMessage = computed(() => {
       >
         {{ currentFocus == type ? gatherMessage : "Gather" }}
       </v-btn>
-      <span class="income">
-        +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s
-      </span>
     </div>
   </div>
 </template>
@@ -78,7 +82,7 @@ const gatherMessage = computed(() => {
 <style scoped>
 .resource-container {
   background-color: #1a1a1a;
-  padding: .5rem;
+  padding: 0.5rem;
   text-align: center;
   color: rgba(255, 255, 255, 0.87);
   display: flex;
@@ -131,6 +135,4 @@ const gatherMessage = computed(() => {
   font-weight: 600;
   width: 20%;
 }
-
-
 </style>

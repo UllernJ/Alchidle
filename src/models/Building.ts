@@ -1,9 +1,10 @@
 import { useResource } from "../composable/useResource";
 import type { RESOURCE } from "../types";
+import { BigNumber } from "./BigNumber";
 
 type Cost = {
   key: RESOURCE;
-  value: number;
+  value: BigNumber;
 };
 
 export class Building {
@@ -37,8 +38,8 @@ export class Building {
   }
 
   canAfford() {
-    const { resources } = useResource();
-    return this.cost.every((cost) => resources[cost.key].value >= cost.value);
+    const { canAfford } = useResource();
+    return this.cost.every((cost) => canAfford(cost.key, cost.value));
   }
 
   upgrade() {
@@ -49,7 +50,7 @@ export class Building {
     });
     this.quantity += 1;
     this.cost.forEach((cost) => {
-      cost.value = Math.round(cost.value * this.costMultiplier);
+      cost.value.multiplyBigNumber(BigNumber.fromString(this.costMultiplier.toString()));
     });
     this.effect();
   }
@@ -63,39 +64,10 @@ export class Building {
   restoreFromSave(quantity: number) {
     for (let i = 0; i < quantity; i++) {
       this.cost.forEach((cost) => {
-        cost.value = Math.round(cost.value * this.costMultiplier);
+        cost.value.multiplyBigNumber(BigNumber.fromString(this.costMultiplier.toString()));
       });
       this.effect();
     }
     this.quantity = quantity;
-  }
-
-  getTotalPriceForQuantity(quantity: number | "MAX") {
-    const { resources } = useResource();
-    const totalCost: Cost[] = this.cost.map((cost) => ({
-      key: cost.key,
-      value: 0,
-    }));
-
-    const currentCost = this.cost.map((cost) => ({ ...cost }));
-    const totalQuantity = quantity === "MAX" ? Infinity : quantity;
-
-    for (let i = 0; i < totalQuantity; i++) {
-      if (quantity === "MAX") {
-        const canAfford = currentCost.every(
-          (cost) => resources[cost.key].value >= cost.value
-        );
-        if (!canAfford) break;
-      }
-
-      totalCost.forEach((total, index) => {
-        total.value += currentCost[index].value;
-        currentCost[index].value = Math.round(
-          currentCost[index].value * this.costMultiplier
-        );
-      });
-    }
-
-    return totalCost;
   }
 }

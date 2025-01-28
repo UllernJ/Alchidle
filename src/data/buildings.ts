@@ -1,27 +1,34 @@
 import { ref } from "vue";
 import { RESOURCE } from "../types";
-import { bankIcon, hospitalIcon, hutIcon, mineIcon, scienceLabIcon } from "../icons/icons";
-import { isDev } from "../utils/dev";
+import {
+  bankIcon,
+  hospitalIcon,
+  hutIcon,
+  mineIcon,
+  scienceLabIcon,
+} from "../icons/icons";
 import { Building } from "../models/Building";
-import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
-import { hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
-
-const { upgradeStorage } = useResource();
+import {
+  hostpitalBlueprintResearch,
+  workerHutBlueprintResearch,
+} from "./research";
+import { BigNumber } from "../models/BigNumber";
+import { MINING, MONEY, SCIENCE } from "../composable/useResource";
 
 const BANK = new Building(
   "Bank",
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 1 : 100,
+      value: BigNumber.fromString("100"),
     },
   ],
   2,
   "Increases your money storage by 100%.",
   () => {
-    upgradeStorage(RESOURCE.MONEY);
+    MONEY.value.upgradeMaxAmount(2);
   },
   0,
   bankIcon
@@ -31,13 +38,13 @@ const MINE = new Building(
   [
     {
       key: RESOURCE.MINING,
-      value: 100,
+      value: BigNumber.fromString("100"),
     },
   ],
   2,
   "Increases your mining storage by 100%.",
   () => {
-    upgradeStorage(RESOURCE.MINING);
+    MINING.value.upgradeMaxAmount(2);
   },
   0,
   mineIcon
@@ -47,13 +54,13 @@ const SCIENCE_LAB = new Building(
   [
     {
       key: RESOURCE.SCIENCE,
-      value: 100,
+      value: BigNumber.fromString("100"),
     },
   ],
   2,
   "Increases your science storage by 100%.",
   () => {
-    upgradeStorage(RESOURCE.SCIENCE);
+    SCIENCE.value.upgradeMaxAmount(2);
   },
   0,
   scienceLabIcon
@@ -64,11 +71,11 @@ const HOSPITAL = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: 200,
+      value: BigNumber.fromString("200"),
     },
     {
       key: RESOURCE.MINING,
-      value: 100,
+      value: BigNumber.fromString("100"),
     },
   ],
   2.5,
@@ -89,11 +96,11 @@ const WORKER_HUT = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 1 : 1500,
+      value: BigNumber.fromString("1500"),
     },
     {
       key: RESOURCE.MINING,
-      value: isDev ? 1 : 3000,
+      value: BigNumber.fromString("3000"),
     },
   ],
   4,

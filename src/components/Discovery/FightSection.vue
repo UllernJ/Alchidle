@@ -81,7 +81,7 @@ import { deeepClone } from "../../utils/object";
 import type { Monster } from "../../models/Monster";
 import { isDev } from "../../utils/dev";
 
-const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
+const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { getNextMonsters, map, currentMonster } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
@@ -146,7 +146,6 @@ const attack = () => {
     );
     playerHealth.value = Math.max(playerHealth.value, 0);
     if (playerHealth.value <= 0) {
-      faint();
       logMessage(
         "You have been defeated. The monsters looted you for 10% of your resources.",
         MessageType.ERROR
