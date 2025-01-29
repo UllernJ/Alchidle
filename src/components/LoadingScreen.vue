@@ -55,20 +55,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useLoading } from "../composable/useLoading";
-import { loadState } from "../utils/localStorage";
 import { formatNumber } from "../utils/number";
 import { useWorkers } from "../composable/useWorkers";
 import { formatElapsedTime } from "../utils/time";
+import type Decimal from "break_eternity.js";
 
 const { isLoading, stopLoading } = useLoading();
 const showWelcomeBack = ref(false);
 const elapsedTime = ref(0);
-const generatedResources = ref<Record<string, number>>({});
+const generatedResources = ref<Record<string, Decimal>>({});
 
 const { calculateGeneratedResources } = useWorkers();
 
 onMounted(() => {
-  const timestamp = loadState();
+  const timestamp = 0
   if (timestamp) {
     const now = Date.now();
     elapsedTime.value = Math.floor((now - timestamp) / 1000);

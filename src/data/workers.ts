@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import Decimal from "break_eternity.js";
 import {
   bankerIcon,
   minerIcon,
@@ -15,10 +16,10 @@ import { blacksmithingResearch, blockingResearch } from "./research";
 export const BANKER = ref<Worker>(
   new Worker(
     "Banker",
-    { resource: RESOURCE.MONEY, rate: 1 },
+    { resource: RESOURCE.MONEY, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: 25,
+      value: new Decimal(25),
     },
     "Manages your economy.",
     bankerIcon,
@@ -29,10 +30,10 @@ export const BANKER = ref<Worker>(
 export const MINER = ref<Worker>(
   new Worker(
     "Miner",
-    { resource: RESOURCE.MINING, rate: 1 },
+    { resource: RESOURCE.MINING, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: 50,
+      value: new Decimal(50),
     },
     "Mines for ores.",
     minerIcon,
@@ -44,10 +45,10 @@ export const MINER = ref<Worker>(
 export const SCIENTIST = ref<Worker>(
   new Worker(
     "Scientist",
-    { resource: RESOURCE.SCIENCE, rate: 1 },
+    { resource: RESOURCE.SCIENCE, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: 100,
+      value: new Decimal(100),
     },
     "Researches new technologies.",
     scientistIcon,
@@ -59,12 +60,12 @@ export const PRIEST = ref<EffectWorker>(
   new EffectWorker(
     "Priest",
     {
-      rate: 1,
+      rate: new Decimal(1),
       resource: EFFECT_RESOURCE.REGEN,
     },
     {
       resource: RESOURCE.MONEY,
-      value: 100,
+      value: new Decimal(100),
     },
     "Increases your health regeneration by 1.",
     priestIcon,
@@ -76,12 +77,12 @@ export const TRAINER = ref<EffectWorker>(
   new EffectWorker(
     "Trainer",
     {
-      rate: 1,
+      rate: new Decimal(1),
       resource: EFFECT_RESOURCE.DEFENCE,
     },
     {
       resource: RESOURCE.MONEY,
-      value: 300,
+      value: new Decimal(300),
     },
     "Increases your defence by 5.",
     trainerIcon,

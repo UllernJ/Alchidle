@@ -9,13 +9,13 @@ import IMultipliers from "./components/IMultipliers.vue";
 import PlayerSection from "./components/PlayerSection.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
-import { isFirstTime, saveSession } from "./utils/localStorage";
+import { isFirstTime } from "./utils/localStorage";
 import { MessageType } from "./composable/useMessage";
 import { useActionLog } from "./composable/useActionLog";
 
 let interval: number;
-let saveInterval: number;
-const MINUTE = 60000;
+// let saveInterval: number;
+// const MINUTE = 60000;
 const INTERVAL = 100 // .1 second
 const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
 
@@ -28,14 +28,14 @@ onMounted(() => {
     );
   }
   interval = setInterval(() => backgroundActivity(TICKS), INTERVAL);
-  saveInterval = setInterval(() => {
-    saveSession();
-  }, MINUTE);
+  // saveInterval = setInterval(() => {
+  //   saveSession();
+  // }, MINUTE);
 });
 
 onUnmounted(() => {
   clearInterval(interval);
-  clearInterval(saveInterval);
+  // clearInterval(saveInterval);
 });
 </script>
 

@@ -1,3 +1,4 @@
+import type Decimal from "break_eternity.js";
 import { useMonsters } from "../../composable/useMonsters";
 import { convertNumToRoman } from "../../utils/string";
 import { Research } from "./Research";
@@ -11,7 +12,7 @@ export class UpgradeableResearch extends Research {
   constructor(
     name: string,
     description: string,
-    cost: number,
+    cost: Decimal,
     requirement: () => boolean,
     multiplier: number,
     interval: RESEARCH_INTERVAL,
@@ -30,7 +31,7 @@ export class UpgradeableResearch extends Research {
     super.unlock();
     this.unlocked = false;
     this.level++;
-    this.cost = Math.round(this.cost * this.multiplier);
+    this.cost = this.cost.times(this.multiplier).round();
     this.setNextRequirement();
   }
 
@@ -43,7 +44,6 @@ export class UpgradeableResearch extends Research {
       return;
     }
     const { map } = useMonsters();
-    this.requirement = () =>  map.value >= this.interval * (this.level + 1);
+    this.requirement = () => map.value >= this.interval * (this.level + 1);
   }
-
 }

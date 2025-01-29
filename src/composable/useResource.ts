@@ -1,26 +1,25 @@
 import { ref } from "vue";
 import { useMessage, MessageType } from "./useMessage";
 import { RESOURCE } from "../types";
+import type Decimal from "break_eternity.js";
+import { Resource } from "../models/Resource";
 
 const resources = {
-  [RESOURCE.MONEY]: ref<number>(0),
-  [`max${RESOURCE.MONEY}`]: ref<number>(200),
-  [RESOURCE.MINING]: ref<number>(0),
-  [`max${RESOURCE.MINING}`]: ref<number>(200),
-  [RESOURCE.SCIENCE]: ref<number>(0),
-  [`max${RESOURCE.SCIENCE}`]: ref<number>(200),
+  [RESOURCE.MONEY]: ref<Resource>(new Resource(RESOURCE.MONEY)),
+  [RESOURCE.MINING]: ref<Resource>(new Resource(RESOURCE.MINING)),
+  [RESOURCE.SCIENCE]: ref<Resource>(new Resource(RESOURCE.SCIENCE)),
 };
 
 export const useResource = () => {
   const { establishMessage, setShownMessage, hasShownMessage } = useMessage();
 
-  const addResource = (type: RESOURCE, amount: number) => {
+  const addResource = (type: RESOURCE, amount: Decimal) => {
     const resource = resources[type];
-    const maxResource = resources[`max${type}`];
+    const maxResource = resources[type].value.maxAmount;
 
     if (resource && maxResource) {
-      resource.value = Math.min(resource.value + amount, maxResource.value);
-      if (resource.value === maxResource.value) {
+      resource.value.add(amount);
+      if (resource.value.amount.equals(maxResource)) {
         if (!hasShownMessage(type)) {
           establishMessage(
             MessageType.WARNING,
@@ -34,17 +33,17 @@ export const useResource = () => {
     }
   };
 
-  const subtractResource = (type: RESOURCE, amount: number) => {
+  const subtractResource = (type: RESOURCE, amount: Decimal) => {
     const resource = resources[type];
     if (resource) {
-      resource.value = Math.max(resource.value - amount, 0);
+      resource.value.subtract(amount);
     }
   };
 
   const upgradeStorage = (type: RESOURCE) => {
-    const maxResource = resources[`max${type}`];
-    if (maxResource) {
-      maxResource.value *= 2;
+    const resource = resources[type];
+    if (resource) {
+      resource.value.upgradeStorage();
     }
   };
 

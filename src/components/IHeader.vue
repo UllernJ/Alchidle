@@ -80,11 +80,12 @@
 </template>
 
 <script setup lang="ts">
-import { saveSession } from "../utils/localStorage";
+// import { saveSession } from "../utils/localStorage";
 import { mdiCog, mdiContentSave, mdiExport, mdiNewspaper } from "@mdi/js";
 
 const saveGame = () => {
-  saveSession();
+  // saveSession();
+  alert("Not implemented yet!");
 };
 
 const exportGame = () => {};

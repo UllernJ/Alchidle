@@ -9,6 +9,7 @@ import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, PRIEST, SCIENTIST, TRAINER } from "./workers";
 import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
+import Decimal from "break_eternity.js";
 
 const { map } = useMonsters();
 
@@ -16,7 +17,7 @@ export const scienceResearch = ref(
   new UpgradeableResearch(
     "Science",
     "Improves your scientists, doubling their efficiency (2x).",
-    1000,
+    new Decimal(1000),
     () =>
       mathematicsResearch.value.level >= 1 && miningResearch.value.level >= 1,
     4,
@@ -31,7 +32,7 @@ export const blacksmithingResearch = ref(
   new Research(
     "Blacksmithing",
     "Unlocks the ability buy miners and craft weapons and armor.",
-    50,
+    new Decimal(50),
     () => explortationResearch.value.unlocked
   )
 );
@@ -40,7 +41,7 @@ export const explortationResearch = ref(
   new Research(
     "Exploration",
     "Unlocks the ability to explore the world.",
-    25,
+    new Decimal(25),
     () => true,
     () => {
       const { logMessage } = useActionLog();
@@ -56,7 +57,7 @@ export const blockingResearch = ref(
   new Research(
     "Blocking",
     "Unlocks trainers, who can train your defence. Protects you from incoming damage.",
-    500,
+    new Decimal(500),
     () => explortationResearch.value.unlocked && map.value >= 3
   )
 );
@@ -65,7 +66,7 @@ export const trainerUpgradeResearch = ref(
   new UpgradeableResearch(
     "Trainer Upgrade",
     "Improves your trainers, doubling their blocking.",
-    15000,
+    new Decimal(15000),
     () => blockingResearch.value.unlocked,
     5,
     RESEARCH_INTERVAL.EVERY_THIRD,
@@ -79,7 +80,7 @@ export const blockingTrainingResearch = ref(
   new UpgradeableResearch(
     "Blocking Training",
     "Increases your defense power by 100%.",
-    30000,
+    new Decimal(30000),
     () => blockingResearch.value.unlocked && trainerUpgradeResearch.value.level >= 1,
     10,
     RESEARCH_INTERVAL.EVERY_FIFTH,
@@ -94,7 +95,7 @@ export const mathematicsResearch = ref(
   new UpgradeableResearch(
     "Mathematics",
     "Improves your bankers, doubling their efficiency (2x).",
-    100,
+    new Decimal(100),
     () => efficiencyResearch.value.level >= 1,
     3,
     RESEARCH_INTERVAL.EVERY,
@@ -108,7 +109,7 @@ export const miningResearch = ref(
   new UpgradeableResearch(
     "Mining",
     "Improves your miners, doubling their efficiency (2x).",
-    100,
+    new Decimal(100),
     () => efficiencyResearch.value.level >= 1,
     3,
     RESEARCH_INTERVAL.EVERY,
@@ -122,7 +123,7 @@ export const efficiencyResearch = ref(
   new UpgradeableResearch(
     "Efficiency",
     "Improves your own efficiency, doubling production rate (2x).",
-    100,
+    new Decimal(100),
     () => blacksmithingResearch.value.unlocked,
     2.5,
     RESEARCH_INTERVAL.EVERY,
@@ -137,7 +138,7 @@ export const combatTrainingResearch = ref(
   new UpgradeableResearch(
     "Combat Training",
     "Increases your attack power by 10%.",
-    10000,
+    new Decimal(10000),
     () => map.value >= 3,
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
@@ -152,7 +153,7 @@ export const fortificationResearch = ref(
   new UpgradeableResearch(
     "Fortification",
     "Increases your defense power by 10%.",
-    10000,
+    new Decimal(10000),
     () => combatTrainingResearch.value.level >= 1,
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
@@ -163,87 +164,89 @@ export const fortificationResearch = ref(
   )
 );
 
-
 export const workerHutBlueprintResearch = ref(new Research(
-    "Blueprint: Worker Hut",
-    "Unlocks the ability to build worker huts, boosting their life qualities and production.",
-    isDev ? 0 : 50000,
-    () => {
-        const {map} = useMonsters();
-        return map.value >= 10 || isDev;
-    }
+  "Blueprint: Worker Hut",
+  "Unlocks the ability to build worker huts, boosting their life qualities and production.",
+  new Decimal(isDev ? 0 : 50000),
+  () => {
+      const {map} = useMonsters();
+      return map.value >= 10 || isDev;
+  }
 ));
 
 export const unlockAlchemyResearch = ref(
-  new Research(
-    "Alchemy",
-    "Unlock the secrets of alchemy. Enchant every aspect of your life.",
-    isDev ? 0 : 1000,
-    () => {
-      const { map } = useMonsters();
-      return map.value >= 5 || isDev;
-    }
-  )
+new Research(
+  "Alchemy",
+  "Unlock the secrets of alchemy. Enchant every aspect of your life.",
+  new Decimal(isDev ? 0 : 1000),
+  () => {
+    const { map } = useMonsters();
+    return map.value >= 5 || isDev;
+  }
+)
 );
 
 export const advancedAlchemyResearch = ref(
-  new UpgradeableResearch(
-    "Advanced Alchemy",
-    "Further improves your alchemists, doubling their efficiency (2x).",
-    25000,
-    () => unlockAlchemyResearch.value.unlocked && map.value >= 10,
-    20,
-    RESEARCH_INTERVAL.EVERY_TENTH,
-    () => {
-      const { upgradeAlchemists } = useAlchemy();
-      upgradeAlchemists();
-    }
-  )
+new UpgradeableResearch(
+  "Advanced Alchemy",
+  "Further improves your alchemists, doubling their efficiency (2x).",
+  new Decimal(25000),
+  () => unlockAlchemyResearch.value.unlocked && map.value >= 10,
+  20,
+  RESEARCH_INTERVAL.EVERY_TENTH,
+  () => {
+    const { upgradeAlchemists } = useAlchemy();
+    upgradeAlchemists();
+  }
+)
 );
 
 export const hostpitalBlueprintResearch = ref(
-  new Research(
-    "Blueprint: Hospital",
-    "Unlocks the ability to build hospitals, increasing your health regen.",
-    isDev ? 0 : 25000,
-    () => {
-      const { map } = useMonsters();
-      return map.value >= 4 || isDev;
-    }
-  )
+new Research(
+  "Blueprint: Hospital",
+  "Unlocks the ability to build hospitals, increasing your health regen.",
+  new Decimal(isDev ? 0 : 25000),
+  () => {
+    const { map } = useMonsters();
+    return map.value >= 4 || isDev;
+  }
+)
 );
 
 export const upgradePriestResearch = ref(
-  new UpgradeableResearch(
-    "Upgrade Priest",
-    "Improves your priests, doubling their healing power.",
-    2500,
-    () => map.value >= 2,
-    2,
-    RESEARCH_INTERVAL.EVERY_FIFTH,
-    () => {
-      PRIEST.value.upgrade(2);
-    }
-  )
+new UpgradeableResearch(
+  "Upgrade Priest",
+  "Improves your priests, doubling their healing power.",
+  new Decimal(2500),
+  () => map.value >= 2,
+  2,
+  RESEARCH_INTERVAL.EVERY_FIFTH,
+  () => {
+    PRIEST.value.upgrade(2);
+  }
+)
 );
 
 
 
 export const researchList = [
-  efficiencyResearch.value,
-  mathematicsResearch.value,
-  miningResearch.value,
-  unlockAlchemyResearch.value,
-  scienceResearch.value,
-  combatTrainingResearch.value,
-  fortificationResearch.value,
-  advancedAlchemyResearch.value,
-  blacksmithingResearch.value,
-  explortationResearch.value,
-  workerHutBlueprintResearch.value,
-  blockingResearch.value,
-  hostpitalBlueprintResearch.value,
-  blockingTrainingResearch.value, 
-  trainerUpgradeResearch.value,
-  upgradePriestResearch.value
+efficiencyResearch.value,
+mathematicsResearch.value,
+miningResearch.value,
+unlockAlchemyResearch.value,
+scienceResearch.value,
+combatTrainingResearch.value,
+fortificationResearch.value,
+advancedAlchemyResearch.value,
+blacksmithingResearch.value,
+explortationResearch.value,
+workerHutBlueprintResearch.value,
+blockingResearch.value,
+hostpitalBlueprintResearch.value,
+blockingTrainingResearch.value, 
+trainerUpgradeResearch.value,
+upgradePriestResearch.value
 ].sort((a, b) => a.name.localeCompare(b.name));
+
+
+

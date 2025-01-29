@@ -5,6 +5,7 @@ import { alchemyIcon } from "../icons/icons";
 import { useResource } from "./useResource";
 import { isDev } from "../utils/dev";
 import { unlockAlchemyResearch } from "../data/research";
+import Decimal from "break_eternity.js";
 
 const employedAlchemists = computed(() => {
   let count = 0;
@@ -20,7 +21,7 @@ const alchemyWorkers = ref({
   efficiency: 1,
   cost: {
     key: RESOURCE.MONEY,
-    value: isDev ? 10 : 100,
+    value: isDev ? new Decimal(10) : new Decimal(100),
   },
   required: () => unlockAlchemyResearch.value.unlocked,
   icon: alchemyIcon,
@@ -46,14 +47,12 @@ export const useAlchemy = () => {
 
   const buyAlchemist = (isStateLoad = false) => {
     const { resources, subtractResource } = useResource();
-    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value || isStateLoad) {
+    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value.amount || isStateLoad) {
       if (!isStateLoad) {
         subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
       }
       alchemyWorkers.value.numberOfWorkers++;
-      alchemyWorkers.value.cost.value = Math.round(
-        Math.pow(alchemyWorkers.value.cost.value, 1.15)
-      );
+      alchemyWorkers.value.cost.value = alchemyWorkers.value.cost.value.pow(1.15).round();
     }
   };
 

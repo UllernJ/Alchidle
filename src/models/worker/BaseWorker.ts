@@ -1,12 +1,13 @@
+import Decimal from "break_eternity.js";
 import { useResource } from "../../composable/useResource";
 import type { RESOURCE } from "../../types";
 
 export class BaseWorker {
   name: string;
-  numberOfWorkers: number;
+  numberOfWorkers: Decimal;
   cost: {
     resource: RESOURCE;
-    value: number;
+    value: Decimal;
   };
   description: string;
   icon: string;
@@ -17,7 +18,7 @@ export class BaseWorker {
     name: string,
     cost: {
       resource: RESOURCE;
-      value: number;
+      value: Decimal;
     },
     description: string,
     icon: string,
@@ -25,7 +26,7 @@ export class BaseWorker {
     requirement?: () => boolean
   ) {
     this.name = name;
-    this.numberOfWorkers = 0;
+    this.numberOfWorkers = new Decimal(0);
     this.cost = cost;
     this.description = description;
     this.icon = icon;
@@ -35,23 +36,23 @@ export class BaseWorker {
   buy() {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
-    this.numberOfWorkers++;
-    this.cost.value = this.cost.value * this.multiplier;
+    this.numberOfWorkers = this.numberOfWorkers.plus(1);
+    this.cost.value = this.cost.value.times(this.multiplier);
   }
 
-  restoreFromSave(numberOfWorkers: number) {
+  restoreFromSave(numberOfWorkers: Decimal) {
     this.numberOfWorkers = numberOfWorkers;
-    for (let i = 0; i < numberOfWorkers; i++) {
-      this.cost.value = this.cost.value * this.multiplier;
-    }
+    this.cost.value = this.cost.value
+      .times(numberOfWorkers)
+      .times(this.multiplier);
   }
-  getTotalPriceFromQuantity(quantity: number): number {
-    let total = 0;
+  getTotalPriceFromQuantity(quantity: number): Decimal {
+    let total = new Decimal(0);
     let currentCost = this.cost.value;
 
     for (let i = 0; i < quantity; i++) {
-      total += currentCost;
-      currentCost = currentCost * this.multiplier;
+      total = total.add(currentCost);
+      currentCost = currentCost.times(this.multiplier);
     }
 
     return total;
