@@ -10,15 +10,15 @@ import Decimal from "break_eternity.js";
 const employedAlchemists = computed(() => {
   let count = 0;
   for (const infusion of infusions.value) {
-    count += infusion.workersAllocated;
+    count += infusion.workersAllocated.toNumber();
   }
   return count;
 });
 const infusions = getInfusions();
 const alchemyWorkers = ref({
   name: "Alchemist",
-  numberOfWorkers: 0,
-  efficiency: 1,
+  numberOfWorkers: new Decimal(0),
+  efficiency: new Decimal(1),
   cost: {
     key: RESOURCE.MONEY,
     value: isDev ? new Decimal(10) : new Decimal(100),
@@ -33,37 +33,61 @@ const alchemistCount = computed(
 export const useAlchemy = () => {
   const allocateAlchemist = (index: number) => {
     if (
-      employedAlchemists.value < alchemistCount.value &&
+      employedAlchemists.value <
+        alchemyWorkers.value.numberOfWorkers.toNumber() &&
       infusions.value[index]
     ) {
-      infusions.value[index].workersAllocated++;
+      infusions.value[index].allocateWorkers(1);
     }
   };
   const deallocateAlchemist = (index: number) => {
     if (employedAlchemists.value > 0 && infusions.value[index]) {
-      infusions.value[index].workersAllocated--;
+      infusions.value[index].deallocateWorkers(1);
     }
   };
 
   const buyAlchemist = (isStateLoad = false) => {
     const { resources, subtractResource } = useResource();
-    if (alchemyWorkers.value.cost.value <= resources[RESOURCE.MONEY].value.amount || isStateLoad) {
+    if (
+      alchemyWorkers.value.cost.value <=
+        resources[RESOURCE.MONEY].value.amount ||
+      isStateLoad
+    ) {
       if (!isStateLoad) {
         subtractResource(RESOURCE.MONEY, alchemyWorkers.value.cost.value);
       }
-      alchemyWorkers.value.numberOfWorkers++;
-      alchemyWorkers.value.cost.value = alchemyWorkers.value.cost.value.pow(1.15).round();
+      alchemyWorkers.value.numberOfWorkers =
+        alchemyWorkers.value.numberOfWorkers.plus(1);
+      alchemyWorkers.value.cost.value = alchemyWorkers.value.cost.value
+        .pow(1.15)
+        .round();
     }
   };
 
   const upgradeAlchemists = () => {
-    alchemyWorkers.value.efficiency *= 2;
+    if (
+      alchemyWorkers.value.cost.value.lte(
+        useResource().resources[RESOURCE.MONEY].value.amount
+      )
+    ) {
+      useResource().subtractResource(
+        RESOURCE.MONEY,
+        alchemyWorkers.value.cost.value
+      );
+      alchemyWorkers.value.efficiency =
+        alchemyWorkers.value.efficiency.times(1.1);
+      alchemyWorkers.value.cost.value = alchemyWorkers.value.cost.value
+        .times(1.15)
+        .round();
+    }
   };
 
   const infusionProduction = (ticksPerSecond: number = 1) => {
     for (const infusion of infusions.value) {
       infusion.contribute(
-        (infusion.workersAllocated * alchemyWorkers.value.efficiency) / ticksPerSecond
+        infusion.workersAllocated
+          .times(alchemyWorkers.value.efficiency)
+          .div(ticksPerSecond)
       );
     }
   };
