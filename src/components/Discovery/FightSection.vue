@@ -77,8 +77,7 @@ import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
-import { deeepClone } from "../../utils/object";
-import type { Monster } from "../../models/Monster";
+import { Monster } from "../../models/Monster";
 import { isDev } from "../../utils/dev";
 import Decimal from "break_eternity.js";
 
@@ -90,9 +89,13 @@ const { addResource } = useResource();
 const isAttackOnCooldown = ref(false);
 const initialHealth = ref<Decimal | null>(null);
 const autoAttackInterval = ref<number | null>(null);
+const defeatedMonster = ref<Monster | null>(null);
 
 watch(currentMonster, (newMonster) => {
   initialHealth.value = newMonster ? newMonster.health : null;
+  if(defeatedMonster.value === null) {
+    defeatedMonster.value = newMonster as Monster;
+  }
 });
 
 const isEmpty = computed(() => !currentMonster.value);
@@ -100,12 +103,10 @@ const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
 
 const monsterHealthPercentage = computed(() => {
   if (!currentMonster.value || !initialHealth.value) return 0;
-  return Math.floor(
-    currentMonster.value.health
-      .divideBy(initialHealth.value)
-      .times(100)
-      .toNumber()
-  );
+  return currentMonster.value.health
+    .dividedBy(initialHealth.value)
+    .times(100)
+    .toNumber();
 });
 
 const handleMonsterDefeat = (monster: Monster) => {
@@ -114,7 +115,7 @@ const handleMonsterDefeat = (monster: Monster) => {
   const { resource, amount } = monster.drop;
   addResource(resource, amount);
   logMessage(
-    getResourceDropMessage(resource, formatNumber(amount)),
+    getResourceDropMessage(resource, formatNumber(amount) || 0),
     MessageType.INFO
   );
 
@@ -136,19 +137,17 @@ const attack = () => {
   }
 
   isAttackOnCooldown.value = true;
-  const trueCurrentMonster = deeepClone(currentMonster.value) as Monster;
-  const didMonsterDie = currentMonster.value.health
-    .minus(attackPower.value)
-    .lessThanOrEqualTo(0);
+  currentMonster.value.takeDamage(attackPower.value);
 
   setTimeout(() => {
     isAttackOnCooldown.value = false;
   }, 1000);
 
-  if (didMonsterDie) {
-    handleMonsterDefeat(trueCurrentMonster);
+  if (defeatedMonster.value && defeatedMonster.value.isDead()) {
+    handleMonsterDefeat(defeatedMonster.value);
+    defeatedMonster.value = currentMonster.value;
   } else {
-    playerHealth.value = trueCurrentMonster.attack.minus(defencePower.value);
+    playerHealth.value = currentMonster.value.attack.minus(defencePower.value);
     playerHealth.value = playerHealth.value.lessThan(0)
       ? new Decimal(0)
       : playerHealth.value;

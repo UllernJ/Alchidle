@@ -28,4 +28,11 @@ export class Monster {
     };
     this.icon = icon;
   }
+
+  takeDamage(damage: Decimal) {
+    this.health = this.health.sub(damage);
+  }
+  isDead(): boolean {
+    return this.health.lessThanOrEqualTo(0);
+  }
 }

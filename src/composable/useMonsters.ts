@@ -13,7 +13,7 @@ const monsters = ref<Monster[]>([]);
 const BASE_HEALTH = ref<Decimal>(new Decimal(30));
 const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
 const currentMonster = computed(
-  () => monsters.value.find((monster) => monster.health.lessThanOrEqualTo(0)) || null
+  () => monsters.value.find((monster) => monster.health.greaterThan(0))
 );
 
 export function useMonsters() {
