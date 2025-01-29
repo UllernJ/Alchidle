@@ -58,7 +58,7 @@ const { resources } = useResource();
 
 const canAfford = computed(() => {
   return (research: Research) => {
-    return resources[RESOURCE.SCIENCE].value >= research.cost;
+    return resources[RESOURCE.SCIENCE].value.amount.gte(research.cost);
   };
 });
 

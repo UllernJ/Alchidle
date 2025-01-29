@@ -74,6 +74,7 @@ import { getResourceIcon } from "../../utils/resourceUtil";
 import { formatNumber } from "../../utils/number";
 import type { RESOURCE } from "../../types";
 import { usePlayer } from "../../composable/usePlayer";
+import type Decimal from "break_eternity.js";
 
 const { buildings } = useBuildings();
 const { resources } = useResource();
@@ -84,7 +85,7 @@ const canAfford = computed(() => {
     const building = buildings.value[index];
     if (!building) return false;
     for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
-      if (resources[cost.key].value < cost.value) {
+      if (resources[cost.key].value.amount.lt(cost.value)) {
         return false;
       }
     }
@@ -93,8 +94,8 @@ const canAfford = computed(() => {
 });
 
 const canAffordResource = computed(() => {
-  return (cost: { key: RESOURCE; value: number }) => {
-    return resources[cost.key].value >= cost.value;
+  return (cost: { key: RESOURCE; value: Decimal }) => {
+    return resources[cost.key].value.amount.gte(cost.value);
   };
 });
 
