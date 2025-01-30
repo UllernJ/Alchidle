@@ -9,8 +9,6 @@ import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
 import { hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
 
-const { upgradeStorage } = useResource();
-
 const BANK = new Building(
   "Bank",
   [
@@ -22,6 +20,7 @@ const BANK = new Building(
   2,
   "Increases your money storage by 100%.",
   () => {
+    const { upgradeStorage } = useResource();
     upgradeStorage(RESOURCE.MONEY);
   },
   new Decimal(0),
@@ -39,6 +38,7 @@ const MINE = new Building(
   2,
   "Increases your mining storage by 100%.",
   () => {
+    const { upgradeStorage } = useResource();
     upgradeStorage(RESOURCE.MINING);
   },
   new Decimal(0),
@@ -56,6 +56,7 @@ const SCIENCE_LAB = new Building(
   2,
   "Increases your science storage by 100%.",
   () => {
+    const { upgradeStorage } = useResource();
     upgradeStorage(RESOURCE.SCIENCE);
   },
   new Decimal(0),

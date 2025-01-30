@@ -4,8 +4,6 @@ import { Infusion } from "../models/Infusion";
 import { useGear } from "../composable/useGear";
 import Decimal from "break_eternity.js";
 
-const { upgradeWeapons, upgradeArmors } = useGear();
-
 const infusePower = new Infusion(
   "Power Infusion",
   new Decimal(100),
@@ -71,6 +69,7 @@ const infuseWeapon = new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
+    const { upgradeWeapons } = useGear();
     upgradeWeapons();
   },
   new Decimal(1),
@@ -82,6 +81,7 @@ const infuseArmor = new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
+    const { upgradeArmors } = useGear();
     upgradeArmors();
   },
   new Decimal(1),

@@ -1,3 +1,5 @@
+import { useActionLog } from "@/composable/useActionLog";
+import { MessageType } from "@/composable/useMessage";
 import Decimal from "break_eternity.js";
 
 export class Resource {
@@ -19,9 +21,8 @@ export class Resource {
   }
 
   subtract(amount: Decimal) {
-    this.amount = this.amount.sub(amount);
-    if (this.amount.lessThan(0)) {
-      this.amount = new Decimal(0);
+    if (!this.amount.lessThan(amount)) {
+      this.amount = this.amount.sub(amount);
     }
   }
 
