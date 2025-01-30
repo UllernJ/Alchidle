@@ -1,8 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": ["esnext", "dom"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
