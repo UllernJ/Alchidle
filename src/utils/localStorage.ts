@@ -112,18 +112,38 @@ export const loadState = () => {
     return;
   }
   isLoadingFromSave.value = true;
-  const data = JSON.parse(state);
-  initWorkers(data.workerStations);
-  initResearch(data.research);
-  initBuildings(data.buildings);
-  initWeapons(data.weapons);
-  initArmors(data.armors);
-  initAdventure(data.adventure);
-  initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
-  initResources(data.resources);
-  initMultipliers(data.multipliers);
-  isLoadingFromSave.value = false;
-  return data.timestamp;
+  let data;
+  try {
+    data = JSON.parse(state);
+    initWorkers(data.workerStations);
+    initResearch(data.research);
+    initBuildings(data.buildings);
+    initWeapons(data.weapons);
+    initArmors(data.armors);
+    initAdventure(data.adventure);
+    initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
+    initResources(data.resources);
+    initMultipliers(data.multipliers);
+  } catch (e: unknown) {
+    isLoadingFromSave.value = false;
+    const { logMessage } = useActionLog();
+    logMessage("Failed to load game", MessageType.ERROR);
+    if (e instanceof Error) {
+      if (
+        e.message.toString().includes("Unexpected token") ||
+        e.message.toString().includes("JSON")
+      ) {
+        logMessage(
+          "Save file is corrupted. Starting a new game.",
+          MessageType.ERROR
+        );
+        clearSession();
+      }
+    }
+  } finally {
+    isLoadingFromSave.value = false;
+  }
+  return data?.timestamp ?? 0;
 };
 
 export const isFirstTime = () => {
@@ -296,4 +316,8 @@ const initMultipliers = (data: {
   healthMultiplier.value = new Decimal(data.healthMultiplier);
   setProductionRate(new Decimal(data.productionRate).toNumber());
   regenMultiplier.value = new Decimal(data.regenMultiplier);
+};
+
+const clearSession = () => {
+  localStorage.removeItem(KEY);
 };
