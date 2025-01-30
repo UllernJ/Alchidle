@@ -14,7 +14,7 @@ import { useWorkers } from "../composable/useWorkers";
 import { WORKERS } from "../data/workers";
 import type { Building } from "../models/Building";
 import type { Infusion } from "../models/Infusion";
-import type { Monster } from "../models/Monster";
+import { Monster } from "../models/Monster";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 import type { BaseWorker } from "../models/worker/BaseWorker";
@@ -140,6 +140,7 @@ export const loadState = () => {
     const { logMessage } = useActionLog();
     logMessage("Failed to load game", MessageType.ERROR);
     if (e instanceof Error) {
+      logMessage(e.message, MessageType.ERROR);
       if (
         e.message.toString().includes("Unexpected token") ||
         e.message.toString().includes("JSON")
@@ -272,7 +273,9 @@ const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   const { map, monsters, BASE_DAMAGE, BASE_HEALTH } = useMonsters();
   map.value = data.map ?? 0;
-  monsters.value = data.remainingMonsters;
+  monsters.value = data.remainingMonsters.map((monster) => {
+    return Monster.fromObject(monster);
+  });
   if (monsters.value.length > 0) {
     BASE_DAMAGE.value = new Decimal(
       monsters.value[monsters.value.length - 1].attack

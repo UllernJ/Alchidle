@@ -1,4 +1,4 @@
-import type Decimal from "break_eternity.js";
+import Decimal from "break_eternity.js";
 import type { RESOURCE } from "../types";
 
 export class Monster {
@@ -35,4 +35,16 @@ export class Monster {
   isDead(): boolean {
     return this.health.lessThanOrEqualTo(0);
   }
+
+  static fromObject(obj: Monster): Monster {
+    return new Monster(
+      obj.name,
+      new Decimal(obj.health),
+      new Decimal(obj.attack),
+      obj.drop.resource,
+      new Decimal(obj.drop.amount),
+      obj.icon ?? ""
+    );
+  }
+
 }

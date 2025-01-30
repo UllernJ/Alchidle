@@ -1,5 +1,3 @@
-import { useActionLog } from "@/composable/useActionLog";
-import { MessageType } from "@/composable/useMessage";
 import Decimal from "break_eternity.js";
 
 export class Resource {

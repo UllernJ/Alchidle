@@ -46,7 +46,7 @@ import { mdiBagPersonal } from "@mdi/js";
 
 const { monsters, map } = useMonsters();
 
-const current = computed(() => monsters.value.findIndex((m) => m.health.gte(0)));
+const current = computed(() => monsters.value.findIndex((m) => m.health.gt(0)));
 </script>
 
 <style scoped>
