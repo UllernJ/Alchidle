@@ -112,7 +112,6 @@ const getColorFromName = (name: string) => {
   flex-direction: column;
   color: #ffffff;
   padding: 1rem;
-  height: 51rem;
 }
 
 .top-container {

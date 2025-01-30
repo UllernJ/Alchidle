@@ -21,7 +21,7 @@
       >
         <div class="icon-container">
           <Icon
-            v-if="monster.drop.amount.gt(0)"
+            v-if="monster.drop.amount.gt(0) || index === monsters.length - 1"
             class="icon"
             :path="
               index !== monsters.length - 1
@@ -63,7 +63,7 @@ const current = computed(() => monsters.value.findIndex((m) => m.health.gt(0)));
 
 .progress-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   width: 100%;
 }

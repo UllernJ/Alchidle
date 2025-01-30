@@ -116,7 +116,8 @@ onBeforeMount(() => {
   overflow-y: overlay;
   scrollbar-width: thin;
   scrollbar-color: #f1f1f1 #1a1a1a;
-  max-height: 50vh;
+  max-height: 53vh;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .state-sidebar {

@@ -96,10 +96,6 @@ const healthPercentage = computed(() => {
   border: 1px solid #f1f1f1;
 }
 
-.icon-container {
-  border-bottom: 1px solid #f1f1f1;
-}
-
 .PlayerStats {
   display: flex;
   flex-direction: column;
@@ -166,6 +162,5 @@ h2 {
   gap: 0.5rem;
   text-align: center;
   color: #fff;
-  z-index: 1;
 }
 </style>

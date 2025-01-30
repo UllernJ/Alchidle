@@ -13,8 +13,8 @@ import { isFirstTime, saveSession } from "./utils/localStorage";
 import { MessageType } from "./composable/useMessage";
 import { useActionLog } from "./composable/useActionLog";
 
-let interval: number;
-let saveInterval: number;
+let interval: ReturnType<typeof setInterval>;
+let saveInterval: ReturnType<typeof setInterval>;
 const MINUTE = 60000;
 const INTERVAL = 100 // .1 second
 const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
@@ -66,8 +66,9 @@ onUnmounted(() => {
 .main-container {
   height: 100%;
   display: grid;
-  grid-template-rows: 1.2fr 2fr;
+  grid-template-rows: 1fr 2fr;
   background-color: #242424 !important;
+  gap: 0.75rem;
 }
 
 .top-container {
@@ -79,7 +80,6 @@ onUnmounted(() => {
 }
 
 .content-container {
-  margin-top: 1rem;
   display: grid;
   grid-template-columns: 6.5fr 1fr;
 }

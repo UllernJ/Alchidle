@@ -55,13 +55,13 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
-      <v-btn
+      <!-- <v-btn
         v-if="isDev"
         class="attack-button"
         @click="fetchNextMonsters()"
       >
         go next
-      </v-btn>
+      </v-btn> -->
     </section>
   </section>
 </template>
