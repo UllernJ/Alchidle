@@ -182,6 +182,9 @@ onMounted(() => {
   if (currentMonster.value) {
     initialHealth.value = currentMonster.value.health;
   }
+  if(defeatedMonster.value === null) {
+    defeatedMonster.value = currentMonster.value as Monster;
+  }
 });
 </script>
 
