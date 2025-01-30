@@ -80,7 +80,7 @@ const { addResource } = useResource();
 
 const isAttackOnCooldown = ref(false);
 const initialHealth = ref<Decimal | null>(null);
-const autoAttackInterval = ref<number | null>(null);
+const autoAttackInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const defeatedMonster = ref<Monster | null>(null);
 
 watch(currentMonster, (newMonster) => {

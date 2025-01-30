@@ -28,7 +28,7 @@
                 ? getResourceIcon(monster.drop.resource)
                 : upgradeIcon
             "
-            :size="20"
+            size="1.25em"
           />
         </div>
       </div>
