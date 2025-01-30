@@ -1,7 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
-    "lib": ["esnext", "dom", "ES2024"],
+    "lib": ["esnext", "dom", "ES7"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
