@@ -3,6 +3,7 @@
   "specifiers": {
     "npm:@eslint/js@9.19": "9.19.0",
     "npm:@mdi/js@~7.4.47": "7.4.47",
+    "npm:@types/node@^22.12.0": "22.12.0",
     "npm:@vitejs/plugin-vue@^5.2.1": "5.2.1_vite@6.0.11_vue@3.5.13__typescript@5.6.3_typescript@5.6.3",
     "npm:@vue/eslint-config-typescript@^14.3.0": "14.3.0_eslint@9.19.0_eslint-plugin-vue@9.32.0__eslint@9.19.0_typescript@5.6.3",
     "npm:@vue/tsconfig@0.7": "0.7.0_typescript@5.6.3_vue@3.5.13__typescript@5.6.3",
@@ -270,6 +271,12 @@
     },
     "@types/json-schema@7.0.15": {
       "integrity": "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="
+    },
+    "@types/node@22.12.0": {
+      "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
+      "dependencies": [
+        "undici-types"
+      ]
     },
     "@typescript-eslint/eslint-plugin@8.22.0_@typescript-eslint+parser@8.22.0__eslint@9.19.0__typescript@5.6.3_eslint@9.19.0_typescript@5.6.3": {
       "integrity": "sha512-4Uta6REnz/xEJMvwf72wdUnC3rr4jAQf5jnTkeRQ9b6soxLxhDEbS/pfMPoJLDfFPNVRdryqWUIV/2GZzDJFZw==",
@@ -1139,6 +1146,9 @@
     "typescript@5.6.3": {
       "integrity": "sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw=="
     },
+    "undici-types@6.20.0": {
+      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
+    },
     "uri-js@4.4.1": {
       "integrity": "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==",
       "dependencies": [
@@ -1226,6 +1236,7 @@
       "dependencies": [
         "npm:@eslint/js@9.19",
         "npm:@mdi/js@~7.4.47",
+        "npm:@types/node@^22.12.0",
         "npm:@vitejs/plugin-vue@^5.2.1",
         "npm:@vue/eslint-config-typescript@^14.3.0",
         "npm:@vue/tsconfig@0.7",
