@@ -50,6 +50,7 @@ export const serializeState = (state: SessionState) => {
     },
     multipliers: state.multipliers,
     resources: state.resources,
+    health: state.health,
     timestamp: Date.now(),
   };
 };

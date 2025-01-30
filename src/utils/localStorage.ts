@@ -24,6 +24,7 @@ import { serializeState } from "./stateSerializer";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
+const suspicousSave = ref<string[]>([]);
 
 export type SessionState = {
   armors: Armor[];
@@ -47,6 +48,10 @@ export type SessionState = {
     productionRate: Decimal;
     regenMultiplier: Decimal;
   };
+  health: {
+    amount: string;
+    maxAmount: string;
+  }
 };
 
 export const saveSession = () => {
@@ -59,6 +64,7 @@ export const saveSession = () => {
   const { map, monsters } = useMonsters();
   const { getMultipliers } = useMultipliers();
   const multipliers = getMultipliers();
+  const { health, maxHealth } = usePlayer();
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
@@ -98,6 +104,10 @@ export const saveSession = () => {
       productionRate: new Decimal(multipliers.productionRate.value),
       regenMultiplier: new Decimal(multipliers.regenMultiplier.value),
     },
+    health: {
+      amount: health.value.toString(),
+      maxAmount: maxHealth.value.toString(),
+    },
   };
 
   const serializedState = serializeState(state);
@@ -124,6 +134,7 @@ export const loadState = () => {
     initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
     initResources(data.resources);
     initMultipliers(data.multipliers);
+    initHealth(data.health);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
@@ -142,6 +153,9 @@ export const loadState = () => {
     }
   } finally {
     isLoadingFromSave.value = false;
+    if(suspicousSave.value.length > 0) {
+      displaySuspiciousSave();
+    }
   }
   return data?.timestamp ?? 0;
 };
@@ -317,6 +331,25 @@ const initMultipliers = (data: {
   setProductionRate(new Decimal(data.productionRate).toNumber());
   regenMultiplier.value = new Decimal(data.regenMultiplier);
 };
+
+const initHealth = (data: { amount: string; maxAmount: string }) => {
+  const { health, maxHealth } = usePlayer();
+  if(new Decimal(data.amount).greaterThan(maxHealth.value)) {
+    health.value = maxHealth.value;
+    suspicousSave.value.push("Are you trying to cheat?");
+  } else {
+    health.value = new Decimal(data.amount);
+  }
+  // maxHealth.value = new Decimal(data.maxAmount);
+};
+
+const displaySuspiciousSave = () => {
+  const { logMessage } = useActionLog();
+  logMessage(
+    "Your save file is suspicious. Are you trying to cheat?",
+    MessageType.ERROR
+  );
+}
 
 const clearSession = () => {
   localStorage.removeItem(KEY);
