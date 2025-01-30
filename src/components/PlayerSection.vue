@@ -63,12 +63,12 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useMultipliers } from "../composable/useMultipliers";
-import { usePlayer } from "../composable/usePlayer";
-import { attackIcon, defenceIcon, healthIcon } from "../icons/icons";
+import { useMultipliers } from "@/composable/useMultipliers";
+import { usePlayer } from "@/composable/usePlayer";
+import { attackIcon, defenceIcon, healthIcon } from "@/icons/icons";
 import Icon from "./Icon.vue";
 import { mdiMultiplicationBox } from "@mdi/js";
-import { formatNumber } from "../utils/number";
+import { formatNumber } from "@/utils/number";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();

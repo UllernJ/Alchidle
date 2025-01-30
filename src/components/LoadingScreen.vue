@@ -54,12 +54,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useLoading } from "../composable/useLoading";
-import { formatNumber } from "../utils/number";
-import { useWorkers } from "../composable/useWorkers";
-import { formatElapsedTime } from "../utils/time";
+import { useLoading } from "@/composable/useLoading";
+import { formatNumber } from "@/utils/number";
+import { useWorkers } from "@/composable/useWorkers";
+import { formatElapsedTime } from "@/utils/time";
 import type Decimal from "break_eternity.js";
-import { loadState } from "../utils/localStorage";
+import { loadState } from "@/utils/localStorage";
 
 const { isLoading, stopLoading } = useLoading();
 const showWelcomeBack = ref(false);
