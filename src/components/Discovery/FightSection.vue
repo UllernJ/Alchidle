@@ -147,7 +147,8 @@ const attack = () => {
     handleMonsterDefeat(defeatedMonster.value);
     defeatedMonster.value = currentMonster.value;
   } else {
-    playerHealth.value = currentMonster.value.attack.minus(defencePower.value);
+    const damageTaken = currentMonster.value.attack.minus(defencePower.value);
+    playerHealth.value = playerHealth.value.minus(damageTaken);
     playerHealth.value = playerHealth.value.lessThan(0)
       ? new Decimal(0)
       : playerHealth.value;
