@@ -233,6 +233,20 @@ onMounted(() => {
     font-size: 0.7em;
   }
 }
+
+.health-bar-inner {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  background-color: red;
+  border-radius: 8px;
+  transition: width 0.3s ease-in-out;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: center;
+}
+
 .attack {
   display: flex;
   flex-direction: column;
