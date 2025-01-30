@@ -1,3 +1,4 @@
+import Decimal from "break_eternity.js";
 import {
   badGnomeIcon,
   golemIcon,
@@ -11,26 +12,31 @@ import { getRandomResource } from "../utils/resourceUtil";
 
 export class MonsterFactory {
   private static createMonster(
-    baseDamage: number,
-    baseHealth: number,
+    baseDamage: Decimal,
+    baseHealth: Decimal,
     difficulty: number,
     mapNumber: number
   ): Monster {
     const monster = this.getRandomMonster();
     return new Monster(
       monster.name,
-      Math.round(baseDamage * difficulty),
-      Math.round(baseHealth * difficulty),
+      baseDamage.times(difficulty),
+      baseHealth.times(difficulty),
       getRandomResource(),
-      Math.floor(Math.random() * 2) * difficulty * mapNumber,
+      getResourceDrop(
+        new Decimal(1)
+          .times(difficulty)
+          .times(mapNumber)
+          .times(Math.random() * 2)
+      ) || new Decimal(0),
       monster.icon
     );
   }
 
   static getMonsters(
     monsterCount: number,
-    baseDamage: number,
-    baseHealth: number,
+    baseDamage: Decimal,
+    baseHealth: Decimal,
     mapNumber: number
   ): Monster[] {
     let _baseDamage = baseDamage;
@@ -50,8 +56,8 @@ export class MonsterFactory {
       if (i + 1 === monsterCount - 1) {
         difficultyMultiplier *= 2;
       }
-      _baseDamage *= 1.002;
-      _baseHealth *= 1.002;
+      _baseDamage = _baseDamage.times(1.002);
+      _baseHealth = _baseHealth.times(1.002);
     }
     return monsters;
   }
@@ -90,3 +96,10 @@ export class MonsterFactory {
     return monster;
   }
 }
+
+const getResourceDrop = (dropAmount: Decimal): Decimal | undefined => {
+  const chance = Math.random();
+  if (chance < 0.75) {
+    return dropAmount;
+  }
+};

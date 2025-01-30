@@ -1,3 +1,4 @@
+import type Decimal from "break_eternity.js";
 import { useActionLog } from "../../composable/useActionLog";
 import { MessageType } from "../../composable/useMessage";
 import type { RESOURCE } from "../../types";
@@ -6,18 +7,18 @@ import { BaseWorker } from "./BaseWorker";
 export class Worker extends BaseWorker {
   production: {
     resource: RESOURCE;
-    rate: number;
+    rate: Decimal;
   };
 
   constructor(
     name: string,
     production: {
       resource: RESOURCE;
-      rate: number;
+      rate: Decimal;
     },
     cost: {
       resource: RESOURCE;
-      value: number;
+      value: Decimal;
     },
     description: string,
     icon: string,
@@ -32,8 +33,8 @@ export class Worker extends BaseWorker {
   }
 
   upgradeRate(multiplier: number): void {
-    this.production.rate *= multiplier;
-    const { logMessage } = useActionLog()
+    this.production.rate = this.production.rate.multiply(multiplier);
+    const { logMessage } = useActionLog();
     logMessage(`${this.name} production has improved!`, MessageType.INFO);
   }
 }

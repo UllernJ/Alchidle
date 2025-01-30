@@ -1,19 +1,21 @@
+import Decimal from "break_eternity.js";
+
 export class Infusion {
   name: string;
-  cost: number;
-  contribution: number;
+  cost: Decimal;
+  contribution: Decimal;
   effect: () => void;
-  level: number;
+  level: Decimal;
   unlocked?: boolean;
-  workersAllocated: number;
+  workersAllocated: Decimal;
   description: string;
 
   constructor(
     name: string,
-    cost: number,
-    contribution: number,
+    cost: Decimal,
+    contribution: Decimal,
     effect: () => void,
-    level: number,
+    level: Decimal,
     description: string
   ) {
     this.name = name;
@@ -21,17 +23,24 @@ export class Infusion {
     this.contribution = contribution;
     this.effect = effect;
     this.level = level;
-    this.workersAllocated = 0;
+    this.workersAllocated = new Decimal(0);
     this.description = description;
   }
 
-  contribute(amount: number) {
-    this.contribution += amount;
-    if (this.contribution >= this.cost) {
+  contribute(amount: Decimal) {
+    this.contribution = this.contribution.add(amount);
+    if (this.contribution.greaterThanOrEqualTo(this.cost)) {
       this.effect();
-      this.level++;
-      this.contribution = 0;
-      this.cost *= 1.5;
+      this.level = this.level.add(1);
+      this.contribution = new Decimal(0);
+      this.cost = this.cost.times(1.5).round();
     }
+  }
+
+  allocateWorkers(amount: number) {
+    this.workersAllocated = this.workersAllocated.add(amount);
+  }
+  deallocateWorkers(amount: number) {
+    this.workersAllocated = this.workersAllocated.sub(amount);
   }
 }

@@ -6,6 +6,7 @@ import { useWorkers } from "../../composable/useWorkers";
 import { usePlayer } from "../../composable/usePlayer";
 import Icon from "../Icon.vue";
 import { formatNumber } from "../../utils/number";
+import Decimal from "break_eternity.js";
 
 const { resources } = useResource();
 const { totalIncomePerSecond } = useWorkers();
@@ -19,8 +20,8 @@ const props = defineProps<{
 const progress = computed(() => {
   const currentValue = resources[props.type].value;
   const maxValue =
-    resources[`max${props.type}` as keyof typeof resources].value;
-  return (currentValue / maxValue) * 100;
+    resources[props.type as keyof typeof resources].value.maxAmount;
+  return currentValue.amount.dividedBy(maxValue).times(100).toNumber();
 });
 
 const gatherMessage = computed(() => {
@@ -46,7 +47,7 @@ const gatherMessage = computed(() => {
     </div>
     <span class="resource-values">
       {{
-        `${formatNumber(resources[type].value)} / ${formatNumber(resources[`max${type}`].value)}`
+        `${formatNumber(resources[type].value.amount)} / ${formatNumber(resources[type].value.maxAmount)}`
       }}
     </span>
     <div class="loading-bar-wrapper">
@@ -69,7 +70,7 @@ const gatherMessage = computed(() => {
         {{ currentFocus == type ? gatherMessage : "Gather" }}
       </v-btn>
       <span class="income">
-        +{{ formatNumber(totalIncomePerSecond[props.type] as number) }}/s
+        +{{ formatNumber(totalIncomePerSecond[props.type] ?? new Decimal(0)) }}/s
       </span>
     </div>
   </div>
@@ -78,7 +79,7 @@ const gatherMessage = computed(() => {
 <style scoped>
 .resource-container {
   background-color: #1a1a1a;
-  padding: .5rem;
+  padding: 0.5rem;
   text-align: center;
   color: rgba(255, 255, 255, 0.87);
   display: flex;
@@ -114,7 +115,7 @@ const gatherMessage = computed(() => {
 .loading-bar {
   height: 100%;
   background: #ffcc00;
-  transition: width 0.5s ease-in-out;
+  transition: width 0.25s ease-in-out;
   border-radius: 8px;
 }
 
@@ -131,6 +132,4 @@ const gatherMessage = computed(() => {
   font-weight: 600;
   width: 20%;
 }
-
-
 </style>

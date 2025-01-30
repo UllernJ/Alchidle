@@ -19,7 +19,7 @@
         :path="currentMonster.icon"
         size="5.5em"
       />
-      
+
       <div class="monster-description">
         <span>{{ formatNumber(currentMonster.attack) }}</span>
         <Icon
@@ -77,21 +77,25 @@ import { MessageType } from "../../composable/useMessage";
 import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
-import { deeepClone } from "../../utils/object";
-import type { Monster } from "../../models/Monster";
+import { Monster } from "../../models/Monster";
 import { isDev } from "../../utils/dev";
+import Decimal from "break_eternity.js";
 
-const { attackPower, health: playerHealth, defencePower, faint } = usePlayer();
+const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { getNextMonsters, map, currentMonster } = useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
 const isAttackOnCooldown = ref(false);
-const initialHealth = ref<number | null>(null);
+const initialHealth = ref<Decimal | null>(null);
 const autoAttackInterval = ref<number | null>(null);
+const defeatedMonster = ref<Monster | null>(null);
 
 watch(currentMonster, (newMonster) => {
   initialHealth.value = newMonster ? newMonster.health : null;
+  if(defeatedMonster.value === null) {
+    defeatedMonster.value = newMonster as Monster;
+  }
 });
 
 const isEmpty = computed(() => !currentMonster.value);
@@ -99,7 +103,10 @@ const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
 
 const monsterHealthPercentage = computed(() => {
   if (!currentMonster.value || !initialHealth.value) return 0;
-  return Math.floor((currentMonster.value.health / initialHealth.value) * 100);
+  return currentMonster.value.health
+    .dividedBy(initialHealth.value)
+    .times(100)
+    .toNumber();
 });
 
 const handleMonsterDefeat = (monster: Monster) => {
@@ -108,7 +115,7 @@ const handleMonsterDefeat = (monster: Monster) => {
   const { resource, amount } = monster.drop;
   addResource(resource, amount);
   logMessage(
-    getResourceDropMessage(resource, formatNumber(amount)),
+    getResourceDropMessage(resource, formatNumber(amount) || 0),
     MessageType.INFO
   );
 
@@ -124,31 +131,29 @@ const handleMonsterDefeat = (monster: Monster) => {
 
 const attack = () => {
   if (isAttackOnCooldown.value || !currentMonster.value) return;
-  if (playerHealth.value <= 0) {
+  if (playerHealth.value.lessThanOrEqualTo(0)) {
     logMessage("You need to rest.", MessageType.WARNING);
     return;
   }
 
   isAttackOnCooldown.value = true;
-  const trueCurrentMonster = deeepClone(currentMonster.value) as Monster;
-  const didMonsterDie = (currentMonster.value.health -= attackPower.value) <= 0;
+  currentMonster.value.takeDamage(attackPower.value);
 
   setTimeout(() => {
     isAttackOnCooldown.value = false;
   }, 1000);
 
-  if (didMonsterDie) {
-    handleMonsterDefeat(trueCurrentMonster);
+  if (defeatedMonster.value && defeatedMonster.value.isDead()) {
+    handleMonsterDefeat(defeatedMonster.value);
+    defeatedMonster.value = currentMonster.value;
   } else {
-    playerHealth.value -= Math.max(
-      0,
-      currentMonster.value.attack - defencePower.value
-    );
-    playerHealth.value = Math.max(playerHealth.value, 0);
-    if (playerHealth.value <= 0) {
-      faint();
+    playerHealth.value = currentMonster.value.attack.minus(defencePower.value);
+    playerHealth.value = playerHealth.value.lessThan(0)
+      ? new Decimal(0)
+      : playerHealth.value;
+    if (playerHealth.value.lessThanOrEqualTo(0)) {
       logMessage(
-        "You have been defeated. The monsters looted you for 10% of your resources.",
+        "You have been defeated. You need to rest.",
         MessageType.ERROR
       );
       clearAutoAttack();
@@ -181,7 +186,7 @@ const fetchNextMonsters = () => {
 };
 
 onMounted(() => {
-  if(currentMonster.value) {
+  if (currentMonster.value) {
     initialHealth.value = currentMonster.value.health;
   }
 });
@@ -195,7 +200,7 @@ onMounted(() => {
   justify-content: center;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
-  padding: .5rem;
+  padding: 0.5rem;
   height: 100%;
   width: 100%;
 }
@@ -204,7 +209,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
   box-sizing: border-box;
   width: 100%;
 }
@@ -242,7 +247,7 @@ onMounted(() => {
   transition: width 0.3s ease-in-out;
   color: white;
   font-weight: bold;
-  font-size: .9em;
+  font-size: 0.9em;
   text-align: center;
 }
 
@@ -252,14 +257,14 @@ onMounted(() => {
   align-items: center;
   width: 100%;
   gap: 1rem;
-  margin-top: .75rem;
+  margin-top: 0.75rem;
 }
 
 .attack-button {
   border-radius: 5px;
   transition: background-color 0.3s ease;
   width: 100%;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 .attack-button:hover {
@@ -275,6 +280,6 @@ onMounted(() => {
 }
 
 .info {
-  font-size: .9em;
+  font-size: 0.9em;
 }
 </style>

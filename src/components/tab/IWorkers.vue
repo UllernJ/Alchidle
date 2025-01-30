@@ -75,6 +75,7 @@ import { usePlayer } from "../../composable/usePlayer";
 import { RESOURCE } from "../../types";
 import type { BaseWorker } from "../../models/worker/BaseWorker";
 import { Worker } from "../../models/worker/Worker";
+import type Decimal from "break_eternity.js";
 
 const { workerStations } = useWorkers();
 const { amountToBuy } = usePlayer();
@@ -82,8 +83,8 @@ const { amountToBuy } = usePlayer();
 const { resources } = useResource();
 
 const canAfford = computed(() => {
-  return (cost: number) => {
-    return resources[RESOURCE.MONEY].value >= cost;
+  return (cost: Decimal) => {
+    return resources[RESOURCE.MONEY].value.amount.gte(cost);
   };
 });
 

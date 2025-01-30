@@ -114,14 +114,14 @@ const { resources } = useResource();
 const canAffordWeapon = computed(() => {
   return (index: number) => {
     const weapon = weapons.value[index];
-    return resources[RESOURCE.MINING].value >= weapon.cost;
+    return resources[RESOURCE.MINING].value.amount.gte(weapon.cost);
   };
 });
 
 const canAffordArmor = computed(() => {
   return (index: number) => {
     const armor = armors.value[index];
-    return resources[RESOURCE.MINING].value >= armor.cost;
+    return resources[RESOURCE.MINING].value.amount.gte(armor.cost);
   };
 });
 </script>

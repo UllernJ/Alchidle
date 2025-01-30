@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import Decimal from "break_eternity.js";
 import { useActionLog } from "../composable/useActionLog";
 import { useAlchemy } from "../composable/useAlchemy";
 import { useBuildings } from "../composable/useBuildings";
@@ -30,21 +31,21 @@ export type SessionState = {
   buildings: Building[];
   research: (Research | UpgradeableResearch)[];
   workerStations: Worker[] | BaseWorker[];
-  resources: Record<string, number>;
+  resources: Record<string, Record<string, string>>;
   alchemy: {
     infusions: Infusion[];
-    alchemyWorkers: number;
+    alchemyWorkers: Decimal;
   };
   adventure: {
     map: number;
     remainingMonsters: Monster[];
   };
   multipliers: {
-    attackPowerMultiplier: number;
-    defencePowerMultiplier: number;
-    healthMultiplier: number;
-    productionRate: number;
-    regenMultiplier: number;
+    attackPowerMultiplier: Decimal;
+    defencePowerMultiplier: Decimal;
+    healthMultiplier: Decimal;
+    productionRate: Decimal;
+    regenMultiplier: Decimal;
   };
 };
 
@@ -65,9 +66,18 @@ export const saveSession = () => {
     research: researchList.value,
     workerStations: workerStations.value,
     resources: {
-      Money: resources.Money.value,
-      Mining: resources.Mining.value,
-      Science: resources.Science.value,
+      Money: {
+        amount: resources.Money.value.amount.toString(),
+        maxAmount: resources.Money.value.maxAmount.toString(),
+      },
+      Mining: {
+        amount: resources.Mining.value.amount.toString(),
+        maxAmount: resources.Mining.value.maxAmount.toString(),
+      },
+      Science: {
+        amount: resources.Science.value.amount.toString(),
+        maxAmount: resources.Science.value.maxAmount.toString(),
+      },
     },
     alchemy: {
       alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
@@ -78,11 +88,15 @@ export const saveSession = () => {
       remainingMonsters: monsters.value,
     },
     multipliers: {
-      attackPowerMultiplier: multipliers.attackPowerMultiplier.value,
-      defencePowerMultiplier: multipliers.defencePowerMultiplier.value,
-      healthMultiplier: multipliers.healthMultiplier.value,
-      productionRate: multipliers.productionRate.value,
-      regenMultiplier: multipliers.regenMultiplier.value,
+      attackPowerMultiplier: new Decimal(
+        multipliers.attackPowerMultiplier.value
+      ),
+      defencePowerMultiplier: new Decimal(
+        multipliers.defencePowerMultiplier.value
+      ),
+      healthMultiplier: new Decimal(multipliers.healthMultiplier.value),
+      productionRate: new Decimal(multipliers.productionRate.value),
+      regenMultiplier: new Decimal(multipliers.regenMultiplier.value),
     },
   };
 
@@ -97,7 +111,7 @@ export const loadState = () => {
   if (!state) {
     return;
   }
-  isLoadingFromSave.value = true
+  isLoadingFromSave.value = true;
   const data = JSON.parse(state);
   initWorkers(data.workerStations);
   initResearch(data.research);
@@ -116,21 +130,24 @@ export const isFirstTime = () => {
   return localStorage.getItem(KEY) === null;
 };
 
-const initWorkers = (workers: { name: string; numberOfWorkers: number }[]) => {
+const initWorkers = (workers: { name: string; numberOfWorkers: Decimal }[]) => {
   WORKERS.value.forEach((worker) => {
     const savedWorker = workers.find((w) => w.name === worker.name);
     if (savedWorker) {
-      worker.restoreFromSave(savedWorker.numberOfWorkers);
+      worker.restoreFromSave(new Decimal(savedWorker.numberOfWorkers));
     }
   });
 };
 
-const initResources = (resourcesData: Record<string, number>) => {
+const initResources = (
+  resourcesData: Record<string, { amount: string; maxAmount: string }>
+) => {
   const { resources } = useResource();
   Object.entries(resourcesData).forEach(([key, value]) => {
     const resource = resources[key as RESOURCE];
     if (resource) {
-      resource.value = value;
+      resource.value.amount = new Decimal(value.amount);
+      resource.value.maxAmount = new Decimal(value.maxAmount);
     } else {
       console.warn(`Resource key ${key} not found in resources`);
     }
@@ -158,7 +175,7 @@ const initResearch = (
         research.multiplier = savedResearch.multiplier!;
         research.setNextRequirement();
         for (let i = 0; i < research.level; i++) {
-          research.cost = Math.round(research.cost * research.multiplier);
+          research.cost = research.cost.times(research.multiplier).round();
           if (research.effect) {
             research.effect();
           }
@@ -175,41 +192,43 @@ const initResearch = (
   });
 };
 
-const initBuildings = (buildingsData: { name: string; quantity: number }[]) => {
+const initBuildings = (
+  buildingsData: { name: string; quantity: Decimal }[]
+) => {
   const { buildings } = useBuildings();
   buildingsData.forEach((buildingData) => {
     const building = buildings.value.find((b) => b.name === buildingData.name);
     if (building) {
-      building.quantity = buildingData.quantity;
-      building.restoreFromSave(buildingData.quantity);
+      building.quantity = new Decimal(buildingData.quantity);
+      building.restoreFromSave(new Decimal(buildingData.quantity).toNumber());
     }
   });
 };
 
-const initWeapons = (weaponsData: { name: string; quantity: number }[]) => {
+const initWeapons = (weaponsData: { name: string; quantity: Decimal }[]) => {
   const { weapons } = useGear();
   weaponsData.forEach((weaponData) => {
     const weapon = weapons.value.find((w) => w.name === weaponData.name);
     if (weapon) {
-      weapon.quantity = weaponData.quantity;
-      if (weapon.quantity > 0) {
-        for (let i = 0; i < weapon.quantity; i++) {
-          weapon.cost = Math.round(weapon.cost * 1.15);
+      weapon.quantity = new Decimal(weaponData.quantity);
+      if (weapon.quantity.greaterThan(0)) {
+        for (let i = 0; i < weapon.quantity.toNumber(); i++) {
+          weapon.cost = weapon.cost.times(1.15).round();
         }
       }
     }
   });
 };
 
-const initArmors = (armorsData: { name: string; quantity: number }[]) => {
+const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
   const { armors } = useGear();
   armorsData.forEach((armorData) => {
     const armor = armors.value.find((a) => a.name === armorData.name);
     if (armor) {
-      armor.quantity = armorData.quantity;
-      if (armor.quantity > 0) {
-        for (let i = 0; i < armor.quantity; i++) {
-          armor.cost = Math.round(armor.cost * 1.15);
+      armor.quantity = new Decimal(armorData.quantity);
+      if (armor.quantity.greaterThan(0)) {
+        for (let i = 0; i < armor.quantity.toNumber(); i++) {
+          armor.cost = armor.cost.times(1.15).round();
         }
       }
     }
@@ -221,44 +240,48 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
   map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters;
   if (monsters.value.length > 0) {
-    BASE_DAMAGE.value = monsters.value[monsters.value.length - 1].attack * 1.15;
-    BASE_HEALTH.value = monsters.value[monsters.value.length - 1].health * 1.15;
+    BASE_DAMAGE.value = new Decimal(
+      monsters.value[monsters.value.length - 1].attack
+    ).times(1.15);
+    BASE_HEALTH.value = new Decimal(
+      monsters.value[monsters.value.length - 1].health
+    ).times(1.15);
   }
 };
 
 const initInfusions = (
   data: {
     name: string;
-    workersAllocated: number;
-    level: number;
-    contribution: number;
+    workersAllocated: Decimal;
+    level: Decimal;
+    contribution: Decimal;
   }[],
-  numberOfWorkers: number
+  numberOfWorkers: Decimal
 ) => {
   const { infusions, buyAlchemist } = useAlchemy();
   data.forEach((infusion) => {
     const savedInfusion = infusions.value.find((i) => i.name === infusion.name);
     if (savedInfusion) {
-      savedInfusion.workersAllocated = infusion.workersAllocated;
-      savedInfusion.level = infusion.level;
-      savedInfusion.contribution = infusion.contribution;
-      for (let i = 1; i < infusion.level; i++) {
-        savedInfusion.cost *= 2.5;
+      savedInfusion.workersAllocated = new Decimal(infusion.workersAllocated);
+      savedInfusion.level = new Decimal(infusion.level);
+      savedInfusion.contribution = new Decimal(infusion.contribution);
+      for (let i = 1; i < savedInfusion.level.toNumber(); i++) {
+        savedInfusion.cost = savedInfusion.cost.times(1.15).round();
       }
     }
   });
 
-  for (let i = 1; i <= numberOfWorkers; i++) {
+  for (let i = 1; i <= Number(numberOfWorkers); i++) {
     buyAlchemist(true);
   }
 };
 
 const initMultipliers = (data: {
-  attackPowerMultiplier: number;
-  defencePowerMultiplier: number;
-  healthMultiplier: number;
-  productionRate: number;
-  regenMultiplier: number;
+  attackPowerMultiplier: Decimal;
+  defencePowerMultiplier: Decimal;
+  healthMultiplier: Decimal;
+  productionRate: Decimal;
+  regenMultiplier: Decimal;
 }) => {
   const { getMultipliers } = useMultipliers();
   const { setProductionRate } = usePlayer();
@@ -268,9 +291,9 @@ const initMultipliers = (data: {
     healthMultiplier,
     regenMultiplier,
   } = getMultipliers();
-  attackPowerMultiplier.value = data.attackPowerMultiplier;
-  defencePowerMultiplier.value = data.defencePowerMultiplier;
-  healthMultiplier.value = data.healthMultiplier;
-  setProductionRate(data.productionRate);
-  regenMultiplier.value = data.regenMultiplier;
+  attackPowerMultiplier.value = new Decimal(data.attackPowerMultiplier);
+  defencePowerMultiplier.value = new Decimal(data.defencePowerMultiplier);
+  healthMultiplier.value = new Decimal(data.healthMultiplier);
+  setProductionRate(new Decimal(data.productionRate).toNumber());
+  regenMultiplier.value = new Decimal(data.regenMultiplier);
 };

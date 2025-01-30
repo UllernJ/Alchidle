@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import Decimal from "break_eternity.js";
 import { RESOURCE } from "../types";
 import { bankIcon, hospitalIcon, hutIcon, mineIcon, scienceLabIcon } from "../icons/icons";
 import { isDev } from "../utils/dev";
@@ -15,7 +16,7 @@ const BANK = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 1 : 100,
+      value: new Decimal(isDev ? 1 : 100),
     },
   ],
   2,
@@ -23,15 +24,16 @@ const BANK = new Building(
   () => {
     upgradeStorage(RESOURCE.MONEY);
   },
-  0,
+  new Decimal(0),
   bankIcon
 );
+
 const MINE = new Building(
   "Mine",
   [
     {
       key: RESOURCE.MINING,
-      value: 100,
+      value: new Decimal(100),
     },
   ],
   2,
@@ -39,15 +41,16 @@ const MINE = new Building(
   () => {
     upgradeStorage(RESOURCE.MINING);
   },
-  0,
+  new Decimal(0),
   mineIcon
 );
+
 const SCIENCE_LAB = new Building(
   "Science Lab",
   [
     {
       key: RESOURCE.SCIENCE,
-      value: 100,
+      value: new Decimal(100),
     },
   ],
   2,
@@ -55,7 +58,7 @@ const SCIENCE_LAB = new Building(
   () => {
     upgradeStorage(RESOURCE.SCIENCE);
   },
-  0,
+  new Decimal(0),
   scienceLabIcon
 );
 
@@ -64,11 +67,11 @@ const HOSPITAL = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: 200,
+      value: new Decimal(200),
     },
     {
       key: RESOURCE.MINING,
-      value: 100,
+      value: new Decimal(100),
     },
   ],
   2.5,
@@ -77,7 +80,7 @@ const HOSPITAL = new Building(
     const { upgradeRegen } = usePlayer();
     upgradeRegen(1.1);
   },
-  0,
+  new Decimal(0),
   hospitalIcon,
   () => {
     return hostpitalBlueprintResearch.value.unlocked;
@@ -89,11 +92,11 @@ const WORKER_HUT = new Building(
   [
     {
       key: RESOURCE.MONEY,
-      value: isDev ? 1 : 1500,
+      value: new Decimal(isDev ? 1 : 1500),
     },
     {
       key: RESOURCE.MINING,
-      value: isDev ? 1 : 3000,
+      value: new Decimal(isDev ? 1 : 3000),
     },
   ],
   4,
@@ -103,7 +106,7 @@ const WORKER_HUT = new Building(
     BANKER.value.upgradeRate(1.01);
     SCIENTIST.value.upgradeRate(1.01);
   },
-  0,
+  new Decimal(0),
   hutIcon,
   () => {
     return workerHutBlueprintResearch.value.unlocked;

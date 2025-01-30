@@ -1,18 +1,19 @@
+import Decimal from "break_eternity.js";
 import { useResource } from "../composable/useResource";
 import type { RESOURCE } from "../types";
 
 type Cost = {
   key: RESOURCE;
-  value: number;
+  value: Decimal;
 };
 
 export class Building {
   name: string;
   cost: Cost[];
-  costMultiplier: number;
+  costMultiplier: Decimal;
   description: string;
   effect: () => void;
-  quantity: number;
+  quantity: Decimal;
   icon?: string;
   requirement?: () => boolean;
 
@@ -22,13 +23,13 @@ export class Building {
     costMultiplier: number,
     description: string,
     effect: () => void,
-    quantity: number,
+    quantity: Decimal,
     icon?: string,
     requirement?: () => boolean
   ) {
     this.name = name;
     this.cost = cost;
-    this.costMultiplier = costMultiplier;
+    this.costMultiplier = new Decimal(costMultiplier);
     this.description = description;
     this.effect = effect;
     this.quantity = quantity;
@@ -38,7 +39,9 @@ export class Building {
 
   canAfford() {
     const { resources } = useResource();
-    return this.cost.every((cost) => resources[cost.key].value >= cost.value);
+    return this.cost.every((cost) =>
+      resources[cost.key].value.amount.gte(cost.value)
+    );
   }
 
   upgrade() {
@@ -47,9 +50,9 @@ export class Building {
     this.cost.forEach((cost) => {
       subtractResource(cost.key, cost.value);
     });
-    this.quantity += 1;
+    this.quantity = this.quantity.plus(1);
     this.cost.forEach((cost) => {
-      cost.value = Math.round(cost.value * this.costMultiplier);
+      cost.value = cost.value.times(this.costMultiplier).round();
     });
     this.effect();
   }
@@ -63,18 +66,18 @@ export class Building {
   restoreFromSave(quantity: number) {
     for (let i = 0; i < quantity; i++) {
       this.cost.forEach((cost) => {
-        cost.value = Math.round(cost.value * this.costMultiplier);
+        cost.value = cost.value.times(this.costMultiplier).round();
       });
       this.effect();
     }
-    this.quantity = quantity;
+    this.quantity = new Decimal(quantity);
   }
 
   getTotalPriceForQuantity(quantity: number | "MAX") {
     const { resources } = useResource();
     const totalCost: Cost[] = this.cost.map((cost) => ({
       key: cost.key,
-      value: 0,
+      value: new Decimal(0),
     }));
 
     const currentCost = this.cost.map((cost) => ({ ...cost }));
@@ -82,17 +85,17 @@ export class Building {
 
     for (let i = 0; i < totalQuantity; i++) {
       if (quantity === "MAX") {
-        const canAfford = currentCost.every(
-          (cost) => resources[cost.key].value >= cost.value
+        const canAfford = currentCost.every((cost) =>
+          resources[cost.key].value.amount.gte(cost.value)
         );
         if (!canAfford) break;
       }
 
       totalCost.forEach((total, index) => {
-        total.value += currentCost[index].value;
-        currentCost[index].value = Math.round(
-          currentCost[index].value * this.costMultiplier
-        );
+        total.value = total.value.plus(currentCost[index].value);
+        currentCost[index].value = currentCost[index].value
+          .times(this.costMultiplier)
+          .round();
       });
     }
 

@@ -74,7 +74,7 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
 
 const healthPercentage = computed(() => {
-  return (health.value / maxHealth.value) * 100;
+  return health.value.dividedBy(maxHealth.value).times(100).toNumber();
 });
 </script>
 

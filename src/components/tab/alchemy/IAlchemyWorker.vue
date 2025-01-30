@@ -64,7 +64,7 @@ const { alchemyWorkers, buyAlchemist } = useAlchemy();
 const { resources } = useResource();
 
 const canAffordAlchemist = computed(() => {
-  return resources[RESOURCE.MONEY].value >= alchemyWorkers.value.cost.value;
+  return resources[RESOURCE.MONEY].value.amount.gte(alchemyWorkers.value.cost.value);
 });
 </script>
 

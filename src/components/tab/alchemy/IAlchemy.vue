@@ -42,14 +42,14 @@
         </p>
         <section class="infusion-buttons">
           <v-btn
-            :disabled="infusion.workersAllocated === 0"
+            :disabled="infusion.workersAllocated.equals(0)"
             class="infusion-button"
             @click="deallocateAlchemist(index)"
           >
             -
           </v-btn>
           <v-btn
-            :disabled="employedAlchemists >= alchemistCount"
+            :disabled="employedAlchemists >= alchemistCount.toNumber()"
             class="infusion-button"
             @click="allocateAlchemist(index)"
           >
@@ -78,7 +78,7 @@ const {
 } = useAlchemy();
 
 const infusionProgress = (infusion: Infusion) => {
-  return (infusion.contribution / infusion.cost) * 100;
+  return (infusion.contribution.div(infusion.cost).toNumber() * 100) % 100;
 };
 
 const getColorFromName = (name: string) => {
@@ -204,7 +204,7 @@ const getColorFromName = (name: string) => {
   color: #fff;
   font-weight: bold;
   z-index: 1;
-  font-size: .8em;
+  font-size: 0.8em;
   text-align: center;
 }
 
@@ -233,5 +233,4 @@ const getColorFromName = (name: string) => {
   cursor: not-allowed;
   opacity: 0.5;
 }
-
 </style>

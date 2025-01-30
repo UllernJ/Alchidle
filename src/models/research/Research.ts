@@ -1,3 +1,4 @@
+import type Decimal from "break_eternity.js";
 import { MessageType, useMessage } from "../../composable/useMessage";
 import { useResource } from "../../composable/useResource";
 import { RESOURCE } from "../../types";
@@ -5,7 +6,7 @@ import { RESOURCE } from "../../types";
 export class Research {
   name: string;
   description: string;
-  cost: number;
+  cost: Decimal;
   unlocked: boolean;
   effect?: () => void;
   requirement: () => boolean;
@@ -13,7 +14,7 @@ export class Research {
   constructor(
     name: string,
     description: string,
-    cost: number,
+    cost: Decimal,
     requirement: () => boolean,
     effect?: () => void
   ) {
@@ -42,7 +43,7 @@ export class Research {
 
   canAfford() {
     const { resources } = useResource();
-    const value = resources[RESOURCE.SCIENCE].value >= this.cost;
+    const value = resources[RESOURCE.SCIENCE].value.amount.gte(this.cost);
     if (!value) {
       const { establishMessage } = useMessage();
       establishMessage(

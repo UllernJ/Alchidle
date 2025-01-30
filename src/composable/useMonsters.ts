@@ -3,16 +3,17 @@ import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 import { useActionLog } from "./useActionLog";
 import { MessageType } from "./useMessage";
+import Decimal from "break_eternity.js";
 
 const MONSTERS_PER_MAP = 30;
 
 const difficulty = ref<number>(1);
 const map = ref<number>(0);
 const monsters = ref<Monster[]>([]);
-const BASE_HEALTH = ref<number>(30);
-const BASE_DAMAGE = ref<number>(4);
+const BASE_HEALTH = ref<Decimal>(new Decimal(30));
+const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
 const currentMonster = computed(
-  () => monsters.value.find((monster) => monster.health > 0) || null
+  () => monsters.value.find((monster) => monster.health.greaterThan(0))
 );
 
 export function useMonsters() {
@@ -25,8 +26,8 @@ export function useMonsters() {
       BASE_DAMAGE.value,
       map.value
     );
-    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack * 0.7;
-    BASE_HEALTH.value = BASE_DAMAGE.value * 10;
+    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack.times(0.7);
+    BASE_HEALTH.value = BASE_DAMAGE.value.times(10);
     monsters.value = listOfMonsters;
     const consolData = monsters.value.map((monster) => {
       return {
@@ -53,7 +54,7 @@ export function useMonsters() {
     map,
     currentMonster,
     isEveryMonsterDefeated: computed(() =>
-      monsters.value.every((monster) => monster.health <= 0)
+      monsters.value.every((monster) => monster.health.lessThanOrEqualTo(0))
     ),
     BASE_DAMAGE,
     BASE_HEALTH,

@@ -15,13 +15,13 @@
         :key="index"
         :class="[
           'progress-box',
-          { defeated: monster.health <= 0 },
+          { defeated: monster.health.lessThanOrEqualTo(0) },
           { current: index === current },
         ]"
       >
         <div class="icon-container">
           <Icon
-            v-if="monster.drop.amount > 0"
+            v-if="monster.drop.amount.gt(0)"
             class="icon"
             :path="
               index !== monsters.length - 1
@@ -46,7 +46,7 @@ import { mdiBagPersonal } from "@mdi/js";
 
 const { monsters, map } = useMonsters();
 
-const current = computed(() => monsters.value.findIndex((m) => m.health > 0));
+const current = computed(() => monsters.value.findIndex((m) => m.health.gte(0)));
 </script>
 
 <style scoped>

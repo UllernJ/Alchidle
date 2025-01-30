@@ -1,21 +1,22 @@
+import type Decimal from "break_eternity.js";
 import type { RESOURCE } from "../types";
 
 export class Monster {
   name: string;
-  health: number;
-  attack: number;
+  health: Decimal;
+  attack: Decimal;
   drop: {
     resource: RESOURCE;
-    amount: number;
+    amount: Decimal;
   };
   icon?: string;
 
   constructor(
     name: string,
-    health: number,
-    attack: number,
+    health: Decimal,
+    attack: Decimal,
     dropResource: RESOURCE,
-    dropAmount: number,
+    dropAmount: Decimal,
     icon: string
   ) {
     this.name = name;
@@ -26,5 +27,12 @@ export class Monster {
       amount: dropAmount,
     };
     this.icon = icon;
+  }
+
+  takeDamage(damage: Decimal) {
+    this.health = this.health.sub(damage);
+  }
+  isDead(): boolean {
+    return this.health.lessThanOrEqualTo(0);
   }
 }
