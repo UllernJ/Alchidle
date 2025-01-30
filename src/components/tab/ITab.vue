@@ -154,7 +154,9 @@ onBeforeMount(() => {
   width: 100%;
   display: flex;
   height: fit-content;
-  border-right: 1px solid #f1f1f1;
+  &:not(:last-child) {
+    border-right: 1px solid #f1f1f1;
+  }
 }
 
 .buy-buttons {
