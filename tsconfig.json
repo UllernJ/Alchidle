@@ -1,19 +1,21 @@
 {
   "files": [],
   "compilerOptions": {
-    "lib": ["esnext", "dom", "ES7"],
+    "lib": ["esnext", "dom"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "composite": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
     },
+    "types": ["vite", "node"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
