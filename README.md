@@ -2,25 +2,25 @@
 
 ## Todo
 
-- Infusions (add more info and make them more useful)
+- Invent new resource.
 
-- Rework alchemy, invent new resource.
-
-- More research -> add logic for unlocking better
-
-- Handle insane big numbers -> CHECK OUT ARRAY HANDLING
+- More research
 
 - 50 50 chance of who attacks first
-
-- Fix session storage (its shit rn)
 
 - Bosses? extra maps? rewards?
 - Fix balancing, things should stagnate
 - When things stagnate the player should do some sort of reborn (restart the game with extra perks)
+- Design perks
 
 ## Somewhat finished
 
-- Punish player if dies -> lose resources or gear?
+- Fix session storage (its shit rn)
+- Handle insane big numbers -> CHECK OUT ARRAY HANDLING
+
+- Infusions (add more info and make them more useful)
+
+- Punish player if dies -> lose resources or gear? (REJECTED)
 
 - Money is too OP, a player will always focus money
 
