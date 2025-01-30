@@ -59,6 +59,7 @@ import { formatNumber } from "../utils/number";
 import { useWorkers } from "../composable/useWorkers";
 import { formatElapsedTime } from "../utils/time";
 import type Decimal from "break_eternity.js";
+import { loadState } from "../utils/localStorage";
 
 const { isLoading, stopLoading } = useLoading();
 const showWelcomeBack = ref(false);
@@ -68,7 +69,7 @@ const generatedResources = ref<Record<string, Decimal>>({});
 const { calculateGeneratedResources } = useWorkers();
 
 onMounted(() => {
-  const timestamp = 0
+  const timestamp = loadState()
   if (timestamp) {
     const now = Date.now();
     elapsedTime.value = Math.floor((now - timestamp) / 1000);
