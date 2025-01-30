@@ -55,13 +55,6 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
-      <!-- <v-btn
-        v-if="isDev"
-        class="attack-button"
-        @click="fetchNextMonsters()"
-      >
-        go next
-      </v-btn> -->
     </section>
   </section>
 </template>
@@ -78,7 +71,6 @@ import { getResourceDropMessage } from "../../utils/resourceUtil";
 import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
 import { Monster } from "../../models/Monster";
-import { isDev } from "../../utils/dev";
 import Decimal from "break_eternity.js";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
