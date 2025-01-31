@@ -83,10 +83,4 @@ const onZoom = (event: WheelEvent) => {
   cursor: grabbing;
 }
 
-.talents {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: top left;
-}
 </style>
