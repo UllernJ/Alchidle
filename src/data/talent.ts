@@ -1,6 +1,6 @@
 import { TalentNode } from "@/models/talents/TalentNode";
 import { TalentTree } from "@/models/talents/TalentTree";
-import { mdiAccountHardHat, mdiSwordCross, mdiTargetAccount } from "@mdi/js";
+import { mdiAccountHardHat, mdiLambda, mdiSale, mdiSwordCross, mdiTargetAccount } from "@mdi/js";
 import Decimal from "break_eternity.js";
 
 export const upTree = new TalentTree(
@@ -100,10 +100,10 @@ export const upTree = new TalentTree(
         )
       ),
       new TalentNode(
-        "Increase damage by 1%",
-        "Increase damage by 1%",
+        "Storage increase",
+        "Increase storage by 1%",
         new Decimal(1),
-        mdiSwordCross,
+        mdiLambda,
         () => {}
       )
     ),
@@ -131,10 +131,10 @@ export const upTree = new TalentTree(
         )
       ),
       new TalentNode(
-        "Increase damage by 1%",
-        "Increase damage by 1%",
+        "Worker sale!",
+        "Decreases worker cost by 1%",
         new Decimal(1),
-        mdiSwordCross,
+        mdiSale,
         () => {}
       )
     ),

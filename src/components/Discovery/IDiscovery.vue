@@ -2,20 +2,26 @@
 <template>
   <section class="container">
     <ActionLog />
-    <IProgress v-if="explortationResearch.unlocked && !isEveryMonsterDefeated" />
+    <IProgress
+      v-if="explortationResearch.unlocked && !isEveryMonsterDefeated && !isInventoryOpen"
+    />
+    <i-inventory v-else-if="isInventoryOpen" />
     <div v-else />
     <FightSection v-if="explortationResearch.unlocked" />
   </section>
 </template>
 
 <script lang="ts" setup>
-import { useMonsters } from "../../composable/useMonsters";
-import { explortationResearch } from "../../data/research";
+import IInventory from "@/components/inventory/IInventory.vue";
 import ActionLog from "./ActionLog.vue";
 import FightSection from "./FightSection.vue";
 import IProgress from "./IProgress.vue";
+import { useMonsters } from "../../composable/useMonsters";
+import { explortationResearch } from "../../data/research";
+import { useInventory } from "@/composable/useInventory";
 
-const { isEveryMonsterDefeated } = useMonsters()
+const { isEveryMonsterDefeated } = useMonsters();
+const { isInventoryOpen } = useInventory();
 </script>
 
 <style scoped>

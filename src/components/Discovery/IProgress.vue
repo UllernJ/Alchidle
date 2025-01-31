@@ -2,12 +2,19 @@
   <div class="progress-container">
     <div class="map-info">
       <span>Map: {{ map }}</span>
-      <v-btn
-        :icon="mdiBagPersonal"
-        size="large"
-        density="compact"
-        variant="outlined"
-      />
+      <v-tooltip location="top">
+        <template #activator="{ props }">
+          <v-btn
+            :icon="mdiBagPersonal"
+            size="large"
+            density="compact"
+            variant="outlined"
+            v-bind="props"
+            @click="toggleInventory"
+          />
+        </template>
+        <span>Open Inventory</span>
+      </v-tooltip>
     </div>
     <div class="progress-grid">
       <div
@@ -43,8 +50,10 @@ import { getResourceIcon } from "../../utils/resourceUtil";
 import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
 import { mdiBagPersonal } from "@mdi/js";
+import { useInventory } from "@/composable/useInventory";
 
 const { monsters, map } = useMonsters();
+const { toggleInventory } = useInventory()
 
 const current = computed(() => monsters.value.findIndex((m) => m.health.gt(0)));
 </script>
