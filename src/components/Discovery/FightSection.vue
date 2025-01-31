@@ -85,7 +85,7 @@ const defeatedMonster = ref<Monster | null>(null);
 
 watch(currentMonster, (newMonster) => {
   initialHealth.value = newMonster ? newMonster.health : null;
-  if(defeatedMonster.value === null) {
+  if(!defeatedMonster.value) {
     defeatedMonster.value = newMonster as Monster;
   }
 });
