@@ -23,11 +23,13 @@ export class MonsterFactory {
       baseDamage.times(difficulty),
       baseHealth.times(difficulty),
       getRandomResource(),
-      getResourceDrop(
-        new Decimal(1)
-          .times(difficulty)
+      this.getResourceDrop(
+        new Decimal(5)
+          .pow(difficulty)
           .times(mapNumber)
-          .times(Math.random() * 2)
+          .times(Math.random() + 1),
+        difficulty,
+        mapNumber
       ) || new Decimal(0),
       monster.icon
     );
@@ -95,11 +97,18 @@ export class MonsterFactory {
     }
     return monster;
   }
-}
 
-const getResourceDrop = (dropAmount: Decimal): Decimal | undefined => {
-  const chance = Math.random();
-  if (chance < 0.75) {
-    return dropAmount;
+  private static getResourceDrop(
+    dropAmount: Decimal,
+    difficulty: number,
+    mapNumber: number
+  ): Decimal | undefined {
+    const baseChance = 0.75;
+    const difficultyFactor = 0.01 * difficulty;
+    const mapFactor = 0.01 * mapNumber;
+    const chance = baseChance + difficultyFactor + mapFactor;
+    if (Math.random() < chance) {
+      return dropAmount;
+    }
   }
-};
+}
