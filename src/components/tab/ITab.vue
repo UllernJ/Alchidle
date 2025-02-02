@@ -117,6 +117,7 @@ onBeforeMount(() => {
   scrollbar-width: thin;
   scrollbar-color: #f1f1f1 #1a1a1a;
   max-height: 48dvh;
+  height: 47dvh;
   border-bottom: 1px solid #f1f1f1;
 }
 
