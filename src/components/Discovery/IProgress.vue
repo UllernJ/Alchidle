@@ -79,13 +79,13 @@ const current = computed(() => {
   gap: 0.5rem;
   border-left: 1px solid #f1f1f1;
   box-sizing: border-box;
-  padding: 1rem;
   width: 100%;
+  padding: 0.25rem 0.5rem;
 }
 
 .progress-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
   width: 100%;
 }

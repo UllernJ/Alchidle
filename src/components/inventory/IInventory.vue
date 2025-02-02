@@ -28,7 +28,7 @@
           variant="outlined"
           :icon="item.icon.path"
           :color="item.icon.color"
-          :class="[{'active': item.active}]"
+          :class="[{'active': item.active}, 'map-btn']"
           @click="switchMap(item)"
         />
       </div>
@@ -52,41 +52,39 @@ const { toggleInventory, inventory, switchMap } = useInventory();
   gap: 0.5rem;
   border-left: 1px solid #f1f1f1;
   box-sizing: border-box;
-  padding: 1rem;
   width: 100%;
   background-color: #1a1a1a;
   color: rgba(255, 255, 255, 0.87);
 }
 
 .inventory-header {
+  padding: 0.25rem 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   font-size: 0.9em;
   font-weight: bold;
-  padding-bottom: 0.5rem;
   border-bottom: 1px solid #f1f1f1;
 }
 
 .inventory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
+  gap: 0.25rem;
+  padding: 0.5rem;
 }
 
 .inventory-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0.25rem;
   padding: 0.5rem;
   background-color: #444;
   border: 1px solid #f1f1f1;
-  border-radius: 4px;
-  position: relative;
   text-align: center;
 }
 
@@ -104,5 +102,10 @@ const { toggleInventory, inventory, switchMap } = useInventory();
 .active {
   background-color: black !important;
   color: white !important;
+}
+
+.map-btn:hover {
+  background-color: #333 !important;
+  opacity: 0.8 !important;
 }
 </style>
