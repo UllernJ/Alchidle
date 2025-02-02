@@ -7,6 +7,7 @@
     "npm:@vitejs/plugin-vue@^5.2.1": "5.2.1_vite@6.0.11_vue@3.5.13__typescript@5.6.3_typescript@5.6.3",
     "npm:@vue/eslint-config-typescript@^14.3.0": "14.3.0_eslint@9.19.0_eslint-plugin-vue@9.32.0__eslint@9.19.0_typescript@5.6.3",
     "npm:@vue/tsconfig@0.7": "0.7.0_typescript@5.6.3_vue@3.5.13__typescript@5.6.3",
+    "npm:@vueuse/core@12.5": "12.5.0_typescript@5.6.3",
     "npm:break_eternity.js@^2.1.1": "2.1.1",
     "npm:eslint-config-prettier@~10.0.1": "10.0.1_eslint@9.19.0",
     "npm:eslint-plugin-oxlint@~0.15.8": "0.15.8",
@@ -278,6 +279,9 @@
         "undici-types"
       ]
     },
+    "@types/web-bluetooth@0.0.20": {
+      "integrity": "sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow=="
+    },
     "@typescript-eslint/eslint-plugin@8.22.0_@typescript-eslint+parser@8.22.0__eslint@9.19.0__typescript@5.6.3_eslint@9.19.0_typescript@5.6.3": {
       "integrity": "sha512-4Uta6REnz/xEJMvwf72wdUnC3rr4jAQf5jnTkeRQ9b6soxLxhDEbS/pfMPoJLDfFPNVRdryqWUIV/2GZzDJFZw==",
       "dependencies": [
@@ -492,6 +496,24 @@
       "integrity": "sha512-ku2uNz5MaZ9IerPPUyOHzyjhXoX2kVJaVf7hL315DC17vS6IiZRmmCPfggNbU16QTvM80+uYYy3eYJB59WCtvg==",
       "dependencies": [
         "typescript",
+        "vue"
+      ]
+    },
+    "@vueuse/core@12.5.0_typescript@5.6.3": {
+      "integrity": "sha512-GVyH1iYqNANwcahAx8JBm6awaNgvR/SwZ1fjr10b8l1HIgDp82ngNbfzJUgOgWEoxjL+URAggnlilAEXwCOZtg==",
+      "dependencies": [
+        "@types/web-bluetooth",
+        "@vueuse/metadata",
+        "@vueuse/shared",
+        "vue"
+      ]
+    },
+    "@vueuse/metadata@12.5.0": {
+      "integrity": "sha512-Ui7Lo2a7AxrMAXRF+fAp9QsXuwTeeZ8fIB9wsLHqzq9MQk+2gMYE2IGJW48VMJ8ecvCB3z3GsGLKLbSasQ5Qlg=="
+    },
+    "@vueuse/shared@12.5.0_typescript@5.6.3": {
+      "integrity": "sha512-vMpcL1lStUU6O+kdj6YdHDixh0odjPAUM15uJ9f7MY781jcYkIwFA4iv2EfoIPO6vBmvutI1HxxAwmf0cx5ISQ==",
+      "dependencies": [
         "vue"
       ]
     },
@@ -1240,6 +1262,7 @@
         "npm:@vitejs/plugin-vue@^5.2.1",
         "npm:@vue/eslint-config-typescript@^14.3.0",
         "npm:@vue/tsconfig@0.7",
+        "npm:@vueuse/core@12.5",
         "npm:break_eternity.js@^2.1.1",
         "npm:eslint-config-prettier@~10.0.1",
         "npm:eslint-plugin-oxlint@~0.15.8",

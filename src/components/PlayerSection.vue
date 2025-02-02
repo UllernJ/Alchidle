@@ -42,7 +42,7 @@
             {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}
             <Icon
               :path="healthIcon"
-              :size="20"
+              size="1em"
               color="white"
             />
           </span>
@@ -52,7 +52,7 @@
         <span>+ {{ formatNumber(regen) }}</span>
         <Icon
           :path="healthIcon"
-          :size="20"
+          size="1em"
           color="red"
         />
         <span>/s</span>
@@ -94,7 +94,7 @@ const healthPercentage = computed(() => {
   align-items: center;
   box-sizing: border-box;
   border: 1px solid #f1f1f1;
-  height: 74%;
+  height: 59.1dvh;
   z-index: 1;
 }
 

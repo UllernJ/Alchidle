@@ -51,7 +51,7 @@ export type SessionState = {
   health: {
     amount: string;
     maxAmount: string;
-  }
+  };
 };
 
 export const saveSession = () => {
@@ -140,21 +140,15 @@ export const loadState = () => {
     const { logMessage } = useActionLog();
     logMessage("Failed to load game", MessageType.ERROR);
     if (e instanceof Error) {
-      logMessage(e.message, MessageType.ERROR);
-      if (
-        e.message.toString().includes("Unexpected token") ||
-        e.message.toString().includes("JSON")
-      ) {
-        logMessage(
-          "Save file is corrupted. Starting a new game.",
-          MessageType.ERROR
-        );
-        clearSession();
-      }
+      logMessage(
+        "Save file is corrupted. Starting a new game...",
+        MessageType.ERROR
+      );
+      clearSession(); //todo the user should be able to save the session string
     }
   } finally {
     isLoadingFromSave.value = false;
-    if(suspicousSave.value.length > 0) {
+    if (suspicousSave.value.length > 0) {
       displaySuspiciousSave();
     }
   }
@@ -337,7 +331,7 @@ const initMultipliers = (data: {
 
 const initHealth = (data: { amount: string; maxAmount: string }) => {
   const { health, maxHealth } = usePlayer();
-  if(new Decimal(data.amount).greaterThan(maxHealth.value)) {
+  if (new Decimal(data.amount).greaterThan(maxHealth.value)) {
     health.value = maxHealth.value;
     suspicousSave.value.push("Are you trying to cheat?");
   } else {
@@ -352,7 +346,7 @@ const displaySuspiciousSave = () => {
     "Your save file is suspicious. Are you trying to cheat?",
     MessageType.ERROR
   );
-}
+};
 
 const clearSession = () => {
   localStorage.removeItem(KEY);

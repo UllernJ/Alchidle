@@ -55,17 +55,6 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
-      <v-btn
-        v-if="isDev"
-        class="attack-button"
-        variant="outlined"
-        @click="
-          handleMonsterDefeat(defeatedMonster as Monster);
-          fetchNextMonsters();
-        "
-      >
-        get next
-      </v-btn>
     </section>
   </section>
 </template>
@@ -83,7 +72,6 @@ import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
 import { Monster } from "../../models/Monster";
 import Decimal from "break_eternity.js";
-import { isDev } from "@/utils/dev";
 import { MONSTER_STATE } from "@/types";
 import { useInventory } from "@/composable/useInventory";
 

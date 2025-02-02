@@ -41,7 +41,7 @@ const gatherMessage = computed(() => {
     <div class="header">
       <Icon
         :path="icon"
-        size="1.2em"
+        size="2em"
       />
       <span>{{ type.toString() }}</span>
     </div>

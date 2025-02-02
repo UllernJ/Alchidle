@@ -48,7 +48,7 @@ h2 {
 }
 
 /* Overlay style */
-.overlay{
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -67,9 +67,16 @@ h1 {
 }
 
 @media screen and (min-width: 1200px) {
-  html, body {
+  html,
+  body {
     overflow: hidden;
     margin: 0;
     padding: 0;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  :root {
+    overflow-y: auto !important;
   }
 }
