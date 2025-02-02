@@ -8,7 +8,7 @@ import LoadingScreen from "./components/LoadingScreen.vue";
 import IMultipliers from "./components/IMultipliers.vue";
 import PlayerSection from "./components/PlayerSection.vue";
 import IMaps from "./components/inventory/IMaps.vue";
-import ITalents from "./components/talents/ITalents.vue";
+import ITalents from "@/components/talents/ITalents.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { isFirstTime, saveSession } from "./utils/localStorage";

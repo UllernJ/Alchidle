@@ -37,19 +37,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import TalentNode from "@/components/talents/TalentNode.vue";
 import { upTree } from "@/data/talent";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
 const { isReincarnationOpen, closeReincarnation } = useReincarnation();
-const { height } = useWindowSize();
-
-// Drag navigation logic
-const container = ref<HTMLElement | null>(null);
 
 const isDragging = ref(false);
 const startX = ref(0);
@@ -90,12 +85,6 @@ const onZoom = (event: WheelEvent) => {
   // Clamp zoom level to reasonable bounds
   zoomLevel.value = Math.max(0.5, Math.min(2, zoomLevel.value));
 };
-
-watchEffect(() => {
-  if (isReincarnationOpen.value && container.value) {
-    offsetY.value = height.value / 2 - container.value.clientHeight / 4;
-  }
-});
 </script>
 
 <style scoped>
@@ -117,6 +106,4 @@ watchEffect(() => {
   right: 0.5rem;
   z-index: 1;
 }
-
-
 </style>
