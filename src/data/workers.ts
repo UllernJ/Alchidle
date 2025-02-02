@@ -19,7 +19,7 @@ export const BANKER = ref<Worker>(
     { resource: RESOURCE.MONEY, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: new Decimal(10),
+      value: new Decimal(15),
     },
     "Manages your economy.",
     bankerIcon,
