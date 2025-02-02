@@ -1,31 +1,26 @@
 {
-  "files": [],
   "compilerOptions": {
-    "lib": ["esnext", "dom"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "composite": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
     "noEmit": true,
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noImplicitThis": true,
+    "verbatimModuleSyntax": true,
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-    "types": ["vite"],
+    "types": ["vite", "node"],
     "strict": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
     "esModuleInterop": true
   },
   "exclude": ["node_modules"],
   "include": ["vite.config.ts", "**/*.ts", "**/*.vue"],
-
-
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json"
 }
