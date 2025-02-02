@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import TalentNode from "@/components/talents/TalentNode.vue";
 import { upTree } from "@/data/talent";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
@@ -91,11 +91,6 @@ const onZoom = (event: WheelEvent) => {
   zoomLevel.value = Math.max(0.5, Math.min(2, zoomLevel.value));
 };
 
-watchEffect(() => {
-  if (isReincarnationOpen.value && container.value) {
-    offsetY.value = height.value / 2 - container.value.clientHeight / 4;
-  }
-});
 </script>
 
 <style scoped>
