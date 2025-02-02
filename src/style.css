@@ -5,6 +5,7 @@
   margin: 1rem;
   color: #ffffff;
   background-color: #242424 !important;
+  overflow-y: hidden !important;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
