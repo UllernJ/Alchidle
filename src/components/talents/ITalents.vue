@@ -5,46 +5,53 @@
     scroll-strategy="reposition"
     opacity=".76"
   >
-    <v-btn
-      ref="closeButton"
-      color="white"
-      variant="outlined"
-      :prepend-icon="mdiClose"
-      @click="closeReincarnation"
-    >
-      Close
-    </v-btn>
-    <div
-      ref="container"
-      class="talents-container"
-      @mousedown="startDrag"
-      @mousemove="onDrag"
-      @mouseup="stopDrag"
-      @mouseleave="stopDrag"
-      @wheel="onZoom"
-    >
-      <div
-        class="talents"
-        :style="{
-          transform: `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`,
-          transformOrigin: 'center',
-        }"
+    <div>
+      <v-btn
+        ref="closeButton"
+        color="white"
+        variant="outlined"
+        :prepend-icon="mdiClose"
+        @click="closeReincarnation"
       >
-        <talent-node :node="tree" />
+        Close
+      </v-btn>
+      <div
+        ref="container"
+        class="talents-container"
+        @mousedown="startDrag"
+        @mousemove="onDrag"
+        @mouseup="stopDrag"
+        @mouseleave="stopDrag"
+        @wheel="onZoom"
+      >
+        <div
+          class="talents"
+          :style="{
+            transform: `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`,
+            transformOrigin: 'center',
+          }"
+        >
+          <talent-node :node="tree" />
+        </div>
       </div>
     </div>
   </v-overlay>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import TalentNode from "@/components/talents/TalentNode.vue";
 import { upTree } from "@/data/talent";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
 const { isReincarnationOpen, closeReincarnation } = useReincarnation();
+const { height } = useWindowSize();
+
+// Drag navigation logic
+const container = ref<HTMLElement | null>(null);
 
 const isDragging = ref(false);
 const startX = ref(0);
@@ -85,6 +92,12 @@ const onZoom = (event: WheelEvent) => {
   // Clamp zoom level to reasonable bounds
   zoomLevel.value = Math.max(0.5, Math.min(2, zoomLevel.value));
 };
+
+watchEffect(() => {
+  if (isReincarnationOpen.value && container.value) {
+    offsetY.value = height.value / 2 - container.value.clientHeight / 4;
+  }
+});
 </script>
 
 <style scoped>
