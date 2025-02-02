@@ -23,7 +23,7 @@
             >
               <Icon
                 :path="building.icon"
-                :size="76"
+                size="4.5em"
               />
               <div class="building-description">
                 <h2>{{ building.name }} ({{ building.quantity }})</h2>
