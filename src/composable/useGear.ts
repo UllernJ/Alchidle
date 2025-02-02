@@ -50,21 +50,41 @@ const armors = ref<Armor[]>([
 export const useGear = () => {
   const { subtractResource, resources } = useResource();
 
-  const buyWeapon = (index: number) => {
+  const getTotalPrice = (baseCost: Decimal, quantity: number, multiplier: number = 1.15): Decimal => {
+    let total = new Decimal(0);
+    let currentCost = baseCost;
+
+    for (let i = 0; i < quantity; i++) {
+      total = total.add(currentCost);
+      currentCost = currentCost.times(multiplier);
+    }
+
+    return total;
+  };
+
+  const buyWeapon = (index: number, quantity: number = 1) => {
     const weapon = weapons.value[index];
-    if (resources[RESOURCE.MINING].value.amount.gte(weapon.cost)) {
-      subtractResource(RESOURCE.MINING, weapon.cost);
-      weapon.quantity = weapon.quantity.plus(1);
-      weapon.cost = weapon.cost.times(1.15).round();
+    const totalCost = getTotalPrice(weapon.cost, quantity);
+
+    if (resources[RESOURCE.MINING].value.amount.gte(totalCost)) {
+      subtractResource(RESOURCE.MINING, totalCost);
+      weapon.quantity = weapon.quantity.plus(quantity);
+      for (let i = 0; i < quantity; i++) {
+        weapon.cost = weapon.cost.times(1.15).round();
+      }
     }
   };
 
-  const buyArmor = (index: number) => {
+  const buyArmor = (index: number, quantity: number = 1) => {
     const armor = armors.value[index];
-    if (resources[RESOURCE.MINING].value.amount.gte(armor.cost)) {
-      subtractResource(RESOURCE.MINING, armor.cost);
-      armor.quantity = armor.quantity.plus(1);
-      armor.cost = armor.cost.times(1.15).round();
+    const totalCost = getTotalPrice(armor.cost, quantity);
+
+    if (resources[RESOURCE.MINING].value.amount.gte(totalCost)) {
+      subtractResource(RESOURCE.MINING, totalCost);
+      armor.quantity = armor.quantity.plus(quantity);
+      for (let i = 0; i < quantity; i++) {
+        armor.cost = armor.cost.times(1.15).round();
+      }
     }
   };
 
