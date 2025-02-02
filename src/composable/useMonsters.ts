@@ -14,14 +14,14 @@ const map = ref<number>(0);
 const monsters = reactive<MonsterState>({
   value: [] as Monster[],
   state: MONSTER_STATE.MONSTERS,
-})
+});
 const BASE_HEALTH = ref<Decimal>(new Decimal(30));
 const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
 
 const mapMonsters = ref<Monster[]>([]);
 
 const currentMonster = computed(() => {
-  if(monsters.state === MONSTER_STATE.MAP) {
+  if (monsters.state === MONSTER_STATE.MAP) {
     return mapMonsters.value.find((monster) => monster.health.greaterThan(0));
   }
   return monsters.value.find((monster) => monster.health.greaterThan(0));
@@ -52,7 +52,15 @@ export function useMonsters() {
 
   const setState = (state: MONSTER_STATE) => {
     monsters.state = state;
-  }
+  };
+
+  const numberOfDeadMonsters = computed(
+    () =>
+      (map.value -
+      1) * MONSTERS_PER_MAP +
+      monsters.value.filter((monster) => monster.health.lessThanOrEqualTo(0))
+        .length
+  );
 
   return {
     monsters,
@@ -60,6 +68,7 @@ export function useMonsters() {
     getNextMonsters,
     setState,
     difficulty,
+    numberOfDeadMonsters,
     map,
     currentMonster,
     isEveryMonsterDefeated: computed(() =>

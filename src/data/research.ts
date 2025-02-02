@@ -241,6 +241,18 @@ export const upgradePriestResearch = ref(
   )
 );
 
+export const autoAttackResearch = ref(
+  new Research(
+    "Auto Attack",
+    "Unlocks the ability to automatically attack monsters.",
+    new Decimal(1000),
+    () => {
+      const { numberOfDeadMonsters } = useMonsters();
+      return numberOfDeadMonsters.value >= 10;
+    }
+  )
+);
+
 export const researchList = [
   efficiencyResearch.value,
   mathematicsResearch.value,
@@ -258,4 +270,5 @@ export const researchList = [
   blockingTrainingResearch.value,
   trainerUpgradeResearch.value,
   upgradePriestResearch.value,
+  autoAttackResearch.value
 ].sort((a, b) => a.name.localeCompare(b.name));

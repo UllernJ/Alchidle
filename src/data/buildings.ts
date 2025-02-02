@@ -7,7 +7,7 @@ import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
-import { hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
+import { blacksmithingResearch, hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
 
 const BANK = new Building(
   "Bank",
@@ -42,7 +42,10 @@ const MINE = new Building(
     upgradeStorage(RESOURCE.MINING);
   },
   new Decimal(0),
-  mineIcon
+  mineIcon,
+  () => {
+    return blacksmithingResearch.value.unlocked;
+  }
 );
 
 const SCIENCE_LAB = new Building(

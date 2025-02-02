@@ -48,7 +48,7 @@
         {{ isEmpty ? "Explore" : "Attack" }}
       </v-btn>
       <v-btn
-        v-if="!isEmpty"
+        v-if="!isEmpty && autoAttackResearch.unlocked"
         class="attack-button"
         variant="outlined"
         @click="autoAttack"
@@ -74,6 +74,7 @@ import { Monster } from "../../models/Monster";
 import Decimal from "break_eternity.js";
 import { MONSTER_STATE } from "@/types";
 import { useInventory } from "@/composable/useInventory";
+import { autoAttackResearch } from "@/data/research";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
 const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
@@ -203,7 +204,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   box-sizing: border-box;
   border-left: 1px solid #f1f1f1;
   padding: 0.5rem;
