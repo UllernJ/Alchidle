@@ -19,7 +19,7 @@ export const BANKER = ref<Worker>(
     { resource: RESOURCE.MONEY, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: new Decimal(25),
+      value: new Decimal(10),
     },
     "Manages your economy.",
     bankerIcon,
@@ -33,7 +33,7 @@ export const MINER = ref<Worker>(
     { resource: RESOURCE.MINING, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: new Decimal(50),
+      value: new Decimal(30),
     },
     "Mines for ores.",
     minerIcon,
@@ -48,7 +48,7 @@ export const SCIENTIST = ref<Worker>(
     { resource: RESOURCE.SCIENCE, rate: new Decimal(1) },
     {
       resource: RESOURCE.MONEY,
-      value: new Decimal(100),
+      value: new Decimal(75),
     },
     "Researches new technologies.",
     scientistIcon,
