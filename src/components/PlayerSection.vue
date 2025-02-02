@@ -53,6 +53,15 @@
         >
           Multipliers
         </v-btn>
+        <v-btn
+          variant="outlined"
+          density="compact"
+          :prepend-icon="mdiMeditation"
+          size="large"
+          @click="openReincarnation"
+        >
+          Reincarnation
+        </v-btn>
       </div>
     </div>
   </section>
@@ -64,11 +73,13 @@ import { useMultipliers } from "@/composable/useMultipliers";
 import { usePlayer } from "@/composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "@/icons/icons";
 import Icon from "./Icon.vue";
-import { mdiMultiplicationBox } from "@mdi/js";
+import { mdiMeditation, mdiMultiplicationBox } from "@mdi/js";
 import { formatNumber } from "@/utils/number";
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
+const { openReincarnation } = useReincarnation();
 
 
 const healthPercentage = computed(() => {
@@ -162,5 +173,20 @@ h2 {
   gap: 0.5rem;
   text-align: center;
   color: #fff;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  & > .v-btn {
+    width: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
 }
 </style>
