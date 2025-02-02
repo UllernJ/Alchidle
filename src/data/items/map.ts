@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 export const fifthMap = ref(
   new Map(
-    "Fifth Map",
+    "The unknown temple",
     "Unlocks the ability to explore the fifth map.",
     { path: mdiMap, color: "blue" },
     5
@@ -13,7 +13,7 @@ export const fifthMap = ref(
 
 export const tenthMap = ref(
     new Map(
-        "Tenth Map",
+        "The forgotten city",
         "Unlocks the ability to explore the tenth map.",
         { path: mdiMap, color: "green" },
         10

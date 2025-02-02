@@ -50,12 +50,13 @@ const { toggleMap, maps, switchMap, isMapOpen } = useMap();
 .inventory-card {
   background-color: #2b2b2b;
   border: 1px solid #ffff;
-  width: 50rem !important;
+  width: 25rem !important;
   padding: 2rem;
 }
 
 .inventory-grid {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -67,6 +68,13 @@ const { toggleMap, maps, switchMap, isMapOpen } = useMap();
 .active {
   background-color: black !important;
   color: white !important;
+}
+
+.map-btn {
+  width: 15rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .map-btn:hover {

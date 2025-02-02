@@ -41,7 +41,7 @@ export class Map extends Item {
     const difficulty = this.level;
     const attack = new Decimal(10).times(difficulty).times(difficulty);
     const health = new Decimal(100).times(difficulty * 3);
-    this.monsters = MonsterFactory.getMonsters(5, health, attack, difficulty);
+    this.monsters = MonsterFactory.getMonsters(30, health, attack, difficulty);
     setState(MONSTER_STATE.MAP);
     toggleMap();
 
