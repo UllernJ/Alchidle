@@ -35,7 +35,7 @@
                 ? getResourceIcon(monster.drop.resource)
                 : upgradeIcon
             "
-            size="1.25em"
+            size="1.3em"
           />
         </div>
       </div>
@@ -85,7 +85,7 @@ const current = computed(() => {
 
 .progress-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   width: 100%;
 }
