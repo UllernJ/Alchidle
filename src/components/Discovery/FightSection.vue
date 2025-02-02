@@ -73,7 +73,7 @@ import { formatNumber } from "../../utils/number";
 import { Monster } from "../../models/Monster";
 import Decimal from "break_eternity.js";
 import { MONSTER_STATE } from "@/types";
-import { useInventory } from "@/composable/useInventory";
+import { useMap } from "@/composable/useMap";
 import { autoAttackResearch } from "@/data/research";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
@@ -114,7 +114,7 @@ const handleMonsterDefeat = (monster: Monster) => {
       MessageType.SUCCESS
     );
     if (monsters.state === MONSTER_STATE.MAP) {
-      const { activeMap } = useInventory();
+      const { activeMap } = useMap();
       activeMap.value?.complete();
     } else {
       logMessage("Proceeding to the next map...", MessageType.WARNING);

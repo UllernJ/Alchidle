@@ -1,4 +1,3 @@
-import { Item } from "@/models/item/Item";
 import { Map } from "@/models/item/Map";
 import { mdiMap } from "@mdi/js";
 import { ref } from "vue";
@@ -22,4 +21,4 @@ export const tenthMap = ref(
 );
 
 
-export const items = ref<Item[]>([fifthMap.value, tenthMap.value]);
+export const listOfMaps = ref<Map[]>([fifthMap.value, tenthMap.value]);

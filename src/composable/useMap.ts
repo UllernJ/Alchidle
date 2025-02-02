@@ -1,17 +1,13 @@
-import { items } from "@/data/items/map";
-import { Item } from "@/models/item/Item";
+import { listOfMaps } from "@/data/items/map";
 import { Map } from "@/models/item/Map";
 import { computed, ref } from "vue";
 
-const isInventoryOpen = ref(false);
-const inventory = ref<Item[]>(items.value);
-const maps = computed(() =>
-  inventory.value.filter((item) => item instanceof Map)
-);
+const isMapOpen = ref(false);
+const maps = listOfMaps
 
-export const useInventory = () => {
-  const toggleInventory = () => {
-    isInventoryOpen.value = !isInventoryOpen.value;
+export const useMap = () => {
+  const toggleMap = () => {
+    isMapOpen.value = !isMapOpen.value;
   };
 
   const switchMap = (value: Map) => {
@@ -29,9 +25,9 @@ export const useInventory = () => {
 
   return {
     activeMap: computed(() => maps.value.find((map) => map.active)),
-    isInventoryOpen,
-    inventory,
-    toggleInventory,
+    isMapOpen,
+    maps,
+    toggleMap,
     switchMap
   };
 };

@@ -1,20 +1,8 @@
 <template>
   <div class="progress-container">
     <div class="map-info">
-      <span>Map: {{ map }}</span>
-      <v-tooltip location="top">
-        <template #activator="{ props }">
-          <v-btn
-            :icon="mdiBagPersonal"
-            size="large"
-            density="compact"
-            variant="outlined"
-            v-bind="props"
-            @click="toggleInventory"
-          />
-        </template>
-        <span>Open Inventory</span>
-      </v-tooltip>
+      <span v-if="monsters.state === MONSTER_STATE.MONSTERS">Map: {{ map }}</span>
+      <span v-if="monsters.state === MONSTER_STATE.MAP">{{ activeMap?.name }}</span>
     </div>
     <div class="progress-grid">
       <div
@@ -40,6 +28,26 @@
         </div>
       </div>
     </div>
+    <div
+      class="maps-section"
+    >
+      <v-btn
+        :prepend-icon="mdiMap"
+        class="maps-button"
+        @click="toggleMap"
+      >
+        Maps
+      </v-btn>
+
+      <v-btn
+        v-if="monsters.state === MONSTER_STATE.MAP"
+        :prepend-icon="mdiExitRun"
+        class="maps-button"
+        @click="activeMap?.exit()"
+      >
+        Exit
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -49,12 +57,12 @@ import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
 import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
-import { mdiBagPersonal } from "@mdi/js";
-import { useInventory } from "@/composable/useInventory";
 import { MONSTER_STATE } from "@/types";
+import { useMap } from "@/composable/useMap";
+import { mdiExitRun, mdiMap } from "@mdi/js";
 
 const { monsters, map, mapMonsters } = useMonsters();
-const { toggleInventory } = useInventory();
+const { activeMap, toggleMap } = useMap();
 
 const currentmap = computed(() => {
   if (monsters.state === MONSTER_STATE.MAP){
@@ -73,6 +81,7 @@ const current = computed(() => {
 
 <style scoped>
 .progress-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,11 +130,29 @@ const current = computed(() => {
 }
 
 .map-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: center;
   width: 100%;
   font-size: 0.9em;
   font-weight: bold;
+}
+
+.maps-section {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.maps-button {
+  &:first-child {
+    border-top: 1px solid #f1f1f1;
+    border-right: 1px solid #f1f1f1;
+  }
+  &:last-child {
+    border-top: 1px solid #f1f1f1;
+    border-left: 1px solid #f1f1f1;
+  }
+  border-radius: 0 !important;
 }
 </style>

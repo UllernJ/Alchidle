@@ -6,7 +6,7 @@ import { useMonsters } from "@/composable/useMonsters";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
 import { MONSTER_STATE } from "@/types";
-import { useInventory } from "@/composable/useInventory";
+import { useMap } from "@/composable/useMap";
 
 export class Map extends Item {
   monsters: Monster[] = [];
@@ -32,7 +32,7 @@ export class Map extends Item {
   override use() {
     const { logMessage } = useActionLog();
     const { mapMonsters, setState } = useMonsters();
-    const { toggleInventory } = useInventory();
+    const { toggleMap } = useMap();
     logMessage(
       "You entered the map and encountered some new monsters!",
       MessageType.INFO
@@ -43,7 +43,7 @@ export class Map extends Item {
     const health = new Decimal(100).times(difficulty * 3);
     this.monsters = MonsterFactory.getMonsters(5, health, attack, difficulty);
     setState(MONSTER_STATE.MAP);
-    toggleInventory();
+    toggleMap();
 
     mapMonsters.value = this.monsters;
     this.active = true;
@@ -59,14 +59,12 @@ export class Map extends Item {
   }
 
   exit() {
-    const { toggleInventory } = useInventory();
     const { logMessage } = useActionLog();
     const { setState } = useMonsters();
     logMessage("You left the map.", MessageType.INFO);
     this.active = false;
     this.monsters = [];
     setState(MONSTER_STATE.MONSTERS);
-    toggleInventory();
   }
   
 }

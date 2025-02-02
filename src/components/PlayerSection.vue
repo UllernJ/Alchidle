@@ -2,20 +2,6 @@
   <section class="Player">
     <div class="header">
       <h2>Stats</h2>
-      <v-tooltip location="top">
-        <template #activator="{ props }">
-          <v-btn
-            variant="outlined"
-            density="compact"
-            :icon="mdiMultiplicationBox"
-            size="large"
-            :border="true"
-            v-bind="props"
-            @click="toggleMultipliers"
-          />
-        </template>
-        <span>View multipliers</span>
-      </v-tooltip>
     </div>
     <div class="PlayerStats">
       <div class="Stat">
@@ -57,6 +43,17 @@
         />
         <span>/s</span>
       </div>
+      <div class="buttons">
+        <v-btn
+          variant="outlined"
+          density="compact"
+          :prepend-icon="mdiMultiplicationBox"
+          size="large"
+          @click="toggleMultipliers"
+        >
+          Multipliers
+        </v-btn>
+      </div>
     </div>
   </section>
 </template>
@@ -72,6 +69,7 @@ import { formatNumber } from "@/utils/number";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
+
 
 const healthPercentage = computed(() => {
   return health.value.dividedBy(maxHealth.value).times(100).toNumber();

@@ -7,6 +7,7 @@ import IHeader from "./components/IHeader.vue";
 import LoadingScreen from "./components/LoadingScreen.vue";
 import IMultipliers from "./components/IMultipliers.vue";
 import PlayerSection from "./components/PlayerSection.vue";
+import IMaps from "./components/inventory/IMaps.vue";
 import { onMounted, onUnmounted } from "vue";
 import { backgroundActivity } from "./utils/backgroundActivity";
 import { isFirstTime, saveSession } from "./utils/localStorage";
@@ -47,6 +48,7 @@ onUnmounted(() => {
     <i-popup />
     <LoadingScreen />
     <i-multipliers />
+    <i-maps />
 
     <i-header />
     <v-main class="main-container">
@@ -73,7 +75,7 @@ onUnmounted(() => {
 
 .top-container {
   display: grid;
-  grid-template-columns: 3.5fr 6fr;
+  grid-template-columns: 3fr 6fr;
   gap: 0.75rem;
   overflow: hidden;
   height: 100%;
