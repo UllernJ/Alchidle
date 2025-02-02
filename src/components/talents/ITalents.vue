@@ -41,13 +41,10 @@ import { ref } from "vue";
 import TalentNode from "@/components/talents/TalentNode.vue";
 import { upTree } from "@/data/talent";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
 const { isReincarnationOpen, closeReincarnation } = useReincarnation();
-const { height } = useWindowSize();
-
 // Drag navigation logic
 const container = ref<HTMLElement | null>(null);
 
