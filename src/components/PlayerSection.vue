@@ -95,6 +95,7 @@ const healthPercentage = computed(() => {
   box-sizing: border-box;
   border: 1px solid #f1f1f1;
   height: 74%;
+  z-index: 1;
 }
 
 .PlayerStats {
