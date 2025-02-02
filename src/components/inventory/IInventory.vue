@@ -18,18 +18,19 @@
     </div>
     <div class="inventory-grid">
       <div
-        v-for="(item, index) in items"
+        v-for="(item, index) in inventory"
         :key="index"
         class="inventory-item"
       >
-        <div class="icon-container">
-          <Icon
-            :path="item.icon"
-            size="1.25em"
-          />
-        </div>
         <span>{{ item.name }}</span>
-        <span>{{ item.amount }}</span>
+        <v-btn
+          v-if="item instanceof Map"
+          variant="outlined"
+          :icon="item.icon.path"
+          :color="item.icon.color"
+          :class="[{'active': item.active}]"
+          @click="switchMap(item)"
+        />
       </div>
     </div>
   </div>
@@ -37,27 +38,11 @@
 
 <script setup lang="ts">
 import { useInventory } from "@/composable/useInventory";
+import { Map } from "@/models/item/Map";
 import { mdiClose } from "@mdi/js";
 
-const { toggleInventory } = useInventory();
+const { toggleInventory, inventory, switchMap } = useInventory();
 
-const items = [
-    {
-        name: "Gold",
-        amount: 100,
-        icon: "mdiCurrencyUsd",
-    },
-    {
-        name: "Iron",
-        amount: 50,
-        icon: "mdiSword",
-    },
-    {
-        name: "Wood",
-        amount: 25,
-        icon: "mdiTree",
-    },
-]
 </script>
 <style scoped>
 .inventory-container {
@@ -114,5 +99,10 @@ const items = [
 
 .inventory-item span {
   font-size: 0.8em;
+}
+
+.active {
+  background-color: black !important;
+  color: white !important;
 }
 </style>

@@ -18,7 +18,7 @@
     </div>
     <div class="progress-grid">
       <div
-        v-for="(monster, index) in monsters"
+        v-for="(monster, index) in currentmap"
         :key="index"
         :class="[
           'progress-box',
@@ -28,10 +28,10 @@
       >
         <div class="icon-container">
           <Icon
-            v-if="monster.drop.amount.gt(0) || index === monsters.length - 1"
+            v-if="monster.drop.amount.gt(0) || index === monsters.value.length - 1"
             class="icon"
             :path="
-              index !== monsters.length - 1
+              index !== monsters.value.length - 1
                 ? getResourceIcon(monster.drop.resource)
                 : upgradeIcon
             "
@@ -51,11 +51,24 @@ import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
 import { mdiBagPersonal } from "@mdi/js";
 import { useInventory } from "@/composable/useInventory";
+import { MONSTER_STATE } from "@/types";
 
-const { monsters, map } = useMonsters();
-const { toggleInventory } = useInventory()
+const { monsters, map, mapMonsters } = useMonsters();
+const { toggleInventory } = useInventory();
 
-const current = computed(() => monsters.value.findIndex((m) => m.health.gt(0)));
+const currentmap = computed(() => {
+  if (monsters.state === MONSTER_STATE.MAP){
+    return mapMonsters.value;
+  }
+  return monsters.value;
+});
+
+const current = computed(() => {
+  if (monsters.state === MONSTER_STATE.MAP) {
+    return mapMonsters.value.findIndex((m) => m.health.gt(0));
+  }
+  return monsters.value.findIndex((m) => m.health.gt(0));
+});
 </script>
 
 <style scoped>

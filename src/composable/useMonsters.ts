@@ -1,20 +1,31 @@
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { MonsterFactory } from "../factories/MonsterFactory";
 import type { Monster } from "../models/Monster";
 import { useActionLog } from "./useActionLog";
 import { MessageType } from "./useMessage";
 import Decimal from "break_eternity.js";
+import { MONSTER_STATE, type MonsterState } from "@/types";
 
 const MONSTERS_PER_MAP = 30;
 
 const difficulty = ref<number>(1);
 const map = ref<number>(0);
-const monsters = ref<Monster[]>([]);
+
+const monsters = reactive<MonsterState>({
+  value: [] as Monster[],
+  state: MONSTER_STATE.MONSTERS,
+})
 const BASE_HEALTH = ref<Decimal>(new Decimal(30));
 const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
-const currentMonster = computed(
-  () => monsters.value.find((monster) => monster.health.greaterThan(0))
-);
+
+const mapMonsters = ref<Monster[]>([]);
+
+const currentMonster = computed(() => {
+  if(monsters.state === MONSTER_STATE.MAP) {
+    return mapMonsters.value.find((monster) => monster.health.greaterThan(0));
+  }
+  return monsters.value.find((monster) => monster.health.greaterThan(0));
+});
 
 export function useMonsters() {
   const getNextMonsters = () => {
@@ -26,30 +37,28 @@ export function useMonsters() {
       BASE_DAMAGE.value,
       map.value
     );
-    BASE_DAMAGE.value = listOfMonsters[listOfMonsters.length - 1].attack.times(0.7);
+    BASE_DAMAGE.value =
+      listOfMonsters[listOfMonsters.length - 1].attack.times(0.7);
     BASE_HEALTH.value = BASE_DAMAGE.value.times(10);
     monsters.value = listOfMonsters;
-    const consolData = monsters.value.map((monster) => {
-      return {
-        health: monster.health,
-        attack: monster.attack,
-        drop: monster.drop.amount,
-      };
-    })
-    console.log(consolData);
   };
 
   const log = () => {
     if (map.value !== 0) {
-    const { logMessage } = useActionLog();
-    logMessage("That was a though one, but you made it!", MessageType.INFO);
-    logMessage("Maybe you unlocked new research?", MessageType.INFO);
+      const { logMessage } = useActionLog();
+      logMessage("That was a though one, but you made it!", MessageType.INFO);
     }
+  };
+
+  const setState = (state: MONSTER_STATE) => {
+    monsters.state = state;
   }
 
   return {
     monsters,
+    mapMonsters,
     getNextMonsters,
+    setState,
     difficulty,
     map,
     currentMonster,

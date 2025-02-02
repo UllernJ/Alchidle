@@ -55,6 +55,17 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
+      <v-btn
+        v-if="isDev"
+        class="attack-button"
+        variant="outlined"
+        @click="
+          handleMonsterDefeat(defeatedMonster as Monster);
+          fetchNextMonsters();
+        "
+      >
+        get next
+      </v-btn>
     </section>
   </section>
 </template>
@@ -72,9 +83,13 @@ import { useActionLog } from "../../composable/useActionLog";
 import { formatNumber } from "../../utils/number";
 import { Monster } from "../../models/Monster";
 import Decimal from "break_eternity.js";
+import { isDev } from "@/utils/dev";
+import { MONSTER_STATE } from "@/types";
+import { useInventory } from "@/composable/useInventory";
 
 const { attackPower, health: playerHealth, defencePower } = usePlayer();
-const { getNextMonsters, map, currentMonster } = useMonsters();
+const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
+  useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
@@ -82,13 +97,6 @@ const isAttackOnCooldown = ref(false);
 const initialHealth = ref<Decimal | null>(null);
 const autoAttackInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const defeatedMonster = ref<Monster | null>(null);
-
-watch(currentMonster, (newMonster) => {
-  initialHealth.value = newMonster ? newMonster.health : null;
-  if(!defeatedMonster.value) {
-    defeatedMonster.value = newMonster as Monster;
-  }
-});
 
 const isEmpty = computed(() => !currentMonster.value);
 const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
@@ -116,15 +124,19 @@ const handleMonsterDefeat = (monster: Monster) => {
       "You have defeated all monsters in this map!",
       MessageType.SUCCESS
     );
-    logMessage("Proceeding to the next map...", MessageType.WARNING);
-    fetchNextMonsters();
+    if (monsters.state === MONSTER_STATE.MAP) {
+      const { activeMap } = useInventory();
+      activeMap.value?.complete();
+    } else {
+      logMessage("Proceeding to the next map...", MessageType.WARNING);
+      fetchNextMonsters();
+    }
   }
 };
 
 const attack = () => {
   if (isAttackOnCooldown.value || !currentMonster.value) return;
   if (playerHealth.value.lessThanOrEqualTo(0)) {
-    logMessage("You need to rest.", MessageType.WARNING);
     return;
   }
 
@@ -133,7 +145,7 @@ const attack = () => {
 
   setTimeout(() => {
     isAttackOnCooldown.value = false;
-  }, 1000);
+  }, 500); // cooldown .5s
 
   if (defeatedMonster.value && defeatedMonster.value.isDead()) {
     handleMonsterDefeat(defeatedMonster.value);
@@ -178,11 +190,21 @@ const fetchNextMonsters = () => {
     : null;
 };
 
+watch(currentMonster, (newMonster) => {
+  initialHealth.value = newMonster ? newMonster.health : null;
+  if (!defeatedMonster.value) {
+    defeatedMonster.value = newMonster as Monster;
+  }
+  if (mapMonsters.value.length > 0) {
+    defeatedMonster.value = newMonster as Monster;
+  }
+});
+
 onMounted(() => {
   if (currentMonster.value) {
     initialHealth.value = currentMonster.value.health;
   }
-  if(defeatedMonster.value === null) {
+  if (defeatedMonster.value === null) {
     defeatedMonster.value = currentMonster.value as Monster;
   }
 });

@@ -7,7 +7,7 @@ import { WORKERS } from "../data/workers";
 import { Worker } from "../models/worker/Worker";
 import { BaseWorker } from "../models/worker/BaseWorker";
 
-const workerStations = WORKERS;
+const workerStations = computed(() => WORKERS.value);
 const workers = computed(() => WORKERS.value.filter((worker) => worker instanceof Worker));
 const baseWorkers = computed(() => WORKERS.value.filter((worker) => worker instanceof BaseWorker));
 
