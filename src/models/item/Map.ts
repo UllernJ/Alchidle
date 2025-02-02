@@ -60,9 +60,11 @@ export class Map extends Item {
 
   exit() {
     const { logMessage } = useActionLog();
+    const { setState } = useMonsters();
     logMessage("You left the map.", MessageType.INFO);
     this.active = false;
     this.monsters = [];
+    setState(MONSTER_STATE.MONSTERS);
   }
   
 }

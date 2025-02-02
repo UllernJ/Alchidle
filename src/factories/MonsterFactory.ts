@@ -15,9 +15,10 @@ export class MonsterFactory {
     baseDamage: Decimal,
     baseHealth: Decimal,
     difficulty: number,
-    mapNumber: number
+    mapNumber: number,
+    isBoss = false
   ): Monster {
-    const monster = this.getRandomMonster();
+    const monster = this.getRandomMonster(isBoss);
     return new Monster(
       monster.name,
       baseDamage.times(difficulty),
@@ -46,12 +47,14 @@ export class MonsterFactory {
     let difficultyMultiplier = 1;
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
+      const isBoss = i + 1 === monsterCount;
       monsters.push(
         this.createMonster(
           _baseDamage,
           _baseHealth,
           difficultyMultiplier,
-          mapNumber
+          mapNumber,
+          isBoss
         )
       );
       difficultyMultiplier += 0.025;
@@ -103,7 +106,7 @@ export class MonsterFactory {
     difficulty: number,
     mapNumber: number
   ): Decimal | undefined {
-    const baseChance = 0.75;
+    const baseChance = 0.65;
     const difficultyFactor = 0.01 * difficulty;
     const mapFactor = 0.01 * mapNumber;
     const chance = baseChance + difficultyFactor + mapFactor;
