@@ -51,6 +51,7 @@ export const serializeState = (state: SessionState) => {
     multipliers: state.multipliers,
     resources: state.resources,
     health: state.health,
+    maps: state.maps,
     timestamp: Date.now(),
   };
 };

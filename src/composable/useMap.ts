@@ -30,6 +30,7 @@ export const useMap = () => {
     isMapOpen,
     maps,
     toggleMap,
-    switchMap
+    switchMap,
+    listOfMaps
   };
 };

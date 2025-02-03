@@ -21,6 +21,7 @@ import type { BaseWorker } from "../models/worker/BaseWorker";
 import type { Worker } from "../models/worker/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
+import { useMap } from "@/composable/useMap";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -52,6 +53,11 @@ export type SessionState = {
     amount: string;
     maxAmount: string;
   };
+  maps: {
+    name: string;
+    unlocked: boolean;
+    cleared: boolean;
+  }[];
 };
 
 export const saveSession = () => {
@@ -65,6 +71,7 @@ export const saveSession = () => {
   const { getMultipliers } = useMultipliers();
   const multipliers = getMultipliers();
   const { health, maxHealth } = usePlayer();
+  const { maps } = useMap();
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
@@ -108,6 +115,11 @@ export const saveSession = () => {
       amount: health.value.toString(),
       maxAmount: maxHealth.value.toString(),
     },
+    maps: maps.value.map((map) => ({
+      name: map.name,
+      unlocked: map.unlocked,
+      cleared: map.cleared,
+    })),
   };
 
   const serializedState = serializeState(state);
@@ -135,6 +147,7 @@ export const loadState = () => {
     initResources(data.resources);
     initMultipliers(data.multipliers);
     initHealth(data.health);
+    initMaps(data.maps);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
@@ -337,7 +350,19 @@ const initHealth = (data: { amount: string; maxAmount: string }) => {
   } else {
     health.value = new Decimal(data.amount);
   }
-  // maxHealth.value = new Decimal(data.maxAmount);
+};
+
+const initMaps = (
+  maps: { name: string; unlocked: boolean; cleared: boolean }[]
+) => {
+  const { listOfMaps } = useMap();
+  maps.forEach((map) => {
+    const mapItem = listOfMaps.value.find((m) => m.name === map.name);
+    if (mapItem) {
+      mapItem.unlocked = map.unlocked;
+      mapItem.cleared = map.cleared;
+    }
+  });
 };
 
 const displaySuspiciousSave = () => {
