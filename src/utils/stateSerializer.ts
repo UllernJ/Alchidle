@@ -4,6 +4,7 @@ import type { Building } from "../models/Building";
 import type { Research } from "../models/research/Research";
 import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
 import type { BaseWorker } from "../models/worker/BaseWorker";
+import type { Monster } from "@/models/Monster";
 
 export const serializeState = (state: SessionState) => {
   return {
@@ -17,7 +18,7 @@ export const serializeState = (state: SessionState) => {
       return { name: armor.name, quantity: armor.quantity };
     }),
     adventure: {
-      remainingMonsters: state.adventure.remainingMonsters,
+      remainingMonsters: state.adventure.remainingMonsters.map(getMonsterObjectWithoutIcon),
       map: state.adventure.map,
     },
     research: state.research.map((research: Research | UpgradeableResearch) => {
@@ -55,3 +56,9 @@ export const serializeState = (state: SessionState) => {
     timestamp: Date.now(),
   };
 };
+
+const getMonsterObjectWithoutIcon = (monster: Monster) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { icon, ...monsterWithoutIcon } = monster;
+  return monsterWithoutIcon;
+}

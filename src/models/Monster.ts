@@ -1,5 +1,6 @@
 import Decimal from "break_eternity.js";
 import type { RESOURCE } from "../types";
+import { getIconByName } from "@/data/monsters";
 
 export class Monster {
   name: string;
@@ -43,8 +44,7 @@ export class Monster {
       new Decimal(obj.attack),
       obj.drop.resource,
       new Decimal(obj.drop.amount),
-      obj.icon ?? ""
+      obj.icon ?? getIconByName(obj.name)
     );
   }
-
 }

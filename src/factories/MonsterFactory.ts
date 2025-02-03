@@ -1,14 +1,7 @@
 import Decimal from "break_eternity.js";
-import {
-  badGnomeIcon,
-  golemIcon,
-  troglodyteIcon,
-  trollIcon,
-  vampireIcon,
-  witchIcon,
-} from "../icons/icons";
 import { Monster } from "../models/Monster";
 import { getRandomResource } from "../utils/resourceUtil";
+import { monsters } from "@/data/monsters";
 
 export class MonsterFactory {
   private static createMonster(
@@ -68,32 +61,6 @@ export class MonsterFactory {
   }
 
   private static getRandomMonster(isBoss = false) {
-    const monsters = [
-      {
-        name: "Gnome",
-        icon: badGnomeIcon,
-      },
-      {
-        name: "Troll",
-        icon: trollIcon,
-      },
-      {
-        name: "Vampire",
-        icon: vampireIcon,
-      },
-      {
-        name: "Witch",
-        icon: witchIcon,
-      },
-      {
-        name: "Golem",
-        icon: golemIcon,
-      },
-      {
-        name: "Troglodyte",
-        icon: troglodyteIcon,
-      },
-    ];
     const monster = monsters[Math.floor(Math.random() * monsters.length)];
     if (isBoss) {
       monster.name = "Boss " + monster.name;
