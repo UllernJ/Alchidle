@@ -7,6 +7,7 @@ export abstract class Item {
   };
   effect: () => void;
   level: number = 1;
+  unlocked: boolean = false;
 
   constructor(
     name: string,

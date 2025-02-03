@@ -34,6 +34,7 @@
       <v-btn
         :prepend-icon="mdiMap"
         class="maps-button"
+        :disabled="maps.length === 0"
         @click="toggleMap"
       >
         Maps
@@ -62,7 +63,7 @@ import { useMap } from "@/composable/useMap";
 import { mdiExitRun, mdiMap } from "@mdi/js";
 
 const { monsters, map, mapMonsters } = useMonsters();
-const { activeMap, toggleMap } = useMap();
+const { activeMap, toggleMap, maps } = useMap();
 
 const currentmap = computed(() => {
   if (monsters.state === MONSTER_STATE.MAP){

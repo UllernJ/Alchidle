@@ -3,7 +3,9 @@ import { Map } from "@/models/item/Map";
 import { computed, ref } from "vue";
 
 const isMapOpen = ref(false);
-const maps = listOfMaps
+const maps = computed(() => {
+  return listOfMaps.value.filter(map => map.unlocked);
+})
 
 export const useMap = () => {
   const toggleMap = () => {
