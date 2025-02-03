@@ -3,9 +3,10 @@
     v-model="isReincarnationOpen"
     class="reincarnation-container"
     scroll-strategy="reposition"
-    opacity=".76"
+    opacity="0"
   >
-    <div>
+    <header class="reincarnation-header">
+      <h2>Reincarnation</h2>
       <v-btn
         ref="closeButton"
         color="white"
@@ -15,6 +16,8 @@
       >
         Close
       </v-btn>
+    </header>
+    <section class="content-container">
       <div
         ref="container"
         class="talents-container"
@@ -34,7 +37,15 @@
           <talent-node :node="tree" />
         </div>
       </div>
-    </div>
+      <section class="points-container">
+        <section class="points">
+          <span>Points: {{ points }}</span>
+        </section>
+        <section class="points">
+          <span>Spent: {{ points }}</span>
+        </section>
+      </section>
+    </section>
   </v-overlay>
 </template>
 
@@ -47,7 +58,7 @@ import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
-const { isReincarnationOpen, closeReincarnation } = useReincarnation();
+const { isReincarnationOpen, closeReincarnation, points } = useReincarnation();
 const { height } = useWindowSize();
 
 // Drag navigation logic
@@ -101,6 +112,21 @@ watchEffect(() => {
 </script>
 
 <style scoped>
+.reincarnation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: black;
+  color: white;
+  border-bottom: 1px solid white;
+  z-index: 1;
+}
+
+.content-container {
+  position: relative;
+}
+
 .talents-container {
   width: 100vw;
   height: 100vh;
@@ -113,10 +139,25 @@ watchEffect(() => {
   cursor: grabbing;
 }
 
-.v-btn {
+.reincarnation-container {
+  background-color: grey;
+  opacity: 0.95;
+}
+
+.points {
+  width: 10rem;
+  border: 1px solid white;
+  padding: 1rem;
+  border-top: unset;
+}
+
+.points-container {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0;
+  left: 0;
   z-index: 1;
+  background-color:black;
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -58,6 +58,7 @@
           density="compact"
           :prepend-icon="mdiMeditation"
           size="large"
+          :disabled="!isDev && !isReincarnationUnlocked"
           @click="openReincarnation"
         >
           Reincarnation
@@ -76,10 +77,11 @@ import Icon from "./Icon.vue";
 import { mdiMeditation, mdiMultiplicationBox } from "@mdi/js";
 import { formatNumber } from "@/utils/number";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { isDev } from "@/utils/dev";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
-const { openReincarnation } = useReincarnation();
+const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
 
 
 const healthPercentage = computed(() => {

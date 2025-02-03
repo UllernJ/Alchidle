@@ -22,7 +22,7 @@
             >
               <Icon
                 :path="worker.icon"
-                :size="80"
+                size="4.5em"
               />
               <div class="worker-description">
                 <h2>{{ worker.name }} ({{ worker.numberOfWorkers }})</h2>

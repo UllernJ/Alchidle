@@ -14,7 +14,11 @@
           v-bind="props"
         />
       </template>
-      <span>{{ node.value.title }}</span>
+      <div class="tooltip-content">
+        <h3>{{ node.value.title }}</h3>
+        <span>{{ node.value.description }}</span>
+        <span>Costs {{ node.value.cost }}</span>
+      </div>
     </v-tooltip>
     <div
       v-if="node.left?.value || node.right?.value"
@@ -57,8 +61,8 @@ defineProps<{ node: TalentTree }>();
   background-color: #fff;
   color: #000;
   z-index: 1;
-  width: 50px; /* Fixed size */
-  height: 50px; /* Fixed size */
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +88,7 @@ defineProps<{ node: TalentTree }>();
   left: 50%;
   width: 1px;
   height: 20px;
-  background-color: #ccc;
+  background-color: black;
 }
 
 .children::after {
@@ -94,7 +98,7 @@ defineProps<{ node: TalentTree }>();
   left: 25%;
   width: 50%;
   height: 1px;
-  background-color: #ccc;
+  background-color: black;
   z-index: 0;
 }
 
@@ -105,7 +109,7 @@ defineProps<{ node: TalentTree }>();
   top: -20px;
   width: 1px;
   height: 20px;
-  background-color: #ccc;
+  background-color: black;
 }
 
 .left::before {
@@ -118,6 +122,12 @@ defineProps<{ node: TalentTree }>();
   transform: translateX(50%);
 }
 
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
 /* .v-btn--variant-outlined {
     border: thin solid yellow !important;
   } */
