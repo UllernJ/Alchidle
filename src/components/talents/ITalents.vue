@@ -6,7 +6,8 @@
     opacity="0"
   >
     <header class="reincarnation-header">
-      <h2>Reincarnation</h2>
+      <h2>Reincarnation (COMING SOON)</h2>
+      <span class="text-warning">Warning: This will reset your progress!</span>
       <v-btn
         ref="closeButton"
         color="white"
@@ -34,7 +35,10 @@
             transformOrigin: 'center',
           }"
         >
-          <talent-node :node="tree" />
+          <talent-node
+            :node="tree"
+            :points="points"
+          />
         </div>
       </div>
       <section class="points-container">

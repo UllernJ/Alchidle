@@ -10,6 +10,7 @@ import { BANKER, MINER, PRIEST, SCIENTIST, TRAINER } from "./workers";
 import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
 import Decimal from "break_eternity.js";
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 
 export const scienceResearch = ref(
   new UpgradeableResearch(
@@ -253,6 +254,22 @@ export const autoAttackResearch = ref(
   )
 );
 
+export const reincarnationResearch = ref(
+  new Research(
+    "Reincarnation",
+    "Unlocks the ability to reincarnate. Reset your progress and gain a bonus.",
+    new Decimal(isDev ? 0 : 1000000),
+    () => {
+      const { map } = useMonsters();
+      return map.value >= 10 || isDev;
+    },
+    () => {
+      const { unlockReincarnation } = useReincarnation();
+      unlockReincarnation();
+    }
+  )
+);
+
 export const researchList = [
   efficiencyResearch.value,
   mathematicsResearch.value,
@@ -270,5 +287,6 @@ export const researchList = [
   blockingTrainingResearch.value,
   trainerUpgradeResearch.value,
   upgradePriestResearch.value,
-  autoAttackResearch.value
+  autoAttackResearch.value,
+  reincarnationResearch.value,
 ].sort((a, b) => a.name.localeCompare(b.name));

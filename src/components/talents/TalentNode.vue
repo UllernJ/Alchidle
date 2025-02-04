@@ -6,12 +6,14 @@
     <v-tooltip location="top">
       <template #activator="{ props }">
         <v-btn
+          v-bind="props"
           variant="outlined"
           class="node-content"
           color="white"
           base-color="yellow"
           :icon="node.value.icon"
-          v-bind="props"
+          :disabled="points.lt(node.value.cost) || canLearnTalent"
+          @click="node.value.learn()"
         />
       </template>
       <div class="tooltip-content">
@@ -22,17 +24,22 @@
     </v-tooltip>
     <div
       v-if="node.left?.value || node.right?.value"
+      :disabled="points.lt(node.value.cost) || canLearnTalent"
       class="children"
     >
       <talent-node
         v-if="node.left?.value"
         :node="node.left"
+        :points="points"
         class="left"
+        :can-learn-talent="node.value.level.equals(0)"
       />
       <talent-node
         v-if="node.right?.value"
         :node="node.right"
+        :points="points"
         class="right"
+        :can-learn-talent="node.value.level.equals(0)"
       />
     </div>
   </div>
@@ -40,8 +47,9 @@
 
 <script setup lang="ts">
 import type { TalentTree } from "@/models/talents/TalentTree";
+import type Decimal from "break_eternity.js";
 
-defineProps<{ node: TalentTree }>();
+defineProps<{ node: TalentTree; points: Decimal; canLearnTalent?: boolean }>();
 </script>
 
 <style scoped>
@@ -84,10 +92,10 @@ defineProps<{ node: TalentTree }>();
 .children::before {
   content: "";
   position: absolute;
-  top: -40px;
+  top: -2rem;
   left: 50%;
   width: 1px;
-  height: 20px;
+  height: .75rem;
   background-color: black;
 }
 

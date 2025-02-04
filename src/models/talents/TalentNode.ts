@@ -1,4 +1,5 @@
-import type Decimal from "break_eternity.js";
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import Decimal from "break_eternity.js";
 
 export class TalentNode {
   title: string;
@@ -6,7 +7,7 @@ export class TalentNode {
   cost: Decimal;
   icon: string;
   effect: () => void;
-  level: number = 0;
+  level: Decimal = new Decimal(0);
   constructor(
     title: string,
     description: string,
@@ -19,5 +20,14 @@ export class TalentNode {
     this.cost = cost;
     this.icon = icon;
     this.effect = effect;
+  }
+
+  learn() {
+    this.effect();
+    const { points } = useReincarnation();
+    if (points.value.greaterThanOrEqualTo(this.cost)) {
+      points.value = points.value.sub(this.cost);
+      this.level = this.level.add(1);
+    }
   }
 }

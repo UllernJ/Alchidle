@@ -1,5 +1,24 @@
 <template>
   <section class="Player">
+    <div class="buttons">
+      <v-btn
+        density="compact"
+        :prepend-icon="mdiMultiplicationBox"
+        size="large"
+        @click="toggleMultipliers"
+      >
+        Multipliers
+      </v-btn>
+      <v-btn
+        density="compact"
+        :prepend-icon="mdiMeditation"
+        size="large"
+        :disabled="!isReincarnationUnlocked"
+        @click="openReincarnation"
+      >
+        Reincarnation
+      </v-btn>
+    </div>
     <div class="header">
       <h2>Stats</h2>
     </div>
@@ -43,27 +62,6 @@
         />
         <span>/s</span>
       </div>
-      <div class="buttons">
-        <v-btn
-          variant="outlined"
-          density="compact"
-          :prepend-icon="mdiMultiplicationBox"
-          size="large"
-          @click="toggleMultipliers"
-        >
-          Multipliers
-        </v-btn>
-        <v-btn
-          variant="outlined"
-          density="compact"
-          :prepend-icon="mdiMeditation"
-          size="large"
-          :disabled="!isDev && !isReincarnationUnlocked"
-          @click="openReincarnation"
-        >
-          Reincarnation
-        </v-btn>
-      </div>
     </div>
   </section>
 </template>
@@ -77,7 +75,6 @@ import Icon from "./Icon.vue";
 import { mdiMeditation, mdiMultiplicationBox } from "@mdi/js";
 import { formatNumber } from "@/utils/number";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { isDev } from "@/utils/dev";
 
 const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
@@ -179,16 +176,18 @@ h2 {
 
 .buttons {
   display: flex;
-  gap: 1rem;
+  gap: .25rem;
   width: 100%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   & > .v-btn {
-    width: 12rem;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
   }
 }
 </style>

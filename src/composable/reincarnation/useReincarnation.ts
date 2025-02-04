@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
-const points = ref<Decimal>(new Decimal(0));
+const points = ref<Decimal>(new Decimal(35));
 
 export const useReincarnation = () => {
   const openReincarnation = () => {
@@ -18,12 +18,17 @@ export const useReincarnation = () => {
     isReincarnationUnlocked.value = true;
   };
 
+  const reincarnate = () => {
+    points.value = new Decimal(0);
+  };
+
   return {
     isReincarnationOpen,
     isReincarnationUnlocked,
     openReincarnation,
     closeReincarnation,
     unlockReincarnation,
+    reincarnate,
     points,
   };
 };

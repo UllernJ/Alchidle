@@ -85,7 +85,7 @@ onUnmounted(() => {
 
 .content-container {
   display: grid;
-  grid-template-columns: 6.5fr 1fr;
+  grid-template-columns: 4.4fr 1fr;
 }
 
 @media (max-width: 1200px) {
