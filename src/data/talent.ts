@@ -262,6 +262,34 @@ const talentNodes = reactive({
     mdiGhostOff,
     () => {}
   ),
+  treasureHunter: new TalentNode(
+    "Treasure Hunter",
+    "Increases the chance of finding rare items by 10%.",
+    new Decimal(2),
+    mdiTreasureChest,
+    () => {}
+  ),
+  improvedBlacksmithing: new TalentNode(
+    "Improved Blacksmithing",
+    "Increases the chance of crafting rare items by 10%.",
+    new Decimal(2),
+    mdiHammerWrench,
+    () => {}
+  ),
+  workersUnion: new TalentNode(
+    "Workers Union",
+    "Increases worker efficiency by 10%.",
+    new Decimal(3),
+    mdiAccountHardHat,
+    () => {}
+  ),
+  alchemyMastery: new TalentNode(
+    "Alchemy Mastery",
+    "Increases the strength of potions by 20%.",
+    new Decimal(4),
+    mdiFlask,
+    () => {}
+  ),
 });
 
 export const upTree = reactive(
@@ -271,12 +299,12 @@ export const upTree = reactive(
         new TalentTree(
           new TalentTree(null, null, talentNodes.increaseDamage),
           new TalentTree(null, null, talentNodes.increaseWorkerEfficiency),
-          talentNodes.decreaseEnemyDamage
+          talentNodes.improvedBlacksmithing
         ),
         new TalentTree(
-          new TalentTree(null, null, talentNodes.increaseStorage),
+          new TalentTree(null, null, talentNodes.alchemyMastery),
           new TalentTree(null, null, talentNodes.workerSale),
-          talentNodes.increaseSpeed
+          talentNodes.workersUnion
         ),
         talentNodes.increaseDefense
       ),
@@ -284,7 +312,7 @@ export const upTree = reactive(
         new TalentTree(
           new TalentTree(null, null, talentNodes.quickReflexes),
           new TalentTree(null, null, talentNodes.masterTrader),
-          talentNodes.increaseHealth
+          talentNodes.treasureHunter
         ),
         new TalentTree(
           new TalentTree(null, null, talentNodes.arcaneKnowledge),
