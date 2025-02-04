@@ -146,6 +146,9 @@ const attack = () => {
   if (defeatedMonster.value && defeatedMonster.value.isDead()) {
     handleMonsterDefeat(defeatedMonster.value);
     defeatedMonster.value = currentMonster.value;
+    setTimeout(() => {
+      isAttackOnCooldown.value = false;
+    }, 1000);
   } else {
     const damageTaken = currentMonster.value.attack.minus(defencePower.value);
     playerHealth.value = playerHealth.value.minus(damageTaken);
@@ -168,13 +171,8 @@ const attack = () => {
       }, 1000);
       clearAutoAttack();
     } else {
-      cooldownTime.value = 0.5; // Set cooldown to 0.5 seconds
-      const cooldownInterval = setInterval(() => {
-        cooldownTime.value -= 1;
-        if (cooldownTime.value <= 0) {
-          clearInterval(cooldownInterval);
-          isAttackOnCooldown.value = false;
-        }
+      setTimeout(() => {
+        isAttackOnCooldown.value = false;
       }, 1000);
     }
   }
