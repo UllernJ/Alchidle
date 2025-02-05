@@ -41,12 +41,28 @@
           />
         </div>
       </div>
-      <section class="points-container">
-        <section class="points">
-          <span>Points: {{ points }}</span>
+      <section class="buttons-container">
+        <section class="points-container">
+          <section class="points">
+            <span>Points: {{ points }}</span>
+          </section>
+          <section class="points">
+            <span>Spent: {{ pointsSpent }}</span>
+          </section>
         </section>
-        <section class="points">
-          <span>Spent: {{ pointsSpent }}</span>
+        <section class="points-container">
+          <v-btn
+            color="warning"
+            @click="clearTalentQueue"
+          >
+            Clear
+          </v-btn>
+          <v-btn
+            color="success"
+            @click="confirmTalentQueue"
+          >
+            Reincarnate
+          </v-btn>
         </section>
       </section>
     </section>
@@ -62,7 +78,14 @@ import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
-const { isReincarnationOpen, closeReincarnation, points, pointsSpent } = useReincarnation();
+const {
+  isReincarnationOpen,
+  closeReincarnation,
+  points,
+  pointsSpent,
+  clearTalentQueue,
+  confirmTalentQueue,
+} = useReincarnation();
 const { height } = useWindowSize();
 const pointsLeft = computed(() => points.value.minus(pointsSpent.value));
 
@@ -157,12 +180,27 @@ watchEffect(() => {
 }
 
 .points-container {
+  z-index: 1;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  & .v-btn {
+    border-radius: unset;
+    height: 50%;
+    border: 1px solid white;
+    border-left: unset;
+    &:first-child {
+      border-top: unset;
+      border-bottom: unset;
+    }
+  }
+}
+
+.buttons-container {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
-  background-color:black;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 </style>

@@ -21,6 +21,8 @@
       </template>
       <div class="tooltip-content">
         <h3>{{ node.value.title }}</h3>
+        <span v-if="quantity">Level: {{ node.value.level }} ({{ node.value.level.plus(quantity) }})</span>
+        <span v-else>Level: {{ node.value.level }}</span>
         <span>{{ node.value.description }}</span>
         <span>Costs {{ node.value.getPriceFromQuantity(quantity) }}</span>
       </div>
@@ -35,14 +37,14 @@
         :node="node.left"
         :points="points"
         class="left"
-        :can-learn-talent="!isTalentInQueue"
+        :can-learn-talent="!isTalentInQueue && !node.value.level.gt(0)"
       />
       <talent-node
         v-if="node.right?.value"
         :node="node.right"
         :points="points"
         class="right"
-        :can-learn-talent="!isTalentInQueue"
+        :can-learn-talent="!isTalentInQueue && !node.value.level.gt(0)"
       />
     </div>
   </div>

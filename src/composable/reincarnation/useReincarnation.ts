@@ -34,12 +34,11 @@ export const useReincarnation = () => {
 
   const addTalentToQueue = (talent: TalentNode) => {
     talentQueue.value.push(talent);
-    console.log(talentQueue.value);
   }
 
   const confirmTalentQueue = () => {
     talentQueue.value.forEach(talent => {
-      talent.effect();
+      talent.learn();
     });
     clearTalentQueue();
   }
@@ -57,6 +56,7 @@ export const useReincarnation = () => {
     reincarnate,
     addTalentToQueue,
     confirmTalentQueue,
+    clearTalentQueue,
     points,
     pointsSpent,
     talentQueue
