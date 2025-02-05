@@ -25,12 +25,19 @@ export const useMap = () => {
     });
   };
 
+  const resetMaps = () => {
+    maps.value.forEach((map) => {
+      map.unlocked = false;
+    });
+  }
+
   return {
     activeMap: computed(() => maps.value.find((map) => map.active)),
     isMapOpen,
     maps,
     toggleMap,
     switchMap,
-    listOfMaps
+    listOfMaps,
+    resetMaps,
   };
 };

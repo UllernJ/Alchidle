@@ -59,7 +59,7 @@
           </v-btn>
           <v-btn
             color="success"
-            @click="confirmTalentQueue"
+            @click="reincarnate"
           >
             Reincarnate
           </v-btn>
@@ -84,7 +84,7 @@ const {
   points,
   pointsSpent,
   clearTalentQueue,
-  confirmTalentQueue,
+  reincarnate,
 } = useReincarnation();
 const { height } = useWindowSize();
 const pointsLeft = computed(() => points.value.minus(pointsSpent.value));

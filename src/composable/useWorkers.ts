@@ -3,7 +3,7 @@ import Decimal from "break_eternity.js";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
-import { WORKERS } from "../data/workers";
+import { getDefaultCostByWorkerName, WORKERS } from "@/data/workers";
 import { Worker } from "../models/worker/Worker";
 import { BaseWorker } from "../models/worker/BaseWorker";
 
@@ -52,6 +52,13 @@ export const useWorkers = () => {
     return generated;
   };
 
+  const resetWorkers = () => {
+    workerStations.value.forEach((worker) => {
+      worker.numberOfWorkers = new Decimal(0);
+      worker.cost = getDefaultCostByWorkerName(worker.name);
+    });
+  };
+
   return {
     workerStations,
     workers,
@@ -59,5 +66,6 @@ export const useWorkers = () => {
     totalIncomePerSecond,
     gatherResources,
     calculateGeneratedResources,
+    resetWorkers
   };
 };

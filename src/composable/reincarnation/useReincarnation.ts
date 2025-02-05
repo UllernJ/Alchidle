@@ -1,6 +1,15 @@
 import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
 import { computed, ref } from "vue";
+import { useResource } from "../useResource";
+import { useAlchemy } from "../useAlchemy";
+import { useResearch } from "../useResearch";
+import { useGear } from "../useGear";
+import { useMap } from "../useMap";
+import { useMonsters } from "../useMonsters";
+import { useWorkers } from "../useWorkers";
+import { usePlayer } from "../usePlayer";
+import { useBuildings } from "../useBuildings";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -22,6 +31,7 @@ export const useReincarnation = () => {
 
   const closeReincarnation = () => {
     isReincarnationOpen.value = false;
+    clearTalentQueue();
   };
 
   const unlockReincarnation = () => {
@@ -30,22 +40,44 @@ export const useReincarnation = () => {
 
   const reincarnate = () => {
     points.value = new Decimal(0);
+    isReincarnationOpen.value = false;
+    isReincarnationUnlocked.value = false;
+    confirmTalentQueue();
+    const { resetResources } = useResource();
+    const { resetAlchemy } = useAlchemy();
+    const { resetResearch } = useResearch();
+    const { resetGear } = useGear();
+    const { resetMaps } = useMap();
+    const { resetMonsters } = useMonsters();
+    const { resetMultipliers } = usePlayer();
+    const { resetWorkers } = useWorkers();
+    const { resetBuildings } = useBuildings();
+
+    resetResources();
+    resetAlchemy();
+    resetResearch();
+    resetGear();
+    resetMaps();
+    resetMonsters();
+    resetMultipliers();
+    resetWorkers();
+    resetBuildings();
   };
 
   const addTalentToQueue = (talent: TalentNode) => {
     talentQueue.value.push(talent);
-  }
+  };
 
   const confirmTalentQueue = () => {
-    talentQueue.value.forEach(talent => {
+    talentQueue.value.forEach((talent) => {
       talent.learn();
     });
     clearTalentQueue();
-  }
-  
+  };
+
   const clearTalentQueue = () => {
     talentQueue.value = [];
-  }
+  };
 
   return {
     isReincarnationOpen,
@@ -55,10 +87,9 @@ export const useReincarnation = () => {
     unlockReincarnation,
     reincarnate,
     addTalentToQueue,
-    confirmTalentQueue,
     clearTalentQueue,
     points,
     pointsSpent,
-    talentQueue
+    talentQueue,
   };
 };

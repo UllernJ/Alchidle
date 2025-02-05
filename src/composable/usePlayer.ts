@@ -78,6 +78,13 @@ export const usePlayer = () => {
     productionRate.value = new Decimal(value);
   };
 
+  const resetMultipliers = () => {
+    attackPowerMultiplier.value = new Decimal(1);
+    defencePowerMultiplier.value = new Decimal(1);
+    healthMultiplier.value = new Decimal(1);
+    regenMultiplier.value = new Decimal(1);
+  }
+
   return {
     amountToBuy,
     currentFocus,
@@ -99,5 +106,6 @@ export const usePlayer = () => {
     upgradeHealth,
     upgradeRegen,
     setProductionRate,
+    resetMultipliers
   };
 };

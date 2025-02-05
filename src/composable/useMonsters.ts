@@ -62,6 +62,13 @@ export function useMonsters() {
         .length
   );
 
+  const resetMonsters = () => {
+    map.value = 0;
+    monsters.value = [];
+    BASE_HEALTH.value = new Decimal(30);
+    BASE_DAMAGE.value = new Decimal(4);
+  }
+
   return {
     monsters,
     mapMonsters,
@@ -76,6 +83,7 @@ export function useMonsters() {
     ),
     BASE_DAMAGE,
     BASE_HEALTH,
+    resetMonsters
   };
 }
 

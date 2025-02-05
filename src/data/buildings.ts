@@ -1,22 +1,78 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
 import { RESOURCE } from "../types";
-import { bankIcon, hospitalIcon, hutIcon, mineIcon, scienceLabIcon } from "../icons/icons";
+import {
+  bankIcon,
+  hospitalIcon,
+  hutIcon,
+  mineIcon,
+  scienceLabIcon,
+} from "../icons/icons";
 import { isDev } from "../utils/dev";
 import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
 import { BANKER, MINER, SCIENTIST } from "./workers";
-import { blacksmithingResearch, hostpitalBlueprintResearch, workerHutBlueprintResearch } from "./research";
+import {
+  blacksmithingResearch,
+  hostpitalBlueprintResearch,
+  workerHutBlueprintResearch,
+} from "./research";
+
+export const getDefaultCostsByBuildingName = (name: string) => {
+  switch (name) {
+    case "Bank":
+      return [
+        {
+          key: RESOURCE.MONEY,
+          value: new Decimal(isDev ? 1 : 100),
+        },
+      ];
+    case "Mine":
+      return [
+        {
+          key: RESOURCE.MINING,
+          value: new Decimal(100),
+        },
+      ];
+    case "Science Lab":
+      return [
+        {
+          key: RESOURCE.SCIENCE,
+          value: new Decimal(100),
+        },
+      ];
+    case "Hospital":
+      return [
+        {
+          key: RESOURCE.MONEY,
+          value: new Decimal(200),
+        },
+        {
+          key: RESOURCE.MINING,
+          value: new Decimal(100),
+        },
+      ];
+    case "Worker Hut":
+      return [
+        {
+          key: RESOURCE.MONEY,
+          value: new Decimal(isDev ? 1 : 1500),
+        },
+        {
+          key: RESOURCE.MINING,
+          value: new Decimal(isDev ? 1 : 3000),
+        },
+      ];
+    default:
+      return [];
+  }
+};
+
 
 const BANK = new Building(
   "Bank",
-  [
-    {
-      key: RESOURCE.MONEY,
-      value: new Decimal(isDev ? 1 : 100),
-    },
-  ],
+  getDefaultCostsByBuildingName("Bank"),
   2,
   "Increases your money storage by 100%.",
   () => {
@@ -29,12 +85,7 @@ const BANK = new Building(
 
 const MINE = new Building(
   "Mine",
-  [
-    {
-      key: RESOURCE.MINING,
-      value: new Decimal(100),
-    },
-  ],
+  getDefaultCostsByBuildingName("Mine"),
   2,
   "Increases your mining storage by 100%.",
   () => {
@@ -50,12 +101,7 @@ const MINE = new Building(
 
 const SCIENCE_LAB = new Building(
   "Science Lab",
-  [
-    {
-      key: RESOURCE.SCIENCE,
-      value: new Decimal(100),
-    },
-  ],
+  getDefaultCostsByBuildingName("Science Lab"),
   2,
   "Increases your science storage by 100%.",
   () => {
@@ -68,16 +114,7 @@ const SCIENCE_LAB = new Building(
 
 const HOSPITAL = new Building(
   "Hospital",
-  [
-    {
-      key: RESOURCE.MONEY,
-      value: new Decimal(200),
-    },
-    {
-      key: RESOURCE.MINING,
-      value: new Decimal(100),
-    },
-  ],
+  getDefaultCostsByBuildingName("Hospital"),
   2.5,
   "Increases regeneration rate by 10%.",
   () => {
@@ -93,16 +130,7 @@ const HOSPITAL = new Building(
 
 const WORKER_HUT = new Building(
   "Worker Hut",
-  [
-    {
-      key: RESOURCE.MONEY,
-      value: new Decimal(isDev ? 1 : 1500),
-    },
-    {
-      key: RESOURCE.MINING,
-      value: new Decimal(isDev ? 1 : 3000),
-    },
-  ],
+  getDefaultCostsByBuildingName("Worker Hut"),
   4,
   "Increases workers production by 1%.",
   () => {
@@ -117,6 +145,4 @@ const WORKER_HUT = new Building(
   }
 );
 
-export const getBuildings = () => {
-  return ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL, WORKER_HUT]);
-};
+export const buildings = ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL, WORKER_HUT]);

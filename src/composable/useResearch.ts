@@ -1,6 +1,14 @@
-import { ref } from "vue";
-import { researchList } from "../data/research";
+import { getDefaultCostByResearchName, researchs } from "@/data/research";
+
 
 export const useResearch = () => {
-  return { researchList: ref(researchList) };
+
+  const resetResearch = () => {
+    researchs.value.forEach((research) => {
+      research.unlocked = false;
+      research.cost = getDefaultCostByResearchName(research.name);
+    });
+  }
+
+  return { researchList: researchs, resetResearch };
 };

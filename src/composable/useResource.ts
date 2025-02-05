@@ -47,10 +47,17 @@ export const useResource = () => {
     }
   };
 
+  const resetResources = () => {
+    Object.values(resources).forEach((resource) => {
+      resource.value.reset();
+    });
+  }
+
   return {
     resources,
     addResource,
     subtractResource,
     upgradeStorage,
+    resetResources
   };
 };

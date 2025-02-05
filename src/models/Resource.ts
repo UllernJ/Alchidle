@@ -27,4 +27,9 @@ export class Resource {
   upgradeStorage() {
     this.maxAmount = this.maxAmount.times(2);
   }
+
+  reset() {
+    this.amount = new Decimal(0);
+    this.maxAmount = new Decimal(200);
+  }
 }
