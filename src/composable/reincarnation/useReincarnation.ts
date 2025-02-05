@@ -1,9 +1,19 @@
+import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
 const points = ref<Decimal>(new Decimal(35));
+const pointsSpent = computed(() => {
+  const counts = new Map();
+  return talentQueue.value.reduce((acc, talent) => {
+    const count = (counts.get(talent.title) || 0) + 1;
+    counts.set(talent.title, count);
+    return acc.add(talent.getPriceFromQuantity(count - 1)); // Use incremental quantity
+  }, new Decimal(0));
+});
+const talentQueue = ref<TalentNode[]>([]);
 
 export const useReincarnation = () => {
   const openReincarnation = () => {
@@ -22,6 +32,22 @@ export const useReincarnation = () => {
     points.value = new Decimal(0);
   };
 
+  const addTalentToQueue = (talent: TalentNode) => {
+    talentQueue.value.push(talent);
+    console.log(talentQueue.value);
+  }
+
+  const confirmTalentQueue = () => {
+    talentQueue.value.forEach(talent => {
+      talent.effect();
+    });
+    clearTalentQueue();
+  }
+  
+  const clearTalentQueue = () => {
+    talentQueue.value = [];
+  }
+
   return {
     isReincarnationOpen,
     isReincarnationUnlocked,
@@ -29,6 +55,10 @@ export const useReincarnation = () => {
     closeReincarnation,
     unlockReincarnation,
     reincarnate,
+    addTalentToQueue,
+    confirmTalentQueue,
     points,
+    pointsSpent,
+    talentQueue
   };
 };

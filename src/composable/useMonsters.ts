@@ -82,14 +82,15 @@ export function useMonsters() {
 
 //find a way to avoid logging messages when loading from a save
 watchEffect(() => {
-  const { logMessage } = useActionLog();
   if (map.value === 5 && !fifthMap.value.unlocked) {
+    const { logMessage } = useActionLog();
     fifthMap.value.unlocked = true;
     logMessage(
       "You have found a map leading to a unknown temple, wonder what secrets you'll find there...",
       MessageType.INFO
     );
   } else if (map.value === 10 && !tenthMap.value.unlocked) {
+    const { logMessage } = useActionLog();
     tenthMap.value.unlocked = true;
     logMessage(
       "You have found a map leading to a forgotten city, wonder what secrets you'll find there...",

@@ -37,7 +37,7 @@
         >
           <talent-node
             :node="tree"
-            :points="points"
+            :points="pointsLeft"
           />
         </div>
       </div>
@@ -46,7 +46,7 @@
           <span>Points: {{ points }}</span>
         </section>
         <section class="points">
-          <span>Spent: {{ points }}</span>
+          <span>Spent: {{ pointsSpent }}</span>
         </section>
       </section>
     </section>
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import TalentNode from "@/components/talents/TalentNode.vue";
 import { upTree } from "@/data/talent";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
@@ -62,8 +62,9 @@ import { useWindowSize } from "@vueuse/core";
 import { mdiClose } from "@mdi/js";
 
 const tree = upTree;
-const { isReincarnationOpen, closeReincarnation, points } = useReincarnation();
+const { isReincarnationOpen, closeReincarnation, points, pointsSpent } = useReincarnation();
 const { height } = useWindowSize();
+const pointsLeft = computed(() => points.value.minus(pointsSpent.value));
 
 // Drag navigation logic
 const container = ref<HTMLElement | null>(null);

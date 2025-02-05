@@ -4,22 +4,25 @@
     class="talent-node"
   >
     <v-tooltip location="top">
-      <template #activator="{ props }">
+      <template #activator="{ props: activatorProps }">
         <v-btn
-          v-bind="props"
+          v-bind="activatorProps"
           variant="outlined"
           class="node-content"
           color="white"
           base-color="yellow"
           :icon="node.value.icon"
-          :disabled="points.lt(node.value.cost) || canLearnTalent"
-          @click="node.value.learn()"
+          :disabled="
+            points.lt(node.value.getPriceFromQuantity(quantity)) ||
+              canLearnTalent
+          "
+          @click="addTalentToQueue(node.value)"
         />
       </template>
       <div class="tooltip-content">
         <h3>{{ node.value.title }}</h3>
         <span>{{ node.value.description }}</span>
-        <span>Costs {{ node.value.cost }}</span>
+        <span>Costs {{ node.value.getPriceFromQuantity(quantity) }}</span>
       </div>
     </v-tooltip>
     <div
@@ -32,24 +35,42 @@
         :node="node.left"
         :points="points"
         class="left"
-        :can-learn-talent="node.value.level.equals(0)"
+        :can-learn-talent="!isTalentInQueue"
       />
       <talent-node
         v-if="node.right?.value"
         :node="node.right"
         :points="points"
         class="right"
-        :can-learn-talent="node.value.level.equals(0)"
+        :can-learn-talent="!isTalentInQueue"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import type { TalentTree } from "@/models/talents/TalentTree";
 import type Decimal from "break_eternity.js";
+import { computed } from "vue";
 
-defineProps<{ node: TalentTree; points: Decimal; canLearnTalent?: boolean }>();
+const props = defineProps<{
+  node: TalentTree;
+  points: Decimal;
+  canLearnTalent?: boolean;
+}>();
+
+const { addTalentToQueue, talentQueue } = useReincarnation();
+const isTalentInQueue = computed(
+  () =>
+    !!props.node.value &&
+    talentQueue.value.some((talent) => talent.title === props.node.value?.title)
+);
+const quantity = computed(() => {
+  return talentQueue.value.filter(
+    (talent) => talent.title === props.node.value?.title
+  ).length;
+});
 </script>
 
 <style scoped>
@@ -95,7 +116,7 @@ defineProps<{ node: TalentTree; points: Decimal; canLearnTalent?: boolean }>();
   top: -2rem;
   left: 50%;
   width: 1px;
-  height: .75rem;
+  height: 0.75rem;
   background-color: black;
 }
 

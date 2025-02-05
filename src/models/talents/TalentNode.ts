@@ -8,6 +8,7 @@ export class TalentNode {
   icon: string;
   effect: () => void;
   level: Decimal = new Decimal(0);
+  multiplier: Decimal = new Decimal(2);
   constructor(
     title: string,
     description: string,
@@ -28,6 +29,11 @@ export class TalentNode {
     if (points.value.greaterThanOrEqualTo(this.cost)) {
       points.value = points.value.sub(this.cost);
       this.level = this.level.add(1);
+      this.cost = this.cost.times(this.multiplier).round();
     }
+  }
+
+  getPriceFromQuantity(quantity: number) {
+    return this.cost.times(this.multiplier.pow(quantity)).round();
   }
 }
