@@ -32,17 +32,6 @@
         base-color="grey-darken-1"
         size="large"
         density="compact"
-        :prepend-icon="mdiCog"
-        @click="openSettings"
-      >
-        Settings
-      </v-btn>
-      <v-btn
-        variant="outlined"
-        color="white"
-        base-color="grey-darken-1"
-        size="large"
-        density="compact"
         :prepend-icon="mdiNewspaper"
         @click="openNews"
       >
@@ -77,26 +66,35 @@
       </v-btn>
     </div>
   </header>
+  <IExport ref="exportModal" />
+  <INews ref="newsModal" />
 </template>
 
 <script setup lang="ts">
-import { saveSession } from "../utils/localStorage";
-import { mdiCog, mdiContentSave, mdiExport, mdiNewspaper } from "@mdi/js";
+import { ref } from "vue";
+import { saveSession } from "../../utils/localStorage";
+import { mdiContentSave, mdiExport, mdiNewspaper } from "@mdi/js";
+import IExport from "./IExport.vue";
+import INews from "./INews.vue";
+
+const exportModal = ref();
+const newsModal = ref();
 
 const saveGame = () => {
   saveSession();
 };
 
 const exportGame = () => {
-
-};
-
-const openSettings = () => {
-  alert("Not implemented yet!");
+  const state = localStorage.getItem("session");
+  if (state && exportModal.value) {
+    exportModal.value.open(state);
+  }
 };
 
 const openNews = () => {
-  alert("Not implemented yet!");
+  if (newsModal.value) {
+    newsModal.value.open();
+  }
 };
 
 const openDiscord = () => {

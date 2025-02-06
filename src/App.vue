@@ -4,7 +4,7 @@ import IResources from "@/components/resources/IResources.vue";
 import ITab from "@/components/tab/ITab.vue";
 import IPopup from "@/components/IPopup.vue";
 import IDiscovery from "@/components/Discovery/IDiscovery.vue";
-import IHeader from "@/components/IHeader.vue";
+import IHeader from "@/components/header/IHeader.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import IMultipliers from "@/components/IMultipliers.vue";
 import PlayerSection from "@/components/PlayerSection.vue";

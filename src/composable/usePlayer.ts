@@ -10,7 +10,7 @@ const defencePowerMultiplier = ref<Decimal>(new Decimal(1));
 const healthMultiplier = ref<Decimal>(new Decimal(1));
 const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
-const productionRate = computed(() => new Decimal(200).times(productionMultiplier.value));
+const productionRate = computed(() => new Decimal(1).times(productionMultiplier.value));
 
 //!player stats
 const health = ref<Decimal>(new Decimal(100));
