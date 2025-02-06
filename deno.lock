@@ -9,6 +9,7 @@
     "npm:@vue/tsconfig@0.7": "0.7.0_typescript@5.6.3_vue@3.5.13__typescript@5.6.3",
     "npm:@vueuse/core@12.5": "12.5.0_typescript@5.6.3",
     "npm:break_eternity.js@^2.1.1": "2.1.1",
+    "npm:driver.js@^1.3.5": "1.3.5",
     "npm:eslint-config-prettier@~10.0.1": "10.0.1_eslint@9.19.0",
     "npm:eslint-plugin-oxlint@~0.15.8": "0.15.8",
     "npm:eslint-plugin-vue@9.32": "9.32.0_eslint@9.19.0",
@@ -622,6 +623,9 @@
     },
     "deep-is@0.1.4": {
       "integrity": "sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ=="
+    },
+    "driver.js@1.3.5": {
+      "integrity": "sha512-exkp49hXuujvTOZ3zYgySWRlEAa8/3nA8glYjtuZjmkTdsQITXivBsW1ytyhKQx3WkeYaovlnvVcLbtTaN86kA=="
     },
     "entities@4.5.0": {
       "integrity": "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="
@@ -1264,6 +1268,7 @@
         "npm:@vue/tsconfig@0.7",
         "npm:@vueuse/core@12.5",
         "npm:break_eternity.js@^2.1.1",
+        "npm:driver.js@^1.3.5",
         "npm:eslint-config-prettier@~10.0.1",
         "npm:eslint-plugin-oxlint@~0.15.8",
         "npm:eslint-plugin-vue@9.32",

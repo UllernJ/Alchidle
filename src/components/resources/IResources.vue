@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="resources-container">
     <i-resource
       :type="RESOURCE.MONEY"
       :icon="moneyIcon"

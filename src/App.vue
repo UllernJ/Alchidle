@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import IResources from "./components/resources/IResources.vue";
-import ITab from "./components/tab/ITab.vue";
-import IPopup from "./components/IPopup.vue";
-import IDiscovery from "./components/Discovery/IDiscovery.vue";
-import IHeader from "./components/IHeader.vue";
-import LoadingScreen from "./components/LoadingScreen.vue";
-import IMultipliers from "./components/IMultipliers.vue";
-import PlayerSection from "./components/PlayerSection.vue";
-import IMaps from "./components/inventory/IMaps.vue";
-import ITalents from "@/components/talents/ITalents.vue";
 import { onMounted, onUnmounted } from "vue";
-import { backgroundActivity } from "./utils/backgroundActivity";
-import { isFirstTime, saveSession } from "./utils/localStorage";
-import { MessageType } from "./composable/useMessage";
-import { useActionLog } from "./composable/useActionLog";
+import IResources from "@/components/resources/IResources.vue";
+import ITab from "@/components/tab/ITab.vue";
+import IPopup from "@/components/IPopup.vue";
+import IDiscovery from "@/components/Discovery/IDiscovery.vue";
+import IHeader from "@/components/IHeader.vue";
+import LoadingScreen from "@/components/LoadingScreen.vue";
+import IMultipliers from "@/components/IMultipliers.vue";
+import PlayerSection from "@/components/PlayerSection.vue";
+import IMaps from "@/components/inventory/IMaps.vue";
+import ITalents from "@/components/talents/ITalents.vue";
+import { backgroundActivity } from "@/utils/backgroundActivity";
+import { isFirstTime, saveSession } from "@/utils/localStorage";
+import { MessageType } from "@/composable/useMessage";
+import { useActionLog } from "@/composable/useActionLog";
+import { startTutorial } from "@/plugins/driver/tutorial";
 
 let interval: ReturnType<typeof setInterval>;
 let saveInterval: ReturnType<typeof setInterval>;
@@ -23,6 +24,7 @@ const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
 
 onMounted(() => {
   if (isFirstTime()) {
+    startTutorial();
     const { logMessage } = useActionLog();
     logMessage(
       "You are born anew, in a new world, this looks familiar...",

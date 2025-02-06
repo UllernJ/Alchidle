@@ -1,0 +1,70 @@
+.driver-popover.driverjs-theme {
+    background-color: #1a1a1a;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+.driver-popover-arrow.driverjs-theme {
+    border-color: #00ffcc;
+}
+
+.driver-popover-title.driverjs-theme {
+    font-size: 18px;
+    font-weight: bold;
+    color: #00ffcc;
+    margin-bottom: 10px;
+}
+
+.driver-popover-description.driverjs-theme {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.driver-popover-close-btn.driverjs-theme {
+    color: #ffffff;
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.driver-popover-close-btn.driverjs-theme:hover {
+    color: #00ffcc;
+}
+
+.driver-popover-footer.driverjs-theme {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.driver-popover-progress-text.driverjs-theme {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.driver-popover-prev-btn.driverjs-theme,
+.driver-popover-next-btn.driverjs-theme {
+    background-color: #00ffcc;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.driver-popover-prev-btn.driverjs-theme:hover,
+.driver-popover-next-btn.driverjs-theme:hover {
+    background-color: #00ccaa;
+}
+
+.driver-popover-prev-btn.driverjs-theme:disabled,
+.driver-popover-next-btn.driverjs-theme:disabled {
+    background-color: #666666;
+    cursor: not-allowed;
+}

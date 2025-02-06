@@ -113,7 +113,8 @@ onBeforeMount(() => {
 .state-content {
   width: 100%;
   overflow-x: hidden;
-  overflow-y: overlay;
+  overflow-y: auto !important; /* Force scrollbar */
+  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: #f1f1f1 #1a1a1a;
   max-height: 51.1dvh;
