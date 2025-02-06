@@ -59,12 +59,12 @@ const driverObj = driver({
       },
     },
     {
-      element: ".worker-list .v-btn",
+      element: ".worker-list",
       popover: {
         title: "Hiring your first worker",
         description:
           'Lets start by hiring your first worker. <br> Click on the "Banker" to hire your first worker.',
-        side: "right",
+        side: "top",
         align: "center",
         onNextClick: () => {
           if (BANKER.value.numberOfWorkers.eq(1)) {
