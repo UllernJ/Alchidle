@@ -135,14 +135,18 @@ const talentNodes = reactive({
     new Decimal(4),
     mdiTreasureChest,
     () => {
-
+      const { upgradeMonsterDrop } = useMonsters()
+      upgradeMonsterDrop(1.1)
     }
   ),
   decreaseEnemyHealth: new TalentNode(
     "Decrease enemy health by 5%",
     new Decimal(3),
     mdiShield,
-    () => {}
+    () => {
+      const { decreaseMonsterHealth } = useMonsters()
+      decreaseMonsterHealth(0.95)
+    }
   ),
   increaseWealth: new TalentNode(
     "test",
