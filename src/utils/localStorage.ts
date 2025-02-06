@@ -74,7 +74,6 @@ export const saveSession = () => {
   const multipliers = getMultipliers();
   const { health, maxHealth } = usePlayer();
   const { maps } = useMap();
-  console.log(talentNodes)
   const talents = talentNodes;
 
   const state: SessionState = {
