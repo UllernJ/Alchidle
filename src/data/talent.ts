@@ -35,7 +35,7 @@ import { useGear } from "@/composable/useGear";
 import { useAlchemy } from "@/composable/useAlchemy";
 import { useResource } from "@/composable/useResource";
 
-export const talentNodes = reactive({
+export const talentNodes = reactive<Record<string, TalentNode>>({
   //layer 1
   increaseHealth: new TalentNode(
     "Increases health by 5%",
