@@ -80,6 +80,7 @@ export const usePlayer = () => {
     defencePowerMultiplier.value = new Decimal(1);
     healthMultiplier.value = new Decimal(1);
     regenMultiplier.value = new Decimal(1);
+    productionMultiplier.value = new Decimal(1);
   }
 
   return {
