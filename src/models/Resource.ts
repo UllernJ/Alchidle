@@ -24,8 +24,8 @@ export class Resource {
     }
   }
 
-  upgradeStorage() {
-    this.maxAmount = this.maxAmount.times(2);
+  upgradeStorage(multiplier = 2) {
+    this.maxAmount = this.maxAmount.times(multiplier);
   }
 
   reset() {

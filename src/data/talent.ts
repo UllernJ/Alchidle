@@ -36,6 +36,8 @@ import { usePlayer } from "@/composable/usePlayer";
 import { useWorkers } from "@/composable/useWorkers";
 import { useMonsters } from "@/composable/useMonsters";
 import { useGear } from "@/composable/useGear";
+import { useAlchemy } from "@/composable/useAlchemy";
+import { useResource } from "@/composable/useResource";
 
 const talentNodes = reactive({
   //layer 1
@@ -136,14 +138,14 @@ const talentNodes = reactive({
 
     }
   ),
-  increaseRunSpeed: new TalentNode(
-    "Increase run speed by 10%",
-    new Decimal(1),
-    mdiRun,
+  decreaseEnemyHealth: new TalentNode(
+    "Decrease enemy health by 5%",
+    new Decimal(3),
+    mdiShield,
     () => {}
   ),
   increaseWealth: new TalentNode(
-    "Increase wealth by 10%",
+    "test",
     new Decimal(1),
     mdiCashMultiple,
     () => {}
@@ -152,7 +154,10 @@ const talentNodes = reactive({
     "Storage increase by 5%",
     new Decimal(1),
     mdiLambda,
-    () => {}
+    () => {
+      const { upgradeAllStorage } = useResource()
+      upgradeAllStorage(1.05)
+    }
   ),
   test4: new TalentNode(
     "TEST",
@@ -180,16 +185,19 @@ const talentNodes = reactive({
     () => {}
   ),
   increaseSpeed: new TalentNode(
-    "Increase speed by 5%",
+    "test",
     new Decimal(1),
     mdiSpeedometer,
     () => {}
   ),
   alchemicalExpertise: new TalentNode(
-    "Increase alchemy output by 10%",
+    "Increase alchemists effiency by 10%",
     new Decimal(10),
     mdiFlask,
-    () => {}
+    () => {
+      const { upgradeAlchemyEfficiency } = useAlchemy()
+      upgradeAlchemyEfficiency(1.1)
+    }
   ),
   criticalStrike: new TalentNode(
     "test",
@@ -260,10 +268,10 @@ const talentNodes = reactive({
     mdiBookOpenVariant,
     () => {}
   ),
-  toughSkin: new TalentNode(
-    "Decrease enemy health by 5%",
-    new Decimal(3),
-    mdiShield,
+  increaseRunSpeed: new TalentNode(
+    "test",
+    new Decimal(1),
+    mdiRun,
     () => {}
   ),
   swiftMovement: new TalentNode(
@@ -321,7 +329,7 @@ export const upTree = reactive(
     new TalentTree(
       new TalentTree(
         new TalentTree(
-          new TalentTree(null, null, talentNodes.test),
+          new TalentTree(null, null, talentNodes.regeneration),
           new TalentTree(null, null, talentNodes.test3),
           talentNodes.improvedBlacksmithing
         ),
@@ -340,8 +348,8 @@ export const upTree = reactive(
         ),
         new TalentTree(
           new TalentTree(null, null, talentNodes.arcaneKnowledge),
-          new TalentTree(null, null, talentNodes.toughSkin),
-          talentNodes.increaseRunSpeed
+          new TalentTree(null, null, talentNodes.increaseRunSpeed),
+          talentNodes.decreaseEnemyHealth
         ),
         talentNodes.increaseEnergy
       ),

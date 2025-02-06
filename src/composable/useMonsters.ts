@@ -18,6 +18,7 @@ const monsters = reactive<MonsterState>({
 });
 const BASE_HEALTH = ref<Decimal>(new Decimal(30));
 const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
+const BASE_DROP = ref<Decimal>(new Decimal(5));
 
 const mapMonsters = ref<Monster[]>([]);
 
@@ -73,6 +74,14 @@ export function useMonsters() {
     BASE_DAMAGE.value = BASE_DAMAGE.value.times(multiplier);
   }
 
+  const decreaseMonsterHealth = (multiplier: number) => {
+    BASE_HEALTH.value = BASE_HEALTH.value.times(multiplier);
+  }
+
+  const upgradeMonsterDrop = (multiplier: number) => {
+    BASE_DROP.value = BASE_DROP.value.times(multiplier);
+  }
+
   return {
     monsters,
     mapMonsters,
@@ -88,7 +97,9 @@ export function useMonsters() {
     BASE_DAMAGE,
     BASE_HEALTH,
     resetMonsters,
-    decreaseMonsterDamage
+    decreaseMonsterDamage,
+    decreaseMonsterHealth,
+    upgradeMonsterDrop
   };
 }
 
