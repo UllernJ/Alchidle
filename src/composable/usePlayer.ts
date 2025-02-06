@@ -66,7 +66,7 @@ export const usePlayer = () => {
     productionRate.value = productionRate.value.times(multiplier);
   };
 
-  const upgradeHealth = (multiplier: number = 1.1) => {
+  const upgradeHealthMultiplier = (multiplier: number = 1.1) => {
     healthMultiplier.value = healthMultiplier.value.times(multiplier);
   };
 
@@ -103,7 +103,7 @@ export const usePlayer = () => {
     regenHealth,
     upgradeAttackPower,
     upgradeDefensePower,
-    upgradeHealth,
+    upgradeHealthMultiplier,
     upgradeRegen,
     setProductionRate,
     resetMultipliers

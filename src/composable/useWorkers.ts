@@ -5,11 +5,15 @@ import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
 import { getDefaultCostByWorkerName, WORKERS } from "@/data/workers";
 import { Worker } from "../models/worker/Worker";
-import { BaseWorker } from "../models/worker/BaseWorker";
+import { EffectWorker } from "@/models/worker/EffectWorker";
 
 const workerStations = computed(() => WORKERS.value);
-const workers = computed(() => WORKERS.value.filter((worker) => worker instanceof Worker));
-const baseWorkers = computed(() => WORKERS.value.filter((worker) => worker instanceof BaseWorker));
+const workers = computed(() =>
+  WORKERS.value.filter((worker) => worker instanceof Worker)
+);
+const baseWorkers = computed(() =>
+  WORKERS.value.filter((worker) => worker instanceof EffectWorker)
+);
 
 export const useWorkers = () => {
   const { addResource } = useResource();
@@ -20,11 +24,15 @@ export const useWorkers = () => {
 
     workers.value.forEach(({ production, numberOfWorkers }) => {
       const rate = production.rate.times(numberOfWorkers);
-      incomePerResource[production.resource] = (incomePerResource[production.resource] || new Decimal(0)).plus(rate);
+      incomePerResource[production.resource] = (
+        incomePerResource[production.resource] || new Decimal(0)
+      ).plus(rate);
     });
 
     if (currentFocus.value !== null) {
-      incomePerResource[currentFocus.value] = (incomePerResource[currentFocus.value] || new Decimal(0)).plus(productionRate.value);
+      incomePerResource[currentFocus.value] = (
+        incomePerResource[currentFocus.value] || new Decimal(0)
+      ).plus(productionRate.value);
     }
 
     return incomePerResource;
@@ -36,7 +44,9 @@ export const useWorkers = () => {
       addResource(currentFocus.value, productionRate.value.div(ticksPerSecond));
     }
     workers.value.forEach((station) => {
-      const generated = station.production.rate.times(station.numberOfWorkers).div(ticksPerSecond);
+      const generated = station.production.rate
+        .times(station.numberOfWorkers)
+        .div(ticksPerSecond);
       addResource(station.production.resource, generated);
     });
   };
@@ -46,7 +56,9 @@ export const useWorkers = () => {
     workers.value.forEach((station) => {
       const rate = station.production.rate.times(station.numberOfWorkers);
       const amount = rate.times(elapsedTime).div(4).floor();
-      generated[station.production.resource] = (generated[station.production.resource] || new Decimal(0)).plus(amount);
+      generated[station.production.resource] = (
+        generated[station.production.resource] || new Decimal(0)
+      ).plus(amount);
       addResource(station.production.resource, amount);
     });
     return generated;
@@ -55,9 +67,27 @@ export const useWorkers = () => {
   const resetWorkers = () => {
     workerStations.value.forEach((worker) => {
       worker.numberOfWorkers = new Decimal(0);
-      worker.cost = getDefaultCostByWorkerName(worker.name);
+      worker.cost = {
+        ...getDefaultCostByWorkerName(worker.name),
+        multiplier: 1,
+      };
     });
   };
+
+  const upgradeWorkers = (multipliers: number) => {
+    workers.value.forEach((worker) => {
+      worker.production.rate = worker.production.rate.times(multipliers);
+    });
+    baseWorkers.value.forEach((worker) => {
+      worker.produce.rate = worker.produce.rate.times(multipliers);
+    });
+  };
+
+  const decreaseWorkerCosts = (multiplier: number) => {
+    workerStations.value.forEach((worker) => {
+      worker.decreasePriceMultiplier(multiplier);
+    });
+  }
 
   return {
     workerStations,
@@ -66,6 +96,8 @@ export const useWorkers = () => {
     totalIncomePerSecond,
     gatherResources,
     calculateGeneratedResources,
-    resetWorkers
+    resetWorkers,
+    upgradeWorkers,
+    decreaseWorkerCosts
   };
 };

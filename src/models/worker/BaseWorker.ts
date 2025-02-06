@@ -8,6 +8,7 @@ export class BaseWorker {
   cost: {
     resource: RESOURCE;
     value: Decimal;
+    multiplier: number;
   };
   description: string;
   icon: string;
@@ -27,7 +28,7 @@ export class BaseWorker {
   ) {
     this.name = name;
     this.numberOfWorkers = new Decimal(0);
-    this.cost = cost;
+    this.cost = { ...cost, multiplier: 1 };
     this.description = description;
     this.icon = icon;
     this.multiplier = multiplier;
@@ -37,15 +38,18 @@ export class BaseWorker {
     const { subtractResource } = useResource();
     subtractResource(this.cost.resource, this.cost.value);
     this.numberOfWorkers = this.numberOfWorkers.plus(1);
-    this.cost.value = this.cost.value.times(this.multiplier);
+    this.cost.value = this.cost.value
+      .times(this.multiplier)
+      .times(this.cost.multiplier);
   }
 
   restoreFromSave(numberOfWorkers: Decimal) {
-    this.numberOfWorkers = numberOfWorkers
-    if(this.numberOfWorkers.greaterThan(0)) {
-    this.cost.value = this.cost.value
-      .times(this.numberOfWorkers)
-      .times(this.multiplier);
+    this.numberOfWorkers = numberOfWorkers;
+    if (this.numberOfWorkers.greaterThan(0)) {
+      this.cost.value = this.cost.value
+        .times(this.numberOfWorkers)
+        .times(this.multiplier)
+        .times(this.cost.multiplier);
     }
   }
   getTotalPriceFromQuantity(quantity: number): Decimal {
@@ -54,7 +58,9 @@ export class BaseWorker {
 
     for (let i = 0; i < quantity; i++) {
       total = total.add(currentCost);
-      currentCost = currentCost.times(this.multiplier);
+      currentCost = currentCost
+        .times(this.multiplier)
+        .times(this.cost.multiplier);
     }
 
     return total;
@@ -64,5 +70,9 @@ export class BaseWorker {
     for (let i = 0; i < quantity; i++) {
       this.buy();
     }
+  }
+
+  decreasePriceMultiplier(multiplier: number): void {
+    this.cost.multiplier = this.cost.multiplier / multiplier;
   }
 }

@@ -8,23 +8,33 @@
         <v-btn
           v-bind="activatorProps"
           variant="outlined"
-          class="node-content"
+          :class="[
+            'node-content',
+            { 'test-content': isTest },
+          ]"
           color="white"
           base-color="yellow"
           :icon="node.value.icon"
           :disabled="
             points.lt(node.value.getPriceFromQuantity(quantity)) ||
-              canLearnTalent
+              canLearnTalent || isTest
           "
           @click="addTalentToQueue(node.value)"
         />
       </template>
       <div class="tooltip-content">
+        <span
+          v-if="quantity"
+          class="level"
+        >Level: {{ node.value.level }} ({{
+          node.value.level.plus(quantity)
+        }})</span>
+        <span
+          v-else
+          class="level"
+        >Level: {{ node.value.level }}</span>
         <h3>{{ node.value.title }}</h3>
-        <span v-if="quantity">Level: {{ node.value.level }} ({{ node.value.level.plus(quantity) }})</span>
-        <span v-else>Level: {{ node.value.level }}</span>
-        <span>{{ node.value.description }}</span>
-        <span>Costs {{ node.value.getPriceFromQuantity(quantity) }}</span>
+        <span>Costs: {{ node.value.getPriceFromQuantity(quantity) }}</span>
       </div>
     </v-tooltip>
     <div
@@ -73,6 +83,8 @@ const quantity = computed(() => {
     (talent) => talent.title === props.node.value?.title
   ).length;
 });
+
+const isTest = computed(() => props.node.value?.title.toLocaleLowerCase() === "test");
 </script>
 
 <style scoped>
@@ -156,8 +168,19 @@ const quantity = computed(() => {
 .tooltip-content {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   padding: 0.5rem;
+}
+
+.level {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  font-size: 0.7em;
+  margin-bottom: -0.25rem;
+}
+
+.test-content {
+  background-color: red !important;
 }
 /* .v-btn--variant-outlined {
     border: thin solid yellow !important;

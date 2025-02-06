@@ -43,7 +43,6 @@ export const useReincarnation = () => {
     points.value = new Decimal(0);
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
-    confirmTalentQueue();
     const { resetResources } = useResource();
     const { resetAlchemy } = useAlchemy();
     const { resetResearch } = useResearch();
@@ -65,6 +64,9 @@ export const useReincarnation = () => {
     resetWorkers();
     resetBuildings();
     resetTabState();
+
+    // confirm talents after clearing all data to avoid any conflicts
+    confirmTalentQueue();
   };
 
   const addTalentToQueue = (talent: TalentNode) => {

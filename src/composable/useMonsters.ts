@@ -69,6 +69,10 @@ export function useMonsters() {
     BASE_DAMAGE.value = new Decimal(4);
   }
 
+  const decreaseMonsterDamage = (multiplier: number) => {
+    BASE_DAMAGE.value = BASE_DAMAGE.value.times(multiplier);
+  }
+
   return {
     monsters,
     mapMonsters,
@@ -83,7 +87,8 @@ export function useMonsters() {
     ),
     BASE_DAMAGE,
     BASE_HEALTH,
-    resetMonsters
+    resetMonsters,
+    decreaseMonsterDamage
   };
 }
 
