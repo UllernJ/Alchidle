@@ -142,6 +142,7 @@ export const loadState = () => {
         MessageType.ERROR
       );
       clearSession(); //todo the user should be able to save the session string
+      window.location.reload();
     }
   } finally {
     isLoadingFromSave.value = false;
