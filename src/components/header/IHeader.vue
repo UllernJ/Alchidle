@@ -98,7 +98,7 @@ const openNews = () => {
 };
 
 const openDiscord = () => {
-  alert("Not implemented yet!");
+  window.open("https://discord.gg/dkZkQvzg", "_blank");
 };
 </script>
 
