@@ -77,5 +77,17 @@ export const useTab = () => {
     }
   };
 
-  return { currentState, setState, states, loadTabState };
+  const clearTabState = () => {
+    localStorage.removeItem("tabState");
+  }
+
+  const resetTabState = () => {
+    currentState.value = TAB_STATE.ALL;
+    GEAR.value.alert = true;
+    ALCHEMY.value.alert = true;
+    clearTabState();
+    saveTabState();
+  }
+
+  return { currentState, setState, states, loadTabState, resetTabState };
 };

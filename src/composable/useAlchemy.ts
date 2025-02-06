@@ -96,11 +96,7 @@ export const useAlchemy = () => {
     alchemyWorkers.value.numberOfWorkers = new Decimal(0);
     alchemyWorkers.value.efficiency = new Decimal(1);
     alchemyWorkers.value.cost.value = new Decimal(100);
-    infusions.value.forEach((infusion) => {
-      infusion.workersAllocated = new Decimal(0);
-      infusion.contribution = new Decimal(0);
-      infusion.cost = new Decimal(100)
-    });
+    infusions.value = getInfusions().value; // reset infusions
   }
 
   return {

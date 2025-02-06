@@ -4,7 +4,7 @@ import { Infusion } from "../models/Infusion";
 import { useGear } from "../composable/useGear";
 import Decimal from "break_eternity.js";
 
-const infusePower = new Infusion(
+const defaultInfusePower = () => new Infusion(
   "Power Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -16,7 +16,7 @@ const infusePower = new Infusion(
   "Increases attack power by 1.1x"
 );
 
-const infuseDefense = new Infusion(
+const defaultInfuseDefense = () => new Infusion(
   "Defense Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -28,7 +28,7 @@ const infuseDefense = new Infusion(
   "Increases defense by 1.1x"
 );
 
-const infuseEfficiency = new Infusion(
+const defaultInfuseEfficiency = () => new Infusion(
   "Efficiency Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -40,7 +40,7 @@ const infuseEfficiency = new Infusion(
   "Increases production rate by 1.1x"
 );
 
-const infuseHealth = new Infusion(
+const defaultInfuseHealth = () => new Infusion(
   "Health Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -52,7 +52,7 @@ const infuseHealth = new Infusion(
   "Increases health by 1.1x"
 );
 
-const infuseRegen = new Infusion(
+const defaultInfuseRegen = () => new Infusion(
   "Regen Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -64,7 +64,7 @@ const infuseRegen = new Infusion(
   "Increases health regeneration rate by 1.1x"
 );
 
-const infuseWeapon = new Infusion(
+const defaultInfuseWeapon = () => new Infusion(
   "Weapon Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -76,7 +76,7 @@ const infuseWeapon = new Infusion(
   "Increases all weapons damage by 1.1x"
 );
 
-const infuseArmor = new Infusion(
+const defaultInfuseArmor = () => new Infusion(
   "Armor Infusion",
   new Decimal(100),
   new Decimal(0),
@@ -88,14 +88,15 @@ const infuseArmor = new Infusion(
   "Increases all armors defense by 1.1x"
 );
 
+
 export const getInfusions = () => {
   return ref([
-    infusePower,
-    infuseDefense,
-    infuseEfficiency,
-    infuseHealth,
-    infuseRegen,
-    infuseWeapon,
-    infuseArmor,
+    defaultInfusePower(),
+    defaultInfuseDefense(),
+    defaultInfuseEfficiency(),
+    defaultInfuseHealth(),
+    defaultInfuseRegen(),
+    defaultInfuseWeapon(),
+    defaultInfuseArmor(),
   ]);
 };

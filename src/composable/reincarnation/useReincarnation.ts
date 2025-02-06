@@ -10,6 +10,7 @@ import { useMonsters } from "../useMonsters";
 import { useWorkers } from "../useWorkers";
 import { usePlayer } from "../usePlayer";
 import { useBuildings } from "../useBuildings";
+import { useTab } from "../useTab";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -52,6 +53,7 @@ export const useReincarnation = () => {
     const { resetMultipliers } = usePlayer();
     const { resetWorkers } = useWorkers();
     const { resetBuildings } = useBuildings();
+    const { resetTabState } = useTab()
 
     resetResources();
     resetAlchemy();
@@ -62,6 +64,7 @@ export const useReincarnation = () => {
     resetMultipliers();
     resetWorkers();
     resetBuildings();
+    resetTabState();
   };
 
   const addTalentToQueue = (talent: TalentNode) => {

@@ -19,130 +19,125 @@ import {
   workerHutBlueprintResearch,
 } from "./research";
 
-export const getDefaultCostsByBuildingName = (name: string) => {
-  switch (name) {
-    case "Bank":
-      return [
-        {
-          key: RESOURCE.MONEY,
-          value: new Decimal(isDev ? 1 : 100),
-        },
-      ];
-    case "Mine":
-      return [
-        {
-          key: RESOURCE.MINING,
-          value: new Decimal(100),
-        },
-      ];
-    case "Science Lab":
-      return [
-        {
-          key: RESOURCE.SCIENCE,
-          value: new Decimal(100),
-        },
-      ];
-    case "Hospital":
-      return [
-        {
-          key: RESOURCE.MONEY,
-          value: new Decimal(200),
-        },
-        {
-          key: RESOURCE.MINING,
-          value: new Decimal(100),
-        },
-      ];
-    case "Worker Hut":
-      return [
-        {
-          key: RESOURCE.MONEY,
-          value: new Decimal(isDev ? 1 : 1500),
-        },
-        {
-          key: RESOURCE.MINING,
-          value: new Decimal(isDev ? 1 : 3000),
-        },
-      ];
-    default:
-      return [];
-  }
+const BANK = () =>
+  new Building(
+    "Bank",
+    [
+      {
+        key: RESOURCE.MONEY,
+        value: new Decimal(isDev ? 1 : 100),
+      },
+    ],
+    2,
+    "Increases your money storage by 100%.",
+    () => {
+      const { upgradeStorage } = useResource();
+      upgradeStorage(RESOURCE.MONEY);
+    },
+    new Decimal(0),
+    bankIcon
+  );
+
+const MINE = () =>
+  new Building(
+    "Mine",
+    [
+      {
+        key: RESOURCE.MINING,
+        value: new Decimal(100),
+      },
+    ],
+    2,
+    "Increases your mining storage by 100%.",
+    () => {
+      const { upgradeStorage } = useResource();
+      upgradeStorage(RESOURCE.MINING);
+    },
+    new Decimal(0),
+    mineIcon,
+    () => {
+      return blacksmithingResearch.value.unlocked;
+    }
+  );
+
+const SCIENCE_LAB = () =>
+  new Building(
+    "Science Lab",
+    [
+      {
+        key: RESOURCE.SCIENCE,
+        value: new Decimal(100),
+      },
+    ],
+    2,
+    "Increases your science storage by 100%.",
+    () => {
+      const { upgradeStorage } = useResource();
+      upgradeStorage(RESOURCE.SCIENCE);
+    },
+    new Decimal(0),
+    scienceLabIcon
+  );
+
+const HOSPITAL = () =>
+  new Building(
+    "Hospital",
+    [
+      {
+        key: RESOURCE.MONEY,
+        value: new Decimal(200),
+      },
+      {
+        key: RESOURCE.MINING,
+        value: new Decimal(100),
+      },
+    ],
+    2.5,
+    "Increases regeneration rate by 10%.",
+    () => {
+      const { upgradeRegen } = usePlayer();
+      upgradeRegen(1.1);
+    },
+    new Decimal(0),
+    hospitalIcon,
+    () => {
+      return hostpitalBlueprintResearch.value.unlocked;
+    }
+  );
+
+const WORKER_HUT = () =>
+  new Building(
+    "Worker Hut",
+    [
+      {
+        key: RESOURCE.MONEY,
+        value: new Decimal(isDev ? 1 : 1500),
+      },
+      {
+        key: RESOURCE.MINING,
+        value: new Decimal(isDev ? 1 : 3000),
+      },
+    ],
+    4,
+    "Increases workers production by 1%.",
+    () => {
+      MINER.value.upgradeRate(1.01);
+      BANKER.value.upgradeRate(1.01);
+      SCIENTIST.value.upgradeRate(1.01);
+    },
+    new Decimal(0),
+    hutIcon,
+    () => {
+      return workerHutBlueprintResearch.value.unlocked;
+    }
+  );
+
+export const getBuildings = () => {
+  return ref<Building[]>([
+    BANK(),
+    MINE(),
+    SCIENCE_LAB(),
+    HOSPITAL(),
+    WORKER_HUT(),
+  ]);
 };
-
-
-const BANK = new Building(
-  "Bank",
-  getDefaultCostsByBuildingName("Bank"),
-  2,
-  "Increases your money storage by 100%.",
-  () => {
-    const { upgradeStorage } = useResource();
-    upgradeStorage(RESOURCE.MONEY);
-  },
-  new Decimal(0),
-  bankIcon
-);
-
-const MINE = new Building(
-  "Mine",
-  getDefaultCostsByBuildingName("Mine"),
-  2,
-  "Increases your mining storage by 100%.",
-  () => {
-    const { upgradeStorage } = useResource();
-    upgradeStorage(RESOURCE.MINING);
-  },
-  new Decimal(0),
-  mineIcon,
-  () => {
-    return blacksmithingResearch.value.unlocked;
-  }
-);
-
-const SCIENCE_LAB = new Building(
-  "Science Lab",
-  getDefaultCostsByBuildingName("Science Lab"),
-  2,
-  "Increases your science storage by 100%.",
-  () => {
-    const { upgradeStorage } = useResource();
-    upgradeStorage(RESOURCE.SCIENCE);
-  },
-  new Decimal(0),
-  scienceLabIcon
-);
-
-const HOSPITAL = new Building(
-  "Hospital",
-  getDefaultCostsByBuildingName("Hospital"),
-  2.5,
-  "Increases regeneration rate by 10%.",
-  () => {
-    const { upgradeRegen } = usePlayer();
-    upgradeRegen(1.1);
-  },
-  new Decimal(0),
-  hospitalIcon,
-  () => {
-    return hostpitalBlueprintResearch.value.unlocked;
-  }
-);
-
-const WORKER_HUT = new Building(
-  "Worker Hut",
-  getDefaultCostsByBuildingName("Worker Hut"),
-  4,
-  "Increases workers production by 1%.",
-  () => {
-    MINER.value.upgradeRate(1.01);
-    BANKER.value.upgradeRate(1.01);
-    SCIENTIST.value.upgradeRate(1.01);
-  },
-  new Decimal(0),
-  hutIcon,
-  () => {
-    return workerHutBlueprintResearch.value.unlocked;
-  }
-);
-
-export const buildings = ref<Building[]>([BANK, MINE, SCIENCE_LAB, HOSPITAL, WORKER_HUT]);
