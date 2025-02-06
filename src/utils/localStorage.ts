@@ -107,7 +107,8 @@ export const saveSession = () => {
   };
 
   const serializedState = serializeState(state);
-  localStorage.setItem(KEY, JSON.stringify(serializedState));
+  const encodedState = btoa(JSON.stringify(serializedState));
+  localStorage.setItem(KEY, encodedState);
   const { logMessage } = useActionLog();
   logMessage("Game was saved", MessageType.SUCCESS);
 };
@@ -120,7 +121,7 @@ export const loadState = () => {
   isLoadingFromSave.value = true;
   let data;
   try {
-    data = JSON.parse(state);
+    data = JSON.parse(atob(state))
     initWorkers(data.workerStations);
     initResearch(data.research);
     initBuildings(data.buildings);
