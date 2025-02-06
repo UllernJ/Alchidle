@@ -71,7 +71,7 @@ export const useReincarnation = () => {
     resetTabState();
 
     // confirm talents after clearing all data to avoid any conflicts
-    reApplyTalentsAfterReincarnation();
+    reapplyTalentsAfterReincarnation();
     confirmTalentQueue();
   };
 
@@ -105,7 +105,7 @@ export const useReincarnation = () => {
     talentQueue.value = [];
   };
 
-  const reApplyTalentsAfterReincarnation = () => {
+  const reapplyTalentsAfterReincarnation = () => {
     learnedTalents.value.forEach((talent) => {
       for (let i = 0; i < talent.level.toNumber(); i++) {
         talent.effect();
