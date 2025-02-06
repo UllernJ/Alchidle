@@ -85,7 +85,7 @@ const quantity = computed(() => {
   ).length;
 });
 
-const isTest = computed(() => props.node.value?.title.toLocaleLowerCase() === "test");
+const isTest = computed(() => props.node.value?.title.toLocaleLowerCase().includes("test"));
 </script>
 
 <style scoped>

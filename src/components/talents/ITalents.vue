@@ -6,8 +6,9 @@
     opacity="0"
   >
     <header class="reincarnation-header">
-      <h2>Reincarnation (COMING SOON)</h2>
-      <span class="text-warning">Warning: This will reset your progress!</span>
+      <h2>Reincarnation</h2>
+      <span class="text-warning">This will reset your progress and give you a bonus on your
+        chosen talents.</span>
       <v-btn
         ref="closeButton"
         color="white"
