@@ -75,15 +75,12 @@ export const saveSession = () => {
     resources: {
       Money: {
         amount: resources.Money.value.amount.toString(),
-        maxAmount: resources.Money.value.maxAmount.toString(),
       },
       Mining: {
         amount: resources.Mining.value.amount.toString(),
-        maxAmount: resources.Mining.value.maxAmount.toString(),
       },
       Science: {
         amount: resources.Science.value.amount.toString(),
-        maxAmount: resources.Science.value.maxAmount.toString(),
       },
     },
     alchemy: {
@@ -165,14 +162,13 @@ const initWorkers = (workers: { name: string; numberOfWorkers: Decimal }[]) => {
 };
 
 const initResources = (
-  resourcesData: Record<string, { amount: string; maxAmount: string }>
+  resourcesData: Record<string, { amount: string }>
 ) => {
   const { resources } = useResource();
   Object.entries(resourcesData).forEach(([key, value]) => {
     const resource = resources[key as RESOURCE];
     if (resource) {
       resource.value.amount = new Decimal(value.amount);
-      resource.value.maxAmount = new Decimal(value.maxAmount);
     } else {
       console.warn(`Resource key ${key} not found in resources`);
     }
