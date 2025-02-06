@@ -20,6 +20,7 @@
               canLearnTalent || isTest
           "
           @click="addTalentToQueue(node.value)"
+          @click.right.prevent="removeTalentFromQueue(node.value)"
         />
       </template>
       <div class="tooltip-content">
@@ -72,7 +73,7 @@ const props = defineProps<{
   canLearnTalent?: boolean;
 }>();
 
-const { addTalentToQueue, talentQueue } = useReincarnation();
+const { addTalentToQueue, talentQueue, removeTalentFromQueue } = useReincarnation();
 const isTalentInQueue = computed(
   () =>
     !!props.node.value &&

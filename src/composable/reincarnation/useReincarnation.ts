@@ -73,6 +73,16 @@ export const useReincarnation = () => {
     talentQueue.value.push(talent);
   };
 
+  const removeTalentFromQueue = (talent: TalentNode) => {
+    if (!talentQueue.value.includes(talent)) {
+      return;
+    }
+    const index = talentQueue.value.indexOf(talent);
+    if (index > -1) {
+      talentQueue.value.splice(index, 1);
+    }
+  }
+
   const confirmTalentQueue = () => {
     talentQueue.value.forEach((talent) => {
       talent.learn();
@@ -93,6 +103,7 @@ export const useReincarnation = () => {
     reincarnate,
     addTalentToQueue,
     clearTalentQueue,
+    removeTalentFromQueue,
     points,
     pointsSpent,
     talentQueue,
