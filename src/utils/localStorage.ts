@@ -22,10 +22,11 @@ import type { Worker } from "../models/worker/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
 import { useMap } from "@/composable/useMap";
+import { talentNodes } from "@/data/talent";
+import type { TalentNode } from "@/models/talents/TalentNode";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
-const suspicousSave = ref<string[]>([]);
 
 export type SessionState = {
   armors: Armor[];
@@ -58,6 +59,7 @@ export type SessionState = {
     unlocked: boolean;
     cleared: boolean;
   }[];
+  talents: Record<string, TalentNode>;
 };
 
 export const saveSession = () => {
@@ -72,6 +74,9 @@ export const saveSession = () => {
   const multipliers = getMultipliers();
   const { health, maxHealth } = usePlayer();
   const { maps } = useMap();
+  console.log(talentNodes)
+  const talents = talentNodes;
+
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
@@ -120,6 +125,7 @@ export const saveSession = () => {
       unlocked: map.unlocked,
       cleared: map.cleared,
     })),
+    talents: talents,
   };
 
   const serializedState = serializeState(state);
@@ -148,6 +154,7 @@ export const loadState = () => {
     initMultipliers(data.multipliers);
     initHealth(data.health);
     initMaps(data.maps);
+    initTalents(data.talents);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
@@ -161,9 +168,6 @@ export const loadState = () => {
     }
   } finally {
     isLoadingFromSave.value = false;
-    if (suspicousSave.value.length > 0) {
-      displaySuspiciousSave();
-    }
   }
   return data?.timestamp ?? 0;
 };
@@ -346,7 +350,6 @@ const initHealth = (data: { amount: string; maxAmount: string }) => {
   const { health, maxHealth } = usePlayer();
   if (new Decimal(data.amount).greaterThan(maxHealth.value)) {
     health.value = maxHealth.value;
-    suspicousSave.value.push("Are you trying to cheat?");
   } else {
     health.value = new Decimal(data.amount);
   }
@@ -365,13 +368,14 @@ const initMaps = (
   });
 };
 
-const displaySuspiciousSave = () => {
-  const { logMessage } = useActionLog();
-  logMessage(
-    "Your save file is suspicious. Are you trying to cheat?",
-    MessageType.ERROR
-  );
-};
+const initTalents = (talents: {key: string, level: string}[]) => {
+  talents.forEach((talent) => {
+    const talentNode = talentNodes[talent.key];
+    if (talentNode) {
+      talentNode.restoreFromSave(talent.level);
+    }
+  });
+}
 
 const clearSession = () => {
   localStorage.removeItem(KEY);

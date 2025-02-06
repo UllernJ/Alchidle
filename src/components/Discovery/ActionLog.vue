@@ -5,7 +5,7 @@
   >
     <div
       v-for="entry in log"
-      :key="entry.timestamp"
+      :key="entry.message"
       class="log-entry"
       :class="entry.logType"
     >

@@ -12,12 +12,8 @@ import {
   mdiCashMultiple,
   mdiSword,
   mdiHammerWrench,
-  mdiFire,
   mdiTreasureChest,
-  mdiEyeOff,
   mdiHeartPulse,
-  mdiMagicStaff,
-  mdiBomb,
   mdiRunFast,
   mdiCurrencyUsd,
   mdiBookOpenVariant,
@@ -39,7 +35,7 @@ import { useGear } from "@/composable/useGear";
 import { useAlchemy } from "@/composable/useAlchemy";
 import { useResource } from "@/composable/useResource";
 
-const talentNodes = reactive({
+export const talentNodes = reactive({
   //layer 1
   increaseHealth: new TalentNode(
     "Increases health by 5%",
@@ -125,7 +121,7 @@ const talentNodes = reactive({
   //   }
   // ),
   test6: new TalentNode(
-    "TEST",
+    "TEST1",
     new Decimal(1),
     mdiShield,
     () => {}
@@ -149,7 +145,7 @@ const talentNodes = reactive({
     }
   ),
   increaseWealth: new TalentNode(
-    "test",
+    "test2",
     new Decimal(1),
     mdiCashMultiple,
     () => {}
@@ -164,32 +160,32 @@ const talentNodes = reactive({
     }
   ),
   test4: new TalentNode(
-    "TEST",
+    "TEST3",
     new Decimal(1),
     mdiShield,
     () => {}
   ),
   //layer 5
   test: new TalentNode(
-    "Test",
+    "Test4",
     new Decimal(1),
     mdiShield,
     () => {}
   ),
   test2: new TalentNode(
-    "Test",
+    "Test5",
     new Decimal(1),
     mdiShield,
     () => {}
   ),
   test3: new TalentNode(
-    "Test",
+    "Test6",
     new Decimal(1),
     mdiShield,
     () => {}
   ),
   increaseSpeed: new TalentNode(
-    "test",
+    "test7",
     new Decimal(1),
     mdiSpeedometer,
     () => {}
@@ -203,36 +199,6 @@ const talentNodes = reactive({
       upgradeAlchemyEfficiency(1.1)
     }
   ),
-  criticalStrike: new TalentNode(
-    "test",
-    new Decimal(2),
-    mdiSword,
-    () => {}
-  ),
-  efficientCrafting: new TalentNode(
-    "test",
-    new Decimal(2),
-    mdiHammerWrench,
-    () => {}
-  ),
-  elementalResistance: new TalentNode(
-    "test",
-    new Decimal(3),
-    mdiFire,
-    () => {}
-  ),
-  luckyFind: new TalentNode(
-    "test",
-    new Decimal(2),
-    mdiTreasureChest,
-    () => {}
-  ),
-  stealthMastery: new TalentNode(
-    "test",
-    new Decimal(3),
-    mdiEyeOff,
-    () => {}
-  ),
   regeneration: new TalentNode(
     "Increase health regeneration by 5%",
     new Decimal(4),
@@ -242,38 +208,26 @@ const talentNodes = reactive({
       upgradeRegen(1.05)
     }
   ),
-  manaEfficiency: new TalentNode(
-    "test",
-    new Decimal(3),
-    mdiMagicStaff,
-    () => {}
-  ),
-  explosivePower: new TalentNode(
-    "test",
-    new Decimal(4),
-    mdiBomb,
-    () => {}
-  ),
   quickReflexes: new TalentNode(
-    "test",
+    "test15",
     new Decimal(2),
     mdiRunFast,
     () => {}
   ),
   masterTrader: new TalentNode(
-    "test",
+    "test16",
     new Decimal(3),
     mdiCurrencyUsd,
     () => {}
   ),
   arcaneKnowledge: new TalentNode(
-    "test",
+    "test17",
     new Decimal(4),
     mdiBookOpenVariant,
     () => {}
   ),
   increaseRunSpeed: new TalentNode(
-    "test",
+    "test18",
     new Decimal(1),
     mdiRun,
     () => {}

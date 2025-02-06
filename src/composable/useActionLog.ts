@@ -22,8 +22,13 @@ export const useActionLog = () => {
     }
   };
 
+  const clearLog = () => {
+    log.value = [];
+  }
+
   return {
     log,
     logMessage,
+    clearLog
   };
 };

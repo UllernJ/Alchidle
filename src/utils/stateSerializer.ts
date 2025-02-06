@@ -18,7 +18,9 @@ export const serializeState = (state: SessionState) => {
       return { name: armor.name, quantity: armor.quantity };
     }),
     adventure: {
-      remainingMonsters: state.adventure.remainingMonsters.map(getMonsterObjectWithoutIcon),
+      remainingMonsters: state.adventure.remainingMonsters.map(
+        getMonsterObjectWithoutIcon
+      ),
       map: state.adventure.map,
     },
     research: state.research.map((research: Research | UpgradeableResearch) => {
@@ -53,6 +55,10 @@ export const serializeState = (state: SessionState) => {
     resources: state.resources,
     health: state.health,
     maps: state.maps,
+    talents: Object.keys(state.talents).map((key) => {
+      const talent = state.talents[key];
+      return { key: key, level: talent.level.toString() };
+    }),
     timestamp: Date.now(),
   };
 };
@@ -61,4 +67,4 @@ const getMonsterObjectWithoutIcon = (monster: Monster) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { icon, ...monsterWithoutIcon } = monster;
   return monsterWithoutIcon;
-}
+};

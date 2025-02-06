@@ -21,16 +21,25 @@ export class TalentNode {
   }
 
   learn() {
-    this.effect();
     const { points } = useReincarnation();
     if (points.value.greaterThanOrEqualTo(this.cost)) {
       points.value = points.value.sub(this.cost);
       this.level = this.level.add(1);
       this.cost = this.cost.times(this.multiplier).round();
+      this.effect();
     }
   }
 
   getPriceFromQuantity(quantity: number) {
     return this.cost.times(this.multiplier.pow(quantity)).round();
+  }
+
+  restoreFromSave(level: string) {
+    this.level = new Decimal(level);
+    this.cost = this.cost.times(this.multiplier.pow(this.level.toNumber()));
+    for (let i = 0; i < this.level.toNumber(); i++) {
+      console.log("restoring talent effect for", this.title);
+      this.effect();
+    }
   }
 }

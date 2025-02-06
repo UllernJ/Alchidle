@@ -1,16 +1,19 @@
 import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
 import { computed, ref } from "vue";
-import { useResource } from "../useResource";
-import { useAlchemy } from "../useAlchemy";
-import { useResearch } from "../useResearch";
-import { useGear } from "../useGear";
-import { useMap } from "../useMap";
-import { useMonsters } from "../useMonsters";
-import { useWorkers } from "../useWorkers";
-import { usePlayer } from "../usePlayer";
-import { useBuildings } from "../useBuildings";
-import { useTab } from "../useTab";
+import { useResource } from "@/composable/useResource";
+import { useAlchemy } from "@/composable/useAlchemy";
+import { useResearch } from "@/composable/useResearch";
+import { useGear } from "@/composable/useGear";
+import { useMap } from "@/composable/useMap";
+import { useMonsters } from "@/composable/useMonsters";
+import { useWorkers } from "@/composable/useWorkers";
+import { usePlayer } from "@/composable/usePlayer";
+import { useBuildings } from "@/composable/useBuildings";
+import { useTab } from "@/composable/useTab";
+import { useActionLog } from "@/composable/useActionLog";
+import { MessageType } from "@/composable/useMessage";
+import { saveSession } from "@/utils/localStorage";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -40,7 +43,6 @@ export const useReincarnation = () => {
   };
 
   const reincarnate = () => {
-    points.value = new Decimal(0);
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
     const { resetResources } = useResource();
@@ -84,10 +86,14 @@ export const useReincarnation = () => {
   }
 
   const confirmTalentQueue = () => {
+    const { clearLog, logMessage } = useActionLog();
+    clearLog();
+    logMessage("Woah! You've reincarnated, let's see what you've learned...", MessageType.SUCCESS);
     talentQueue.value.forEach((talent) => {
       talent.learn();
     });
     clearTalentQueue();
+    saveSession();
   };
 
   const clearTalentQueue = () => {
