@@ -51,7 +51,6 @@ export const serializeState = (state: SessionState) => {
       }),
       alchemyWorkers: state.alchemy.alchemyWorkers,
     },
-    multipliers: state.multipliers,
     resources: state.resources,
     health: state.health,
     maps: state.maps,

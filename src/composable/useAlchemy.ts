@@ -49,8 +49,7 @@ export const useAlchemy = () => {
   const buyAlchemist = (isStateLoad = false) => {
     const { resources, subtractResource } = useResource();
     if (
-      alchemyWorkers.value.cost.value <=
-        resources[RESOURCE.MONEY].value.amount ||
+      alchemyWorkers.value.cost.value.lte(resources[RESOURCE.MONEY].value.amount) ||
       isStateLoad
     ) {
       if (!isStateLoad) {

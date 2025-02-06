@@ -6,7 +6,6 @@ import { useBuildings } from "../composable/useBuildings";
 import { useGear, type Armor, type Weapon } from "../composable/useGear";
 import { MessageType } from "../composable/useMessage";
 import { useMonsters } from "../composable/useMonsters";
-import { useMultipliers } from "../composable/useMultipliers";
 import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
@@ -43,13 +42,6 @@ export type SessionState = {
     map: number;
     remainingMonsters: Monster[];
   };
-  multipliers: {
-    attackPowerMultiplier: Decimal;
-    defencePowerMultiplier: Decimal;
-    healthMultiplier: Decimal;
-    productionRate: Decimal;
-    regenMultiplier: Decimal;
-  };
   health: {
     amount: string;
     maxAmount: string;
@@ -70,8 +62,6 @@ export const saveSession = () => {
   const { workerStations } = useWorkers();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
-  const { getMultipliers } = useMultipliers();
-  const multipliers = getMultipliers();
   const { health, maxHealth } = usePlayer();
   const { maps } = useMap();
   const talents = talentNodes;
@@ -103,17 +93,6 @@ export const saveSession = () => {
     adventure: {
       map: map.value,
       remainingMonsters: monsters.value,
-    },
-    multipliers: {
-      attackPowerMultiplier: new Decimal(
-        multipliers.attackPowerMultiplier.value
-      ),
-      defencePowerMultiplier: new Decimal(
-        multipliers.defencePowerMultiplier.value
-      ),
-      healthMultiplier: new Decimal(multipliers.healthMultiplier.value),
-      productionRate: new Decimal(multipliers.productionRate.value),
-      regenMultiplier: new Decimal(multipliers.regenMultiplier.value),
     },
     health: {
       amount: health.value.toString(),
@@ -150,7 +129,6 @@ export const loadState = () => {
     initAdventure(data.adventure);
     initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
     initResources(data.resources);
-    initMultipliers(data.multipliers);
     initHealth(data.health);
     initMaps(data.maps);
     initTalents(data.talents);
@@ -314,6 +292,7 @@ const initInfusions = (
       savedInfusion.contribution = new Decimal(infusion.contribution);
       for (let i = 1; i < savedInfusion.level.toNumber(); i++) {
         savedInfusion.cost = savedInfusion.cost.times(1.15).round();
+        savedInfusion.effect();
       }
     }
   });
@@ -321,28 +300,6 @@ const initInfusions = (
   for (let i = 1; i <= Number(numberOfWorkers); i++) {
     buyAlchemist(true);
   }
-};
-
-const initMultipliers = (data: {
-  attackPowerMultiplier: Decimal;
-  defencePowerMultiplier: Decimal;
-  healthMultiplier: Decimal;
-  productionRate: Decimal;
-  regenMultiplier: Decimal;
-}) => {
-  const { getMultipliers } = useMultipliers();
-  const { setProductionRate } = usePlayer();
-  const {
-    attackPowerMultiplier,
-    defencePowerMultiplier,
-    healthMultiplier,
-    regenMultiplier,
-  } = getMultipliers();
-  attackPowerMultiplier.value = new Decimal(data.attackPowerMultiplier);
-  defencePowerMultiplier.value = new Decimal(data.defencePowerMultiplier);
-  healthMultiplier.value = new Decimal(data.healthMultiplier);
-  setProductionRate(new Decimal(data.productionRate).toNumber());
-  regenMultiplier.value = new Decimal(data.regenMultiplier);
 };
 
 const initHealth = (data: { amount: string; maxAmount: string }) => {
