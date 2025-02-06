@@ -6,7 +6,6 @@ import { useBuildings } from "../composable/useBuildings";
 import { useGear, type Armor, type Weapon } from "../composable/useGear";
 import { MessageType } from "../composable/useMessage";
 import { useMonsters } from "../composable/useMonsters";
-import { useMultipliers } from "../composable/useMultipliers";
 import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
@@ -22,10 +21,11 @@ import type { Worker } from "../models/worker/Worker";
 import type { RESOURCE } from "../types";
 import { serializeState } from "./stateSerializer";
 import { useMap } from "@/composable/useMap";
+import { talentNodes } from "@/data/talent";
+import type { TalentNode } from "@/models/talents/TalentNode";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
-const suspicousSave = ref<string[]>([]);
 
 export type SessionState = {
   armors: Armor[];
@@ -42,13 +42,6 @@ export type SessionState = {
     map: number;
     remainingMonsters: Monster[];
   };
-  multipliers: {
-    attackPowerMultiplier: Decimal;
-    defencePowerMultiplier: Decimal;
-    healthMultiplier: Decimal;
-    productionRate: Decimal;
-    regenMultiplier: Decimal;
-  };
   health: {
     amount: string;
     maxAmount: string;
@@ -58,6 +51,7 @@ export type SessionState = {
     unlocked: boolean;
     cleared: boolean;
   }[];
+  talents: Record<string, TalentNode>;
 };
 
 export const saveSession = () => {
@@ -68,10 +62,10 @@ export const saveSession = () => {
   const { workerStations } = useWorkers();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
-  const { getMultipliers } = useMultipliers();
-  const multipliers = getMultipliers();
   const { health, maxHealth } = usePlayer();
   const { maps } = useMap();
+  const talents = talentNodes;
+
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
@@ -100,17 +94,6 @@ export const saveSession = () => {
       map: map.value,
       remainingMonsters: monsters.value,
     },
-    multipliers: {
-      attackPowerMultiplier: new Decimal(
-        multipliers.attackPowerMultiplier.value
-      ),
-      defencePowerMultiplier: new Decimal(
-        multipliers.defencePowerMultiplier.value
-      ),
-      healthMultiplier: new Decimal(multipliers.healthMultiplier.value),
-      productionRate: new Decimal(multipliers.productionRate.value),
-      regenMultiplier: new Decimal(multipliers.regenMultiplier.value),
-    },
     health: {
       amount: health.value.toString(),
       maxAmount: maxHealth.value.toString(),
@@ -120,6 +103,7 @@ export const saveSession = () => {
       unlocked: map.unlocked,
       cleared: map.cleared,
     })),
+    talents: talents,
   };
 
   const serializedState = serializeState(state);
@@ -145,9 +129,9 @@ export const loadState = () => {
     initAdventure(data.adventure);
     initInfusions(data.alchemy.infusions, data.alchemy.alchemyWorkers);
     initResources(data.resources);
-    initMultipliers(data.multipliers);
     initHealth(data.health);
     initMaps(data.maps);
+    initTalents(data.talents);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
@@ -161,9 +145,6 @@ export const loadState = () => {
     }
   } finally {
     isLoadingFromSave.value = false;
-    if (suspicousSave.value.length > 0) {
-      displaySuspiciousSave();
-    }
   }
   return data?.timestamp ?? 0;
 };
@@ -311,6 +292,7 @@ const initInfusions = (
       savedInfusion.contribution = new Decimal(infusion.contribution);
       for (let i = 1; i < savedInfusion.level.toNumber(); i++) {
         savedInfusion.cost = savedInfusion.cost.times(1.15).round();
+        savedInfusion.effect();
       }
     }
   });
@@ -320,33 +302,10 @@ const initInfusions = (
   }
 };
 
-const initMultipliers = (data: {
-  attackPowerMultiplier: Decimal;
-  defencePowerMultiplier: Decimal;
-  healthMultiplier: Decimal;
-  productionRate: Decimal;
-  regenMultiplier: Decimal;
-}) => {
-  const { getMultipliers } = useMultipliers();
-  const { setProductionRate } = usePlayer();
-  const {
-    attackPowerMultiplier,
-    defencePowerMultiplier,
-    healthMultiplier,
-    regenMultiplier,
-  } = getMultipliers();
-  attackPowerMultiplier.value = new Decimal(data.attackPowerMultiplier);
-  defencePowerMultiplier.value = new Decimal(data.defencePowerMultiplier);
-  healthMultiplier.value = new Decimal(data.healthMultiplier);
-  setProductionRate(new Decimal(data.productionRate).toNumber());
-  regenMultiplier.value = new Decimal(data.regenMultiplier);
-};
-
 const initHealth = (data: { amount: string; maxAmount: string }) => {
   const { health, maxHealth } = usePlayer();
   if (new Decimal(data.amount).greaterThan(maxHealth.value)) {
     health.value = maxHealth.value;
-    suspicousSave.value.push("Are you trying to cheat?");
   } else {
     health.value = new Decimal(data.amount);
   }
@@ -365,13 +324,14 @@ const initMaps = (
   });
 };
 
-const displaySuspiciousSave = () => {
-  const { logMessage } = useActionLog();
-  logMessage(
-    "Your save file is suspicious. Are you trying to cheat?",
-    MessageType.ERROR
-  );
-};
+const initTalents = (talents: {key: string, level: string}[]) => {
+  talents.forEach((talent) => {
+    const talentNode = talentNodes[talent.key];
+    if (talentNode) {
+      talentNode.restoreFromSave(talent.level);
+    }
+  });
+}
 
 const clearSession = () => {
   localStorage.removeItem(KEY);

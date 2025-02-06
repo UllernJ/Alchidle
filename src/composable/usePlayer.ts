@@ -1,16 +1,16 @@
 import { computed, ref } from "vue";
 import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
-import { isDev } from "../utils/dev";
 import { PRIEST, TRAINER } from "../data/workers";
 import Decimal from "break_eternity.js";
 
 //!multipliers
-const attackPowerMultiplier = ref<Decimal>(new Decimal(isDev ? 1000 : 1));
-const defencePowerMultiplier = ref<Decimal>(new Decimal(isDev ? 1000 : 1));
-const healthMultiplier = ref<Decimal>(new Decimal(isDev ? 1000 : 1));
-const regenMultiplier = ref<Decimal>(new Decimal(isDev ? 1000 : 1));
-const productionRate = ref<Decimal>(new Decimal(isDev ? 100 : 1));
+const attackPowerMultiplier = ref<Decimal>(new Decimal(1));
+const defencePowerMultiplier = ref<Decimal>(new Decimal(1));
+const healthMultiplier = ref<Decimal>(new Decimal(1));
+const regenMultiplier = ref<Decimal>(new Decimal(1));
+const productionMultiplier = ref<Decimal>(new Decimal(1));
+const productionRate = computed(() => new Decimal(200).times(productionMultiplier.value));
 
 //!player stats
 const health = ref<Decimal>(new Decimal(100));
@@ -63,10 +63,10 @@ export const usePlayer = () => {
   };
 
   const upgradeProductionRate = (multiplier: number = 1.1) => {
-    productionRate.value = productionRate.value.times(multiplier);
+    productionMultiplier.value = productionMultiplier.value.times(multiplier);
   };
 
-  const upgradeHealth = (multiplier: number = 1.1) => {
+  const upgradeHealthMultiplier = (multiplier: number = 1.1) => {
     healthMultiplier.value = healthMultiplier.value.times(multiplier);
   };
 
@@ -74,15 +74,13 @@ export const usePlayer = () => {
     regenMultiplier.value = regenMultiplier.value.times(multiplier);
   };
 
-  const setProductionRate = (value: number) => {
-    productionRate.value = new Decimal(value);
-  };
 
   const resetMultipliers = () => {
     attackPowerMultiplier.value = new Decimal(1);
     defencePowerMultiplier.value = new Decimal(1);
     healthMultiplier.value = new Decimal(1);
     regenMultiplier.value = new Decimal(1);
+    productionMultiplier.value = new Decimal(1);
   }
 
   return {
@@ -103,9 +101,8 @@ export const usePlayer = () => {
     regenHealth,
     upgradeAttackPower,
     upgradeDefensePower,
-    upgradeHealth,
+    upgradeHealthMultiplier,
     upgradeRegen,
-    setProductionRate,
     resetMultipliers
   };
 };

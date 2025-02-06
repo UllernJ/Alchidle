@@ -1,20 +1,26 @@
 import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
 import { computed, ref } from "vue";
-import { useResource } from "../useResource";
-import { useAlchemy } from "../useAlchemy";
-import { useResearch } from "../useResearch";
-import { useGear } from "../useGear";
-import { useMap } from "../useMap";
-import { useMonsters } from "../useMonsters";
-import { useWorkers } from "../useWorkers";
-import { usePlayer } from "../usePlayer";
-import { useBuildings } from "../useBuildings";
-import { useTab } from "../useTab";
+import { useResource } from "@/composable/useResource";
+import { useAlchemy } from "@/composable/useAlchemy";
+import { useResearch } from "@/composable/useResearch";
+import { useGear } from "@/composable/useGear";
+import { useMap } from "@/composable/useMap";
+import { useMonsters } from "@/composable/useMonsters";
+import { useWorkers } from "@/composable/useWorkers";
+import { usePlayer } from "@/composable/usePlayer";
+import { useBuildings } from "@/composable/useBuildings";
+import { useTab } from "@/composable/useTab";
+import { useActionLog } from "@/composable/useActionLog";
+import { MessageType } from "@/composable/useMessage";
+import { saveSession } from "@/utils/localStorage";
+import { talentNodes } from "@/data/talent";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
 const points = ref<Decimal>(new Decimal(35));
+const learnedTalents = computed(() => Object.values(talentNodes).filter((talent) => talent.level.gt(0)));
+
 const pointsSpent = computed(() => {
   const counts = new Map();
   return talentQueue.value.reduce((acc, talent) => {
@@ -40,10 +46,8 @@ export const useReincarnation = () => {
   };
 
   const reincarnate = () => {
-    points.value = new Decimal(0);
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
-    confirmTalentQueue();
     const { resetResources } = useResource();
     const { resetAlchemy } = useAlchemy();
     const { resetResearch } = useResearch();
@@ -65,22 +69,49 @@ export const useReincarnation = () => {
     resetWorkers();
     resetBuildings();
     resetTabState();
+
+    // confirm talents after clearing all data to avoid any conflicts
+    reapplyTalentsAfterReincarnation();
+    confirmTalentQueue();
   };
 
   const addTalentToQueue = (talent: TalentNode) => {
     talentQueue.value.push(talent);
   };
 
+  const removeTalentFromQueue = (talent: TalentNode) => {
+    if (!talentQueue.value.includes(talent)) {
+      return;
+    }
+    const index = talentQueue.value.indexOf(talent);
+    if (index > -1) {
+      talentQueue.value.splice(index, 1);
+    }
+  }
+
   const confirmTalentQueue = () => {
+    const { clearLog, logMessage } = useActionLog();
+    clearLog();
+    logMessage("Woah! You've reincarnated, let's see what you've learned...", MessageType.SUCCESS);
     talentQueue.value.forEach((talent) => {
       talent.learn();
     });
     clearTalentQueue();
+    saveSession();
+    console.log(learnedTalents.value);
   };
 
   const clearTalentQueue = () => {
     talentQueue.value = [];
   };
+
+  const reapplyTalentsAfterReincarnation = () => {
+    learnedTalents.value.forEach((talent) => {
+      for (let i = 0; i < talent.level.toNumber(); i++) {
+        talent.effect();
+      }
+    });
+  }
 
   return {
     isReincarnationOpen,
@@ -91,6 +122,7 @@ export const useReincarnation = () => {
     reincarnate,
     addTalentToQueue,
     clearTalentQueue,
+    removeTalentFromQueue,
     points,
     pointsSpent,
     talentQueue,

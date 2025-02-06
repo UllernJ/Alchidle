@@ -45,8 +45,8 @@ const defaultInfuseHealth = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeHealth } = usePlayer();
-    upgradeHealth();
+    const { upgradeHealthMultiplier } = usePlayer();
+    upgradeHealthMultiplier();
   },
   new Decimal(1),
   "Increases health by 1.1x"

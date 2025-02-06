@@ -5,23 +5,15 @@ import {
   mdiAccountHardHat,
   mdiLambda,
   mdiSale,
-  mdiSwordCross,
   mdiTargetAccount,
   mdiSpeedometer,
-  mdiShieldAccount,
   mdiHeart,
   mdiRun,
-  mdiBatteryHigh,
-  mdiBrain,
   mdiCashMultiple,
   mdiSword,
   mdiHammerWrench,
-  mdiFire,
   mdiTreasureChest,
-  mdiEyeOff,
   mdiHeartPulse,
-  mdiMagicStaff,
-  mdiBomb,
   mdiRunFast,
   mdiCurrencyUsd,
   mdiBookOpenVariant,
@@ -33,259 +25,257 @@ import {
   mdiHeadCog,
   mdiAxeBattle,
   mdiGhostOff,
+  mdiHandExtended,
 } from "@mdi/js";
 import Decimal from "break_eternity.js";
+import { usePlayer } from "@/composable/usePlayer";
+import { useWorkers } from "@/composable/useWorkers";
+import { useMonsters } from "@/composable/useMonsters";
+import { useGear } from "@/composable/useGear";
+import { useAlchemy } from "@/composable/useAlchemy";
+import { useResource } from "@/composable/useResource";
 
-const talentNodes = reactive({
-  increaseDamage: new TalentNode(
-    "Increase damage by 5%",
-    "Increase damage by 5%",
+export const talentNodes = reactive<Record<string, TalentNode>>({
+  //layer 1
+  increaseHealth: new TalentNode(
+    "Increases health by 5%",
     new Decimal(1),
-    mdiSwordCross,
-    () => {}
+    mdiHeart,
+    () => {
+      const { upgradeHealthMultiplier } = usePlayer()
+      upgradeHealthMultiplier(1.05)
+    }
+  ),
+  //layer 2
+  increaseDamage: new TalentNode(
+    "Increases damage by 5%",
+    new Decimal(2),
+    mdiSword,
+    () => {
+      const { upgradeAttackPower } = usePlayer()
+      upgradeAttackPower(1.05)
+    }
   ),
   increaseWorkerEfficiency: new TalentNode(
-    "Increases workers efficiency by 10%",
-    "Increases workers efficiency by 10%",
-    new Decimal(1),
+    "Increases workers output by 10%",
+    new Decimal(2),
     mdiAccountHardHat,
-    () => {}
+    () => {
+      const { upgradeWorkers } = useWorkers()
+      upgradeWorkers(1.1)
+    }
+  ),
+  //layer 3
+  increaseDefense: new TalentNode(
+    "Increases defense by 5%",
+    new Decimal(3),
+    mdiShield,
+    () => {
+      const { upgradeDefensePower } = usePlayer()
+      upgradeDefensePower(1.05)
+    }
+  ),
+  increaseEnergy: new TalentNode(
+    "Increases player output by 25%",
+    new Decimal(3),
+    mdiHandExtended,
+    () => {
+      const { upgradeProductionRate } = usePlayer()
+      upgradeProductionRate(1.25)
+    }
+  ),
+  workerSale: new TalentNode(
+    "Decrease worker cost by 5%",
+    new Decimal(3),
+    mdiSale,
+    () => {
+      const { decreaseWorkerCosts } = useWorkers()
+      decreaseWorkerCosts(0.95)
+    }
   ),
   decreaseEnemyDamage: new TalentNode(
     "Decreases enemy damage by 5%",
-    "Decreases enemy damage by 5%",
-    new Decimal(1),
+    new Decimal(4),
     mdiTargetAccount,
+    () => {
+      const { decreaseMonsterDamage } = useMonsters()
+      decreaseMonsterDamage(0.95)
+    }
+  ),
+  //layer 4
+  improvedBlacksmithing: new TalentNode(
+    "Improve your blacksmithing skills, making your gear 5% cheaper",
+    new Decimal(4),
+    mdiHammerWrench,
+    () => {
+      const { decreaseCostMultiplier } = useGear()
+      decreaseCostMultiplier(0.95)
+    }
+  ),
+  // workersUnion: new TalentNode(
+  //   "Each worker increase all other workers output by 0.1%",
+  //   new Decimal(3),
+  //   mdiAccountHardHat,
+  //   () => {
+
+  //   }
+  // ),
+  test6: new TalentNode(
+    "TEST1",
+    new Decimal(1),
+    mdiShield,
     () => {}
   ),
-  increaseStorage: new TalentNode(
-    "Storage increase",
-    "Increase storage by 10%",
-    new Decimal(1),
-    mdiLambda,
-    () => {}
+  treasureHunter: new TalentNode(
+    "Increase drop amount by 10%",
+    new Decimal(4),
+    mdiTreasureChest,
+    () => {
+      const { upgradeMonsterDrop } = useMonsters()
+      upgradeMonsterDrop(1.1)
+    }
   ),
-  workerSale: new TalentNode(
-    "Worker sale!",
-    "Decreases worker cost by 10%",
-    new Decimal(1),
-    mdiSale,
-    () => {}
-  ),
-  increaseSpeed: new TalentNode(
-    "Increase speed by 5%",
-    "Increase speed by 5%",
-    new Decimal(1),
-    mdiSpeedometer,
-    () => {}
-  ),
-  increaseDefense: new TalentNode(
-    "Increase defense by 5%",
-    "Increase defense by 5%",
-    new Decimal(1),
-    mdiShieldAccount,
-    () => {}
-  ),
-  increaseHealth: new TalentNode(
-    "Increase health by 10%",
-    "Increase health by 10%",
-    new Decimal(1),
-    mdiHeart,
-    () => {}
-  ),
-  increaseRunSpeed: new TalentNode(
-    "Increase run speed by 10%",
-    "Increase run speed by 10%",
-    new Decimal(1),
-    mdiRun,
-    () => {}
-  ),
-  increaseEnergy: new TalentNode(
-    "Increase energy by 10%",
-    "Increase energy by 10%",
-    new Decimal(1),
-    mdiBatteryHigh,
-    () => {}
-  ),
-  increaseIntelligence: new TalentNode(
-    "Increase intelligence by 10%",
-    "Increase intelligence by 10%",
-    new Decimal(1),
-    mdiBrain,
-    () => {}
+  decreaseEnemyHealth: new TalentNode(
+    "Decrease enemy health by 5%",
+    new Decimal(3),
+    mdiShield,
+    () => {
+      const { decreaseMonsterHealth } = useMonsters()
+      decreaseMonsterHealth(0.95)
+    }
   ),
   increaseWealth: new TalentNode(
-    "Increase wealth by 10%",
-    "Increase wealth by 10%",
+    "test2",
     new Decimal(1),
     mdiCashMultiple,
     () => {}
   ),
-  // New talents
-  criticalStrike: new TalentNode(
-    "Critical Strike",
-    "Your attacks have a 10% chance to deal double damage.",
-    new Decimal(2),
-    mdiSword,
+  increaseStorage: new TalentNode(
+    "Storage increase by 5%",
+    new Decimal(1),
+    mdiLambda,
+    () => {
+      const { upgradeAllStorage } = useResource()
+      upgradeAllStorage(1.05)
+    }
+  ),
+  test4: new TalentNode(
+    "TEST3",
+    new Decimal(1),
+    mdiShield,
     () => {}
   ),
-  efficientCrafting: new TalentNode(
-    "Efficient Crafting",
-    "Reduces crafting time by 20%.",
-    new Decimal(2),
-    mdiHammerWrench,
+  //layer 5
+  test: new TalentNode(
+    "Test4",
+    new Decimal(1),
+    mdiShield,
     () => {}
   ),
-  elementalResistance: new TalentNode(
-    "Elemental Resistance",
-    "Reduces damage from elemental attacks by 15%.",
-    new Decimal(3),
-    mdiFire,
+  test2: new TalentNode(
+    "Test5",
+    new Decimal(1),
+    mdiShield,
     () => {}
   ),
-  luckyFind: new TalentNode(
-    "Lucky Find",
-    "Increases the chance of finding rare items by 10%.",
-    new Decimal(2),
-    mdiTreasureChest,
+  test3: new TalentNode(
+    "Test6",
+    new Decimal(1),
+    mdiShield,
     () => {}
   ),
-  stealthMastery: new TalentNode(
-    "Stealth Mastery",
-    "Reduces detection range by enemies by 30%.",
-    new Decimal(3),
-    mdiEyeOff,
+  increaseSpeed: new TalentNode(
+    "test7",
+    new Decimal(1),
+    mdiSpeedometer,
     () => {}
+  ),
+  alchemicalExpertise: new TalentNode(
+    "Increase alchemists effiency by 10%",
+    new Decimal(10),
+    mdiFlask,
+    () => {
+      const { upgradeAlchemyEfficiency } = useAlchemy()
+      upgradeAlchemyEfficiency(1.1)
+    }
   ),
   regeneration: new TalentNode(
-    "Regeneration",
-    "Regenerate 1% of your health every 5 seconds.",
+    "Increase health regeneration by 5%",
     new Decimal(4),
     mdiHeartPulse,
-    () => {}
-  ),
-  manaEfficiency: new TalentNode(
-    "Mana Efficiency",
-    "Reduces mana cost of abilities by 15%.",
-    new Decimal(3),
-    mdiMagicStaff,
-    () => {}
-  ),
-  explosivePower: new TalentNode(
-    "Explosive Power",
-    "Your attacks have a 5% chance to explode, dealing area damage.",
-    new Decimal(4),
-    mdiBomb,
-    () => {}
+    () => {
+      const { upgradeRegen } = usePlayer()
+      upgradeRegen(1.05)
+    }
   ),
   quickReflexes: new TalentNode(
-    "Quick Reflexes",
-    "Increases dodge chance by 10%.",
+    "test15",
     new Decimal(2),
     mdiRunFast,
     () => {}
   ),
   masterTrader: new TalentNode(
-    "Master Trader",
-    "Increases sell prices by 20% and reduces buy prices by 10%.",
+    "test16",
     new Decimal(3),
     mdiCurrencyUsd,
     () => {}
   ),
   arcaneKnowledge: new TalentNode(
-    "Arcane Knowledge",
-    "Increases spell damage by 15%.",
+    "test17",
     new Decimal(4),
     mdiBookOpenVariant,
     () => {}
   ),
-  toughSkin: new TalentNode(
-    "Tough Skin",
-    "Reduces physical damage taken by 10%.",
-    new Decimal(3),
-    mdiShield,
+  increaseRunSpeed: new TalentNode(
+    "test18",
+    new Decimal(1),
+    mdiRun,
     () => {}
   ),
   swiftMovement: new TalentNode(
-    "Swift Movement",
-    "Increases movement speed by 15%.",
+    "test",
     new Decimal(2),
     mdiRunFast,
     () => {}
   ),
   precisionAim: new TalentNode(
-    "Precision Aim",
-    "Increases critical hit chance by 5%.",
+    "test",
     new Decimal(2),
     mdiTarget,
     () => {}
   ),
-  alchemicalExpertise: new TalentNode(
-    "Alchemical Expertise",
-    "Potions are 25% more effective.",
-    new Decimal(3),
-    mdiFlask,
-    () => {}
-  ),
   summonersPact: new TalentNode(
-    "Summoner's Pact",
-    "Increases the strength of summoned creatures by 20%.",
+    "test",
     new Decimal(4),
     mdiGhost,
     () => {}
   ),
   resourceful: new TalentNode(
-    "Resourceful",
-    "Gain 10% more resources from gathering.",
+    "test",
     new Decimal(2),
     mdiPickaxe,
     () => {}
   ),
   focusedMind: new TalentNode(
-    "Focused Mind",
-    "Reduces cooldowns by 10%.",
+    "test",
     new Decimal(3),
     mdiHeadCog,
     () => {}
   ),
   berserkersRage: new TalentNode(
-    "Berserker's Rage",
-    "Deal 20% more damage when below 30% health.",
+    "test",
     new Decimal(4),
     mdiAxeBattle,
     () => {}
   ),
   etherealForm: new TalentNode(
-    "Ethereal Form",
-    "Gain a 10% chance to avoid all damage.",
+    "test",
     new Decimal(5),
     mdiGhostOff,
     () => {}
   ),
-  treasureHunter: new TalentNode(
-    "Treasure Hunter",
-    "Increases the chance of finding rare items by 10%.",
-    new Decimal(2),
-    mdiTreasureChest,
-    () => {}
-  ),
-  improvedBlacksmithing: new TalentNode(
-    "Improved Blacksmithing",
-    "Increases the chance of crafting rare items by 10%.",
-    new Decimal(2),
-    mdiHammerWrench,
-    () => {}
-  ),
-  workersUnion: new TalentNode(
-    "Workers Union",
-    "Increases worker efficiency by 10%.",
-    new Decimal(3),
-    mdiAccountHardHat,
-    () => {}
-  ),
   alchemyMastery: new TalentNode(
-    "Alchemy Mastery",
-    "Increases the strength of potions by 20%.",
+    "test",
     new Decimal(4),
     mdiFlask,
     () => {}
@@ -297,14 +287,14 @@ export const upTree = reactive(
     new TalentTree(
       new TalentTree(
         new TalentTree(
-          new TalentTree(null, null, talentNodes.increaseDamage),
-          new TalentTree(null, null, talentNodes.increaseWorkerEfficiency),
+          new TalentTree(null, null, talentNodes.regeneration),
+          new TalentTree(null, null, talentNodes.test3),
           talentNodes.improvedBlacksmithing
         ),
         new TalentTree(
           new TalentTree(null, null, talentNodes.alchemyMastery),
-          new TalentTree(null, null, talentNodes.workerSale),
-          talentNodes.workersUnion
+          new TalentTree(null, null, talentNodes.test2),
+          talentNodes.test6
         ),
         talentNodes.increaseDefense
       ),
@@ -316,12 +306,12 @@ export const upTree = reactive(
         ),
         new TalentTree(
           new TalentTree(null, null, talentNodes.arcaneKnowledge),
-          new TalentTree(null, null, talentNodes.toughSkin),
-          talentNodes.increaseRunSpeed
+          new TalentTree(null, null, talentNodes.increaseRunSpeed),
+          talentNodes.decreaseEnemyHealth
         ),
         talentNodes.increaseEnergy
       ),
-      talentNodes.increaseIntelligence
+      talentNodes.increaseDamage
     ),
     new TalentTree(
       new TalentTree(
@@ -341,7 +331,7 @@ export const upTree = reactive(
         new TalentTree(
           new TalentTree(null, null, talentNodes.resourceful),
           new TalentTree(null, null, talentNodes.focusedMind),
-          talentNodes.increaseDamage
+          talentNodes.test4
         ),
         new TalentTree(
           new TalentTree(null, null, talentNodes.berserkersRage),

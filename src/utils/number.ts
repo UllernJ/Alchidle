@@ -14,9 +14,11 @@ export const formatNumber = (num: Decimal): string => {
     unitIndex++;
   }
 
-  let formattedValue = value.toFixed(2).replace(/\.00$/, "");
+  let formattedValue = value.toFixed(1).replace(/\.00$/, "");
   if (value.lt(new Decimal(1000))) {
-    formattedValue = value.toFixed(0);
+    if (formattedValue.includes(".")) {
+      formattedValue = formattedValue.replace(/\.0+$/, "");
+    }
   }
 
   return `${formattedValue}${units[unitIndex]}`;

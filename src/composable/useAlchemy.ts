@@ -49,8 +49,7 @@ export const useAlchemy = () => {
   const buyAlchemist = (isStateLoad = false) => {
     const { resources, subtractResource } = useResource();
     if (
-      alchemyWorkers.value.cost.value <=
-        resources[RESOURCE.MONEY].value.amount ||
+      alchemyWorkers.value.cost.value.lte(resources[RESOURCE.MONEY].value.amount) ||
       isStateLoad
     ) {
       if (!isStateLoad) {
@@ -76,9 +75,6 @@ export const useAlchemy = () => {
       );
       alchemyWorkers.value.efficiency =
         alchemyWorkers.value.efficiency.times(1.1);
-      alchemyWorkers.value.cost.value = alchemyWorkers.value.cost.value
-        .times(1.15)
-        .round();
     }
   };
 
@@ -99,6 +95,13 @@ export const useAlchemy = () => {
     infusions.value = getInfusions().value; // reset infusions
   }
 
+  const upgradeAlchemyEfficiency = (multiplier: number = 1.1) => {
+    alchemyWorkers.value.efficiency = alchemyWorkers.value.efficiency.times(
+      multiplier
+    );
+  };
+  
+
   return {
     infusions,
     alchemistCount,
@@ -109,6 +112,7 @@ export const useAlchemy = () => {
     buyAlchemist,
     upgradeAlchemists,
     infusionProduction,
-    resetAlchemy
+    resetAlchemy,
+    upgradeAlchemyEfficiency
   };
 };

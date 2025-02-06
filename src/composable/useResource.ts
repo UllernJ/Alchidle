@@ -53,11 +53,18 @@ export const useResource = () => {
     });
   }
 
+  const upgradeAllStorage = (multiplier: number) => {
+    Object.values(resources).forEach((resource) => {
+      resource.value.upgradeStorage(multiplier);
+    });
+  }
+
   return {
     resources,
     addResource,
     subtractResource,
     upgradeStorage,
-    resetResources
+    resetResources,
+    upgradeAllStorage
   };
 };

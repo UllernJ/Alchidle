@@ -20,7 +20,7 @@ export function getDefaultCostByWorkerName(name: string) {
     case "Miner":
       return { resource: RESOURCE.MONEY, value: new Decimal(30) };
     case "Scientist":
-      return { resource: RESOURCE.MONEY, value: new Decimal(75) };
+      return { resource: RESOURCE.MONEY, value: new Decimal(50) };
     case "Priest":
       return { resource: RESOURCE.MONEY, value: new Decimal(100) };
     case "Trainer":

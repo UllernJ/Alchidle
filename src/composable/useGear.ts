@@ -63,6 +63,8 @@ const armors = ref<Armor[]>([
   { name: "Chestplate", defense: new Decimal(16), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
 ]);
 
+const costMultiplier = ref(1)
+
 export const useGear = () => {
   const { subtractResource, resources } = useResource();
 
@@ -72,7 +74,7 @@ export const useGear = () => {
 
     for (let i = 0; i < quantity; i++) {
       total = total.add(currentCost);
-      currentCost = currentCost.times(multiplier);
+      currentCost = currentCost.times(multiplier).times(costMultiplier.value);
     }
 
     return total;
@@ -86,7 +88,7 @@ export const useGear = () => {
       subtractResource(RESOURCE.MINING, totalCost);
       weapon.quantity = weapon.quantity.plus(quantity);
       for (let i = 0; i < quantity; i++) {
-        weapon.cost = weapon.cost.times(1.15).round();
+        weapon.cost = weapon.cost.times(1.15).times(costMultiplier.value).round();
       }
     }
   };
@@ -99,7 +101,7 @@ export const useGear = () => {
       subtractResource(RESOURCE.MINING, totalCost);
       armor.quantity = armor.quantity.plus(quantity);
       for (let i = 0; i < quantity; i++) {
-        armor.cost = armor.cost.times(1.15).round();
+        armor.cost = armor.cost.times(1.15).times(costMultiplier.value).round();
       }
     }
   };
@@ -129,5 +131,8 @@ export const useGear = () => {
     upgradeWeapons,
     upgradeArmors,
     resetGear,
+    decreaseCostMultiplier: (multiplier: number) => {
+      costMultiplier.value = costMultiplier.value * multiplier
+    }
   };
 };
