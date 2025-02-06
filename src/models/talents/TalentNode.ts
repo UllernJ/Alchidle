@@ -38,7 +38,6 @@ export class TalentNode {
     this.level = new Decimal(level);
     this.cost = this.cost.times(this.multiplier.pow(this.level.toNumber()));
     for (let i = 0; i < this.level.toNumber(); i++) {
-      console.log("restoring talent effect for", this.title);
       this.effect();
     }
   }

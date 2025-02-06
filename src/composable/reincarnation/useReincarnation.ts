@@ -14,10 +14,13 @@ import { useTab } from "@/composable/useTab";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
 import { saveSession } from "@/utils/localStorage";
+import { talentNodes } from "@/data/talent";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
 const points = ref<Decimal>(new Decimal(35));
+const learnedTalents = computed(() => Object.values(talentNodes).filter((talent) => talent.level.gt(0)));
+
 const pointsSpent = computed(() => {
   const counts = new Map();
   return talentQueue.value.reduce((acc, talent) => {
@@ -68,6 +71,7 @@ export const useReincarnation = () => {
     resetTabState();
 
     // confirm talents after clearing all data to avoid any conflicts
+    reApplyTalentsAfterReincarnation();
     confirmTalentQueue();
   };
 
@@ -94,11 +98,20 @@ export const useReincarnation = () => {
     });
     clearTalentQueue();
     saveSession();
+    console.log(learnedTalents.value);
   };
 
   const clearTalentQueue = () => {
     talentQueue.value = [];
   };
+
+  const reApplyTalentsAfterReincarnation = () => {
+    learnedTalents.value.forEach((talent) => {
+      for (let i = 0; i < talent.level.toNumber(); i++) {
+        talent.effect();
+      }
+    });
+  }
 
   return {
     isReincarnationOpen,
