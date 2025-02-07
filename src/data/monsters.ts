@@ -35,5 +35,5 @@ export const monsters = [
 ];
 
 export const getIconByName = (name: string) => {
-  return monsters.find((monster) => monster.name === name)?.icon ?? "";
+  return monsters.find((monster) => name.includes(monster.name))?.icon ?? "";
 };
