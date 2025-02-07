@@ -79,4 +79,13 @@ h1 {
   :root {
     overflow-y: auto !important;
   }
+  h1 {
+    font-size: 1.2em;
+  }
+  h2 {
+    font-size: 1.1em;
+  }
+  span {
+    font-size: 0.85em;
+  }
 }
