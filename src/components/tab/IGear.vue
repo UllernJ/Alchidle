@@ -23,7 +23,7 @@
             >
               <Icon
                 :path="weapon.path"
-                :size="76"
+                size="4em"
               />
               <div class="gear-description">
                 <h2>{{ weapon.name }} ({{ weapon.quantity }})</h2>
@@ -70,7 +70,7 @@
             >
               <Icon
                 :path="armor.path"
-                :size="76"
+                size="4em"
               />
               <div class="gear-description">
                 <h2>{{ armor.name }} ({{ armor.quantity }})</h2>
