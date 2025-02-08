@@ -19,6 +19,7 @@
               :prepend-icon="item.icon.path"
               :color="item.icon.color"
               :class="[{'active': item.active}, 'map-btn']"
+              :append-icon="item.cleared ? mdiCheck : undefined"
               @click="switchMap(item)"
             >
               <span>{{ item.name }}</span>
@@ -28,8 +29,10 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
+          color="white"
           :prepend-icon="mdiClose"
           :active="true"
+          variant="outlined"
           @click="toggleMap"
         >
           Close
@@ -40,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiClose } from "@mdi/js";
+import { mdiCheck, mdiClose } from "@mdi/js";
 import { useMap } from "@/composable/useMap";
 
 const { toggleMap, maps, switchMap, isMapOpen } = useMap();

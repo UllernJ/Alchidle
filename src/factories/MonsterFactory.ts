@@ -9,9 +9,8 @@ export class MonsterFactory {
     baseHealth: Decimal,
     difficulty: number,
     mapNumber: number,
-    isBoss = false
   ): Monster {
-    const monster = this.getRandomMonster(isBoss);
+    const monster = this.getRandomMonster();
     return new Monster(
       monster.name,
       baseDamage.times(difficulty),
@@ -40,14 +39,12 @@ export class MonsterFactory {
     let difficultyMultiplier = 1;
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
-      const isBoss = i + 1 === monsterCount;
       monsters.push(
         this.createMonster(
           _baseDamage,
           _baseHealth,
           difficultyMultiplier,
           mapNumber,
-          isBoss
         )
       );
       difficultyMultiplier += 0.025;
@@ -60,11 +57,8 @@ export class MonsterFactory {
     return monsters;
   }
 
-  private static getRandomMonster(isBoss = false) {
+  private static getRandomMonster() {
     const monster = monsters[Math.floor(Math.random() * monsters.length)];
-    if (isBoss) {
-      monster.name = "Boss " + monster.name;
-    }
     return monster;
   }
 

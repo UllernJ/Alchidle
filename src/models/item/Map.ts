@@ -1,7 +1,5 @@
 import { Item } from "@/models/item/Item";
 import type { Monster } from "@/models/Monster";
-import Decimal from "break_eternity.js";
-import { MonsterFactory } from "@/factories/MonsterFactory";
 import { useMonsters } from "@/composable/useMonsters";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
@@ -9,7 +7,7 @@ import { MONSTER_STATE } from "@/types";
 import { useMap } from "@/composable/useMap";
 
 export class Map extends Item {
-  monsters: Monster[] = [];
+  monsters: Monster[];
   cleared: boolean = false;
   active: boolean = false;
 
@@ -20,6 +18,7 @@ export class Map extends Item {
       path: string;
       color: string;
     },
+    monsters: Monster[],
     level?: number
   ) {
     const effect = () => {}; // map has no effect
@@ -27,6 +26,7 @@ export class Map extends Item {
       level = 1;
     }
     super(name, description, icon, effect, level);
+    this.monsters = monsters;
   }
 
   override use() {
@@ -37,14 +37,8 @@ export class Map extends Item {
       "You entered the map and encountered some new monsters!",
       MessageType.INFO
     );
-
-    const difficulty = this.level;
-    const attack = new Decimal(10).times(difficulty).times(difficulty);
-    const health = new Decimal(100).times(difficulty * 3);
-    this.monsters = MonsterFactory.getMonsters(30, health, attack, difficulty);
     setState(MONSTER_STATE.MAP);
     toggleMap();
-
     mapMonsters.value = this.monsters;
     this.active = true;
   }
