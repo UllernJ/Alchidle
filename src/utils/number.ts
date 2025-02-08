@@ -117,7 +117,11 @@ export const formatNumber = (num: Decimal): string => {
     unitIndex++;
   }
 
-  const formattedValue = value.toFixed(0);
+  const formattedValue = value.toFixed(1);
+
+  if (value.lt(new Decimal(1000))) {
+    return `${value.toFixed(0)}${units[unitIndex]}`;
+  }
 
   return `${formattedValue}${units[unitIndex]}`;
 };
