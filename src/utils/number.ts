@@ -122,7 +122,7 @@ export const formatNumber = (num: Decimal): string => {
   if (unitIndex === 0) {
     formattedValue = value.toFixed(0);
   } else {
-    formattedValue = value.toFixed(2).replace(/\.00$/, "");
+    formattedValue = value.toFixed(2);
   }
 
   return `${formattedValue}${units[unitIndex]}`;
