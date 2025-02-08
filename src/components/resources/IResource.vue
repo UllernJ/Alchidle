@@ -26,9 +26,9 @@ const progress = computed(() => {
 
 const gatherMessage = computed(() => {
   if (currentFocus.value === RESOURCE.MONEY) {
-    return "Stealing money...";
+    return "Stealing...";
   } else if (currentFocus.value === RESOURCE.MINING) {
-    return "Mining rocks...";
+    return "Mining...";
   } else if (currentFocus.value === RESOURCE.SCIENCE) {
     return "Studying...";
   }
