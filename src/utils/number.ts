@@ -109,6 +109,7 @@ export const formatNumber = (num: Decimal): string => {
     "NoNn",
     "Ce",
   ];
+
   let unitIndex = 0;
   let value = num;
 
@@ -117,10 +118,11 @@ export const formatNumber = (num: Decimal): string => {
     unitIndex++;
   }
 
-  const formattedValue = value.toFixed(1);
-
-  if (value.lt(new Decimal(1000))) {
-    return `${value.toFixed(0)}${units[unitIndex]}`;
+  let formattedValue;
+  if (unitIndex === 0) {
+    formattedValue = value.toFixed(0);
+  } else {
+    formattedValue = value.toFixed(2).replace(/\.00$/, "");
   }
 
   return `${formattedValue}${units[unitIndex]}`;
