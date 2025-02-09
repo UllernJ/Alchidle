@@ -46,10 +46,11 @@ export class BaseWorker {
   restoreFromSave(numberOfWorkers: Decimal) {
     this.numberOfWorkers = numberOfWorkers;
     if (this.numberOfWorkers.greaterThan(0)) {
-      this.cost.value = this.cost.value
-        .times(this.numberOfWorkers)
-        .times(this.multiplier)
-        .times(this.cost.multiplier);
+      for (let i = 0; i < this.numberOfWorkers.toNumber(); i++) {
+        this.cost.value = this.cost.value
+          .times(this.multiplier)
+          .times(this.cost.multiplier);
+      }
     }
   }
   getTotalPriceFromQuantity(quantity: number): Decimal {
