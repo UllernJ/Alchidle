@@ -67,7 +67,7 @@ const driverObj = driver({
         side: "top",
         align: "center",
         onNextClick: () => {
-          if (BANKER.value.numberOfWorkers.eq(1)) {
+          if (BANKER.value.numberOfWorkers.gte(1)) {
             const stateContent = document.querySelector(".state-content");
             if (stateContent) {
               stateContent.scrollTop = stateContent.scrollHeight;
