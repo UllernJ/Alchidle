@@ -91,19 +91,4 @@ onUnmounted(() => {
   grid-template-columns: 4.4fr 1fr;
 }
 
-@media (max-width: 1200px) {
-  .top-container {
-    grid-template-columns: 1fr 2fr;
-  }
-  .content-container {
-    grid-template-columns: 1fr;
-  }
-  .main-container {
-    grid-template-rows: 1fr 3fr;
-  }
-  .content-container > .Player {
-    grid-row: 1;
-    height: 100%;
-  }
-}
 </style>
