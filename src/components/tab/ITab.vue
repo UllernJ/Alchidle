@@ -117,8 +117,8 @@ onBeforeMount(() => {
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: #f1f1f1 #1a1a1a;
-  max-height: 51.1dvh;
-  height: 51.1dvh;
+  max-height: 50dvh;
+  height: 50dvh;
 }
 
 .state-sidebar {
