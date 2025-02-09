@@ -20,8 +20,6 @@ let interval: ReturnType<typeof setInterval>;
 let saveInterval: ReturnType<typeof setInterval>;
 const MINUTE = 60000;
 const INTERVAL = 100 // .1 second
-const TICKS = 1000 / INTERVAL; //calculate how many ticks per second
-
 onMounted(() => {
   if (isFirstTime()) {
     startTutorial();
@@ -31,7 +29,7 @@ onMounted(() => {
       MessageType.INFO
     );
   }
-  interval = setInterval(() => backgroundActivity(TICKS), INTERVAL);
+  interval = setInterval(() => backgroundActivity(), INTERVAL);
   saveInterval = setInterval(() => {
     saveSession();
   }, MINUTE);
