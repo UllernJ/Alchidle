@@ -38,6 +38,17 @@
         Export
       </v-btn>
       <v-btn
+        :prepend-icon="mdiArrowURightBottomBold"
+        size="large"
+        variant="outlined"
+        color="white"
+        base-color="grey-darken-1"
+        density="compact"
+        @click="resetGame"
+      >
+        Reset
+      </v-btn>
+      <v-btn
         variant="outlined"
         color="white"
         base-color="grey-darken-1"
@@ -80,19 +91,22 @@
   <IExport ref="exportModal" />
   <IImport ref="importModal" />
   <INews ref="newsModal" />
+  <IReset ref="resetModal" />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { saveSession } from "../../utils/localStorage";
-import { mdiContentSave, mdiExport, mdiImport, mdiNewspaper } from "@mdi/js";
-import IExport from "./IExport.vue";
-import IImport from "./IImport.vue";
-import INews from "./INews.vue";
+import { mdiArrowURightBottomBold, mdiContentSave, mdiExport, mdiImport, mdiNewspaper } from "@mdi/js";
+import IExport from "@/components/header/IExport.vue";
+import IImport from "@/components/header/IImport.vue";
+import INews from "@/components/header/INews.vue";
+import IReset from "@/components/header/IReset.vue";
 
 const exportModal = ref();
 const importModal = ref();
 const newsModal = ref();
+const resetModal = ref();
 
 const saveGame = () => {
   saveSession();
@@ -114,6 +128,12 @@ const importGame = () => {
 const openNews = () => {
   if (newsModal.value) {
     newsModal.value.open();
+  }
+};
+
+const resetGame = () => {
+  if (resetModal.value) {
+    resetModal.value.open();
   }
 };
 

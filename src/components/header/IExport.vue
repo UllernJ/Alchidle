@@ -2,6 +2,7 @@
   <v-dialog
     v-model="isOpen"
     max-width="600px"
+    scroll-strategy="reposition"
   >
     <v-card>
       <v-card-title class="headline">
