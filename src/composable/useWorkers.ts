@@ -38,15 +38,15 @@ export const useWorkers = () => {
     return incomePerResource;
   });
 
-  const gatherResources = (ticksPerSecond: number = 1) => {
+  const gatherResources = (deltaTime: number) => {
     const { currentFocus, productionRate } = usePlayer();
     if (currentFocus.value !== null) {
-      addResource(currentFocus.value, productionRate.value.div(ticksPerSecond));
+      addResource(currentFocus.value, productionRate.value.times(deltaTime));
     }
     workers.value.forEach((station) => {
       const generated = station.production.rate
         .times(station.numberOfWorkers)
-        .div(ticksPerSecond);
+        .times(deltaTime);
       addResource(station.production.resource, generated);
     });
   };

@@ -6,8 +6,17 @@ const { gatherResources } = useWorkers();
 const { regenHealth } = usePlayer();
 const { infusionProduction } = useAlchemy();
 
-export const backgroundActivity = (ticksPerSecond: number = 1) => {
-  infusionProduction(ticksPerSecond);
-  gatherResources(ticksPerSecond);
-  regenHealth(ticksPerSecond);
+let last: number | null = null;
+
+export const backgroundActivity = () => {
+  if (last === null) {
+    last = Date.now();
+  }
+  const now = Date.now();
+  const deltaTime = (now - last) / 1000; // Convert to seconds
+  last = now;
+
+  infusionProduction(deltaTime);
+  gatherResources(deltaTime);
+  regenHealth(deltaTime);
 };

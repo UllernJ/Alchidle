@@ -3,19 +3,24 @@ import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import { PRIEST, TRAINER } from "../data/workers";
 import Decimal from "break_eternity.js";
+import { isDev } from "@/utils/dev";
 
 //!multipliers
-const attackPowerMultiplier = ref<Decimal>(new Decimal(1));
-const defencePowerMultiplier = ref<Decimal>(new Decimal(1));
+const attackMultiplier = ref<Decimal>(new Decimal(1));
+const defenceMultiplier = ref<Decimal>(new Decimal(1));
 const healthMultiplier = ref<Decimal>(new Decimal(1));
 const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
-const productionRate = computed(() => new Decimal(1).times(productionMultiplier.value));
+const productionRate = computed(() =>
+  new Decimal(isDev ? 200 : 1).times(productionMultiplier.value)
+);
 
 //!player stats
 const health = ref<Decimal>(new Decimal(100));
 const baseMaxHealth = ref<Decimal>(new Decimal(100));
-const regen = computed(() => new Decimal(1).plus(PRIEST.value.getProduction()).times(regenMultiplier.value));
+const regen = computed(() =>
+  new Decimal(1).plus(PRIEST.value.getProduction()).times(regenMultiplier.value)
+);
 
 //!player controls
 const currentFocus = ref<RESOURCE | null>(null);
@@ -32,11 +37,11 @@ export const usePlayer = () => {
       (acc, weapon) => acc.plus(weapon.damage.times(weapon.quantity)),
       new Decimal(1)
     );
-    return attackPowerMultiplier.value.times(weaponPower);
+    return attackMultiplier.value.times(weaponPower);
   });
 
   const defencePower = computed(() => {
-    return defencePowerMultiplier.value.times(TRAINER.value.getProduction());
+    return defenceMultiplier.value.times(TRAINER.value.getProduction());
   });
 
   const maxHealth = computed(() => {
@@ -47,19 +52,20 @@ export const usePlayer = () => {
     return baseMaxHealth.value.plus(armor).times(healthMultiplier.value);
   });
 
-  const regenHealth = (ticksPerSecond: number = 1) => {
-    health.value = health.value.plus(regen.value.div(ticksPerSecond));
+  const regenHealth = (deltaTime: number) => {
+    health.value = health.value.plus(regen.value.times(deltaTime));
     if (health.value.greaterThan(maxHealth.value)) {
       health.value = maxHealth.value;
     }
   };
 
   const upgradeAttackPower = (multiplier: number = 1.1) => {
-    attackPowerMultiplier.value = attackPowerMultiplier.value.times(multiplier);
+    attackMultiplier.value = attackMultiplier.value.times(multiplier);
   };
 
   const upgradeDefensePower = (multiplier: number = 1.1) => {
-    defencePowerMultiplier.value = defencePowerMultiplier.value.times(multiplier);
+    defenceMultiplier.value =
+    defenceMultiplier.value.times(multiplier);
   };
 
   const upgradeProductionRate = (multiplier: number = 1.1) => {
@@ -74,14 +80,13 @@ export const usePlayer = () => {
     regenMultiplier.value = regenMultiplier.value.times(multiplier);
   };
 
-
   const resetMultipliers = () => {
-    attackPowerMultiplier.value = new Decimal(1);
-    defencePowerMultiplier.value = new Decimal(1);
+    attackMultiplier.value = new Decimal(1);
+    defenceMultiplier.value = new Decimal(1);
     healthMultiplier.value = new Decimal(1);
     regenMultiplier.value = new Decimal(1);
     productionMultiplier.value = new Decimal(1);
-  }
+  };
 
   return {
     amountToBuy,
@@ -92,8 +97,8 @@ export const usePlayer = () => {
     health,
     maxHealth,
     regen,
-    attackPowerMultiplier,
-    defencePowerMultiplier,
+    attackMultiplier,
+    defenceMultiplier,
     healthMultiplier,
     regenMultiplier,
     setFocus,
@@ -103,6 +108,6 @@ export const usePlayer = () => {
     upgradeDefensePower,
     upgradeHealthMultiplier,
     upgradeRegen,
-    resetMultipliers
+    resetMultipliers,
   };
 };

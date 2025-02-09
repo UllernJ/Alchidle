@@ -78,12 +78,12 @@ export const useAlchemy = () => {
     }
   };
 
-  const infusionProduction = (ticksPerSecond: number = 1) => {
+  const infusionProduction = (deltaTime: number) => {
     for (const infusion of infusions.value) {
       infusion.contribute(
         infusion.workersAllocated
           .times(alchemyWorkers.value.efficiency)
-          .div(ticksPerSecond)
+          .times(deltaTime)
       );
     }
   };
