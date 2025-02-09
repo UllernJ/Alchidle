@@ -10,16 +10,16 @@ export const useMultipliers = () => {
 
   const getMultipliers = () => {
     const {
-      attackPowerMultiplier,
-      defencePowerMultiplier,
+      attackMultiplier,
+      defenceMultiplier,
       healthMultiplier,
       productionRate,
       regenMultiplier
     } = usePlayer();
 
     return {
-      attackPowerMultiplier,
-      defencePowerMultiplier,
+      attackMultiplier,
+      defenceMultiplier,
       healthMultiplier,
       productionRate,
       regenMultiplier

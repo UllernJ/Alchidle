@@ -184,7 +184,7 @@ export const efficiencyResearch = ref(
 export const combatTrainingResearch = ref(
   new UpgradeableResearch(
     "Combat Training",
-    "Increases your attack power by 10%.",
+    "Increases your attack by 10%.",
     getDefaultCostByResearchName("Combat Training"),
     () => {
       const { map } = useMonsters();

@@ -13,7 +13,7 @@ const defaultInfusePower = () => new Infusion(
     upgradeAttackPower();
   },
   new Decimal(1),
-  "Increases attack power by 1.1x"
+  "Increases attack by 1.1x"
 );
 
 const defaultInfuseDefense = () => new Infusion(
