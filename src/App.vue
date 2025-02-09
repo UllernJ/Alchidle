@@ -69,10 +69,13 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+#app {
+  max-height: 100dvh;
+}
 .main-container {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 1.1fr 2fr;
   background-color: #242424 !important;
   gap: 0.75rem;
 }
