@@ -20,6 +20,17 @@
         color="white"
         base-color="grey-darken-1"
         variant="outlined"
+        :prepend-icon="mdiImport"
+        density="compact"
+        @click="importGame"
+      >
+        Import
+      </v-btn>
+      <v-btn
+        size="large"
+        color="white"
+        base-color="grey-darken-1"
+        variant="outlined"
         :prepend-icon="mdiExport"
         density="compact"
         @click="exportGame"
@@ -67,17 +78,20 @@
     </div>
   </header>
   <IExport ref="exportModal" />
+  <IImport ref="importModal" />
   <INews ref="newsModal" />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { saveSession } from "../../utils/localStorage";
-import { mdiContentSave, mdiExport, mdiNewspaper } from "@mdi/js";
+import { mdiContentSave, mdiExport, mdiImport, mdiNewspaper } from "@mdi/js";
 import IExport from "./IExport.vue";
+import IImport from "./IImport.vue";
 import INews from "./INews.vue";
 
 const exportModal = ref();
+const importModal = ref();
 const newsModal = ref();
 
 const saveGame = () => {
@@ -88,6 +102,12 @@ const exportGame = () => {
   const state = localStorage.getItem("session");
   if (state && exportModal.value) {
     exportModal.value.open(state);
+  }
+};
+
+const importGame = () => {
+  if (importModal.value) {
+    importModal.value.open();
   }
 };
 
