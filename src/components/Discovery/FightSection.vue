@@ -55,6 +55,14 @@
       >
         {{ autoAttackInterval ? "Stop" : "Auto Attack" }}
       </v-btn>
+      <v-btn
+        v-if="isDev"
+        class="attack-button"
+        variant="outlined"
+        @click="getNextMonsters()"
+      >
+        next
+      </v-btn>
     </section>
   </section>
 </template>
@@ -75,8 +83,9 @@ import Decimal from "break_eternity.js";
 import { MONSTER_STATE } from "@/types";
 import { useMap } from "@/composable/useMap";
 import { autoAttackResearch } from "@/data/research";
+import { isDev } from "@/utils/dev";
 
-const { attackPower, health: playerHealth, defencePower } = usePlayer();
+const { attackPower, health: playerHealth, maxHealth, defencePower, regen } = usePlayer();
 const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
   useMonsters();
 const { logMessage } = useActionLog();
@@ -86,7 +95,6 @@ const isAttackOnCooldown = ref(false);
 const initialHealth = ref<Decimal | null>(null);
 const autoAttackInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const defeatedMonster = ref<Monster | null>(null);
-const cooldownTime = ref(0);
 
 const isEmpty = computed(() => !currentMonster.value);
 const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
@@ -102,11 +110,19 @@ const monsterHealthPercentage = computed(() => {
 const attackButtonText = computed(() => {
   if (isEmpty.value) {
     return "Explore";
-  } else if (isAttackOnCooldown.value && cooldownTime.value > 1) {
+  } else if (isAttackOnCooldown.value) {
     return `${cooldownTime.value}s`;
   } else {
     return "Attack";
   }
+});
+
+const cooldownTime = computed(() => {
+  if (playerHealth.value.greaterThan(0)) {
+    const missingHealth = maxHealth.value.minus(playerHealth.value);
+    return missingHealth.dividedBy(regen.value).round().toNumber();
+  }
+  return 0;
 });
 
 const handleMonsterDefeat = (monster: Monster) => {
@@ -157,18 +173,10 @@ const attack = () => {
       : playerHealth.value;
     if (playerHealth.value.lessThanOrEqualTo(0)) {
       logMessage(
-        "You have been defeated. Lets take a minute to recover.",
+        "You have been defeated. Lets recover to full health.",
         MessageType.ERROR
       );
       isAttackOnCooldown.value = true;
-      cooldownTime.value = 60; // Set cooldown to 60 seconds
-      const cooldownInterval = setInterval(() => {
-        cooldownTime.value -= 1;
-        if (cooldownTime.value <= 0) {
-          clearInterval(cooldownInterval);
-          isAttackOnCooldown.value = false;
-        }
-      }, 1000);
       clearAutoAttack();
     } else {
       setTimeout(() => {
@@ -212,11 +220,12 @@ watch(currentMonster, (newMonster) => {
   }
 });
 
-watch(isAttackOnCooldown, (newVal) => {
-  if (!newVal) {
-    cooldownTime.value = 0;
+watch(playerHealth, (newHealth) => {
+  if (isAttackOnCooldown.value && newHealth.equals(maxHealth.value)) {
+    isAttackOnCooldown.value = false;
   }
 });
+
 
 onMounted(() => {
   if (currentMonster.value) {

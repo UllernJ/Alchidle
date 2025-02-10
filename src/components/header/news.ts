@@ -3,8 +3,9 @@ export const patchNotes = [
     version: "0.0.2",
     date: "10.02.2025",
     changes: [
-      "Balanced the drops from monsters. Comments from the community were taken into consideration, thank you all.",
-      "Fixed bug that caused the game to crash when the player tried to enter a dungeon that were already completed making the player able to skip maps.",
+      "Balanced the drops from monsters.",
+      "Fixed bug that caused the game to crash when the player tried to enter a dungeon that was already completed, allowing the player to skip maps.",
+      "Instead of waiting the full 60 seconds when defeated in a dungeon, the player will have to wait until full health.",
       "Various UI enhancements.",
     ],
   },
