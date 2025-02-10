@@ -57,7 +57,7 @@ export function useMonsters() {
   const log = () => {
     if (map.value !== 0) {
       const { logMessage } = useActionLog();
-      logMessage("That was a though one, but you made it!", MessageType.INFO);
+      logMessage("That was a tough one, but you made it!", MessageType.INFO);
     }
   };
 
