@@ -19,7 +19,7 @@ import { startTutorial } from "@/plugins/driver/tutorial";
 let interval: ReturnType<typeof setInterval>;
 let saveInterval: ReturnType<typeof setInterval>;
 const MINUTE = 60000;
-const INTERVAL = 200 // .2 second
+const INTERVAL = 200; // .2 second
 onMounted(() => {
   if (isFirstTime()) {
     startTutorial();
@@ -45,6 +45,7 @@ onUnmounted(() => {
   <v-app
     id="app"
     theme="dark"
+    class="pa-2"
   >
     <i-popup />
     <LoadingScreen />
@@ -54,14 +55,20 @@ onUnmounted(() => {
 
     <i-header />
     <v-main class="main-container">
-      <section class="top-container">
+      <v-container
+        class="top-container pa-0"
+        fluid
+      >
         <i-resources />
         <i-discovery />
-      </section>
-      <section class="content-container">
+      </v-container>
+      <v-container
+        class="content-container pa-0"
+        fluid
+      >
         <i-tab />
         <player-section />
-      </section>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -69,13 +76,13 @@ onUnmounted(() => {
 <style scoped>
 #app {
   max-height: 100dvh;
+  background-color: #242424 !important;
 }
 .main-container {
   height: 100%;
   display: grid;
-  grid-template-rows: auto 2fr;
-  background-color: #242424 !important;
-  gap: 0.75rem;
+  grid-template-rows: 1fr 2fr;
+  gap: 0.5rem;
 }
 
 .top-container {
@@ -90,5 +97,4 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: 4.4fr 1fr;
 }
-
 </style>

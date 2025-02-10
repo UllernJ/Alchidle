@@ -102,7 +102,7 @@ const healthPercentage = computed(() => {
   align-items: center;
   box-sizing: border-box;
   border: 1px solid #f1f1f1;
-  height: 91%;
+  height: 89.1%;
   z-index: 1;
 }
 
