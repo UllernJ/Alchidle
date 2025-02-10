@@ -19,7 +19,7 @@ import { startTutorial } from "@/plugins/driver/tutorial";
 let interval: ReturnType<typeof setInterval>;
 let saveInterval: ReturnType<typeof setInterval>;
 const MINUTE = 60000;
-const INTERVAL = 100 // .1 second
+const INTERVAL = 200 // .2 second
 onMounted(() => {
   if (isFirstTime()) {
     startTutorial();

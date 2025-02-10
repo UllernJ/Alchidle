@@ -16,8 +16,8 @@ const monsters = reactive<MonsterState>({
   value: [] as Monster[],
   state: MONSTER_STATE.MONSTERS,
 });
-const BASE_HEALTH = ref<Decimal>(new Decimal(30));
-const BASE_DAMAGE = ref<Decimal>(new Decimal(4));
+const BASE_HEALTH = ref<Decimal>(new Decimal(32));
+const BASE_DAMAGE = ref<Decimal>(new Decimal(3.5));
 const BASE_DROP = ref<Decimal>(new Decimal(5));
 
 const mapMonsters = ref<Monster[]>([]);
@@ -37,12 +37,21 @@ export function useMonsters() {
       MONSTERS_PER_MAP,
       BASE_HEALTH.value,
       BASE_DAMAGE.value,
+      BASE_DROP.value,
       map.value
     );
     BASE_DAMAGE.value =
       listOfMonsters[listOfMonsters.length - 1].attack.times(0.7);
-    BASE_HEALTH.value = BASE_DAMAGE.value.times(10);
+    BASE_HEALTH.value = BASE_DAMAGE.value.times(3).dividedBy(2.25).times(10);
+    BASE_DROP.value = BASE_DROP.value.times(3);
     monsters.value = listOfMonsters;
+    const consolData = listOfMonsters.map((monster) => {
+      return {
+        name: monster.name,
+        drop: monster.drop.amount.toString(),
+      };
+    });
+    console.log(consolData);
   };
 
   const log = () => {

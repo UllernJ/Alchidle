@@ -7,6 +7,7 @@ export class MonsterFactory {
   private static createMonster(
     baseDamage: Decimal,
     baseHealth: Decimal,
+    baseDrop: Decimal,
     difficulty: number,
     mapNumber: number,
   ): Monster {
@@ -16,14 +17,7 @@ export class MonsterFactory {
       baseDamage.times(difficulty),
       baseHealth.times(difficulty),
       getRandomResource(),
-      this.getResourceDrop(
-        new Decimal(5)
-          .pow(difficulty)
-          .times(mapNumber)
-          .times(Math.random() + 1),
-        difficulty,
-        mapNumber
-      ) || new Decimal(0),
+      this.getResourceDrop(baseDrop, difficulty, mapNumber),
       monster.icon
     );
   }
@@ -32,10 +26,12 @@ export class MonsterFactory {
     monsterCount: number,
     baseDamage: Decimal,
     baseHealth: Decimal,
+    baseDrop: Decimal,
     mapNumber: number
   ): Monster[] {
     let _baseDamage = baseDamage;
     let _baseHealth = baseHealth;
+    let _baseDrop = baseDrop;
     let difficultyMultiplier = 1;
     const monsters: Monster[] = [];
     for (let i = 0; i < monsterCount; i++) {
@@ -43,6 +39,7 @@ export class MonsterFactory {
         this.createMonster(
           _baseDamage,
           _baseHealth,
+          _baseDrop,
           difficultyMultiplier,
           mapNumber,
         )
@@ -53,6 +50,7 @@ export class MonsterFactory {
       }
       _baseDamage = _baseDamage.times(1.002);
       _baseHealth = _baseHealth.times(1.002);
+      _baseDrop = _baseDrop.times(1.01);
     }
     return monsters;
   }
@@ -66,7 +64,7 @@ export class MonsterFactory {
     dropAmount: Decimal,
     difficulty: number,
     mapNumber: number
-  ): Decimal | undefined {
+  ): Decimal {
     const baseChance = 0.65;
     const difficultyFactor = 0.01 * difficulty;
     const mapFactor = 0.01 * mapNumber;
@@ -74,5 +72,6 @@ export class MonsterFactory {
     if (Math.random() < chance) {
       return dropAmount;
     }
+    return new Decimal(0);
   }
 }
