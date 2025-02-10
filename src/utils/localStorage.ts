@@ -257,7 +257,7 @@ const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
 };
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
-  const { map, monsters, BASE_DAMAGE, BASE_HEALTH } = useMonsters();
+  const { map, monsters, BASE_DAMAGE, BASE_HEALTH, BASE_DROP } = useMonsters();
   map.value = data.map ?? 0;
   monsters.value = data.remainingMonsters.map((monster) => {
     return Monster.fromObject(monster);
@@ -269,6 +269,9 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
     BASE_HEALTH.value = new Decimal(
       monsters.value[monsters.value.length - 1].health
     ).times(1.15);
+  }
+  for (let i = 0; i < map.value; i++) {
+    BASE_DROP.value = BASE_DROP.value.times(3);
   }
 };
 

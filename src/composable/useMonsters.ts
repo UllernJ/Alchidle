@@ -105,6 +105,7 @@ export function useMonsters() {
     ),
     BASE_DAMAGE,
     BASE_HEALTH,
+    BASE_DROP,
     resetMonsters,
     decreaseMonsterDamage,
     decreaseMonsterHealth,
