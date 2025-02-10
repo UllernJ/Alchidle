@@ -81,7 +81,7 @@ onUnmounted(() => {
 .main-container {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: auto 2fr;
   gap: 0.5rem;
 }
 
