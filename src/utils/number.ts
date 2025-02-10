@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 
-export const formatNumber = (num: Decimal): string => {
+export const formatNumber = (num: Decimal, showDecimals: boolean = false): string => {
   if (num.gte(new Decimal(1e15))) {
     return num.toExponential(2).replace("+", "");
   }
@@ -119,7 +119,7 @@ export const formatNumber = (num: Decimal): string => {
   }
 
   let formattedValue;
-  if (unitIndex === 0) {
+  if (unitIndex === 0 && !showDecimals) {
     formattedValue = value.toFixed(0);
   } else {
     formattedValue = value.toFixed(2);

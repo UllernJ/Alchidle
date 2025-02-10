@@ -15,7 +15,7 @@
           class="multiplier-item"
         >
           <span class="multiplier-key">{{ formatKey(key) }}:</span>
-          <span class="multiplier-value">{{ formatNumber(value.value) }}</span>
+          <span class="multiplier-value">{{ formatNumber(value.value, true) }}</span>
         </div>
       </v-card-text>
       <v-card-actions>
