@@ -138,9 +138,11 @@ const current = computed(() => {
 }
 
 .maps-section {
+  height: 100%;
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: end;
 }
 
 .maps-button {
