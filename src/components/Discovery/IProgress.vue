@@ -32,7 +32,7 @@
       class="maps-section"
     >
       <v-btn
-        :prepend-icon="mdiMap"
+        :prepend-icon="mdiTunnel"
         class="maps-button"
         :disabled="maps.length === 0"
         @click="toggleMap"
@@ -60,7 +60,7 @@ import { computed } from "vue";
 import { upgradeIcon } from "../../icons/icons";
 import { MONSTER_STATE } from "@/types";
 import { useMap } from "@/composable/useMap";
-import { mdiExitRun, mdiMap } from "@mdi/js";
+import { mdiExitRun, mdiTunnel } from "@mdi/js";
 
 const { monsters, map, mapMonsters } = useMonsters();
 const { activeMap, toggleMap, maps } = useMap();
@@ -90,10 +90,10 @@ const current = computed(() => {
   border-left: 1px solid #f1f1f1;
   box-sizing: border-box;
   width: 100%;
-  padding: 0.25rem 0.5rem;
 }
 
 .progress-grid {
+  padding: 0.25rem 0.5rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
@@ -138,8 +138,6 @@ const current = computed(() => {
 }
 
 .maps-section {
-  position: absolute;
-  bottom: 0;
   display: flex;
   width: 100%;
   justify-content: space-between;

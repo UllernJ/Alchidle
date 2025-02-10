@@ -1,6 +1,15 @@
 export const patchNotes = [
   {
-    version: "v1.0.1",
+    version: "0.0.2",
+    date: "10.02.2025",
+    changes: [
+      "Balanced the drops from monsters. Comments from the community were taken into consideration, thank you all.",
+      "Fixed bug that caused the game to crash when the player tried to enter a dungeon that were already completed making the player able to skip maps.",
+      "Various UI enhancements.",
+    ],
+  },
+  {
+    version: "0.0.1",
     date: "07.02.2025",
     changes: [
       "Ensured progress continues even when the tab is not active",
@@ -9,7 +18,7 @@ export const patchNotes = [
     ],
   },
   {
-    version: "v1.0.0",
+    version: "0.0.0",
     date: "06.02.2025",
     changes: [
       "Initial release of my prototype!",
