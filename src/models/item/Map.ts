@@ -33,6 +33,12 @@ export class Map extends Item {
     const { logMessage } = useActionLog();
     const { mapMonsters, setState } = useMonsters();
     const { toggleMap } = useMap();
+
+    if (this.cleared) {
+      logMessage("You have already cleared this map.", MessageType.INFO);
+      return;
+    }
+
     logMessage(
       "You entered the map and encountered some new monsters!",
       MessageType.INFO
@@ -59,5 +65,4 @@ export class Map extends Item {
     this.active = false;
     setState(MONSTER_STATE.MONSTERS);
   }
-  
 }

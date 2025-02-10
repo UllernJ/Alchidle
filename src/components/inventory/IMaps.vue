@@ -6,7 +6,7 @@
   >
     <v-card class="inventory-card">
       <v-card-title class="headline">
-        Maps
+        Dungeons
       </v-card-title>
       <v-card-text>
         <div class="inventory-grid">
