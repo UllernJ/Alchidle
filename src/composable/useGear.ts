@@ -40,11 +40,11 @@ const defaultWeapons: Weapon[] = [
 ];
 
 const defaultArmors: Armor[] = [
-  { name: "Boots", defense: new Decimal(1), cost: new Decimal(50), path: bootsIcon, quantity: new Decimal(0) },
-  { name: "Hands", defense: new Decimal(2), cost: new Decimal(100), path: handsIcon, quantity: new Decimal(0) },
-  { name: "Pants", defense: new Decimal(4), cost: new Decimal(200), path: pantsIcon, quantity: new Decimal(0) },
-  { name: "Hjelmet", defense: new Decimal(8), cost: new Decimal(400), path: helmetIcon, quantity: new Decimal(0) },
-  { name: "Chestplate", defense: new Decimal(16), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
+  { name: "Boots", defense: new Decimal(5), cost: new Decimal(50), path: bootsIcon, quantity: new Decimal(0) },
+  { name: "Hands", defense: new Decimal(10), cost: new Decimal(100), path: handsIcon, quantity: new Decimal(0) },
+  { name: "Pants", defense: new Decimal(25), cost: new Decimal(200), path: pantsIcon, quantity: new Decimal(0) },
+  { name: "Hjelmet", defense: new Decimal(50), cost: new Decimal(400), path: helmetIcon, quantity: new Decimal(0) },
+  { name: "Chestplate", defense: new Decimal(100), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
 ];
 
 const weapons = ref<Weapon[]>([
@@ -56,11 +56,11 @@ const weapons = ref<Weapon[]>([
 ]);
 
 const armors = ref<Armor[]>([
-  { name: "Boots", defense: new Decimal(1), cost: new Decimal(50), path: bootsIcon, quantity: new Decimal(0) },
-  { name: "Hands", defense: new Decimal(2), cost: new Decimal(100), path: handsIcon, quantity: new Decimal(0) },
-  { name: "Pants", defense: new Decimal(4), cost: new Decimal(200), path: pantsIcon, quantity: new Decimal(0) },
-  { name: "Hjelmet", defense: new Decimal(8), cost: new Decimal(400), path: helmetIcon, quantity: new Decimal(0) },
-  { name: "Chestplate", defense: new Decimal(16), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
+  { name: "Boots", defense: new Decimal(5), cost: new Decimal(50), path: bootsIcon, quantity: new Decimal(0) },
+  { name: "Hands", defense: new Decimal(10), cost: new Decimal(100), path: handsIcon, quantity: new Decimal(0) },
+  { name: "Pants", defense: new Decimal(25), cost: new Decimal(200), path: pantsIcon, quantity: new Decimal(0) },
+  { name: "Hjelmet", defense: new Decimal(50), cost: new Decimal(400), path: helmetIcon, quantity: new Decimal(0) },
+  { name: "Chestplate", defense: new Decimal(100), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
 ]);
 
 const costMultiplier = ref(1)
