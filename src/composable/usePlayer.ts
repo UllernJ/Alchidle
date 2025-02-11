@@ -6,10 +6,10 @@ import Decimal from "break_eternity.js";
 import { isDev } from "@/utils/dev";
 
 //!multipliers
-const attackMultiplier = ref<Decimal>(new Decimal(10000));
+const attackMultiplier = ref<Decimal>(new Decimal(1));
 const defenceMultiplier = ref<Decimal>(new Decimal(1));
-const healthMultiplier = ref<Decimal>(new Decimal(100));
-const regenMultiplier = ref<Decimal>(new Decimal(1000));
+const healthMultiplier = ref<Decimal>(new Decimal(1));
+const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
 const productionRate = computed(() =>
   new Decimal(isDev ? 200 : 1).times(productionMultiplier.value)

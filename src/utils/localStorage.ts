@@ -292,7 +292,7 @@ const initInfusions = (
       savedInfusion.level = new Decimal(infusion.level);
       savedInfusion.contribution = new Decimal(infusion.contribution);
       for (let i = 1; i < savedInfusion.level.toNumber(); i++) {
-        savedInfusion.cost = savedInfusion.cost.times(1.15).round();
+        savedInfusion.cost = savedInfusion.cost.times(1.5).round();
         savedInfusion.effect();
       }
     }
