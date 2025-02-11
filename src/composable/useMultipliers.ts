@@ -11,7 +11,7 @@ export const useMultipliers = () => {
   const getMultipliers = () => {
     const {
       attackMultiplier,
-      defenceMultiplier,
+      blockingMultiplier,
       healthMultiplier,
       productionRate,
       regenMultiplier,
@@ -20,9 +20,9 @@ export const useMultipliers = () => {
 
     return {
       attackMultiplier,
-      defenceMultiplier,
       healthMultiplier,
-      productionRate,
+      blockingMultiplier,
+      productionMultiplier: productionRate,
       regenMultiplier,
       attackSpeedMultiplier
     };

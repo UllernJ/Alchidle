@@ -7,7 +7,7 @@ import { isDev } from "@/utils/dev";
 
 //!multipliers
 const attackMultiplier = ref<Decimal>(new Decimal(1));
-const defenceMultiplier = ref<Decimal>(new Decimal(1));
+const blockingMultiplier = ref<Decimal>(new Decimal(1));
 const healthMultiplier = ref<Decimal>(new Decimal(1));
 const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
@@ -42,7 +42,7 @@ export const usePlayer = () => {
   });
 
   const defencePower = computed(() => {
-    return defenceMultiplier.value.times(TRAINER.value.getProduction());
+    return blockingMultiplier.value.times(TRAINER.value.getProduction());
   });
 
   const maxHealth = computed(() => {
@@ -65,8 +65,8 @@ export const usePlayer = () => {
   };
 
   const upgradeDefensePower = (multiplier: number = 1.1) => {
-    defenceMultiplier.value =
-    defenceMultiplier.value.times(multiplier);
+    blockingMultiplier.value =
+    blockingMultiplier.value.times(multiplier);
   };
 
   const upgradeProductionRate = (multiplier: number = 1.1) => {
@@ -87,7 +87,7 @@ export const usePlayer = () => {
 
   const resetMultipliers = () => {
     attackMultiplier.value = new Decimal(1);
-    defenceMultiplier.value = new Decimal(1);
+    blockingMultiplier.value = new Decimal(1);
     healthMultiplier.value = new Decimal(1);
     regenMultiplier.value = new Decimal(1);
     productionMultiplier.value = new Decimal(1);
@@ -104,7 +104,7 @@ export const usePlayer = () => {
     maxHealth,
     regen,
     attackMultiplier,
-    defenceMultiplier,
+    blockingMultiplier,
     healthMultiplier,
     regenMultiplier,
     attackSpeedMultiplier,

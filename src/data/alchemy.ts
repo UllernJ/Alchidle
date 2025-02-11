@@ -17,7 +17,7 @@ const defaultInfusePower = () => new Infusion(
 );
 
 const defaultInfuseDefense = () => new Infusion(
-  "Defense Infusion",
+  "Block Infusion",
   new Decimal(100),
   new Decimal(0),
   () => {
@@ -25,7 +25,7 @@ const defaultInfuseDefense = () => new Infusion(
     upgradeDefensePower();
   },
   new Decimal(1),
-  "Increases defense by 1.1x"
+  "Increases blocking multiplier by 1.1x"
 );
 
 const defaultInfuseEfficiency = () => new Infusion(
