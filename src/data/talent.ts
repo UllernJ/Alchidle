@@ -185,10 +185,13 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     () => {}
   ),
   increaseSpeed: new TalentNode(
-    "test7",
-    new Decimal(1),
+    "Attack speed increases by 10%",
+    new Decimal(8),
     mdiSpeedometer,
-    () => {}
+    () => {
+      const { upgradeAttackSpeed } = usePlayer()
+      upgradeAttackSpeed(1.1)
+    }
   ),
   alchemicalExpertise: new TalentNode(
     "Increase alchemists effiency by 10%",

@@ -6,14 +6,15 @@ import Decimal from "break_eternity.js";
 import { isDev } from "@/utils/dev";
 
 //!multipliers
-const attackMultiplier = ref<Decimal>(new Decimal(1));
+const attackMultiplier = ref<Decimal>(new Decimal(10000));
 const defenceMultiplier = ref<Decimal>(new Decimal(1));
-const healthMultiplier = ref<Decimal>(new Decimal(1));
-const regenMultiplier = ref<Decimal>(new Decimal(1));
+const healthMultiplier = ref<Decimal>(new Decimal(100));
+const regenMultiplier = ref<Decimal>(new Decimal(1000));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
 const productionRate = computed(() =>
   new Decimal(isDev ? 200 : 1).times(productionMultiplier.value)
 );
+const attackSpeedMultiplier = ref<Decimal>(new Decimal(1));
 
 //!player stats
 const health = ref<Decimal>(new Decimal(100));
@@ -80,12 +81,17 @@ export const usePlayer = () => {
     regenMultiplier.value = regenMultiplier.value.times(multiplier);
   };
 
+  const upgradeAttackSpeed = (multiplier: number = 1.1) => {
+    attackSpeedMultiplier.value = attackSpeedMultiplier.value.times(multiplier);
+  }
+
   const resetMultipliers = () => {
     attackMultiplier.value = new Decimal(1);
     defenceMultiplier.value = new Decimal(1);
     healthMultiplier.value = new Decimal(1);
     regenMultiplier.value = new Decimal(1);
     productionMultiplier.value = new Decimal(1);
+    attackSpeedMultiplier.value = new Decimal(1);
   };
 
   return {
@@ -101,6 +107,7 @@ export const usePlayer = () => {
     defenceMultiplier,
     healthMultiplier,
     regenMultiplier,
+    attackSpeedMultiplier,
     setFocus,
     upgradeProductionRate,
     regenHealth,
@@ -108,6 +115,7 @@ export const usePlayer = () => {
     upgradeDefensePower,
     upgradeHealthMultiplier,
     upgradeRegen,
+    upgradeAttackSpeed,
     resetMultipliers,
   };
 };

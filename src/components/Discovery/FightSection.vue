@@ -85,7 +85,7 @@ import { useMap } from "@/composable/useMap";
 import { autoAttackResearch } from "@/data/research";
 import { isDev } from "@/utils/dev";
 
-const { attackPower, health: playerHealth, maxHealth, defencePower, regen } = usePlayer();
+const { attackPower, health: playerHealth, maxHealth, defencePower, regen, attackSpeedMultiplier } = usePlayer();
 const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
   useMonsters();
 const { logMessage } = useActionLog();
@@ -95,6 +95,7 @@ const isAttackOnCooldown = ref(false);
 const initialHealth = ref<Decimal | null>(null);
 const autoAttackInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const defeatedMonster = ref<Monster | null>(null);
+const showCountdown = ref(false);
 
 const isEmpty = computed(() => !currentMonster.value);
 const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
@@ -110,7 +111,7 @@ const monsterHealthPercentage = computed(() => {
 const attackButtonText = computed(() => {
   if (isEmpty.value) {
     return "Explore";
-  } else if (isAttackOnCooldown.value) {
+  } else if (isAttackOnCooldown.value && showCountdown.value) {
     return `${cooldownTime.value}s`;
   } else {
     return "Attack";
@@ -164,7 +165,7 @@ const attack = () => {
     defeatedMonster.value = currentMonster.value;
     setTimeout(() => {
       isAttackOnCooldown.value = false;
-    }, 1000);
+    }, 1000 );
   } else {
     const damageTaken = currentMonster.value.attack.minus(defencePower.value);
     playerHealth.value = playerHealth.value.minus(damageTaken);
@@ -176,12 +177,13 @@ const attack = () => {
         "You have been defeated. Lets recover to full health.",
         MessageType.ERROR
       );
+      showCountdown.value = true;
       isAttackOnCooldown.value = true;
       clearAutoAttack();
     } else {
       setTimeout(() => {
         isAttackOnCooldown.value = false;
-      }, 1000);
+      }, 1000 / attackSpeedMultiplier.value.toNumber());
     }
   }
 };
@@ -191,7 +193,7 @@ const autoAttack = () => {
     clearAutoAttack();
   } else {
     logMessage("Auto Attack started.", MessageType.INFO);
-    autoAttackInterval.value = setInterval(attack, 1000);
+    autoAttackInterval.value = setInterval(attack, (1000 / attackSpeedMultiplier.value.toNumber()));
   }
 };
 
@@ -223,6 +225,7 @@ watch(currentMonster, (newMonster) => {
 watch(playerHealth, (newHealth) => {
   if (isAttackOnCooldown.value && newHealth.equals(maxHealth.value)) {
     isAttackOnCooldown.value = false;
+    showCountdown.value = false;
   }
 });
 
