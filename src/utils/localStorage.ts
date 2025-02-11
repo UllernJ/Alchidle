@@ -23,6 +23,7 @@ import { serializeState } from "./stateSerializer";
 import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -139,7 +140,7 @@ export const loadState = () => {
         "Save file is corrupted. Starting a new game...",
         MessageType.ERROR
       );
-      clearSession(); //todo the user should be able to save the session string
+      clearSession();
       window.location.reload();
     }
   } finally {
@@ -332,6 +333,14 @@ const initTalents = (talents: {key: string, level: string}[]) => {
       talentNode.restoreFromSave(talent.level);
     }
   });
+  const { map } = useMonsters();
+  const { points } = useReincarnation();
+  if (map.value > 10) {
+    const temp = map.value - 10
+    for (let i = 1; i <= temp; i++) {
+      points.value = points.value.plus(i*2)
+    }
+  }
 }
 
 const clearSession = () => {

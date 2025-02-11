@@ -18,8 +18,14 @@ import { talentNodes } from "@/data/talent";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
-const points = ref<Decimal>(new Decimal(35));
-const learnedTalents = computed(() => Object.values(talentNodes).filter((talent) => talent.level.gt(0)));
+const points = ref<Decimal>(new Decimal(30));
+const learnedTalents = computed(() =>
+  Object.values(talentNodes).filter((talent) => talent.level.gt(0))
+);
+const nextPoints = computed(() => {
+  const { map } = useMonsters();
+  return (map.value - 9) * 2;
+});
 
 const pointsSpent = computed(() => {
   const counts = new Map();
@@ -57,7 +63,7 @@ export const useReincarnation = () => {
     const { resetMultipliers } = usePlayer();
     const { resetWorkers } = useWorkers();
     const { resetBuildings } = useBuildings();
-    const { resetTabState } = useTab()
+    const { resetTabState } = useTab();
 
     resetResources();
     resetAlchemy();
@@ -87,12 +93,15 @@ export const useReincarnation = () => {
     if (index > -1) {
       talentQueue.value.splice(index, 1);
     }
-  }
+  };
 
   const confirmTalentQueue = () => {
     const { clearLog, logMessage } = useActionLog();
     clearLog();
-    logMessage("Woah! You've reincarnated, let's see what you've learned...", MessageType.SUCCESS);
+    logMessage(
+      "Woah! You've reincarnated, let's see what you've learned...",
+      MessageType.SUCCESS
+    );
     talentQueue.value.forEach((talent) => {
       talent.learn();
     });
@@ -111,7 +120,16 @@ export const useReincarnation = () => {
         talent.effect();
       }
     });
-  }
+  };
+
+  const onCompleteMap = () => {
+    points.value = points.value.plus(nextPoints.value);
+    const { logMessage } = useActionLog();
+    logMessage(
+      `You've completed map ${useMonsters().map.value} and gained ${nextPoints.value} talent points!`,
+      MessageType.SUCCESS
+    );
+  };
 
   return {
     isReincarnationOpen,
@@ -123,8 +141,10 @@ export const useReincarnation = () => {
     addTalentToQueue,
     clearTalentQueue,
     removeTalentFromQueue,
+    onCompleteMap,
     points,
     pointsSpent,
     talentQueue,
+    nextPoints,
   };
 };

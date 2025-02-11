@@ -1,4 +1,13 @@
 export const patchNotes = [
+{
+  version: "0.0.3",
+  date: "11.02.2025",
+  changes: [
+    "Fixed infusion restore from save bug.",
+    "Added new talent for reincarnation: attack speed (increases attack speed 10% per level)",
+    "You now gain talent points for completing maps beyond map 10."
+  ]
+},
   {
     version: "0.0.2",
     date: "10.02.2025",

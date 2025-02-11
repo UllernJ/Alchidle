@@ -6,6 +6,7 @@ import { MessageType } from "./useMessage";
 import Decimal from "break_eternity.js";
 import { MONSTER_STATE, type MonsterState } from "@/types";
 import { fifthMap, tenthMap } from "@/data/items/map";
+import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 
 const MONSTERS_PER_MAP = 30;
 
@@ -31,6 +32,10 @@ const currentMonster = computed(() => {
 
 export function useMonsters() {
   const getNextMonsters = () => {
+    if (map.value > 10) {
+      const { onCompleteMap } = useReincarnation();
+      onCompleteMap();
+    }
     log();
     map.value += 1;
     const listOfMonsters = MonsterFactory.getMonsters(
@@ -77,19 +82,19 @@ export function useMonsters() {
     monsters.value = [];
     BASE_HEALTH.value = new Decimal(30);
     BASE_DAMAGE.value = new Decimal(4);
-  }
+  };
 
   const decreaseMonsterDamage = (multiplier: number) => {
     BASE_DAMAGE.value = BASE_DAMAGE.value.times(multiplier);
-  }
+  };
 
   const decreaseMonsterHealth = (multiplier: number) => {
     BASE_HEALTH.value = BASE_HEALTH.value.times(multiplier);
-  }
+  };
 
   const upgradeMonsterDrop = (multiplier: number) => {
     BASE_DROP.value = BASE_DROP.value.times(multiplier);
-  }
+  };
 
   return {
     monsters,
@@ -109,10 +114,9 @@ export function useMonsters() {
     resetMonsters,
     decreaseMonsterDamage,
     decreaseMonsterHealth,
-    upgradeMonsterDrop
+    upgradeMonsterDrop,
   };
 }
-
 
 //find a way to avoid logging messages when loading from a save
 watchEffect(() => {
