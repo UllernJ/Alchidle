@@ -51,7 +51,7 @@ export class Map extends Item {
 
   complete() {
     const { setState } = useMonsters();
-    if (this.monsters.every((monster) => monster.health.lessThanOrEqualTo(0))) {
+    if (this.monsters.every((monster) => monster.health.current.lessThanOrEqualTo(0))) {
       this.cleared = true;
       this.active = false;
       setState(MONSTER_STATE.MONSTERS);

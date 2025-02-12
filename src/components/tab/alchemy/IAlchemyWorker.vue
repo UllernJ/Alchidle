@@ -31,14 +31,6 @@
       <p class="description">
         Enchants every aspect of your life.
       </p>
-      <div class="worker-cost">
-        <span>Generates {{ formatNumber(alchemyWorkers.efficiency) }}</span>
-        <Icon
-          :path="alchemyIcon"
-          :size="20"
-        />
-        <span>/s</span>
-      </div>
       <div :class="['worker-cost', { 'text-red': !canAffordAlchemist }]">
         <span>Costs: {{ formatNumber(alchemyWorkers.cost.value) }}</span>
         <Icon
@@ -54,7 +46,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useAlchemy } from "../../../composable/useAlchemy";
-import { alchemistIcon, alchemyIcon, moneyIcon } from "../../../icons/icons";
+import { alchemistIcon, moneyIcon } from "../../../icons/icons";
 import { RESOURCE } from "../../../types";
 import { useResource } from "../../../composable/useResource";
 import { formatNumber } from "../../../utils/number";

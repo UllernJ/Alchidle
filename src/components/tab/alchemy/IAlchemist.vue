@@ -29,7 +29,7 @@
         }}
       </span>
       <span v-show="alchemyWorkers.numberOfWorkers.notEquals(0)">
-        Effiency: {{ alchemyWorkers.efficiency }}x</span>
+        Effiency: {{ formatNumber(alchemyWorkers.efficiency, true) }}x</span>
     </div>
   </div>
 </template>
@@ -38,6 +38,7 @@
 import { mdiInformationBoxOutline } from "@mdi/js";
 import { useAlchemy } from "../../../composable/useAlchemy";
 import Icon from "../../Icon.vue";
+import { formatNumber } from "@/utils/number";
 
 const { alchemyWorkers } = useAlchemy();
 </script>

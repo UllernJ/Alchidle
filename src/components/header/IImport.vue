@@ -41,7 +41,6 @@
   
   <script setup lang="ts">
   import { ref } from "vue";
-  import { loadState } from "@/utils/localStorage";
   import { MessageType, useMessage } from "@/composable/useMessage";
   
   const isOpen = ref(false);
@@ -59,7 +58,7 @@
   const importSave = () => {
     try {
       localStorage.setItem("session", importData.value);
-      loadState();
+      window.location.reload(); //todo: replace with a better solution
       const { establishMessage } = useMessage();
       establishMessage(MessageType.SUCCESS, "Save file imported successfully");
       close();
