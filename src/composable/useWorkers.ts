@@ -72,6 +72,14 @@ export const useWorkers = () => {
         multiplier: 1,
       };
     });
+    baseWorkers.value.forEach((worker) => {
+      worker.numberOfWorkers = new Decimal(0);
+      worker.cost = {
+        ...getDefaultCostByWorkerName(worker.name),
+        multiplier: 1,
+      };
+    });
+    
   };
 
   const upgradeWorkers = (multipliers: number) => {

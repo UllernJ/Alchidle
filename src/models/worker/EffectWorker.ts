@@ -1,6 +1,7 @@
 import type Decimal from "break_eternity.js";
 import type { RESOURCE } from "../../types";
 import { BaseWorker } from "./BaseWorker";
+import { formatNumber } from "@/utils/number";
 
 export class EffectWorker extends BaseWorker {
   produce: {
@@ -29,7 +30,7 @@ export class EffectWorker extends BaseWorker {
 
   upgrade(multiplier: number): void {
     this.produce.rate = this.produce.rate.times(multiplier);
-    this.description = `Increases ${this.produce.resource} by ${this.produce.rate}.`;
+    this.description = `Increases ${this.produce.resource} by ${formatNumber(this.produce.rate)}.`;
   }
 
   getProduction() {
