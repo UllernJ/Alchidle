@@ -75,6 +75,7 @@ export const useReincarnation = () => {
     resetWorkers();
     resetBuildings();
     resetTabState();
+    points.value = new Decimal(30);
 
     // confirm talents after clearing all data to avoid any conflicts
     reapplyTalentsAfterReincarnation();

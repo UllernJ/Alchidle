@@ -32,7 +32,7 @@ const currentMonster = computed(() => {
 
 export function useMonsters() {
   const getNextMonsters = () => {
-    if (map.value > 10) {
+    if (map.value >= 10) {
       const { onCompleteMap } = useReincarnation();
       onCompleteMap();
     }
@@ -50,13 +50,6 @@ export function useMonsters() {
     BASE_HEALTH.value = BASE_DAMAGE.value.times(3).dividedBy(2.25).times(10);
     BASE_DROP.value = BASE_DROP.value.times(3);
     monsters.value = listOfMonsters;
-    const consolData = listOfMonsters.map((monster) => {
-      return {
-        name: monster.name,
-        drop: monster.drop.amount.toString(),
-      };
-    });
-    console.log(consolData);
   };
 
   const log = () => {
