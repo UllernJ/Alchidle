@@ -33,6 +33,11 @@ export class EffectWorker extends BaseWorker {
     this.description = `Increases ${this.produce.resource} by ${formatNumber(this.produce.rate)}.`;
   }
 
+  setProductionRate(rate: Decimal): void {
+    this.produce.rate = rate;
+    this.description = `Increases ${this.produce.resource} by ${formatNumber(this.produce.rate)}.`;
+  }
+
   getProduction() {
     return this.produce.rate.times(this.numberOfWorkers);
   }

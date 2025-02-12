@@ -3,9 +3,10 @@ import Decimal from "break_eternity.js";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
-import { getDefaultCostByWorkerName, WORKERS } from "@/data/workers";
+import { getDefaultCostByWorkerName, PRIEST, TRAINER, WORKERS } from "@/data/workers";
 import { Worker } from "../models/worker/Worker";
 import { EffectWorker } from "@/models/worker/EffectWorker";
+import { formatNumber } from "@/utils/number";
 
 const workerStations = computed(() => WORKERS.value);
 const workers = computed(() =>
@@ -72,14 +73,11 @@ export const useWorkers = () => {
         multiplier: 1,
       };
     });
-    baseWorkers.value.forEach((worker) => {
-      worker.numberOfWorkers = new Decimal(0);
-      worker.cost = {
-        ...getDefaultCostByWorkerName(worker.name),
-        multiplier: 1,
-      };
-    });
-    
+    workers.value.forEach((worker) => {
+      worker.production.rate = new Decimal(1);
+    })
+    TRAINER.value.description = `Increases your defence by ${formatNumber(TRAINER.value.produce.rate.times(5))}.`;
+    PRIEST.value.description = `Increases your health regeneration by 1.`;
   };
 
   const upgradeWorkers = (multipliers: number) => {

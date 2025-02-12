@@ -51,7 +51,7 @@ export const useReincarnation = () => {
     isReincarnationUnlocked.value = true;
   };
 
-  const reincarnate = (clearSession = false) => {
+  const reincarnate = () => {
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
     const { resetResources } = useResource();
@@ -78,10 +78,10 @@ export const useReincarnation = () => {
     points.value = new Decimal(30);
 
     // confirm talents after clearing all data to avoid any conflicts
-    if (!clearSession) {
+
       reapplyTalentsAfterReincarnation();
       confirmTalentQueue();
-    }
+    
   };
 
   const addTalentToQueue = (talent: TalentNode) => {
