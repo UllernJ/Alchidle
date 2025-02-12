@@ -125,5 +125,10 @@ export const formatNumber = (num: Decimal, showDecimals: boolean = false): strin
     formattedValue = value.toFixed(2);
   }
 
-  return `${formattedValue}${units[unitIndex]}`;
+  //remove zeros after decimal
+  if (formattedValue.includes(".")) {
+    formattedValue = formattedValue.replace(/\.?0*$/, "");
+  }
+
+  return `${formattedValue}${units[unitIndex]}` || "0";
 };

@@ -24,14 +24,14 @@
     </div>
     <div class="PlayerStats">
       <div class="Stat">
-        <span>{{ formatNumber(attackPower) }}</span>
+        <span>{{ formatNumber(attackPower, true) }}</span>
         <Icon
           :path="attackIcon"
           :size="24"
         />
       </div>
       <div class="Stat">
-        <span>{{ formatNumber(defencePower) }}</span>
+        <span>{{ formatNumber(defencePower, true) }}</span>
         <Icon
           :path="defenceIcon"
           :size="24"
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="Stat-regen">
-        <span>+ {{ formatNumber(regen) }}</span>
+        <span>+ {{ formatNumber(regen, true) }}</span>
         <Icon
           :path="healthIcon"
           size="1em"
