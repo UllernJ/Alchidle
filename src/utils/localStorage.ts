@@ -24,7 +24,6 @@ import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { MonsterFactory } from "@/factories/MonsterFactory";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
