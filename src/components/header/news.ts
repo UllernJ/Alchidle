@@ -1,13 +1,24 @@
 export const patchNotes = [
-{
-  version: "0.0.3",
-  date: "11.02.2025",
-  changes: [
-    "Fixed infusion restore from save bug.",
-    "Added new talent for reincarnation: attack speed (increases attack speed 10% per level)",
-    "You now gain talent points for completing maps beyond map 10."
-  ]
-},
+  {
+    version: "0.0.4",
+    date: "12.02.2025",
+    changes: [
+      "Fix formatting issue with trainers and priests.",
+      "Fix talent points calculation & a bug where talent points would stay at 0 when reaching map 10.",
+      "Monsters true max health is now displayed when refresh, so it doesnt look like its always 100% health when its not.",
+      "Fixed import bug causing importing the same save file over and over again resulting in huge multipliers.",
+    ],
+  },
+
+  {
+    version: "0.0.3",
+    date: "11.02.2025",
+    changes: [
+      "Fixed infusion restore from save bug.",
+      "Added new talent for reincarnation: attack speed (increases attack speed 10% per level)",
+      "You now gain talent points for completing maps beyond map 10.",
+    ],
+  },
   {
     version: "0.0.2",
     date: "10.02.2025",
