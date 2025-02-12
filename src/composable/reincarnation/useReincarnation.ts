@@ -78,10 +78,8 @@ export const useReincarnation = () => {
     points.value = new Decimal(30);
 
     // confirm talents after clearing all data to avoid any conflicts
-
-      reapplyTalentsAfterReincarnation();
-      confirmTalentQueue();
-    
+    reapplyTalentsAfterReincarnation();
+    confirmTalentQueue();
   };
 
   const addTalentToQueue = (talent: TalentNode) => {
@@ -110,7 +108,6 @@ export const useReincarnation = () => {
     });
     clearTalentQueue();
     saveSession();
-    console.log(learnedTalents.value);
   };
 
   const clearTalentQueue = () => {

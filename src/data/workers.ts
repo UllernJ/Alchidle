@@ -82,7 +82,7 @@ export const TRAINER = ref<EffectWorker>(
   new EffectWorker(
     "Trainer",
     {
-      rate: new Decimal(1),
+      rate: new Decimal(5),
       resource: EFFECT_RESOURCE.DEFENCE,
     },
     getDefaultCostByWorkerName("Trainer"),

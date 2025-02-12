@@ -41,7 +41,7 @@
               v-if="worker instanceof Worker"
               class="worker-cost"
             >
-              <span>Generates {{ formatNumber(worker.production.rate) }}</span>
+              <span>Generates {{ formatNumber(worker.production.rate, true) }}</span>
               <Icon
                 :path="getResourceIcon(worker.production.resource)"
                 :size="20"

@@ -6,7 +6,6 @@ import { usePlayer } from "./usePlayer";
 import { getDefaultCostByWorkerName, PRIEST, TRAINER, WORKERS } from "@/data/workers";
 import { Worker } from "../models/worker/Worker";
 import { EffectWorker } from "@/models/worker/EffectWorker";
-import { formatNumber } from "@/utils/number";
 
 const workerStations = computed(() => WORKERS.value);
 const workers = computed(() =>
@@ -76,8 +75,8 @@ export const useWorkers = () => {
     workers.value.forEach((worker) => {
       worker.production.rate = new Decimal(1);
     })
-    TRAINER.value.description = `Increases your defence by ${formatNumber(TRAINER.value.produce.rate.times(5))}.`;
-    PRIEST.value.description = `Increases your health regeneration by 1.`;
+    TRAINER.value.setProductionRate(new Decimal(5));
+    PRIEST.value.setProductionRate(new Decimal(1));
   };
 
   const upgradeWorkers = (multipliers: number) => {
