@@ -4,7 +4,10 @@ import { getIconByName } from "@/data/monsters";
 
 export class Monster {
   name: string;
-  health: Decimal;
+  health: {
+    maxHealth: Decimal;
+    current: Decimal;
+  }
   attack: Decimal;
   drop: {
     resource: RESOURCE;
@@ -18,33 +21,41 @@ export class Monster {
     attack: Decimal,
     dropResource: RESOURCE,
     dropAmount: Decimal,
-    icon: string
+    icon: string,
+    maxHealth?: Decimal | undefined
   ) {
     this.name = name;
-    this.health = health;
+    this.health = {
+      maxHealth: health,
+      current: health,
+    }
     this.attack = attack;
     this.drop = {
       resource: dropResource,
       amount: dropAmount,
     };
     this.icon = icon;
+    if (maxHealth) {
+      this.health.maxHealth = maxHealth;
+    }
   }
 
   takeDamage(damage: Decimal) {
-    this.health = this.health.sub(damage);
+    this.health.current = this.health.current.sub(damage);
   }
   isDead(): boolean {
-    return this.health.lessThanOrEqualTo(0);
+    return this.health.current.lessThanOrEqualTo(0);
   }
 
   static fromObject(obj: Monster): Monster {
     return new Monster(
       obj.name,
-      new Decimal(obj.health),
+      new Decimal(obj.health.current),
       new Decimal(obj.attack),
       obj.drop.resource,
       new Decimal(obj.drop.amount),
-      obj.icon ?? getIconByName(obj.name)
+      obj.icon ?? getIconByName(obj.name),
+      obj.health.maxHealth ? new Decimal(obj.health.maxHealth) : undefined
     );
   }
 }

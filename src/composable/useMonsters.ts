@@ -25,9 +25,13 @@ const mapMonsters = ref<Monster[]>([]);
 
 const currentMonster = computed(() => {
   if (monsters.state === MONSTER_STATE.MAP) {
-    return mapMonsters.value.find((monster) => monster.health.greaterThan(0));
+    return mapMonsters.value.find((monster) =>
+      monster.health.current.greaterThan(0)
+    );
   }
-  return monsters.value.find((monster) => monster.health.greaterThan(0));
+  return monsters.value.find((monster) =>
+    monster.health.current.greaterThan(0)
+  );
 });
 
 export function useMonsters() {
@@ -66,8 +70,9 @@ export function useMonsters() {
   const numberOfDeadMonsters = computed(
     () =>
       (map.value - 1) * MONSTERS_PER_MAP +
-      monsters.value.filter((monster) => monster.health.lessThanOrEqualTo(0))
-        .length
+      monsters.value.filter((monster) =>
+        monster.health.current.lessThanOrEqualTo(0)
+      ).length
   );
 
   const resetMonsters = () => {
@@ -99,7 +104,9 @@ export function useMonsters() {
     map,
     currentMonster,
     isEveryMonsterDefeated: computed(() =>
-      monsters.value.every((monster) => monster.health.lessThanOrEqualTo(0))
+      monsters.value.every((monster) =>
+        monster.health.current.lessThanOrEqualTo(0)
+      )
     ),
     BASE_DAMAGE,
     BASE_HEALTH,

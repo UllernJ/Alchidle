@@ -10,7 +10,7 @@
         :key="index"
         :class="[
           'progress-box',
-          { defeated: monster.health.lessThanOrEqualTo(0) },
+          { defeated: monster.health.current.lessThanOrEqualTo(0) },
           { current: index === current },
         ]"
       >
@@ -74,9 +74,9 @@ const currentmap = computed(() => {
 
 const current = computed(() => {
   if (monsters.state === MONSTER_STATE.MAP) {
-    return mapMonsters.value.findIndex((m) => m.health.gt(0));
+    return mapMonsters.value.findIndex((m) => m.health.current.gt(0));
   }
-  return monsters.value.findIndex((m) => m.health.gt(0));
+  return monsters.value.findIndex((m) => m.health.current.gt(0));
 });
 </script>
 

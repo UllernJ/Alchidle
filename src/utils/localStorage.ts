@@ -24,6 +24,7 @@ import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { MonsterFactory } from "@/factories/MonsterFactory";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -119,7 +120,7 @@ export const loadState = () => {
   isLoadingFromSave.value = true;
   let data;
   try {
-    data = JSON.parse(atob(state))
+    data = JSON.parse(atob(state));
     initWorkers(data.workerStations);
     initResearch(data.research);
     initBuildings(data.buildings);
@@ -162,9 +163,7 @@ const initWorkers = (workers: { name: string; numberOfWorkers: Decimal }[]) => {
   });
 };
 
-const initResources = (
-  resourcesData: Record<string, { amount: string }>
-) => {
+const initResources = (resourcesData: Record<string, { amount: string }>) => {
   const { resources } = useResource();
   Object.entries(resourcesData).forEach(([key, value]) => {
     const resource = resources[key as RESOURCE];
@@ -258,22 +257,34 @@ const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
 };
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
-  const { map, monsters, BASE_DAMAGE, BASE_HEALTH, BASE_DROP } = useMonsters();
+  const { map, monsters, BASE_DAMAGE, BASE_HEALTH, BASE_DROP, getNextMonsters } = useMonsters();
   map.value = data.map ?? 0;
-  monsters.value = data.remainingMonsters.map((monster) => {
-    return Monster.fromObject(monster);
-  });
-  if (monsters.value.length > 0) {
-    BASE_DAMAGE.value = new Decimal(
-      monsters.value[monsters.value.length - 1].attack
-    ).times(1.15);
-    BASE_HEALTH.value = new Decimal(
-      monsters.value[monsters.value.length - 1].health
-    ).times(1.15);
-  }
+
   for (let i = 0; i < map.value; i++) {
     BASE_DROP.value = BASE_DROP.value.times(3);
   }
+
+  if(data.remainingMonsters.length > 0 && typeof data.remainingMonsters[0].health !== 'object') {
+    map.value = map.value - 1;
+    BASE_DAMAGE.value = new Decimal(
+      data.remainingMonsters[data.remainingMonsters.length - 1].attack
+    )
+    BASE_HEALTH.value = BASE_DAMAGE.value.times(3).dividedBy(2.25).times(10);
+    getNextMonsters();
+  } else {
+    monsters.value = data.remainingMonsters.map((monster) => {
+      return Monster.fromObject(monster);
+    });
+    if (monsters.value.length > 0) {
+      BASE_DAMAGE.value = new Decimal(
+        monsters.value[monsters.value.length - 1].attack
+      ).times(1.15);
+      BASE_HEALTH.value = new Decimal(
+        monsters.value[monsters.value.length - 1].health.maxHealth
+      ).times(1.15);
+    }
+  }
+
 };
 
 const initInfusions = (
@@ -326,7 +337,7 @@ const initMaps = (
   });
 };
 
-const initTalents = (talents: {key: string, level: string}[]) => {
+const initTalents = (talents: { key: string; level: string }[]) => {
   talents.forEach((talent) => {
     const talentNode = talentNodes[talent.key];
     if (talentNode) {
@@ -336,12 +347,12 @@ const initTalents = (talents: {key: string, level: string}[]) => {
   const { map } = useMonsters();
   const { points } = useReincarnation();
   if (map.value > 10) {
-    const temp = map.value - 10
+    const temp = map.value - 10;
     for (let i = 1; i <= temp; i++) {
-      points.value = points.value.plus(i*2)
+      points.value = points.value.plus(i * 2);
     }
   }
-}
+};
 
 const clearSession = () => {
   localStorage.removeItem(KEY);

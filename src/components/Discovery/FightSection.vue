@@ -32,7 +32,7 @@
           class="health-bar-inner"
           :style="{ width: monsterHealthPercentage + '%' }"
         >
-          <span>{{ formatNumber(currentMonster.health) }} /
+          <span>{{ formatNumber(currentMonster.health.current) }} /
             {{ initialHealth ? formatNumber(initialHealth) : null }}</span>
         </div>
       </div>
@@ -85,14 +85,21 @@ import { useMap } from "@/composable/useMap";
 import { autoAttackResearch } from "@/data/research";
 import { isDev } from "@/utils/dev";
 
-const { attackPower, health: playerHealth, maxHealth, defencePower, regen, attackSpeedMultiplier } = usePlayer();
+const {
+  attackPower,
+  health: playerHealth,
+  maxHealth,
+  defencePower,
+  regen,
+  attackSpeedMultiplier,
+} = usePlayer();
 const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
   useMonsters();
 const { logMessage } = useActionLog();
 const { addResource } = useResource();
 
 const isAttackOnCooldown = ref(false);
-const initialHealth = ref<Decimal | null>(null);
+const initialHealth = computed(() => currentMonster.value?.health.maxHealth || null);
 const autoAttackInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const defeatedMonster = ref<Monster | null>(null);
 const showCountdown = ref(false);
@@ -102,7 +109,7 @@ const isEmptyAndFirstTime = computed(() => isEmpty.value && map.value === 0);
 
 const monsterHealthPercentage = computed(() => {
   if (!currentMonster.value || !initialHealth.value) return 0;
-  return currentMonster.value.health
+  return currentMonster.value.health.current
     .dividedBy(initialHealth.value)
     .times(100)
     .toNumber();
@@ -165,7 +172,7 @@ const attack = () => {
     defeatedMonster.value = currentMonster.value;
     setTimeout(() => {
       isAttackOnCooldown.value = false;
-    }, 1000 );
+    }, 1000);
   } else {
     const damageTaken = currentMonster.value.attack.minus(defencePower.value);
     playerHealth.value = playerHealth.value.minus(damageTaken);
@@ -193,7 +200,10 @@ const autoAttack = () => {
     clearAutoAttack();
   } else {
     logMessage("Auto Attack started.", MessageType.INFO);
-    autoAttackInterval.value = setInterval(attack, (1000 / attackSpeedMultiplier.value.toNumber()));
+    autoAttackInterval.value = setInterval(
+      attack,
+      1000 / attackSpeedMultiplier.value.toNumber()
+    );
   }
 };
 
@@ -207,13 +217,9 @@ const clearAutoAttack = () => {
 
 const fetchNextMonsters = () => {
   getNextMonsters();
-  initialHealth.value = currentMonster.value
-    ? currentMonster.value.health
-    : null;
 };
 
 watch(currentMonster, (newMonster) => {
-  initialHealth.value = newMonster ? newMonster.health : null;
   if (!defeatedMonster.value) {
     defeatedMonster.value = newMonster as Monster;
   }
@@ -229,11 +235,7 @@ watch(playerHealth, (newHealth) => {
   }
 });
 
-
 onMounted(() => {
-  if (currentMonster.value) {
-    initialHealth.value = currentMonster.value.health;
-  }
   if (defeatedMonster.value === null) {
     defeatedMonster.value = currentMonster.value as Monster;
   }
