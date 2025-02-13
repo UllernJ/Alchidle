@@ -3,7 +3,7 @@
     <h1>Workers</h1>
     <section class="worker-list">
       <template
-        v-for="worker in workers"
+        v-for="worker in workerStore.workers"
         :key="worker.name"
       >
         <v-tooltip
@@ -77,7 +77,7 @@ import type Decimal from "break_eternity.js";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 
-const { workers } = useWorkersStore();
+const workerStore = useWorkersStore();
 const store = usePlayerStore();
 
 const { resources } = useResource();

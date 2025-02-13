@@ -3,7 +3,7 @@
     <h1>Buildings</h1>
     <section class="building-list">
       <template
-        v-for="(building, index) in buildings"
+        v-for="(building, index) in buildingsStore.buildings"
         :key="index"
       >
         <v-tooltip
@@ -76,13 +76,13 @@ import type Decimal from "break_eternity.js";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 
-const { buildings } = useBuildingsStore();
+const buildingsStore = useBuildingsStore();
 const { resources } = useResource();
 const store = usePlayerStore();
 
 const canBuildingBeBoughtMultiple = computed(() => {
   return (index: number) => {
-    const building = buildings[index];
+    const building = buildingsStore.buildings[index];
     return (
       building.name !== "Bank" &&
       building.name !== "Mine" &&
@@ -93,7 +93,7 @@ const canBuildingBeBoughtMultiple = computed(() => {
 
 const canAfford = computed(() => {
   return (index: number) => {
-    const building = buildings[index];
+    const building = buildingsStore.buildings[index];
     if (!building) return false;
     if (
       building.name === "Bank" ||
@@ -123,7 +123,7 @@ const canAffordResource = computed(() => {
 });
 
 const upgradeBuilding = (index: number) => {
-  const building = buildings[index];
+  const building = buildingsStore.buildings[index];
   building.buy(store.amountToBuy);
 };
 </script>

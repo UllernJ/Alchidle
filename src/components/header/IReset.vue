@@ -9,7 +9,8 @@
         Reset Game
       </v-card-title>
       <v-card-text>
-        Are you sure you want to start over? All your progress and your save file will be deleted.
+        Are you sure you want to start over? All your progress and your save
+        file will be deleted.
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -31,33 +32,34 @@
     </v-card>
   </v-dialog>
 </template>
-  
-  <script setup lang="ts">
-  import { ref } from "vue";
-  import { useMessage, MessageType } from "@/composable/useMessage";
+
+<script setup lang="ts">
+import { ref } from "vue";
+import { useMessage, MessageType } from "@/composable/useMessage";
 import { useTab } from "@/composable/useTab";
-  
-  const isOpen = ref(false);
-  
-  const open = () => {
-    isOpen.value = true;
-  };
-  
-  const close = () => {
-    isOpen.value = false;
-  };
-  
-  const resetGame = () => {
-    localStorage.removeItem("session");
-    const { resetTabState } = useTab();
-    resetTabState();
-    location.reload();
-    const { establishMessage } = useMessage();
-    establishMessage(MessageType.SUCCESS, "Game has been reset");
-    close();
-  };
-  
-  defineExpose({ open, close });
-  </script>
-  
-  <style scoped></style>
+import { resetToDefault } from "@/utils/useResetStore";
+
+const isOpen = ref(false);
+
+const open = () => {
+  isOpen.value = true;
+};
+
+const close = () => {
+  isOpen.value = false;
+};
+
+const resetGame = () => {
+  const { resetTabState } = useTab();
+  const { establishMessage } = useMessage();
+  resetToDefault();
+  localStorage.removeItem("session");
+  resetTabState();
+  establishMessage(MessageType.SUCCESS, "Game has been reset");
+  close();
+};
+
+defineExpose({ open, close });
+</script>
+
+<style scoped></style>
