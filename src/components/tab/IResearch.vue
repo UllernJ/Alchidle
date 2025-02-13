@@ -51,7 +51,7 @@ import Icon from "@/components/Icon.vue";
 import { formatNumber } from "@/utils/number";
 import type { Research } from "@/models/research/Research";
 import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
-import { useResearchStore } from "../stores/useResearchStore";
+import { useResearchStore } from "../../stores/useResearchStore";
 
 const store = useResearchStore();
 const { resources } = useResource();

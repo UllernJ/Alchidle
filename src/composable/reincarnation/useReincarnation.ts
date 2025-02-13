@@ -13,8 +13,8 @@ import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
 import { saveSession } from "@/utils/localStorage";
 import { talentNodes } from "@/data/talent";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
-import { useResearchStore } from "@/components/stores/useResearchStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useResearchStore } from "@/stores/useResearchStore";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);

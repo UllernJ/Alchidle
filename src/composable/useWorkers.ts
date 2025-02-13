@@ -3,7 +3,7 @@ import Decimal from "break_eternity.js";
 import { useResource } from "./useResource";
 import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 export const useWorkers = () => {
   const store = useWorkersStore();

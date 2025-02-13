@@ -22,8 +22,8 @@ import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
-import { useResearchStore } from "@/components/stores/useResearchStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useResearchStore } from "@/stores/useResearchStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);

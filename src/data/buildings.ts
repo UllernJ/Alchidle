@@ -17,7 +17,7 @@ import {
   hostpitalBlueprintResearch,
   workerHutBlueprintResearch,
 } from "./research";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 const BANK = () =>
   new Building(

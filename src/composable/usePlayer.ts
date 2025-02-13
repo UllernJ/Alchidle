@@ -3,7 +3,7 @@ import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
 import Decimal from "break_eternity.js";
 import { isDev } from "@/utils/dev";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 //!multipliers
 const attackMultiplier = ref<Decimal>(new Decimal(1));

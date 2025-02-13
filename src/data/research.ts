@@ -10,7 +10,7 @@ import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
 import Decimal from "break_eternity.js";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 function createScienceResearch() {
   return new UpgradeableResearch(

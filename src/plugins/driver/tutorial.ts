@@ -3,7 +3,7 @@ import "@/plugins/driver/custom-theme.css";
 import "driver.js/dist/driver.css";
 import { useResource } from "@/composable/useResource";
 import { TAB_STATE, useTab } from "@/composable/useTab";
-import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 const driverObj = driver({
   animate: true,

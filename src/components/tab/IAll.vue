@@ -26,7 +26,7 @@ import IWorkers from './IWorkers.vue';
 import IAlchemy from './alchemy/IAlchemy.vue';
 import { computed } from 'vue';
 import { ALCHEMY, GEAR } from "@/composable/useTab";
-import { useResearchStore } from '../stores/useResearchStore';
+import { useResearchStore } from '../../stores/useResearchStore';
 
 const researchStore = useResearchStore();
 
