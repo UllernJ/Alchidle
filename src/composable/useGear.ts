@@ -74,7 +74,7 @@ export const useGear = () => {
 
     for (let i = 0; i < quantity; i++) {
       total = total.add(currentCost);
-      currentCost = currentCost.times(multiplier).times(costMultiplier.value);
+      currentCost = currentCost.times(multiplier);
     }
 
     return total;
@@ -88,7 +88,7 @@ export const useGear = () => {
       subtractResource(RESOURCE.MINING, totalCost);
       weapon.quantity = weapon.quantity.plus(quantity);
       for (let i = 0; i < quantity; i++) {
-        weapon.cost = weapon.cost.times(1.15).times(costMultiplier.value).round();
+        weapon.cost = weapon.cost.times(1.15);
       }
     }
   };
@@ -101,7 +101,7 @@ export const useGear = () => {
       subtractResource(RESOURCE.MINING, totalCost);
       armor.quantity = armor.quantity.plus(quantity);
       for (let i = 0; i < quantity; i++) {
-        armor.cost = armor.cost.times(1.15).times(costMultiplier.value).round();
+        armor.cost = armor.cost.times(1.15);
       }
     }
   };
@@ -132,7 +132,12 @@ export const useGear = () => {
     upgradeArmors,
     resetGear,
     decreaseCostMultiplier: (multiplier: number) => {
-      costMultiplier.value = costMultiplier.value * multiplier
+      armors.value.forEach((armor) => {
+        armor.cost = armor.cost.times(multiplier);
+      })
+      weapons.value.forEach((weapon) => {
+        weapon.cost = weapon.cost.times(multiplier);
+      })
     }
   };
 };
