@@ -6,7 +6,6 @@ import { MessageType } from "@/composable/useMessage";
 import { useMonsters } from "@/composable/useMonsters";
 import { usePlayer } from "@/composable/usePlayer";
 import { useResource } from "@/composable/useResource";
-import { useWorkers } from "@/composable/useWorkers";
 import type { Building } from "@/models/Building";
 import type { Infusion } from "@/models/Infusion";
 import { Monster } from "@/models/Monster";
@@ -61,7 +60,7 @@ export const saveSession = () => {
   const { buildings } = useBuildingsStore();
   const { infusions, alchemist } = useAlchemyStore();
   const researchStore = useResearchStore();
-  const { workerStations } = useWorkers();
+  const { workers } = useWorkersStore();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
   const { health, maxHealth } = usePlayer();
@@ -73,7 +72,7 @@ export const saveSession = () => {
     weapons: weapons.value,
     buildings: buildings,
     research: researchStore.researchList,
-    workerStations: workerStations,
+    workerStations: workers,
     resources: {
       Money: {
         amount: resources.Money.value.amount.toString(),
