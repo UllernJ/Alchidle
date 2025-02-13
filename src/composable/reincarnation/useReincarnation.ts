@@ -7,7 +7,6 @@ import { useGear } from "@/composable/useGear";
 import { useMap } from "@/composable/useMap";
 import { useMonsters } from "@/composable/useMonsters";
 import { usePlayer } from "@/composable/usePlayer";
-import { useBuildings } from "@/composable/useBuildings";
 import { useTab } from "@/composable/useTab";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
@@ -15,6 +14,7 @@ import { saveSession } from "@/utils/localStorage";
 import { talentNodes } from "@/data/talent";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
+import { useBuildingsStore } from "@/stores/useBuildingsStore";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -60,7 +60,6 @@ export const useReincarnation = () => {
     const { resetMaps } = useMap();
     const { resetMonsters } = useMonsters();
     const { resetMultipliers } = usePlayer();
-    const { resetBuildings } = useBuildings();
     const { resetTabState } = useTab();
 
     resetResources();
@@ -69,14 +68,15 @@ export const useReincarnation = () => {
     resetMaps();
     resetMonsters();
     resetMultipliers();
-    resetBuildings();
     resetTabState();
     points.value = new Decimal(30);
     //reset all pinia stores
     const workerStore = useWorkersStore();
     const researchStore = useResearchStore();
+    const buildingStore = useBuildingsStore();
     workerStore.$reset();
     researchStore.$reset();
+    buildingStore.$reset();
 
     // confirm talents after clearing all data to avoid any conflicts
     reapplyTalentsAfterReincarnation();

@@ -1,22 +1,21 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
-import { useActionLog } from "../composable/useActionLog";
-import { useAlchemy } from "../composable/useAlchemy";
-import { useBuildings } from "../composable/useBuildings";
-import { useGear, type Armor, type Weapon } from "../composable/useGear";
-import { MessageType } from "../composable/useMessage";
-import { useMonsters } from "../composable/useMonsters";
-import { usePlayer } from "../composable/usePlayer";
-import { useResource } from "../composable/useResource";
-import { useWorkers } from "../composable/useWorkers";
-import type { Building } from "../models/Building";
-import type { Infusion } from "../models/Infusion";
-import { Monster } from "../models/Monster";
-import type { Research } from "../models/research/Research";
-import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
-import type { BaseWorker } from "../models/worker/BaseWorker";
-import type { Worker } from "../models/worker/Worker";
-import type { RESOURCE } from "../types";
+import { useActionLog } from "@/composable/useActionLog";
+import { useAlchemy } from "@/composable/useAlchemy";
+import { useGear, type Armor, type Weapon } from "@/composable/useGear";
+import { MessageType } from "@/composable/useMessage";
+import { useMonsters } from "@/composable/useMonsters";
+import { usePlayer } from "@/composable/usePlayer";
+import { useResource } from "@/composable/useResource";
+import { useWorkers } from "@/composable/useWorkers";
+import type { Building } from "@/models/Building";
+import type { Infusion } from "@/models/Infusion";
+import { Monster } from "@/models/Monster";
+import type { Research } from "@/models/research/Research";
+import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
+import type { BaseWorker } from "@/models/worker/BaseWorker";
+import type { Worker } from "@/models/worker/Worker";
+import type { RESOURCE } from "@/types";
 import { serializeState } from "./stateSerializer";
 import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
@@ -24,9 +23,11 @@ import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
+import { useBuildingsStore } from "@/stores/useBuildingsStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
+const hasBeenInitialized = ref(false);
 
 export type SessionState = {
   armors: Armor[];
@@ -57,7 +58,7 @@ export type SessionState = {
 
 export const saveSession = () => {
   const { armors, weapons } = useGear();
-  const { buildings } = useBuildings();
+  const { buildings } = useBuildingsStore();
   const { infusions, alchemyWorkers } = useAlchemy();
   const researchStore = useResearchStore();
   const { workerStations } = useWorkers();
@@ -70,7 +71,7 @@ export const saveSession = () => {
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
-    buildings: buildings.value,
+    buildings: buildings,
     research: researchStore.researchList,
     workerStations: workerStations,
     resources: {
@@ -112,6 +113,9 @@ export const saveSession = () => {
 };
 
 export const loadState = () => {
+  if (hasBeenInitialized.value) {
+    return;
+  }
   const state = localStorage.getItem(KEY);
   if (!state) {
     return;
@@ -146,6 +150,7 @@ export const loadState = () => {
   } finally {
     isLoadingFromSave.value = false;
   }
+  hasBeenInitialized.value = true;
   return data?.timestamp ?? 0;
 };
 
@@ -216,9 +221,9 @@ const initResearch = (
 const initBuildings = (
   buildingsData: { name: string; quantity: Decimal }[]
 ) => {
-  const { buildings } = useBuildings();
+  const { buildings } = useBuildingsStore();
   buildingsData.forEach((buildingData) => {
-    const building = buildings.value.find((b) => b.name === buildingData.name);
+    const building = buildings.find((b) => b.name === buildingData.name);
     if (building) {
       building.quantity = new Decimal(buildingData.quantity);
       building.restoreFromSave(new Decimal(buildingData.quantity).toNumber());
