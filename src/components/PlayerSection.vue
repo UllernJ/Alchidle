@@ -9,15 +9,28 @@
       >
         Multipliers
       </v-btn>
-      <v-btn
-        density="compact"
-        :prepend-icon="mdiMeditation"
-        size="large"
-        :disabled="!isReincarnationUnlocked"
-        @click="openReincarnation"
-      >
-        Reincarnation
-      </v-btn>
+      <section>
+        <v-btn
+          density="compact"
+          size="large"
+          :disabled="!isReincarnationUnlocked"
+          @click="openReincarnation"
+        >
+          Reincarnation
+        </v-btn>
+        <v-icon
+          :icon="mdiMeditation"
+          size="32"
+          class="meditation-icon"
+        />
+        <v-btn
+          density="compact"
+          size="large"
+          @click="viewTalents?.open()"
+        >
+          Talents
+        </v-btn>
+      </section>
     </div>
     <div class="header">
       <h2>Stats</h2>
@@ -64,10 +77,12 @@
       </div>
     </div>
   </section>
+  <view-talents ref="view-talents" />
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import ViewTalents from "@/components/talents/ViewTalents.vue";
+import { computed, useTemplateRef } from "vue";
 import { useMultipliers } from "@/composable/useMultipliers";
 import { usePlayer } from "@/composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "@/icons/icons";
@@ -80,6 +95,7 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
 const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
 
+const viewTalents = useTemplateRef('view-talents');
 
 const healthPercentage = computed(() => {
   return health.value.dividedBy(maxHealth.value).times(100).toNumber();
@@ -182,12 +198,34 @@ h2 {
   justify-content: center;
   flex-direction: column;
   & > .v-btn {
+    border-radius: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
     border-top: 1px solid #f1f1f1;
     border-bottom: 1px solid #f1f1f1;
+  }
+}
+section {
+  width: 100%;
+  display: flex;
+  & > .v-btn {
+    border-radius: 0;
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  & > .v-icon {
+    width: 10%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f1f1f1;
   }
 }
 </style>
