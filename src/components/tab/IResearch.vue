@@ -3,7 +3,7 @@
     <h1>Research</h1>
     <section class="research-list">
       <template
-        v-for="research in researchList"
+        v-for="research in store.researchList"
         :key="research.name"
       >
         <v-tooltip
@@ -44,16 +44,16 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { useResearch } from "../../composable/useResearch";
-import { useResource } from "../../composable/useResource";
-import { scienceIcon } from "../../icons/icons";
-import { RESOURCE } from "../../types";
-import Icon from "../Icon.vue";
-import { formatNumber } from "../../utils/number";
-import type { Research } from "../../models/research/Research";
-import { UpgradeableResearch } from "../../models/research/UpgradeableResearch";
+import { useResource } from "@/composable/useResource";
+import { scienceIcon } from "@/icons/icons";
+import { RESOURCE } from "@/types";
+import Icon from "@/components/Icon.vue";
+import { formatNumber } from "@/utils/number";
+import type { Research } from "@/models/research/Research";
+import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
+import { useResearchStore } from "../stores/useResearchStore";
 
-const { researchList } = useResearch();
+const store = useResearchStore();
 const { resources } = useResource();
 
 const canAfford = computed(() => {
@@ -63,7 +63,7 @@ const canAfford = computed(() => {
 });
 
 const isEverythingResearched = computed(() => {
-  return researchList.value.every((research) => research.unlocked);
+  return store.researchList.every((research) => research.unlocked);
 });
 
 </script>

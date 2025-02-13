@@ -7,7 +7,6 @@ import { useGear, type Armor, type Weapon } from "../composable/useGear";
 import { MessageType } from "../composable/useMessage";
 import { useMonsters } from "../composable/useMonsters";
 import { usePlayer } from "../composable/usePlayer";
-import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
 import type { Building } from "../models/Building";
@@ -24,6 +23,7 @@ import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/components/stores/useWorkerStore";
+import { useResearchStore } from "@/components/stores/useResearchStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -59,7 +59,7 @@ export const saveSession = () => {
   const { armors, weapons } = useGear();
   const { buildings } = useBuildings();
   const { infusions, alchemyWorkers } = useAlchemy();
-  const { researchList } = useResearch();
+  const researchStore = useResearchStore();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
@@ -71,7 +71,7 @@ export const saveSession = () => {
     armors: armors.value,
     weapons: weapons.value,
     buildings: buildings.value,
-    research: researchList.value,
+    research: researchStore.researchList,
     workerStations: workerStations,
     resources: {
       Money: {
@@ -183,8 +183,8 @@ const initResearch = (
     multiplier?: number;
   }[]
 ) => {
-  const { researchList } = useResearch();
-  researchList.value.forEach((research) => {
+  const researchStore = useResearchStore();
+  researchStore.researchList.forEach((research) => {
     const savedResearch = researchData.find((r) => r.name === research.name);
     if (savedResearch) {
       research.unlocked = savedResearch.unlocked;
@@ -257,18 +257,28 @@ const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
 };
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
-  const { map, monsters, BASE_DAMAGE, BASE_HEALTH, BASE_DROP, getNextMonsters } = useMonsters();
+  const {
+    map,
+    monsters,
+    BASE_DAMAGE,
+    BASE_HEALTH,
+    BASE_DROP,
+    getNextMonsters,
+  } = useMonsters();
   map.value = data.map ?? 0;
 
   for (let i = 0; i < map.value; i++) {
     BASE_DROP.value = BASE_DROP.value.times(3);
   }
 
-  if(data.remainingMonsters.length > 0 && typeof data.remainingMonsters[0].health !== 'object') {
+  if (
+    data.remainingMonsters.length > 0 &&
+    typeof data.remainingMonsters[0].health !== "object"
+  ) {
     map.value = map.value - 1;
     BASE_DAMAGE.value = new Decimal(
       data.remainingMonsters[data.remainingMonsters.length - 1].attack
-    )
+    );
     BASE_HEALTH.value = BASE_DAMAGE.value.times(3).dividedBy(2.25).times(10);
     getNextMonsters();
   } else {
@@ -284,7 +294,6 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
       ).times(1.15);
     }
   }
-
 };
 
 const initInfusions = (
