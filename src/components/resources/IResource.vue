@@ -10,7 +10,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { resources } = useResource();
 const { totalIncomePerSecond } = useWorkers();
-const { setFocus, currentFocus } = usePlayerStore();
+const store = usePlayerStore();
 
 const props = defineProps<{
   type: RESOURCE;
@@ -25,11 +25,11 @@ const progress = computed(() => {
 });
 
 const gatherMessage = computed(() => {
-  if (currentFocus === RESOURCE.MONEY) {
+  if (store.currentFocus === RESOURCE.MONEY) {
     return "Stealing...";
-  } else if (currentFocus === RESOURCE.MINING) {
+  } else if (store.currentFocus === RESOURCE.MINING) {
     return "Mining...";
-  } else if (currentFocus === RESOURCE.SCIENCE) {
+  } else if (store.currentFocus === RESOURCE.SCIENCE) {
     return "Studying...";
   }
   return "No idea what to do...";
@@ -63,11 +63,11 @@ const gatherMessage = computed(() => {
       <v-btn
         color="white"
         variant="outlined"
-        :active="currentFocus == type"
+        :active="store.currentFocus == type"
         width="50%"
-        @click="setFocus(type)"
+        @click="store.setFocus(type)"
       >
-        {{ currentFocus == type ? gatherMessage : "Gather" }}
+        {{ store.currentFocus == type ? gatherMessage : "Gather" }}
       </v-btn>
       <span class="income">
         +{{ formatNumber(totalIncomePerSecond[props.type] ?? new Decimal(0)) }}/s
