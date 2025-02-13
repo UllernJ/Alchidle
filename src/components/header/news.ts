@@ -4,7 +4,10 @@ export const patchNotes = [
     date: "13.02.2025",
     changes: [
       "You can now see track your talents after reincarnation.",
+      "Fixed decrease cost talent for blacksmithing not working.",
+      "Fixed bug for price calculation for gear.",
       "Fixed various bugs with talents, save import and resetting the game.",
+      "dev: implemented a new state management system for the game. (should have no impact on the game)",
     ]
       },
   {
