@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useMessage, MessageType } from "./useMessage";
 import { RESOURCE } from "../types";
-import type Decimal from "break_eternity.js";
+import Decimal from "break_eternity.js";
 import { Resource } from "../models/Resource";
 
 const resources = {
@@ -9,6 +9,7 @@ const resources = {
   [RESOURCE.MINING]: ref<Resource>(new Resource(RESOURCE.MINING)),
   [RESOURCE.SCIENCE]: ref<Resource>(new Resource(RESOURCE.SCIENCE)),
 };
+const storageMultiplier = ref<Decimal>(new Decimal(1));
 
 export const useResource = () => {
   const { establishMessage, setShownMessage, hasShownMessage } = useMessage();
@@ -48,12 +49,14 @@ export const useResource = () => {
   };
 
   const resetResources = () => {
+    storageMultiplier.value = new Decimal(1);
     Object.values(resources).forEach((resource) => {
       resource.value.reset();
     });
   }
 
   const upgradeAllStorage = (multiplier: number) => {
+    storageMultiplier.value = storageMultiplier.value.times(multiplier);
     Object.values(resources).forEach((resource) => {
       resource.value.upgradeStorage(multiplier);
     });
@@ -65,6 +68,7 @@ export const useResource = () => {
     subtractResource,
     upgradeStorage,
     resetResources,
-    upgradeAllStorage
+    upgradeAllStorage,
+    storageMultiplier
   };
 };

@@ -18,6 +18,10 @@
         @click="openReincarnation"
       >
         Reincarnation
+        <span
+          v-if="nextPoints > 0"
+          class="ml-2"
+        >{{ `(+${nextPoints})` }}</span>
       </v-btn>
       <v-btn
         density="compact"
@@ -90,7 +94,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const store = usePlayerStore();
 const { toggleMultipliers } = useMultipliers();
-const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
+const { openReincarnation, isReincarnationUnlocked, nextPoints } = useReincarnation();
 
 const viewTalents = useTemplateRef("view-talents");
 

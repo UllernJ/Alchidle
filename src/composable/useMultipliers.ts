@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { useMonsters } from "@/composable/useMonsters";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import type Decimal from "break_eternity.js";
+import { useResource } from "./useResource";
 
 const showMultipliers = ref(false);
 
@@ -14,8 +15,10 @@ export const useMultipliers = () => {
     const store = usePlayerStore();
 
     const { dropMultiplier, monsterDamageMultiplier, monsterHealthMultiplier }  = useMonsters()
+    const { storageMultiplier } = useResource()
 
     return {
+      storageMultiplier: storageMultiplier.value,
       attackMultiplier: store.attackMultiplier,
       healthMultiplier: store.healthMultiplier,
       blockingMultiplier: store.blockingMultiplier,
