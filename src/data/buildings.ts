@@ -12,12 +12,12 @@ import { isDev } from "../utils/dev";
 import { Building } from "../models/Building";
 import { useResource } from "../composable/useResource";
 import { usePlayer } from "../composable/usePlayer";
-import { BANKER, MINER, SCIENTIST } from "./workers";
 import {
   blacksmithingResearch,
   hostpitalBlueprintResearch,
   workerHutBlueprintResearch,
 } from "./research";
+import { useWorkersStore } from "@/components/stores/useWorkerStore";
 
 const BANK = () =>
   new Building(
@@ -121,9 +121,10 @@ const WORKER_HUT = () =>
     4,
     "Increases workers production by 1%.",
     () => {
-      MINER.value.upgradeRate(1.01);
-      BANKER.value.upgradeRate(1.01);
-      SCIENTIST.value.upgradeRate(1.01);
+      const workerStore = useWorkersStore()
+      workerStore.resourceWorkersList.miner.upgradeRate(1.01);
+      workerStore.resourceWorkersList.banker.upgradeRate(1.01);
+      workerStore.resourceWorkersList.scientist.upgradeRate(1.01);
     },
     new Decimal(0),
     hutIcon,

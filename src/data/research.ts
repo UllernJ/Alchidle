@@ -6,11 +6,11 @@ import { useAlchemy } from "../composable/useAlchemy";
 import { useMonsters } from "../composable/useMonsters";
 import { Research } from "../models/research/Research";
 import { usePlayer } from "../composable/usePlayer";
-import { BANKER, MINER, PRIEST, SCIENTIST, TRAINER } from "./workers";
 import { useActionLog } from "../composable/useActionLog";
 import { MessageType } from "../composable/useMessage";
 import Decimal from "break_eternity.js";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { useWorkersStore } from "@/components/stores/useWorkerStore";
 
 export function getDefaultCostByResearchName(name: string) {
   switch (name) {
@@ -65,7 +65,8 @@ export const scienceResearch = ref(
     4,
     RESEARCH_INTERVAL.EVERY_SECOND,
     () => {
-      SCIENTIST.value.upgradeRate(2);
+      const workerStore = useWorkersStore();
+      workerStore.resourceWorkersList.scientist.upgradeRate(2);
     }
   )
 );
@@ -116,7 +117,8 @@ export const trainerUpgradeResearch = ref(
     5,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
-      TRAINER.value.upgrade(2);
+      const workerStore = useWorkersStore();
+      workerStore.trainer.upgrade(2);
     }
   )
 );
@@ -147,7 +149,8 @@ export const mathematicsResearch = ref(
     3,
     RESEARCH_INTERVAL.EVERY,
     () => {
-      BANKER.value.upgradeRate(2);
+      const workerStore = useWorkersStore();
+      workerStore.resourceWorkersList.banker.upgradeRate(2);
     }
   )
 );
@@ -161,7 +164,8 @@ export const miningResearch = ref(
     3,
     RESEARCH_INTERVAL.EVERY,
     () => {
-      MINER.value.upgradeRate(2);
+      const workerStore = useWorkersStore();
+      workerStore.resourceWorkersList.miner.upgradeRate(2);
     }
   )
 );
@@ -280,7 +284,8 @@ export const upgradePriestResearch = ref(
     2,
     RESEARCH_INTERVAL.EVERY_FIFTH,
     () => {
-      PRIEST.value.upgrade(2);
+      const workerStore = useWorkersStore();
+      workerStore.priest.upgrade(2);
     }
   )
 );

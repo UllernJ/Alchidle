@@ -10,7 +10,6 @@ import { usePlayer } from "../composable/usePlayer";
 import { useResearch } from "../composable/useResearch";
 import { useResource } from "../composable/useResource";
 import { useWorkers } from "../composable/useWorkers";
-import { WORKERS } from "../data/workers";
 import type { Building } from "../models/Building";
 import type { Infusion } from "../models/Infusion";
 import { Monster } from "../models/Monster";
@@ -24,6 +23,7 @@ import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { useWorkersStore } from "@/components/stores/useWorkerStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -72,7 +72,7 @@ export const saveSession = () => {
     weapons: weapons.value,
     buildings: buildings.value,
     research: researchList.value,
-    workerStations: workerStations.value,
+    workerStations: workerStations,
     resources: {
       Money: {
         amount: resources.Money.value.amount.toString(),
@@ -154,7 +154,8 @@ export const isFirstTime = () => {
 };
 
 const initWorkers = (workers: { name: string; numberOfWorkers: Decimal }[]) => {
-  WORKERS.value.forEach((worker) => {
+  const workerStore = useWorkersStore();
+  workerStore.workers.forEach((worker) => {
     const savedWorker = workers.find((w) => w.name === worker.name);
     if (savedWorker) {
       worker.restoreFromSave(new Decimal(savedWorker.numberOfWorkers));
