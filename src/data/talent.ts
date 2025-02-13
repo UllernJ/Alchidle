@@ -32,8 +32,8 @@ import { usePlayer } from "@/composable/usePlayer";
 import { useWorkers } from "@/composable/useWorkers";
 import { useMonsters } from "@/composable/useMonsters";
 import { useGear } from "@/composable/useGear";
-import { useAlchemy } from "@/composable/useAlchemy";
 import { useResource } from "@/composable/useResource";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 export const talentNodes = reactive<Record<string, TalentNode>>({
   //layer 1
@@ -198,7 +198,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(10),
     mdiFlask,
     () => {
-      const { upgradeAlchemyEfficiency } = useAlchemy()
+      const { upgradeAlchemyEfficiency } = useAlchemyStore()
       upgradeAlchemyEfficiency(1.1)
     }
   ),

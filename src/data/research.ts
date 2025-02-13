@@ -1,16 +1,16 @@
 import { ref } from "vue";
-import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
-import { isDev } from "../utils/dev";
-import { RESEARCH_INTERVAL } from "../models/research/ResearchInterval";
-import { useAlchemy } from "../composable/useAlchemy";
-import { useMonsters } from "../composable/useMonsters";
-import { Research } from "../models/research/Research";
-import { usePlayer } from "../composable/usePlayer";
-import { useActionLog } from "../composable/useActionLog";
-import { MessageType } from "../composable/useMessage";
+import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
+import { isDev } from "@/utils/dev";
+import { RESEARCH_INTERVAL } from "@/models/research/ResearchInterval";
+import { useMonsters } from "@/composable/useMonsters";
+import { Research } from "@/models/research/Research";
+import { usePlayer } from "@/composable/usePlayer";
+import { useActionLog } from "@/composable/useActionLog";
+import { MessageType } from "@/composable/useMessage";
 import Decimal from "break_eternity.js";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 function createScienceResearch() {
   return new UpgradeableResearch(
@@ -211,7 +211,7 @@ function createAdvancedAlchemyResearch() {
     20,
     RESEARCH_INTERVAL.EVERY_TENTH,
     () => {
-      const { upgradeAlchemists } = useAlchemy();
+      const { upgradeAlchemists } = useAlchemyStore();
       upgradeAlchemists();
     }
   );

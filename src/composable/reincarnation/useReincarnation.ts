@@ -2,7 +2,6 @@ import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
 import { computed, ref } from "vue";
 import { useResource } from "@/composable/useResource";
-import { useAlchemy } from "@/composable/useAlchemy";
 import { useGear } from "@/composable/useGear";
 import { useMap } from "@/composable/useMap";
 import { useMonsters } from "@/composable/useMonsters";
@@ -15,6 +14,7 @@ import { talentNodes } from "@/data/talent";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -55,7 +55,6 @@ export const useReincarnation = () => {
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
     const { resetResources } = useResource();
-    const { resetAlchemy } = useAlchemy();
     const { resetGear } = useGear();
     const { resetMaps } = useMap();
     const { resetMonsters } = useMonsters();
@@ -63,7 +62,6 @@ export const useReincarnation = () => {
     const { resetTabState } = useTab();
 
     resetResources();
-    resetAlchemy();
     resetGear();
     resetMaps();
     resetMonsters();
@@ -74,9 +72,11 @@ export const useReincarnation = () => {
     const workerStore = useWorkersStore();
     const researchStore = useResearchStore();
     const buildingStore = useBuildingsStore();
+    const alchemyStore = useAlchemyStore();
     workerStore.$reset();
     researchStore.$reset();
     buildingStore.$reset();
+    alchemyStore.$reset();
 
     // confirm talents after clearing all data to avoid any conflicts
     reapplyTalentsAfterReincarnation();

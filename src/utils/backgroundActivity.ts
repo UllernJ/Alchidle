@@ -1,12 +1,12 @@
-import { useAlchemy } from "../composable/useAlchemy";
-import { usePlayer } from "../composable/usePlayer";
-import { useWorkers } from "../composable/useWorkers";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
+import { usePlayer } from "@/composable/usePlayer";
+import { useWorkers } from "@/composable/useWorkers";
 
-const { infusionProduction } = useAlchemy();
 
 let last: number | null = null;
 
 export const backgroundActivity = () => {
+  const { infusionProduction } = useAlchemyStore();
   const { regenHealth } = usePlayer();
   const { gatherResources } = useWorkers();
   if (last === null) {

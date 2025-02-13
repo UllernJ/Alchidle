@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
 import { useActionLog } from "@/composable/useActionLog";
-import { useAlchemy } from "@/composable/useAlchemy";
 import { useGear, type Armor, type Weapon } from "@/composable/useGear";
 import { MessageType } from "@/composable/useMessage";
 import { useMonsters } from "@/composable/useMonsters";
@@ -24,6 +23,7 @@ import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -59,7 +59,7 @@ export type SessionState = {
 export const saveSession = () => {
   const { armors, weapons } = useGear();
   const { buildings } = useBuildingsStore();
-  const { infusions, alchemyWorkers } = useAlchemy();
+  const { infusions, alchemist } = useAlchemyStore();
   const researchStore = useResearchStore();
   const { workerStations } = useWorkers();
   const { resources } = useResource();
@@ -86,8 +86,8 @@ export const saveSession = () => {
       },
     },
     alchemy: {
-      alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
-      infusions: infusions.value,
+      alchemyWorkers: alchemist.numberOfWorkers,
+      infusions: infusions,
     },
     adventure: {
       map: map.value,
@@ -310,9 +310,9 @@ const initInfusions = (
   }[],
   numberOfWorkers: Decimal
 ) => {
-  const { infusions, buyAlchemist } = useAlchemy();
+  const { infusions, buyAlchemist } = useAlchemyStore();
   data.forEach((infusion) => {
-    const savedInfusion = infusions.value.find((i) => i.name === infusion.name);
+    const savedInfusion = infusions.find((i) => i.name === infusion.name);
     if (savedInfusion) {
       savedInfusion.workersAllocated = new Decimal(infusion.workersAllocated);
       savedInfusion.level = new Decimal(infusion.level);
