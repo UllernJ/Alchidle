@@ -18,8 +18,17 @@ const monsters = reactive<MonsterState>({
   state: MONSTER_STATE.MONSTERS,
 });
 const BASE_HEALTH = ref<Decimal>(new Decimal(32));
+const monsterHealthMultiplier = ref<Decimal>(new Decimal(1));
+const monsterHealth = computed(() => BASE_HEALTH.value.times(monsterHealthMultiplier.value));
+
 const BASE_DAMAGE = ref<Decimal>(new Decimal(3.5));
+const monsterDamageMultiplier = ref<Decimal>(new Decimal(1));
+const monsterDamage = computed(() => BASE_DAMAGE.value.times(monsterDamageMultiplier.value));
+
+// drop
 const BASE_DROP = ref<Decimal>(new Decimal(5));
+const dropMultiplier = ref<Decimal>(new Decimal(1));
+const dropRate = computed(() => BASE_DROP.value.times(dropMultiplier.value));
 
 const mapMonsters = ref<Monster[]>([]);
 
@@ -44,9 +53,9 @@ export function useMonsters() {
     map.value += 1;
     const listOfMonsters = MonsterFactory.getMonsters(
       MONSTERS_PER_MAP,
-      BASE_HEALTH.value,
-      BASE_DAMAGE.value,
-      BASE_DROP.value,
+      monsterHealth.value,
+      monsterDamage.value,
+      dropRate.value,
       map.value
     );
     BASE_DAMAGE.value =
@@ -83,15 +92,15 @@ export function useMonsters() {
   };
 
   const decreaseMonsterDamage = (multiplier: number) => {
-    BASE_DAMAGE.value = BASE_DAMAGE.value.times(multiplier);
+    monsterDamageMultiplier.value = monsterDamageMultiplier.value.times(multiplier);
   };
 
   const decreaseMonsterHealth = (multiplier: number) => {
-    BASE_HEALTH.value = BASE_HEALTH.value.times(multiplier);
+    monsterHealthMultiplier.value = monsterHealthMultiplier.value.times(multiplier);
   };
 
   const upgradeMonsterDrop = (multiplier: number) => {
-    BASE_DROP.value = BASE_DROP.value.times(multiplier);
+    dropMultiplier.value = dropMultiplier.value.times(multiplier);
   };
 
   return {
@@ -111,6 +120,9 @@ export function useMonsters() {
     BASE_DAMAGE,
     BASE_HEALTH,
     BASE_DROP,
+    dropMultiplier,
+    monsterHealthMultiplier,
+    monsterDamageMultiplier,
     resetMonsters,
     decreaseMonsterDamage,
     decreaseMonsterHealth,

@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { usePlayer } from "./usePlayer";
+import { useMonsters } from "./useMonsters";
 
 const showMultipliers = ref(false);
 
@@ -18,13 +19,18 @@ export const useMultipliers = () => {
       attackSpeedMultiplier
     } = usePlayer();
 
+    const { dropMultiplier, monsterDamageMultiplier, monsterHealthMultiplier }  = useMonsters()
+
     return {
       attackMultiplier,
       healthMultiplier,
       blockingMultiplier,
       productionMultiplier: productionRate,
       regenMultiplier,
-      attackSpeedMultiplier
+      attackSpeedMultiplier,
+      dropMultiplier,
+      monsterDamageMultiplier,
+      monsterHealthMultiplier
     };
   };
 
