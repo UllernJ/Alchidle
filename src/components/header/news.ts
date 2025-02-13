@@ -1,5 +1,13 @@
 export const patchNotes = [
   {
+    version: "0.1.0",
+    date: "13.02.2025",
+    changes: [
+      "You can now see track your talents after reincarnation.",
+      "Fixed various bugs with talents, save import and resetting the game.",
+    ]
+      },
+  {
     version: "0.0.4",
     date: "12.02.2025",
     changes: [
