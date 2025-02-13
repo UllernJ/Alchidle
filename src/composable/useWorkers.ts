@@ -5,6 +5,7 @@ import { RESOURCE } from "../types";
 import { usePlayer } from "./usePlayer";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 
+//todo make this more readable
 export const useWorkers = () => {
   const store = useWorkersStore();
   const { addResource } = useResource();
@@ -55,10 +56,6 @@ export const useWorkers = () => {
     return generated;
   };
 
-  const resetWorkers = () => {
-    store.$reset();
-  };
-
   const upgradeWorkers = (multipliers: number) => {
     store.resourceWorkers.forEach((worker) => {
       worker.production.rate = worker.production.rate.times(multipliers);
@@ -75,13 +72,9 @@ export const useWorkers = () => {
   }
 
   return {
-    workerStations: store.workers,
-    workers: store.resourceWorkers,
-    baseWorkers: store.effectWorkers,
     totalIncomePerSecond,
     gatherResources,
     calculateGeneratedResources,
-    resetWorkers,
     upgradeWorkers,
     decreaseWorkerCosts
   };
