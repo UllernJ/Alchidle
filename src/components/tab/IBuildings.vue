@@ -12,7 +12,7 @@
           content-class="custom-tooltip"
         >
           <template #activator="{ props }">
-            <v-btn 
+            <v-btn
               color="white"
               variant="outlined"
               height="7rem"
@@ -32,7 +32,7 @@
           </template>
           <div class="tooltip-content">
             <h2
-              v-if="amountToBuy !== 1"
+              v-if="amountToBuy !== 1 && canBuildingBeBoughtMultiple(index)"
               class="tooltip-header"
             >
               <!-- todo format -->
@@ -44,13 +44,13 @@
             </p>
             <div class="building-costs">
               <div
-                v-for="(cost, costIndex) in building.getTotalPriceForQuantity(amountToBuy)"
+                v-for="(cost, costIndex) in building.getTotalPriceForQuantity(
+                  canBuildingBeBoughtMultiple(index) ? amountToBuy : 1
+                )"
                 :key="costIndex"
                 :class="['cost', { 'text-red': !canAffordResource(cost) }]"
               >
-                <span>{{
-                  formatNumber(cost.value)
-                }}</span>
+                <span>{{ formatNumber(cost.value) }}</span>
                 <Icon
                   :path="getResourceIcon(cost.key)"
                   :size="20"
@@ -80,13 +80,36 @@ const { buildings } = useBuildingsStore();
 const { resources } = useResource();
 const { amountToBuy } = usePlayer();
 
+const canBuildingBeBoughtMultiple = computed(() => {
+  return (index: number) => {
+    const building = buildings[index];
+    return (
+      building.name !== "Bank" &&
+      building.name !== "Mine" &&
+      building.name !== "Science Lab"
+    );
+  };
+});
+
 const canAfford = computed(() => {
   return (index: number) => {
     const building = buildings[index];
     if (!building) return false;
-    for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
-      if (resources[cost.key].value.amount.lt(cost.value)) {
-        return false;
+    if (
+      building.name === "Bank" ||
+      building.name === "Mine" ||
+      building.name === "Science Lab"
+    ) {
+      for (const cost of building.getTotalPriceForQuantity(1)) {
+        if (resources[cost.key].value.amount.lt(cost.value)) {
+          return false;
+        }
+      }
+    } else {
+      for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
+        if (resources[cost.key].value.amount.lt(cost.value)) {
+          return false;
+        }
       }
     }
     return true;
@@ -122,8 +145,6 @@ const upgradeBuilding = (index: number) => {
   gap: 1rem;
   width: 100%;
 }
-
-
 
 .building-description {
   width: 100%;
