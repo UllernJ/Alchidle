@@ -132,7 +132,12 @@ export const useGear = () => {
     upgradeArmors,
     resetGear,
     decreaseCostMultiplier: (multiplier: number) => {
-      costMultiplier.value = costMultiplier.value * multiplier
+      armors.value.forEach((armor) => {
+        armor.cost = armor.cost.times(multiplier);
+      })
+      weapons.value.forEach((weapon) => {
+        weapon.cost = weapon.cost.times(multiplier);
+      })
     }
   };
 };
