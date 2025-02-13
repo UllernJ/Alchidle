@@ -4,13 +4,13 @@ import { isDev } from "@/utils/dev";
 import { RESEARCH_INTERVAL } from "@/models/research/ResearchInterval";
 import { useMonsters } from "@/composable/useMonsters";
 import { Research } from "@/models/research/Research";
-import { usePlayer } from "@/composable/usePlayer";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
 import Decimal from "break_eternity.js";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 function createScienceResearch() {
   return new UpgradeableResearch(
@@ -91,7 +91,7 @@ function createBlockingTrainingResearch() {
     10,
     RESEARCH_INTERVAL.EVERY_FIFTH,
     () => {
-      const { upgradeDefensePower } = usePlayer();
+      const { upgradeDefensePower } = usePlayerStore();
       upgradeDefensePower(2);
     }
   );
@@ -136,7 +136,7 @@ function createEfficiencyResearch() {
     2.5,
     RESEARCH_INTERVAL.EVERY,
     () => {
-      const { upgradeProductionRate } = usePlayer();
+      const { upgradeProductionRate } = usePlayerStore();
       upgradeProductionRate(2);
     }
   );
@@ -154,7 +154,7 @@ function createCombatTrainingResearch() {
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
-      const { upgradeAttackPower } = usePlayer();
+      const { upgradeAttackPower } = usePlayerStore();
       upgradeAttackPower();
     }
   );
@@ -169,7 +169,7 @@ function createFortificationResearch() {
     10,
     RESEARCH_INTERVAL.EVERY_THIRD,
     () => {
-      const { upgradeDefensePower } = usePlayer();
+      const { upgradeDefensePower } = usePlayerStore();
       upgradeDefensePower();
     }
   );

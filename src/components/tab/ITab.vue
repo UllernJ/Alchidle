@@ -36,32 +36,32 @@
         <v-btn
           rounded="0"
           class="button"
-          :active="amountToBuy === 1"
-          @click="amountToBuy = 1"
+          :active="store.amountToBuy === 1"
+          @click="store.amountToBuy = 1"
         >
           1
         </v-btn>
         <v-btn
           rounded="0"
           class="button"
-          :active="amountToBuy === 5"
-          @click="amountToBuy = 5"
+          :active="store.amountToBuy === 5"
+          @click="store.amountToBuy = 5"
         >
           5
         </v-btn>
         <v-btn
           rounded="0"
           class="button"
-          :active="amountToBuy === 10"
-          @click="amountToBuy = 10"
+          :active="store.amountToBuy === 10"
+          @click="store.amountToBuy = 10"
         >
           10
         </v-btn>
         <v-btn
           rounded="0"
           class="button"
-          :active="amountToBuy === 20"
-          @click="amountToBuy = 20"
+          :active="store.amountToBuy === 20"
+          @click="store.amountToBuy = 20"
         >
           20
         </v-btn>
@@ -83,17 +83,17 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, useTemplateRef, watch } from "vue";
-import { TAB_STATE, useTab } from "../../composable/useTab";
-import IAlchemy from "./alchemy/IAlchemy.vue";
-import IAll from "./IAll.vue";
-import IBuildings from "./IBuildings.vue";
-import IGear from "./IGear.vue";
-import IResearch from "./IResearch.vue";
-import IWorkers from "./IWorkers.vue";
+import { TAB_STATE, useTab } from "@/composable/useTab";
+import IAlchemy from "@/components/tab/alchemy/IAlchemy.vue";
+import IAll from "@/components/tab/IAll.vue";
+import IBuildings from "@/components/tab/IBuildings.vue";
+import IGear from "@/components/tab/IGear.vue";
+import IResearch from "@/components/tab/IResearch.vue";
+import IWorkers from "@/components/tab/IWorkers.vue";
 import { mdiLock, mdiAlertBox } from "@mdi/js";
-import { usePlayer } from "../../composable/usePlayer";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
-const { amountToBuy } = usePlayer();
+const store = usePlayerStore();
 const { states, setState, currentState, loadTabState } = useTab();
 
 const sidebar = useTemplateRef("sidebar");

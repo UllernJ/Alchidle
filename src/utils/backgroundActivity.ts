@@ -1,13 +1,13 @@
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
-import { usePlayer } from "@/composable/usePlayer";
 import { useWorkers } from "@/composable/useWorkers";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 
 let last: number | null = null;
 
 export const backgroundActivity = () => {
   const { infusionProduction } = useAlchemyStore();
-  const { regenHealth } = usePlayer();
+  const { regenHealth } = usePlayerStore();
   const { gatherResources } = useWorkers();
   if (last === null) {
     last = Date.now();

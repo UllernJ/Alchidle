@@ -15,7 +15,7 @@
           class="multiplier-item"
         >
           <span class="multiplier-key">{{ formatKey(key) }}:</span>
-          <span class="multiplier-value">{{ formatNumber(value.value, true) }}</span>
+          <span class="multiplier-value">{{ formatNumber(value, true) }}</span>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -35,10 +35,10 @@
 import { mdiClose } from "@mdi/js";
 import { useMultipliers } from "../composable/useMultipliers";
 import { formatNumber } from "../utils/number";
+import { computed } from "vue";
 
 const { getMultipliers, showMultipliers, toggleMultipliers } = useMultipliers();
-const multipliers = getMultipliers();
-
+const multipliers = computed(() => getMultipliers());
 const formatKey = (key: string) => {
   return key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
 };

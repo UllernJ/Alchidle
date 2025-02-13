@@ -1,16 +1,16 @@
 import { ref } from "vue";
-import { usePlayer } from "../composable/usePlayer";
-import { Infusion } from "../models/Infusion";
-import { useGear } from "../composable/useGear";
+import { Infusion } from "@/models/Infusion";
+import { useGear } from "@/composable/useGear";
 import Decimal from "break_eternity.js";
 import { Alchemist } from "@/models/worker/Alchemist";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const defaultInfusePower = () => new Infusion(
   "Power Infusion",
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeAttackPower } = usePlayer();
+    const { upgradeAttackPower } = usePlayerStore();
     upgradeAttackPower();
   },
   new Decimal(1),
@@ -22,7 +22,7 @@ const defaultInfuseDefense = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeDefensePower } = usePlayer();
+    const { upgradeDefensePower } = usePlayerStore();
     upgradeDefensePower();
   },
   new Decimal(1),
@@ -34,7 +34,7 @@ const defaultInfuseEfficiency = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeProductionRate } = usePlayer();
+    const { upgradeProductionRate } = usePlayerStore();
     upgradeProductionRate();
   },
   new Decimal(1),
@@ -46,7 +46,7 @@ const defaultInfuseHealth = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeHealthMultiplier } = usePlayer();
+    const { upgradeHealthMultiplier } = usePlayerStore();
     upgradeHealthMultiplier();
   },
   new Decimal(1),
@@ -58,7 +58,7 @@ const defaultInfuseRegen = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeRegen } = usePlayer();
+    const { upgradeRegen } = usePlayerStore();
     upgradeRegen();
   },
   new Decimal(1),

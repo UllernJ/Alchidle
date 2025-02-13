@@ -69,30 +69,23 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
-import { usePlayer } from "../../composable/usePlayer";
-import { useMonsters } from "../../composable/useMonsters";
-import Icon from "../Icon.vue";
-import { attackIcon } from "../../icons/icons";
-import { useResource } from "../../composable/useResource";
-import { MessageType } from "../../composable/useMessage";
-import { getResourceDropMessage } from "../../utils/resourceUtil";
-import { useActionLog } from "../../composable/useActionLog";
-import { formatNumber } from "../../utils/number";
-import { Monster } from "../../models/Monster";
+import { useMonsters } from "@/composable/useMonsters";
+import Icon from "@/components/Icon.vue";
+import { attackIcon } from "@/icons/icons";
+import { useResource } from "@/composable/useResource";
+import { MessageType } from "@/composable/useMessage";
+import { getResourceDropMessage } from "@/utils/resourceUtil";
+import { useActionLog } from "@/composable/useActionLog";
+import { formatNumber } from "@/utils/number";
+import { Monster } from "@/models/Monster";
 import Decimal from "break_eternity.js";
 import { MONSTER_STATE } from "@/types";
 import { useMap } from "@/composable/useMap";
 import { autoAttackResearch } from "@/data/research";
 import { isDev } from "@/utils/dev";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
-const {
-  attackPower,
-  health: playerHealth,
-  maxHealth,
-  defencePower,
-  regen,
-  attackSpeedMultiplier,
-} = usePlayer();
+const store = usePlayerStore();
 const { getNextMonsters, map, currentMonster, mapMonsters, monsters } =
   useMonsters();
 const { logMessage } = useActionLog();
@@ -126,9 +119,9 @@ const attackButtonText = computed(() => {
 });
 
 const cooldownTime = computed(() => {
-  if (playerHealth.value.greaterThan(0)) {
-    const missingHealth = maxHealth.value.minus(playerHealth.value);
-    return missingHealth.dividedBy(regen.value).round().toNumber();
+  if (store.health.greaterThan(0)) {
+    const missingHealth = store.maxHealth.minus(store.health);
+    return missingHealth.dividedBy(store.regen).round().toNumber();
   }
   return 0;
 });
@@ -160,12 +153,12 @@ const handleMonsterDefeat = (monster: Monster) => {
 
 const attack = () => {
   if (isAttackOnCooldown.value || !currentMonster.value) return;
-  if (playerHealth.value.lessThanOrEqualTo(0)) {
+  if (store.health.lessThanOrEqualTo(0)) {
     return;
   }
 
   isAttackOnCooldown.value = true;
-  currentMonster.value.takeDamage(attackPower.value);
+  currentMonster.value.takeDamage(store.attackPower);
 
   if (defeatedMonster.value && defeatedMonster.value.isDead()) {
     handleMonsterDefeat(defeatedMonster.value);
@@ -174,12 +167,12 @@ const attack = () => {
       isAttackOnCooldown.value = false;
     }, 1000);
   } else {
-    const damageTaken = currentMonster.value.attack.minus(defencePower.value);
-    playerHealth.value = playerHealth.value.minus(damageTaken);
-    playerHealth.value = playerHealth.value.lessThan(0)
+    const damageTaken = currentMonster.value.attack.minus(store.defencePower);
+    store.health = store.health.minus(damageTaken);
+    store.health = store.health.lessThan(0)
       ? new Decimal(0)
-      : playerHealth.value;
-    if (playerHealth.value.lessThanOrEqualTo(0)) {
+      : store.health;
+    if (store.health.lessThanOrEqualTo(0)) {
       logMessage(
         "You have been defeated. Lets recover to full health.",
         MessageType.ERROR
@@ -190,7 +183,7 @@ const attack = () => {
     } else {
       setTimeout(() => {
         isAttackOnCooldown.value = false;
-      }, 1000 / attackSpeedMultiplier.value.toNumber());
+      }, 1000 / store.attackSpeedMultiplier.toNumber());
     }
   }
 };
@@ -202,7 +195,7 @@ const autoAttack = () => {
     logMessage("Auto Attack started.", MessageType.INFO);
     autoAttackInterval.value = setInterval(
       attack,
-      1000 / attackSpeedMultiplier.value.toNumber()
+      1000 / store.attackSpeedMultiplier.toNumber()
     );
   }
 };
@@ -228,8 +221,8 @@ watch(currentMonster, (newMonster) => {
   }
 });
 
-watch(playerHealth, (newHealth) => {
-  if (isAttackOnCooldown.value && newHealth.equals(maxHealth.value)) {
+watch(store.health, (newHealth) => {
+  if (isAttackOnCooldown.value && newHealth.equals(store.maxHealth)) {
     isAttackOnCooldown.value = false;
     showCountdown.value = false;
   }

@@ -33,14 +33,14 @@
     </div>
     <div class="PlayerStats">
       <div class="Stat">
-        <span>{{ formatNumber(attackPower, true) }}</span>
+        <span>{{ formatNumber(store.attackPower, true) }}</span>
         <Icon
           :path="attackIcon"
           :size="24"
         />
       </div>
       <div class="Stat">
-        <span>{{ formatNumber(defencePower, true) }}</span>
+        <span>{{ formatNumber(store.defencePower, true) }}</span>
         <Icon
           :path="defenceIcon"
           :size="24"
@@ -53,7 +53,7 @@
             :style="{ width: healthPercentage + '%' }"
           />
           <span class="health-text">
-            {{ formatNumber(health) }} / {{ formatNumber(maxHealth) }}
+            {{ formatNumber(store.health) }} / {{ formatNumber(store.maxHealth) }}
             <Icon
               :path="healthIcon"
               size="1em"
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="Stat-regen">
-        <span>+ {{ formatNumber(regen, true) }}</span>
+        <span>+ {{ formatNumber(store.regen, true) }}</span>
         <Icon
           :path="healthIcon"
           size="1em"
@@ -77,24 +77,25 @@
 </template>
 
 <script setup lang="ts">
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ViewTalents from "@/components/talents/ViewTalents.vue";
 import { computed, useTemplateRef } from "vue";
 import { useMultipliers } from "@/composable/useMultipliers";
-import { usePlayer } from "@/composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "@/icons/icons";
 import Icon from "./Icon.vue";
 import { mdiMeditation, mdiMultiplicationBox } from "@mdi/js";
 import { formatNumber } from "@/utils/number";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
-const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
+const store = usePlayerStore();
 const { toggleMultipliers } = useMultipliers();
 const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
 
 const viewTalents = useTemplateRef("view-talents");
 
 const healthPercentage = computed(() => {
-  return health.value.dividedBy(maxHealth.value).times(100).toNumber();
+  return store.health.dividedBy(store.maxHealth).times(100).toNumber();
 });
 </script>
 

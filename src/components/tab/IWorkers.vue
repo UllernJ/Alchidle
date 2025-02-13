@@ -18,7 +18,7 @@
               width="15rem"
               :disabled="!canAffordAmount(worker)"
               v-bind="props"
-              @click="worker.buyQuantity(amountToBuy)"
+              @click="worker.buyQuantity(store.amountToBuy)"
             >
               <Icon
                 :path="worker.icon"
@@ -30,8 +30,8 @@
             </v-btn>
           </template>
           <section>
-            <h2 v-if="amountToBuy !== 1">
-              {{ amountToBuy + 'x' }}
+            <h2 v-if="store.amountToBuy !== 1">
+              {{ store.amountToBuy + 'x' }}
             </h2>
 
             <p class="description">
@@ -49,7 +49,7 @@
               <span>/s</span>
             </div>
             <div :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]">
-              <span>{{ formatNumber(worker.getTotalPriceFromQuantity(amountToBuy)) }}</span>
+              <span>{{ formatNumber(worker.getTotalPriceFromQuantity(store.amountToBuy)) }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
@@ -70,15 +70,15 @@ import Icon from "@/components/Icon.vue";
 import {  moneyIcon } from "@/icons/icons";
 import { getResourceIcon } from "@/utils/resourceUtil";
 import { formatNumber } from "@/utils/number";
-import { usePlayer } from "@/composable/usePlayer";
 import { RESOURCE } from "@/types";
 import type { BaseWorker } from "@/models/worker/BaseWorker";
 import { Worker } from "@/models/worker/Worker";
 import type Decimal from "break_eternity.js";
 import { useWorkersStore } from "@/stores/useWorkerStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { workers } = useWorkersStore();
-const { amountToBuy } = usePlayer();
+const store = usePlayerStore();
 
 const { resources } = useResource();
 
@@ -90,7 +90,7 @@ const canAfford = computed(() => {
 
 const canAffordAmount = computed(() => {
   return (worker: BaseWorker) => {
-    return canAfford.value(worker.getTotalPriceFromQuantity(amountToBuy.value));
+    return canAfford.value(worker.getTotalPriceFromQuantity(store.amountToBuy));
   };
 })
 

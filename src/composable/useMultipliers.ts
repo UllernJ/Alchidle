@@ -1,6 +1,7 @@
 import { ref } from "vue";
-import { usePlayer } from "./usePlayer";
-import { useMonsters } from "./useMonsters";
+import { useMonsters } from "@/composable/useMonsters";
+import { usePlayerStore } from "@/stores/usePlayerStore";
+import type Decimal from "break_eternity.js";
 
 const showMultipliers = ref(false);
 
@@ -9,28 +10,21 @@ export const useMultipliers = () => {
     showMultipliers.value = !showMultipliers.value;
   };
 
-  const getMultipliers = () => {
-    const {
-      attackMultiplier,
-      blockingMultiplier,
-      healthMultiplier,
-      productionRate,
-      regenMultiplier,
-      attackSpeedMultiplier
-    } = usePlayer();
+  const getMultipliers = (): Record<string, Decimal> => {
+    const store = usePlayerStore();
 
     const { dropMultiplier, monsterDamageMultiplier, monsterHealthMultiplier }  = useMonsters()
 
     return {
-      attackMultiplier,
-      healthMultiplier,
-      blockingMultiplier,
-      productionMultiplier: productionRate,
-      regenMultiplier,
-      attackSpeedMultiplier,
-      dropMultiplier,
-      monsterDamageMultiplier,
-      monsterHealthMultiplier
+      attackMultiplier: store.attackMultiplier,
+      healthMultiplier: store.healthMultiplier,
+      blockingMultiplier: store.blockingMultiplier,
+      productionMultiplier: store.productionRate,
+      regenMultiplier: store.regenMultiplier,
+      attackSpeedMultiplier: store.attackSpeedMultiplier,
+      dropMultiplier: dropMultiplier.value,
+      monsterDamageMultiplier: monsterDamageMultiplier.value,
+      monsterHealthMultiplier: monsterHealthMultiplier.value
     };
   };
 

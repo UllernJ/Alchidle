@@ -89,6 +89,10 @@ export function useMonsters() {
     monsters.value = [];
     BASE_HEALTH.value = new Decimal(30);
     BASE_DAMAGE.value = new Decimal(4);
+    BASE_DROP.value = new Decimal(5);
+    monsterHealthMultiplier.value = new Decimal(1);
+    monsterDamageMultiplier.value = new Decimal(1);
+    dropMultiplier.value = new Decimal(1);
   };
 
   const decreaseMonsterDamage = (multiplier: number) => {

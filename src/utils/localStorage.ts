@@ -4,7 +4,6 @@ import { useActionLog } from "@/composable/useActionLog";
 import { useGear, type Armor, type Weapon } from "@/composable/useGear";
 import { MessageType } from "@/composable/useMessage";
 import { useMonsters } from "@/composable/useMonsters";
-import { usePlayer } from "@/composable/usePlayer";
 import { useResource } from "@/composable/useResource";
 import type { Building } from "@/models/Building";
 import type { Infusion } from "@/models/Infusion";
@@ -23,6 +22,7 @@ import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -63,7 +63,7 @@ export const saveSession = () => {
   const { workers } = useWorkersStore();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
-  const { health, maxHealth } = usePlayer();
+  const { health, maxHealth } = usePlayerStore();
   const { maps } = useMap();
   const talents = talentNodes;
 
@@ -93,8 +93,8 @@ export const saveSession = () => {
       remainingMonsters: monsters.value,
     },
     health: {
-      amount: health.value.toString(),
-      maxAmount: maxHealth.value.toString(),
+      amount: health.toString(),
+      maxAmount: maxHealth.toString(),
     },
     maps: maps.value.map((map) => ({
       name: map.name,
@@ -326,11 +326,11 @@ const initInfusions = (
 };
 
 const initHealth = (data: { amount: string; maxAmount: string }) => {
-  const { health, maxHealth } = usePlayer();
-  if (new Decimal(data.amount).greaterThan(maxHealth.value)) {
-    health.value = maxHealth.value;
+  const store = usePlayerStore();
+  if (new Decimal(data.amount).greaterThan(store.maxHealth)) {
+    store.health = store.maxHealth;
   } else {
-    health.value = new Decimal(data.amount);
+    store.health = new Decimal(data.amount);
   }
 };
 

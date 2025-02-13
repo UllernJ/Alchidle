@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
-import { RESOURCE } from "../types";
+import { RESOURCE } from "@/types";
 import {
   bankIcon,
   barracksIcon,
@@ -8,18 +8,18 @@ import {
   hutIcon,
   mineIcon,
   scienceLabIcon,
-} from "../icons/icons";
-import { isDev } from "../utils/dev";
-import { Building } from "../models/Building";
-import { useResource } from "../composable/useResource";
-import { usePlayer } from "../composable/usePlayer";
+} from "@/icons/icons";
+import { isDev } from "@/utils/dev";
+import { Building } from "@/models/Building";
+import { useResource } from "@/composable/useResource";
 import {
   blacksmithingResearch,
   hostpitalBlueprintResearch,
   workerHutBlueprintResearch,
 } from "./research";
 import { useWorkersStore } from "@/stores/useWorkerStore";
-import { tenthMap } from "./items/map";
+import { tenthMap } from "@/data/items/map";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const BANK = () =>
   new Building(
@@ -97,7 +97,7 @@ const HOSPITAL = () =>
     2.5,
     "Increases regeneration rate by 10%.",
     () => {
-      const { upgradeRegen } = usePlayer();
+      const { upgradeRegen } = usePlayerStore();
       upgradeRegen(1.1);
     },
     new Decimal(0),
@@ -155,7 +155,7 @@ const WORKER_HUT = () =>
       4,
       "Increases attack, defence, health and regen by 1%.",
       () => {
-        const { upgradeAttackPower, upgradeDefensePower, upgradeRegen, upgradeHealthMultiplier } = usePlayer();
+        const { upgradeAttackPower, upgradeDefensePower, upgradeRegen, upgradeHealthMultiplier } = usePlayerStore();
         upgradeAttackPower(1.01);
         upgradeDefensePower(1.01);
         upgradeRegen(1.01);

@@ -1,9 +1,9 @@
 import { computed } from "vue";
 import Decimal from "break_eternity.js";
-import { useResource } from "./useResource";
-import { RESOURCE } from "../types";
-import { usePlayer } from "./usePlayer";
+import { useResource } from "@/composable/useResource";
+import { RESOURCE } from "@/types";
 import { useWorkersStore } from "@/stores/useWorkerStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 //todo make this more readable
 export const useWorkers = () => {
@@ -11,7 +11,7 @@ export const useWorkers = () => {
   const { addResource } = useResource();
 
   const totalIncomePerSecond = computed(() => {
-    const { currentFocus, productionRate } = usePlayer();
+    const { currentFocus, productionRate } = usePlayerStore();
     const incomePerResource = {} as Partial<Record<RESOURCE, Decimal>>;
 
     store.resourceWorkers.forEach(({ production, numberOfWorkers }) => {
@@ -21,19 +21,19 @@ export const useWorkers = () => {
       ).plus(rate);
     });
 
-    if (currentFocus.value !== null) {
-      incomePerResource[currentFocus.value] = (
-        incomePerResource[currentFocus.value] || new Decimal(0)
-      ).plus(productionRate.value);
+    if (currentFocus !== null) {
+      incomePerResource[currentFocus] = (
+        incomePerResource[currentFocus] || new Decimal(0)
+      ).plus(productionRate);
     }
 
     return incomePerResource;
   });
 
   const gatherResources = (deltaTime: number) => {
-    const { currentFocus, productionRate } = usePlayer();
-    if (currentFocus.value !== null) {
-      addResource(currentFocus.value, productionRate.value.times(deltaTime));
+    const { currentFocus, productionRate } = usePlayerStore();
+    if (currentFocus !== null) {
+      addResource(currentFocus, productionRate.times(deltaTime));
     }
     store.resourceWorkers.forEach((station) => {
       const generated = station.production.rate

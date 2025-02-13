@@ -19,7 +19,7 @@
               width="15rem"
               :disabled="!canAffordWeapon(index)"
               v-bind="props"
-              @click="buyWeapon(index, amountToBuy)"
+              @click="buyWeapon(index, store.amountToBuy)"
             >
               <Icon
                 :path="weapon.path"
@@ -38,7 +38,7 @@
             </v-btn>
           </template>
           <div :class="['cost', { 'text-red': !canAffordWeapon(index) }]">
-            <p>{{ formatNumber(getTotalPrice(weapon.cost, amountToBuy)) }}</p>
+            <p>{{ formatNumber(getTotalPrice(weapon.cost, store.amountToBuy)) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
@@ -66,7 +66,7 @@
               width="15rem"
               :disabled="!canAffordArmor(index)"
               v-bind="props"
-              @click="buyArmor(index, amountToBuy)"
+              @click="buyArmor(index, store.amountToBuy)"
             >
               <Icon
                 :path="armor.path"
@@ -86,7 +86,7 @@
             </v-btn>
           </template>
           <div :class="['cost', { 'text-red': !canAffordArmor(index) }]">
-            <p>{{ formatNumber(getTotalPrice(armor.cost, amountToBuy)) }}</p>
+            <p>{{ formatNumber(getTotalPrice(armor.cost, store.amountToBuy)) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
@@ -101,23 +101,23 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useGear } from "../../composable/useGear";
-import { useResource } from "../../composable/useResource";
-import Icon from "../Icon.vue";
-import { RESOURCE } from "../../types";
-import { attackIcon, healthIcon, miningIcon } from "../../icons/icons";
-import { formatNumber } from "../../utils/number";
-import { usePlayer } from "../../composable/usePlayer";
+import { useGear } from "@/composable/useGear";
+import { useResource } from "@/composable/useResource";
+import Icon from "@/components/Icon.vue";
+import { RESOURCE } from "@/types";
+import { attackIcon, healthIcon, miningIcon } from "@/icons/icons";
+import { formatNumber } from "@/utils/number";
 import Decimal from "break_eternity.js";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { weapons, armors, buyArmor, buyWeapon } = useGear();
 const { resources } = useResource();
-const { amountToBuy } = usePlayer();
+const store = usePlayerStore();
 
 const canAffordWeapon = computed(() => {
   return (index: number) => {
     const weapon = weapons.value[index];
-    const totalCost = getTotalPrice(weapon.cost, amountToBuy.value);
+    const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
     return resources[RESOURCE.MINING].value.amount.gte(totalCost);
   };
 });
@@ -125,7 +125,7 @@ const canAffordWeapon = computed(() => {
 const canAffordArmor = computed(() => {
   return (index: number) => {
     const armor = armors.value[index];
-    const totalCost = getTotalPrice(armor.cost, amountToBuy.value);
+    const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
     return resources[RESOURCE.MINING].value.amount.gte(totalCost);
   };
 });

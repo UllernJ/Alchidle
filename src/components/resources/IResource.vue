@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useResource } from "../../composable/useResource";
-import { RESOURCE } from "../../types";
-import { useWorkers } from "../../composable/useWorkers";
-import { usePlayer } from "../../composable/usePlayer";
-import Icon from "../Icon.vue";
-import { formatNumber } from "../../utils/number";
+import { useResource } from "@/composable/useResource";
+import { RESOURCE } from "@/types";
+import { useWorkers } from "@/composable/useWorkers";
+import Icon from "@/components/Icon.vue";
+import { formatNumber } from "@/utils/number";
 import Decimal from "break_eternity.js";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { resources } = useResource();
 const { totalIncomePerSecond } = useWorkers();
-const { setFocus, currentFocus } = usePlayer();
+const { setFocus, currentFocus } = usePlayerStore();
 
 const props = defineProps<{
   type: RESOURCE;
@@ -25,11 +25,11 @@ const progress = computed(() => {
 });
 
 const gatherMessage = computed(() => {
-  if (currentFocus.value === RESOURCE.MONEY) {
+  if (currentFocus === RESOURCE.MONEY) {
     return "Stealing...";
-  } else if (currentFocus.value === RESOURCE.MINING) {
+  } else if (currentFocus === RESOURCE.MINING) {
     return "Mining...";
-  } else if (currentFocus.value === RESOURCE.SCIENCE) {
+  } else if (currentFocus === RESOURCE.SCIENCE) {
     return "Studying...";
   }
   return "No idea what to do...";

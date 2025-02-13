@@ -32,11 +32,11 @@
           </template>
           <div class="tooltip-content">
             <h2
-              v-if="amountToBuy !== 1 && canBuildingBeBoughtMultiple(index)"
+              v-if="store.amountToBuy !== 1 && canBuildingBeBoughtMultiple(index)"
               class="tooltip-header"
             >
               <!-- todo format -->
-              {{ `${amountToBuy}x` }}
+              {{ `${store.amountToBuy}x` }}
             </h2>
 
             <p class="description">
@@ -45,7 +45,7 @@
             <div class="building-costs">
               <div
                 v-for="(cost, costIndex) in building.getTotalPriceForQuantity(
-                  canBuildingBeBoughtMultiple(index) ? amountToBuy : 1
+                  canBuildingBeBoughtMultiple(index) ? store.amountToBuy : 1
                 )"
                 :key="costIndex"
                 :class="['cost', { 'text-red': !canAffordResource(cost) }]"
@@ -67,18 +67,18 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useResource } from "../../composable/useResource";
-import Icon from "../Icon.vue";
-import { getResourceIcon } from "../../utils/resourceUtil";
-import { formatNumber } from "../../utils/number";
-import type { RESOURCE } from "../../types";
-import { usePlayer } from "../../composable/usePlayer";
+import { useResource } from "@/composable/useResource";
+import Icon from "@/components/Icon.vue";
+import { getResourceIcon } from "@/utils/resourceUtil";
+import { formatNumber } from "@/utils/number";
+import type { RESOURCE } from "@/types";
 import type Decimal from "break_eternity.js";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { buildings } = useBuildingsStore();
 const { resources } = useResource();
-const { amountToBuy } = usePlayer();
+const store = usePlayerStore();
 
 const canBuildingBeBoughtMultiple = computed(() => {
   return (index: number) => {
@@ -106,7 +106,7 @@ const canAfford = computed(() => {
         }
       }
     } else {
-      for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
+      for (const cost of building.getTotalPriceForQuantity(store.amountToBuy)) {
         if (resources[cost.key].value.amount.lt(cost.value)) {
           return false;
         }
@@ -124,7 +124,7 @@ const canAffordResource = computed(() => {
 
 const upgradeBuilding = (index: number) => {
   const building = buildings[index];
-  building.buy(amountToBuy.value);
+  building.buy(store.amountToBuy);
 };
 </script>
 

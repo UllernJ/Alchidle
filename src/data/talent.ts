@@ -28,12 +28,12 @@ import {
   mdiHandExtended,
 } from "@mdi/js";
 import Decimal from "break_eternity.js";
-import { usePlayer } from "@/composable/usePlayer";
 import { useWorkers } from "@/composable/useWorkers";
 import { useMonsters } from "@/composable/useMonsters";
 import { useGear } from "@/composable/useGear";
 import { useResource } from "@/composable/useResource";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 export const talentNodes = reactive<Record<string, TalentNode>>({
   //layer 1
@@ -42,7 +42,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(1),
     mdiHeart,
     () => {
-      const { upgradeHealthMultiplier } = usePlayer()
+      const { upgradeHealthMultiplier } = usePlayerStore()
       upgradeHealthMultiplier(1.05)
     }
   ),
@@ -52,7 +52,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(2),
     mdiSword,
     () => {
-      const { upgradeAttackPower } = usePlayer()
+      const { upgradeAttackPower } = usePlayerStore()
       upgradeAttackPower(1.05)
     }
   ),
@@ -71,7 +71,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(3),
     mdiShield,
     () => {
-      const { upgradeDefensePower } = usePlayer()
+      const { upgradeDefensePower } = usePlayerStore()
       upgradeDefensePower(1.05)
     }
   ),
@@ -80,7 +80,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(3),
     mdiHandExtended,
     () => {
-      const { upgradeProductionRate } = usePlayer()
+      const { upgradeProductionRate } = usePlayerStore()
       upgradeProductionRate(1.25)
     }
   ),
@@ -189,7 +189,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(8),
     mdiSpeedometer,
     () => {
-      const { upgradeAttackSpeed } = usePlayer()
+      const { upgradeAttackSpeed } = usePlayerStore()
       upgradeAttackSpeed(1.1)
     }
   ),
@@ -207,7 +207,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(4),
     mdiHeartPulse,
     () => {
-      const { upgradeRegen } = usePlayer()
+      const { upgradeRegen } = usePlayerStore()
       upgradeRegen(1.05)
     }
   ),
