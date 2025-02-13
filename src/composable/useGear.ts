@@ -63,8 +63,6 @@ const armors = ref<Armor[]>([
   { name: "Chestplate", defense: new Decimal(100), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
 ]);
 
-const costMultiplier = ref(1)
-
 export const useGear = () => {
   const { subtractResource, resources } = useResource();
 
