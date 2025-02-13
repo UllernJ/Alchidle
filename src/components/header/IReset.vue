@@ -35,6 +35,7 @@
   <script setup lang="ts">
   import { ref } from "vue";
   import { useMessage, MessageType } from "@/composable/useMessage";
+import { useTab } from "@/composable/useTab";
   
   const isOpen = ref(false);
   
@@ -48,6 +49,8 @@
   
   const resetGame = () => {
     localStorage.removeItem("session");
+    const { resetTabState } = useTab();
+    resetTabState();
     location.reload();
     const { establishMessage } = useMessage();
     establishMessage(MessageType.SUCCESS, "Game has been reset");

@@ -3,6 +3,7 @@ import { usePlayer } from "../composable/usePlayer";
 import { Infusion } from "../models/Infusion";
 import { useGear } from "../composable/useGear";
 import Decimal from "break_eternity.js";
+import { Alchemist } from "@/models/worker/Alchemist";
 
 const defaultInfusePower = () => new Infusion(
   "Power Infusion",
@@ -87,6 +88,8 @@ const defaultInfuseArmor = () => new Infusion(
   new Decimal(1),
   "Increases all armors defense by 1.1x"
 );
+
+export const defaultAlchemist = () => new Alchemist();
 
 
 export const getInfusions = () => {

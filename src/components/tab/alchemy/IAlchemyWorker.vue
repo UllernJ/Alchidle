@@ -1,6 +1,6 @@
 <template>
   <v-tooltip
-    v-if="alchemyWorkers.required()"
+    v-if="alchemist.requirement && alchemist.requirement()"
     location="top"
   >
     <template #activator="{ props }">
@@ -11,7 +11,7 @@
         width="15rem"
         :disabled="!canAffordAlchemist"
         v-bind="props"
-        @click="buyAlchemist()"
+        @click="alchemist.buy()"
       >
         <Icon
           :path="alchemistIcon"
@@ -19,20 +19,20 @@
         />
         <div class="worker-description">
           <h2>
-            {{ alchemyWorkers.name }} ({{ formatNumber(alchemyWorkers.numberOfWorkers) }})
+            {{ alchemist.name }} ({{ formatNumber(alchemist.numberOfWorkers) }})
           </h2>
         </div>
       </v-btn>
     </template>
     <section class="tooltip-content">
       <div class="tooltip-header">
-        <h2>{{ alchemyWorkers.name }}</h2>
+        <h2>{{ alchemist.name }}</h2>
       </div>
       <p class="description">
         Enchants every aspect of your life.
       </p>
       <div :class="['worker-cost', { 'text-red': !canAffordAlchemist }]">
-        <span>Costs: {{ formatNumber(alchemyWorkers.cost.value) }}</span>
+        <span>Costs: {{ formatNumber(alchemist.cost.value) }}</span>
         <Icon
           :path="moneyIcon"
           :size="20"
@@ -45,18 +45,18 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useAlchemy } from "../../../composable/useAlchemy";
 import { alchemistIcon, moneyIcon } from "../../../icons/icons";
 import { RESOURCE } from "../../../types";
 import { useResource } from "../../../composable/useResource";
 import { formatNumber } from "../../../utils/number";
 import Icon from "../../Icon.vue";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
-const { alchemyWorkers, buyAlchemist } = useAlchemy();
+const { alchemist } = useAlchemyStore();
 const { resources } = useResource();
 
 const canAffordAlchemist = computed(() => {
-  return resources[RESOURCE.MONEY].value.amount.gte(alchemyWorkers.value.cost.value);
+  return resources[RESOURCE.MONEY].value.amount.gte(alchemist.cost.value);
 });
 </script>
 

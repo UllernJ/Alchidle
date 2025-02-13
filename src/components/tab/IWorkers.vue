@@ -3,7 +3,7 @@
     <h1>Workers</h1>
     <section class="worker-list">
       <template
-        v-for="worker in workerStations"
+        v-for="worker in workers"
         :key="worker.name"
       >
         <v-tooltip
@@ -65,19 +65,19 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useResource } from "../../composable/useResource";
-import { useWorkers } from "../../composable/useWorkers";
-import Icon from "../Icon.vue";
-import {  moneyIcon } from "../../icons/icons";
-import { getResourceIcon } from "../../utils/resourceUtil";
-import { formatNumber } from "../../utils/number";
-import { usePlayer } from "../../composable/usePlayer";
-import { RESOURCE } from "../../types";
-import type { BaseWorker } from "../../models/worker/BaseWorker";
-import { Worker } from "../../models/worker/Worker";
+import { useResource } from "@/composable/useResource";
+import Icon from "@/components/Icon.vue";
+import {  moneyIcon } from "@/icons/icons";
+import { getResourceIcon } from "@/utils/resourceUtil";
+import { formatNumber } from "@/utils/number";
+import { usePlayer } from "@/composable/usePlayer";
+import { RESOURCE } from "@/types";
+import type { BaseWorker } from "@/models/worker/BaseWorker";
+import { Worker } from "@/models/worker/Worker";
 import type Decimal from "break_eternity.js";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
-const { workerStations } = useWorkers();
+const { workers } = useWorkersStore();
 const { amountToBuy } = usePlayer();
 
 const { resources } = useResource();

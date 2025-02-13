@@ -6,7 +6,7 @@
     </section>
     <section class="infusion-list">
       <div
-        v-for="(infusion, index) in infusions"
+        v-for="(infusion, index) in store.infusions"
         :key="index"
         class="infusion-item"
         :style="{
@@ -42,16 +42,16 @@
         </p>
         <section class="infusion-buttons">
           <v-btn
-            :disabled="infusion.workersAllocated.equals(0)"
+            :disabled="infusion.workersAllocated.lte(0)"
             class="infusion-button"
-            @click="deallocateAlchemist(index)"
+            @click="store.deallocateAlchemist(index)"
           >
             -
           </v-btn>
           <v-btn
-            :disabled="employedAlchemists >= alchemistCount.toNumber()"
+            :disabled="store.employedAlchemists >= store.alchemist.numberOfWorkers.toNumber()"
             class="infusion-button"
-            @click="allocateAlchemist(index)"
+            @click="store.allocateAlchemist(index)"
           >
             +
           </v-btn>
@@ -64,22 +64,17 @@
 <script setup lang="ts">
 import IAlchemist from "./IAlchemist.vue";
 import IAlchemyWorker from "./IAlchemyWorker.vue";
-import { useAlchemy } from "../../../composable/useAlchemy";
 import type { Infusion } from "../../../models/Infusion";
 import { formatNumber } from "../../../utils/number";
 import { mdiInformationBoxOutline } from "@mdi/js";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
-const {
-  infusions,
-  alchemistCount,
-  employedAlchemists,
-  allocateAlchemist,
-  deallocateAlchemist,
-} = useAlchemy();
+const store = useAlchemyStore();
 
 const infusionProgress = (infusion: Infusion) => {
   return (infusion.contribution.div(infusion.cost).toNumber() * 100) % 100;
 };
+
 
 const getColorFromName = (name: string) => {
   let hash = 0;

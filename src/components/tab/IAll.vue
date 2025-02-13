@@ -25,13 +25,13 @@ import IResearch from './IResearch.vue';
 import IWorkers from './IWorkers.vue';
 import IAlchemy from './alchemy/IAlchemy.vue';
 import { computed } from 'vue';
-import { useResearch } from '../../composable/useResearch';
-import { ALCHEMY, GEAR } from "../../composable/useTab";
+import { ALCHEMY, GEAR } from "@/composable/useTab";
+import { useResearchStore } from '../../stores/useResearchStore';
 
-const { researchList } = useResearch();
+const researchStore = useResearchStore();
 
 const isEveryResearchUnlocked = computed(() => {
-  return researchList.value.every((research) => research.unlocked);
+  return researchStore.researchList.every((research) => research.unlocked);
 });
 </script>
 

@@ -9,14 +9,23 @@
       >
         Multipliers
       </v-btn>
+
       <v-btn
         density="compact"
-        :prepend-icon="mdiMeditation"
         size="large"
         :disabled="!isReincarnationUnlocked"
+        :prepend-icon="mdiMeditation"
         @click="openReincarnation"
       >
         Reincarnation
+      </v-btn>
+      <v-btn
+        density="compact"
+        size="large"
+        :prepend-icon="mdiMeditation"
+        @click="viewTalents?.open()"
+      >
+        Talents
       </v-btn>
     </div>
     <div class="header">
@@ -64,10 +73,12 @@
       </div>
     </div>
   </section>
+  <view-talents ref="view-talents" />
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import ViewTalents from "@/components/talents/ViewTalents.vue";
+import { computed, useTemplateRef } from "vue";
 import { useMultipliers } from "@/composable/useMultipliers";
 import { usePlayer } from "@/composable/usePlayer";
 import { attackIcon, defenceIcon, healthIcon } from "@/icons/icons";
@@ -80,6 +91,7 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
 const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
 
+const viewTalents = useTemplateRef("view-talents");
 
 const healthPercentage = computed(() => {
   return health.value.dividedBy(maxHealth.value).times(100).toNumber();
@@ -176,18 +188,40 @@ h2 {
 
 .buttons {
   display: flex;
-  gap: .25rem;
+  gap: 0.25rem;
   width: 100%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   & > .v-btn {
+    border-radius: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
     border-top: 1px solid #f1f1f1;
     border-bottom: 1px solid #f1f1f1;
+  }
+}
+section {
+  width: 100%;
+  display: flex;
+  & > .v-btn {
+    border-radius: 0;
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  & > .v-icon {
+    width: 10%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f1f1f1;
   }
 }
 </style>

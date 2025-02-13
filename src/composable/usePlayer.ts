@@ -1,9 +1,9 @@
 import { computed, ref } from "vue";
 import { RESOURCE } from "../types";
 import { useGear } from "./useGear";
-import { PRIEST, TRAINER } from "../data/workers";
 import Decimal from "break_eternity.js";
 import { isDev } from "@/utils/dev";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 //!multipliers
 const attackMultiplier = ref<Decimal>(new Decimal(1));
@@ -12,22 +12,27 @@ const healthMultiplier = ref<Decimal>(new Decimal(1));
 const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
 const productionRate = computed(() =>
-  new Decimal(isDev ? 200 : 1).times(productionMultiplier.value)
+  new Decimal(isDev ? 2000000000 : 1).times(productionMultiplier.value)
 );
 const attackSpeedMultiplier = ref<Decimal>(new Decimal(1));
 
 //!player stats
 const health = ref<Decimal>(new Decimal(100));
 const baseMaxHealth = ref<Decimal>(new Decimal(100));
-const regen = computed(() =>
-  new Decimal(1).plus(PRIEST.value.getProduction()).times(regenMultiplier.value)
-);
 
 //!player controls
 const currentFocus = ref<RESOURCE | null>(null);
 const amountToBuy = ref<number>(1);
 
 export const usePlayer = () => {
+  const store = useWorkersStore();
+  
+  const regen = computed(() =>
+    new Decimal(1).plus(store.priest.getProduction()).times(regenMultiplier.value)
+  );
+
+
+
   const { armors, weapons } = useGear();
   const setFocus = (type: RESOURCE) => {
     currentFocus.value = type;
@@ -42,7 +47,7 @@ export const usePlayer = () => {
   });
 
   const defencePower = computed(() => {
-    return blockingMultiplier.value.times(TRAINER.value.getProduction());
+    return blockingMultiplier.value.times(store.trainer.getProduction());
   });
 
   const maxHealth = computed(() => {

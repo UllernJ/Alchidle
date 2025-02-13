@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <Icon
-        :path="alchemyWorkers.icon"
+        :path="alchemist.icon"
         size="1.2em"
       />
       <span>Alchemy</span>
@@ -23,24 +23,24 @@
     <div class="alchemy-info">
       <span>
         {{
-          alchemyWorkers.numberOfWorkers.equals(0)
+          alchemist.numberOfWorkers.equals(0)
             ? "You should hire alchemists to start infusing!"
-            : `Workers: ${alchemyWorkers.numberOfWorkers}`
+            : `Workers: ${alchemist.numberOfWorkers}`
         }}
       </span>
-      <span v-show="alchemyWorkers.numberOfWorkers.notEquals(0)">
-        Effiency: {{ formatNumber(alchemyWorkers.efficiency, true) }}x</span>
+      <span v-show="alchemist.numberOfWorkers.notEquals(0)">
+        Effiency: {{ formatNumber(alchemist.efficiency, true) }}x</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { mdiInformationBoxOutline } from "@mdi/js";
-import { useAlchemy } from "../../../composable/useAlchemy";
 import Icon from "../../Icon.vue";
 import { formatNumber } from "@/utils/number";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
-const { alchemyWorkers } = useAlchemy();
+const { alchemist } = useAlchemyStore();
 </script>
 
 <style scoped>

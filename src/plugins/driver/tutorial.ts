@@ -2,8 +2,8 @@ import { driver } from "driver.js";
 import "@/plugins/driver/custom-theme.css";
 import "driver.js/dist/driver.css";
 import { useResource } from "@/composable/useResource";
-import { BANKER } from "@/data/workers";
 import { TAB_STATE, useTab } from "@/composable/useTab";
+import { useWorkersStore } from "@/stores/useWorkerStore";
 
 const driverObj = driver({
   animate: true,
@@ -67,7 +67,8 @@ const driverObj = driver({
         side: "top",
         align: "center",
         onNextClick: () => {
-          if (BANKER.value.numberOfWorkers.gte(1)) {
+          const workerStore = useWorkersStore();
+          if (workerStore.resourceWorkersList.banker.numberOfWorkers.gte(1)) {
             const stateContent = document.querySelector(".state-content");
             if (stateContent) {
               stateContent.scrollTop = stateContent.scrollHeight;
@@ -96,7 +97,7 @@ const driverObj = driver({
         side: "top",
         align: "center",
         onNextClick: () => {
-          const { currentState } = useTab()
+          const { currentState } = useTab();
           if (currentState.value === TAB_STATE.RESEARCH) {
             driverObj.moveNext();
           }

@@ -2,19 +2,19 @@ import type { TalentNode } from "@/models/talents/TalentNode";
 import Decimal from "break_eternity.js";
 import { computed, ref } from "vue";
 import { useResource } from "@/composable/useResource";
-import { useAlchemy } from "@/composable/useAlchemy";
-import { useResearch } from "@/composable/useResearch";
 import { useGear } from "@/composable/useGear";
 import { useMap } from "@/composable/useMap";
 import { useMonsters } from "@/composable/useMonsters";
-import { useWorkers } from "@/composable/useWorkers";
 import { usePlayer } from "@/composable/usePlayer";
-import { useBuildings } from "@/composable/useBuildings";
 import { useTab } from "@/composable/useTab";
 import { useActionLog } from "@/composable/useActionLog";
 import { MessageType } from "@/composable/useMessage";
 import { saveSession } from "@/utils/localStorage";
 import { talentNodes } from "@/data/talent";
+import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useResearchStore } from "@/stores/useResearchStore";
+import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 const isReincarnationOpen = ref(false);
 const isReincarnationUnlocked = ref(false);
@@ -55,27 +55,28 @@ export const useReincarnation = () => {
     isReincarnationOpen.value = false;
     isReincarnationUnlocked.value = false;
     const { resetResources } = useResource();
-    const { resetAlchemy } = useAlchemy();
-    const { resetResearch } = useResearch();
     const { resetGear } = useGear();
     const { resetMaps } = useMap();
     const { resetMonsters } = useMonsters();
     const { resetMultipliers } = usePlayer();
-    const { resetWorkers } = useWorkers();
-    const { resetBuildings } = useBuildings();
     const { resetTabState } = useTab();
 
     resetResources();
-    resetAlchemy();
-    resetResearch();
     resetGear();
     resetMaps();
     resetMonsters();
     resetMultipliers();
-    resetWorkers();
-    resetBuildings();
     resetTabState();
     points.value = new Decimal(30);
+    //reset all pinia stores
+    const workerStore = useWorkersStore();
+    const researchStore = useResearchStore();
+    const buildingStore = useBuildingsStore();
+    const alchemyStore = useAlchemyStore();
+    workerStore.$reset();
+    researchStore.$reset();
+    buildingStore.$reset();
+    alchemyStore.$reset();
 
     // confirm talents after clearing all data to avoid any conflicts
     reapplyTalentsAfterReincarnation();

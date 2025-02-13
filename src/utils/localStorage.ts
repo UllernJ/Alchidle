@@ -1,32 +1,32 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
-import { useActionLog } from "../composable/useActionLog";
-import { useAlchemy } from "../composable/useAlchemy";
-import { useBuildings } from "../composable/useBuildings";
-import { useGear, type Armor, type Weapon } from "../composable/useGear";
-import { MessageType } from "../composable/useMessage";
-import { useMonsters } from "../composable/useMonsters";
-import { usePlayer } from "../composable/usePlayer";
-import { useResearch } from "../composable/useResearch";
-import { useResource } from "../composable/useResource";
-import { useWorkers } from "../composable/useWorkers";
-import { WORKERS } from "../data/workers";
-import type { Building } from "../models/Building";
-import type { Infusion } from "../models/Infusion";
-import { Monster } from "../models/Monster";
-import type { Research } from "../models/research/Research";
-import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
-import type { BaseWorker } from "../models/worker/BaseWorker";
-import type { Worker } from "../models/worker/Worker";
-import type { RESOURCE } from "../types";
+import { useActionLog } from "@/composable/useActionLog";
+import { useGear, type Armor, type Weapon } from "@/composable/useGear";
+import { MessageType } from "@/composable/useMessage";
+import { useMonsters } from "@/composable/useMonsters";
+import { usePlayer } from "@/composable/usePlayer";
+import { useResource } from "@/composable/useResource";
+import type { Building } from "@/models/Building";
+import type { Infusion } from "@/models/Infusion";
+import { Monster } from "@/models/Monster";
+import type { Research } from "@/models/research/Research";
+import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
+import type { BaseWorker } from "@/models/worker/BaseWorker";
+import type { Worker } from "@/models/worker/Worker";
+import type { RESOURCE } from "@/types";
 import { serializeState } from "./stateSerializer";
 import { useMap } from "@/composable/useMap";
 import { talentNodes } from "@/data/talent";
 import type { TalentNode } from "@/models/talents/TalentNode";
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
+import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useResearchStore } from "@/stores/useResearchStore";
+import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { useAlchemyStore } from "@/stores/useAlchemyStore";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
+const hasBeenInitialized = ref(false);
 
 export type SessionState = {
   armors: Armor[];
@@ -57,10 +57,10 @@ export type SessionState = {
 
 export const saveSession = () => {
   const { armors, weapons } = useGear();
-  const { buildings } = useBuildings();
-  const { infusions, alchemyWorkers } = useAlchemy();
-  const { researchList } = useResearch();
-  const { workerStations } = useWorkers();
+  const { buildings } = useBuildingsStore();
+  const { infusions, alchemist } = useAlchemyStore();
+  const researchStore = useResearchStore();
+  const { workers } = useWorkersStore();
   const { resources } = useResource();
   const { map, monsters } = useMonsters();
   const { health, maxHealth } = usePlayer();
@@ -70,9 +70,9 @@ export const saveSession = () => {
   const state: SessionState = {
     armors: armors.value,
     weapons: weapons.value,
-    buildings: buildings.value,
-    research: researchList.value,
-    workerStations: workerStations.value,
+    buildings: buildings,
+    research: researchStore.researchList,
+    workerStations: workers,
     resources: {
       Money: {
         amount: resources.Money.value.amount.toString(),
@@ -85,8 +85,8 @@ export const saveSession = () => {
       },
     },
     alchemy: {
-      alchemyWorkers: alchemyWorkers.value.numberOfWorkers,
-      infusions: infusions.value,
+      alchemyWorkers: alchemist.numberOfWorkers,
+      infusions: infusions,
     },
     adventure: {
       map: map.value,
@@ -112,6 +112,9 @@ export const saveSession = () => {
 };
 
 export const loadState = () => {
+  if (hasBeenInitialized.value) {
+    return;
+  }
   const state = localStorage.getItem(KEY);
   if (!state) {
     return;
@@ -120,7 +123,6 @@ export const loadState = () => {
   let data;
   try {
     data = JSON.parse(atob(state));
-    initWorkers(data.workerStations);
     initResearch(data.research);
     initBuildings(data.buildings);
     initWeapons(data.weapons);
@@ -131,6 +133,7 @@ export const loadState = () => {
     initHealth(data.health);
     initMaps(data.maps);
     initTalents(data.talents);
+    initWorkers(data.workerStations);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
@@ -146,6 +149,7 @@ export const loadState = () => {
   } finally {
     isLoadingFromSave.value = false;
   }
+  hasBeenInitialized.value = true;
   return data?.timestamp ?? 0;
 };
 
@@ -154,7 +158,8 @@ export const isFirstTime = () => {
 };
 
 const initWorkers = (workers: { name: string; numberOfWorkers: Decimal }[]) => {
-  WORKERS.value.forEach((worker) => {
+  const workerStore = useWorkersStore();
+  workerStore.workers.forEach((worker) => {
     const savedWorker = workers.find((w) => w.name === worker.name);
     if (savedWorker) {
       worker.restoreFromSave(new Decimal(savedWorker.numberOfWorkers));
@@ -182,8 +187,8 @@ const initResearch = (
     multiplier?: number;
   }[]
 ) => {
-  const { researchList } = useResearch();
-  researchList.value.forEach((research) => {
+  const researchStore = useResearchStore();
+  researchStore.researchList.forEach((research) => {
     const savedResearch = researchData.find((r) => r.name === research.name);
     if (savedResearch) {
       research.unlocked = savedResearch.unlocked;
@@ -215,9 +220,9 @@ const initResearch = (
 const initBuildings = (
   buildingsData: { name: string; quantity: Decimal }[]
 ) => {
-  const { buildings } = useBuildings();
+  const { buildings } = useBuildingsStore();
   buildingsData.forEach((buildingData) => {
-    const building = buildings.value.find((b) => b.name === buildingData.name);
+    const building = buildings.find((b) => b.name === buildingData.name);
     if (building) {
       building.quantity = new Decimal(buildingData.quantity);
       building.restoreFromSave(new Decimal(buildingData.quantity).toNumber());
@@ -256,18 +261,28 @@ const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
 };
 
 const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
-  const { map, monsters, BASE_DAMAGE, BASE_HEALTH, BASE_DROP, getNextMonsters } = useMonsters();
+  const {
+    map,
+    monsters,
+    BASE_DAMAGE,
+    BASE_HEALTH,
+    BASE_DROP,
+    getNextMonsters,
+  } = useMonsters();
   map.value = data.map ?? 0;
 
   for (let i = 0; i < map.value; i++) {
     BASE_DROP.value = BASE_DROP.value.times(3);
   }
 
-  if(data.remainingMonsters.length > 0 && typeof data.remainingMonsters[0].health !== 'object') {
+  if (
+    data.remainingMonsters.length > 0 &&
+    typeof data.remainingMonsters[0].health !== "object"
+  ) {
     map.value = map.value - 1;
     BASE_DAMAGE.value = new Decimal(
       data.remainingMonsters[data.remainingMonsters.length - 1].attack
-    )
+    );
     BASE_HEALTH.value = BASE_DAMAGE.value.times(3).dividedBy(2.25).times(10);
     getNextMonsters();
   } else {
@@ -283,7 +298,6 @@ const initAdventure = (data: { map: number; remainingMonsters: Monster[] }) => {
       ).times(1.15);
     }
   }
-
 };
 
 const initInfusions = (
@@ -295,9 +309,9 @@ const initInfusions = (
   }[],
   numberOfWorkers: Decimal
 ) => {
-  const { infusions, buyAlchemist } = useAlchemy();
+  const { infusions, alchemist } = useAlchemyStore();
   data.forEach((infusion) => {
-    const savedInfusion = infusions.value.find((i) => i.name === infusion.name);
+    const savedInfusion = infusions.find((i) => i.name === infusion.name);
     if (savedInfusion) {
       savedInfusion.workersAllocated = new Decimal(infusion.workersAllocated);
       savedInfusion.level = new Decimal(infusion.level);
@@ -308,10 +322,7 @@ const initInfusions = (
       }
     }
   });
-
-  for (let i = 1; i <= Number(numberOfWorkers); i++) {
-    buyAlchemist(true);
-  }
+  alchemist.restoreFromSave(new Decimal(numberOfWorkers));
 };
 
 const initHealth = (data: { amount: string; maxAmount: string }) => {

@@ -74,6 +74,6 @@ export class BaseWorker {
   }
 
   decreasePriceMultiplier(multiplier: number): void {
-    this.cost.multiplier = this.cost.multiplier / multiplier;
+    this.cost.value = this.cost.value.times(multiplier);
   }
 }

@@ -67,7 +67,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useBuildings } from "../../composable/useBuildings";
 import { useResource } from "../../composable/useResource";
 import Icon from "../Icon.vue";
 import { getResourceIcon } from "../../utils/resourceUtil";
@@ -75,14 +74,15 @@ import { formatNumber } from "../../utils/number";
 import type { RESOURCE } from "../../types";
 import { usePlayer } from "../../composable/usePlayer";
 import type Decimal from "break_eternity.js";
+import { useBuildingsStore } from "@/stores/useBuildingsStore";
 
-const { buildings } = useBuildings();
+const { buildings } = useBuildingsStore();
 const { resources } = useResource();
 const { amountToBuy } = usePlayer();
 
 const canAfford = computed(() => {
   return (index: number) => {
-    const building = buildings.value[index];
+    const building = buildings[index];
     if (!building) return false;
     for (const cost of building.getTotalPriceForQuantity(amountToBuy.value)) {
       if (resources[cost.key].value.amount.lt(cost.value)) {
@@ -100,7 +100,7 @@ const canAffordResource = computed(() => {
 });
 
 const upgradeBuilding = (index: number) => {
-  const building = buildings.value[index];
+  const building = buildings[index];
   building.buy(amountToBuy.value);
 };
 </script>
