@@ -211,8 +211,8 @@ function createAdvancedAlchemyResearch() {
     20,
     RESEARCH_INTERVAL.EVERY_TENTH,
     () => {
-      const { upgradeAlchemists } = useAlchemyStore();
-      upgradeAlchemists();
+      const { alchemist } = useAlchemyStore();
+      alchemist.upgrade(2);
     }
   );
 }

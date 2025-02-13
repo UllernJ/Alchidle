@@ -310,7 +310,7 @@ const initInfusions = (
   }[],
   numberOfWorkers: Decimal
 ) => {
-  const { infusions, buyAlchemist } = useAlchemyStore();
+  const { infusions, alchemist } = useAlchemyStore();
   data.forEach((infusion) => {
     const savedInfusion = infusions.find((i) => i.name === infusion.name);
     if (savedInfusion) {
@@ -323,10 +323,7 @@ const initInfusions = (
       }
     }
   });
-
-  for (let i = 1; i <= Number(numberOfWorkers); i++) {
-    buyAlchemist(true);
-  }
+  alchemist.restoreFromSave(new Decimal(numberOfWorkers));
 };
 
 const initHealth = (data: { amount: string; maxAmount: string }) => {

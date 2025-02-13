@@ -1,7 +1,5 @@
 import { defaultAlchemist, getInfusions } from "@/data/alchemy";
 import { defineStore } from "pinia";
-import { useResource } from "@/composable/useResource";
-import { RESOURCE } from "@/types";
 
 export const useAlchemyStore = defineStore("alchemy", {
   state: () => {
@@ -20,8 +18,7 @@ export const useAlchemyStore = defineStore("alchemy", {
         count += infusion.workersAllocated.toNumber();
       }
       return count;
-    },
-    alchemistCount: (state) => state.alchemist.numberOfWorkers || 0,
+    }
   },
 
   actions: {
@@ -40,28 +37,6 @@ export const useAlchemyStore = defineStore("alchemy", {
       }
     },
 
-    buyAlchemist(isStateLoad = false) {
-      const { resources, subtractResource } = useResource();
-      if (
-        this.alchemist.cost.value.lte(resources[RESOURCE.MONEY].value.amount) ||
-        isStateLoad
-      ) {
-        if (!isStateLoad) {
-          subtractResource(RESOURCE.MONEY, this.alchemist.cost.value);
-        }
-        this.alchemist.numberOfWorkers = this.alchemist.numberOfWorkers.plus(1);
-        this.alchemist.cost.value = this.alchemist.cost.value.pow(1.15).round();
-      }
-    },
-
-    upgradeAlchemists() {
-      const { resources, subtractResource } = useResource();
-      if (this.alchemist.cost.value.lte(resources[RESOURCE.MONEY].value.amount)) {
-        subtractResource(RESOURCE.MONEY, this.alchemist.cost.value);
-        this.alchemist.upgrade();
-      }
-    },
-
     infusionProduction(deltaTime: number) {
       for (const infusion of this.infusions) {
         infusion.contribute(
@@ -71,9 +46,5 @@ export const useAlchemyStore = defineStore("alchemy", {
         );
       }
     },
-
-    upgradeAlchemyEfficiency(multiplier: number = 1.1) {
-      this.alchemist.upgrade(multiplier);
-    }
   }
 });

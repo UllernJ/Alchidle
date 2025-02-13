@@ -36,4 +36,10 @@ export class Alchemist extends BaseWorker {
       this.numberOfWorkers = this.numberOfWorkers.plus(1);
     }
   }
+  restoreFromSave(numberOfWorkers: Decimal): void {
+    this.numberOfWorkers = numberOfWorkers;
+    for (let i = 0; i < numberOfWorkers.toNumber(); i++) {
+      this.cost.value = this.cost.value.pow(1.15).round();
+    }
+  }
 }

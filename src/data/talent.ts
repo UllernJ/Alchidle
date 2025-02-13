@@ -198,8 +198,8 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(10),
     mdiFlask,
     () => {
-      const { upgradeAlchemyEfficiency } = useAlchemyStore()
-      upgradeAlchemyEfficiency(1.1)
+      const { alchemist } = useAlchemyStore()
+      alchemist.upgrade(1.1)
     }
   ),
   regeneration: new TalentNode(
