@@ -9,28 +9,24 @@
       >
         Multipliers
       </v-btn>
-      <section>
-        <v-btn
-          density="compact"
-          size="large"
-          :disabled="!isReincarnationUnlocked"
-          @click="openReincarnation"
-        >
-          Reincarnation
-        </v-btn>
-        <v-icon
-          :icon="mdiMeditation"
-          size="32"
-          class="meditation-icon"
-        />
-        <v-btn
-          density="compact"
-          size="large"
-          @click="viewTalents?.open()"
-        >
-          Talents
-        </v-btn>
-      </section>
+
+      <v-btn
+        density="compact"
+        size="large"
+        :disabled="!isReincarnationUnlocked"
+        :prepend-icon="mdiMeditation"
+        @click="openReincarnation"
+      >
+        Reincarnation
+      </v-btn>
+      <v-btn
+        density="compact"
+        size="large"
+        :prepend-icon="mdiMeditation"
+        @click="viewTalents?.open()"
+      >
+        Talents
+      </v-btn>
     </div>
     <div class="header">
       <h2>Stats</h2>
@@ -95,7 +91,7 @@ const { attackPower, defencePower, health, maxHealth, regen } = usePlayer();
 const { toggleMultipliers } = useMultipliers();
 const { openReincarnation, isReincarnationUnlocked } = useReincarnation();
 
-const viewTalents = useTemplateRef('view-talents');
+const viewTalents = useTemplateRef("view-talents");
 
 const healthPercentage = computed(() => {
   return health.value.dividedBy(maxHealth.value).times(100).toNumber();
@@ -192,7 +188,7 @@ h2 {
 
 .buttons {
   display: flex;
-  gap: .25rem;
+  gap: 0.25rem;
   width: 100%;
   align-items: center;
   justify-content: center;

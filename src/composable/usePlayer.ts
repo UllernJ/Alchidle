@@ -12,7 +12,7 @@ const healthMultiplier = ref<Decimal>(new Decimal(1));
 const regenMultiplier = ref<Decimal>(new Decimal(1));
 const productionMultiplier = ref<Decimal>(new Decimal(1));
 const productionRate = computed(() =>
-  new Decimal(isDev ? 200 : 1).times(productionMultiplier.value)
+  new Decimal(isDev ? 2000000000 : 1).times(productionMultiplier.value)
 );
 const attackSpeedMultiplier = ref<Decimal>(new Decimal(1));
 

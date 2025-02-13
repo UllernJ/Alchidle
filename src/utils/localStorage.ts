@@ -123,7 +123,6 @@ export const loadState = () => {
   let data;
   try {
     data = JSON.parse(atob(state));
-    initWorkers(data.workerStations);
     initResearch(data.research);
     initBuildings(data.buildings);
     initWeapons(data.weapons);
@@ -134,6 +133,7 @@ export const loadState = () => {
     initHealth(data.health);
     initMaps(data.maps);
     initTalents(data.talents);
+    initWorkers(data.workerStations);
   } catch (e: unknown) {
     isLoadingFromSave.value = false;
     const { logMessage } = useActionLog();
