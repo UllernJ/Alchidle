@@ -3,6 +3,7 @@ import Decimal from "break_eternity.js";
 import { RESOURCE } from "../types";
 import {
   bankIcon,
+  barracksIcon,
   hospitalIcon,
   hutIcon,
   mineIcon,
@@ -18,6 +19,7 @@ import {
   workerHutBlueprintResearch,
 } from "./research";
 import { useWorkersStore } from "@/stores/useWorkerStore";
+import { tenthMap } from "./items/map";
 
 const BANK = () =>
   new Building(
@@ -133,6 +135,40 @@ const WORKER_HUT = () =>
     }
   );
 
+  const BARRACKS = () => {
+    return new Building(
+      "Barracks",
+      [
+        {
+          key: RESOURCE.MONEY,
+          value: new Decimal(2500),
+        },
+        {
+          key: RESOURCE.MINING,
+          value: new Decimal(2500),
+        },
+        {
+          key: RESOURCE.SCIENCE,
+          value: new Decimal(2000),
+        }
+      ],
+      4,
+      "Increases attack, defence, health and regen by 1%.",
+      () => {
+        const { upgradeAttackPower, upgradeDefensePower, upgradeRegen, upgradeHealthMultiplier } = usePlayer();
+        upgradeAttackPower(1.01);
+        upgradeDefensePower(1.01);
+        upgradeRegen(1.01);
+        upgradeHealthMultiplier(1.01);
+      },
+      new Decimal(0),
+      barracksIcon,
+      () => {
+        return tenthMap.value.cleared || isDev;
+      }
+    );
+  }
+
 export const getBuildings = () => {
   return ref<Building[]>([
     BANK(),
@@ -140,5 +176,6 @@ export const getBuildings = () => {
     SCIENCE_LAB(),
     HOSPITAL(),
     WORKER_HUT(),
+    BARRACKS()
   ]);
 };

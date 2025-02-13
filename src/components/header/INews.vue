@@ -5,6 +5,12 @@
     scroll-strategy="reposition"
   >
     <v-card>
+      <v-btn
+        :icon="mdiClose"
+        class="close-button"
+        @click="close"
+      />
+
       <v-card-title class="headline">
         Patch Notes
       </v-card-title>
@@ -37,41 +43,46 @@
     </v-card>
   </v-dialog>
 </template>
-  
-  <script setup lang="ts">
-  import { ref } from "vue";
-import { patchNotes } from "./news";
-  
-  const isOpen = ref(false);
 
-  
-  const open = () => {
-    isOpen.value = true;
-  };
-  
-  const close = () => {
-    isOpen.value = false;
-  };
-  
-  defineExpose({open, close });
-  </script>
-  
-  <style scoped>
-  .patch-note {
-    margin-bottom: 1.5rem;
-  }
-  
-  .patch-note h3 {
-    color: #42b983;
-    margin-bottom: 0.5rem;
-  }
-  
-  .patch-note ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-  }
-  
-  .patch-note li {
-    margin-bottom: 0.5rem;
-  }
-  </style>
+<script setup lang="ts">
+import { ref } from "vue";
+import { patchNotes } from "./news";
+import { mdiClose } from "@mdi/js";
+
+const isOpen = ref(false);
+
+const open = () => {
+  isOpen.value = true;
+};
+
+const close = () => {
+  isOpen.value = false;
+};
+
+defineExpose({ open, close });
+</script>
+
+<style scoped>
+.patch-note {
+  margin-bottom: 1.5rem;
+}
+
+.patch-note h3 {
+  color: #42b983;
+  margin-bottom: 0.5rem;
+}
+
+.patch-note ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.patch-note li {
+  margin-bottom: 0.5rem;
+}
+.close-button {
+  position: absolute;
+  right: 0;
+  margin: .25rem;
+}
+</style>

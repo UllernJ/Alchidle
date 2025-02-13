@@ -12,7 +12,7 @@ export const useWorkers = () => {
 
   const totalIncomePerSecond = computed(() => {
     const { currentFocus, productionRate } = usePlayer();
-    const incomePerResource: Partial<Record<RESOURCE, Decimal>> = {};
+    const incomePerResource = {} as Partial<Record<RESOURCE, Decimal>>;
 
     store.resourceWorkers.forEach(({ production, numberOfWorkers }) => {
       const rate = production.rate.times(numberOfWorkers);
@@ -69,13 +69,13 @@ export const useWorkers = () => {
     store.workers.forEach((worker) => {
       worker.decreasePriceMultiplier(multiplier);
     });
-  }
+  };
 
   return {
     totalIncomePerSecond,
     gatherResources,
     calculateGeneratedResources,
     upgradeWorkers,
-    decreaseWorkerCosts
+    decreaseWorkerCosts,
   };
 };
