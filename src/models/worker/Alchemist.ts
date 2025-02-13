@@ -14,7 +14,7 @@ export class Alchemist extends BaseWorker {
       "Alchemist",
       {
         resource: RESOURCE.MONEY,
-        value: isDev ? new Decimal(10) : new Decimal(100),
+        value: isDev ? new Decimal(10) : new Decimal(75),
       },
       "Alchemy",
       alchemyIcon,
@@ -32,14 +32,14 @@ export class Alchemist extends BaseWorker {
     const { subtractResource, resources } = useResource();
     if (this.cost.value.lte(resources[RESOURCE.MONEY].value.amount)) {
       subtractResource(RESOURCE.MONEY, this.cost.value);
-      this.cost.value = this.cost.value.pow(1.15).round();
+      this.cost.value = this.cost.value.times(1.45).round();
       this.numberOfWorkers = this.numberOfWorkers.plus(1);
     }
   }
   restoreFromSave(numberOfWorkers: Decimal): void {
     this.numberOfWorkers = numberOfWorkers;
     for (let i = 0; i < numberOfWorkers.toNumber(); i++) {
-      this.cost.value = this.cost.value.pow(1.15).round();
+      this.cost.value = this.cost.value.times(1.45).round();
     }
   }
 }
