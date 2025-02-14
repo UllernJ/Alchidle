@@ -31,7 +31,7 @@
           </template>
           <section>
             <h2 v-if="store.amountToBuy !== 1">
-              {{ store.amountToBuy + 'x' }}
+              {{ store.amountToBuy + "x" }}
             </h2>
 
             <p class="description">
@@ -41,15 +41,27 @@
               v-if="worker instanceof Worker"
               class="worker-cost"
             >
-              <span>Generates {{ formatNumber(worker.production.rate, true) }}</span>
+              <span>Generates
+                {{
+                  formatNumber(
+                    worker.getProduction(workerStore.eachWorkerBoostPercentage),
+                    true
+                  )
+                }}</span>
               <Icon
                 :path="getResourceIcon(worker.production.resource)"
                 :size="20"
               />
               <span>/s</span>
             </div>
-            <div :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]">
-              <span>{{ formatNumber(worker.getTotalPriceFromQuantity(store.amountToBuy)) }}</span>
+            <div
+              :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]"
+            >
+              <span>{{
+                formatNumber(
+                  worker.getTotalPriceFromQuantity(store.amountToBuy)
+                )
+              }}</span>
               <Icon
                 :path="moneyIcon"
                 :size="20"
@@ -67,7 +79,7 @@
 import { computed } from "vue";
 import { useResource } from "@/composable/useResource";
 import Icon from "@/components/Icon.vue";
-import {  moneyIcon } from "@/icons/icons";
+import { moneyIcon } from "@/icons/icons";
 import { getResourceIcon } from "@/utils/resourceUtil";
 import { formatNumber } from "@/utils/number";
 import { RESOURCE } from "@/types";
@@ -92,8 +104,7 @@ const canAffordAmount = computed(() => {
   return (worker: BaseWorker) => {
     return canAfford.value(worker.getTotalPriceFromQuantity(store.amountToBuy));
   };
-})
-
+});
 </script>
 
 <style scoped>

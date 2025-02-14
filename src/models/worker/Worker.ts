@@ -33,4 +33,14 @@ export class Worker extends BaseWorker {
   upgradeRate(multiplier: number): void {
     this.production.rate = this.production.rate.multiply(multiplier);
   }
+  getProduction(multiplier: Decimal): Decimal {
+    if (multiplier.eq(0)) {
+      return this.production.rate;
+    }
+    const multiplierBonus = this.numberOfWorkers.times(multiplier);
+    return this.production.rate
+      .times(multiplierBonus)
+      .div(100)
+      .plus(this.production.rate);
+  }
 }

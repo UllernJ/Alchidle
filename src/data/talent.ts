@@ -9,7 +9,6 @@ import {
   mdiSpeedometer,
   mdiHeart,
   mdiRun,
-  mdiCashMultiple,
   mdiSword,
   mdiHammerWrench,
   mdiTreasureChest,
@@ -26,6 +25,8 @@ import {
   mdiAxeBattle,
   mdiGhostOff,
   mdiHandExtended,
+  mdiHardHat,
+  mdiKnife,
 } from "@mdi/js";
 import Decimal from "break_eternity.js";
 import { useWorkers } from "@/composable/useWorkers";
@@ -121,10 +122,12 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
   //   }
   // ),
   test6: new TalentNode(
-    "TEST1",
-    new Decimal(1),
-    mdiShield,
-    () => {}
+    "Each worker increases output by 1%",
+    new Decimal(4),
+    mdiHardHat,
+    () => {
+      
+    }
   ),
   treasureHunter: new TalentNode(
     "Increase drop amount by 10%",
@@ -147,7 +150,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
   increaseWealth: new TalentNode(
     "test2",
     new Decimal(1),
-    mdiCashMultiple,
+    mdiKnife,
     () => {}
   ),
   increaseStorage: new TalentNode(
