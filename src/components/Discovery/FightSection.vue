@@ -221,8 +221,8 @@ watch(currentMonster, (newMonster) => {
   }
 });
 
-watch(store.health, (newHealth) => {
-  if (isAttackOnCooldown.value && newHealth.equals(store.maxHealth)) {
+store.$subscribe((mutation, state) => {
+  if (isAttackOnCooldown.value && state.health.equals(store.maxHealth)) {
     isAttackOnCooldown.value = false;
     showCountdown.value = false;
   }
