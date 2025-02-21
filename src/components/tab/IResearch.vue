@@ -3,11 +3,10 @@
     <h1>Research</h1>
     <section class="research-list">
       <template
-        v-for="research in store.researchList"
+        v-for="{ research, isAffordable } in availableResearch"
         :key="research.name"
       >
         <v-tooltip
-          v-if="!research.unlocked && research.requirement() || research instanceof UpgradeableResearch && research.requirement()"
           location="top"
         >
           <template #activator="{ props }">
@@ -16,28 +15,34 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(research)"
+              :disabled="!isAffordable"
               v-bind="props"
               @click="research.unlock()"
             >
               <h2>{{ research.getName() }}</h2>
             </v-btn>
           </template>
-          <span>{{ research.description }}</span>
-          <div :class="['research-cost', { 'text-red': !canAfford(research) }]">
-            <p>{{ formatNumber(research.cost) }}</p>
-            <Icon
-              :path="scienceIcon"
-              :size="20"
-              :color="canAfford(research) ? '' : 'red'"
-            />
+          <div class="tooltip-content">
+            <p class="description">
+              {{ research.description }}
+            </p>
+            <div :class="['research-cost', { 'text-red': !isAffordable }]">
+              <p>{{ formatNumber(research.cost) }}</p>
+              <Icon
+                :path="scienceIcon"
+                :size="20"
+                :color="isAffordable ? '' : 'red'"
+              />
+            </div>
           </div>
         </v-tooltip>
       </template>
       <span
         v-if="isEverythingResearched"
         class="text-success"
-      >Looks like you've researched everything.</span>
+      >
+        Looks like you've researched everything.
+      </span>
     </section>
   </div>
 </template>
@@ -46,26 +51,34 @@
 import { computed } from "vue";
 import { useResource } from "@/composable/useResource";
 import { scienceIcon } from "@/icons/icons";
-import { RESOURCE } from "@/types";
 import Icon from "@/components/Icon.vue";
 import { formatNumber } from "@/utils/number";
 import type { Research } from "@/models/research/Research";
 import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
-import { useResearchStore } from "../../stores/useResearchStore";
+import { useResearchStore } from "@/stores/useResearchStore";
 
 const store = useResearchStore();
-const { resources } = useResource();
+const { throttledScienceAmount } = useResource();
 
-const canAfford = computed(() => {
-  return (research: Research) => {
-    return resources[RESOURCE.SCIENCE].value.amount.gte(research.cost);
-  };
+const canAffordResearch = (research: Research) => {
+  return throttledScienceAmount.value.gte(research.cost);
+};
+
+const availableResearch = computed(() => {
+  return store.researchList
+    .filter(research => 
+      (!research.unlocked && research.requirement()) || 
+      (research instanceof UpgradeableResearch && research.requirement())
+    )
+    .map(research => ({
+      research,
+      isAffordable: canAffordResearch(research)
+    }));
 });
 
 const isEverythingResearched = computed(() => {
   return store.researchList.every((research) => research.unlocked);
 });
-
 </script>
 
 <style scoped>
@@ -86,17 +99,26 @@ const isEverythingResearched = computed(() => {
   width: 100%;
 }
 
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.description {
+  font-size: 1.25em;
+}
+
 .research-cost {
   display: flex;
   align-items: center;
   justify-content: start;
   gap: 0.2rem;
   border-top: 1px solid #f1f1f1;
-  margin-top: 2rem;
-}
-
-p {
-  font-size: 1.2em;
-  margin: 0;
+  margin-top: 0.5rem;
+  & p {
+    font-size: 1.2em;
+    margin: 0;
+  }
 }
 </style>

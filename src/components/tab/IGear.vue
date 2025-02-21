@@ -4,11 +4,10 @@
     <h2 class="title">
       Weapon
     </h2>
-
     <section class="gear-list">
-      <template
-        v-for="(weapon, index) in weapons"
-        :key="index"
+      <div
+        v-for="{ item, isAffordable, totalCost } in availableWeapons"
+        :key="item.name"
       >
         <v-tooltip location="top">
           <template #activator="{ props }">
@@ -17,18 +16,18 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAffordWeapon(index)"
+              :disabled="!isAffordable"
               v-bind="props"
-              @click="buyWeapon(index, store.amountToBuy)"
+              @click="buyWeapon(item.index, store.amountToBuy)"
             >
               <Icon
-                :path="weapon.path"
+                :path="item.path"
                 size="4em"
               />
               <div class="gear-description">
-                <h2>{{ weapon.name }} ({{ weapon.quantity }})</h2>
+                <h2>{{ item.name }} ({{ item.quantity }})</h2>
                 <div class="cost">
-                  <p>{{ formatNumber(weapon.damage) }}</p>
+                  <p>{{ formatNumber(item.damage) }}</p>
                   <Icon
                     :path="attackIcon"
                     :size="20"
@@ -37,16 +36,16 @@
               </div>
             </v-btn>
           </template>
-          <div :class="['cost', { 'text-red': !canAffordWeapon(index) }]">
-            <p>{{ formatNumber(getTotalPrice(weapon.cost, store.amountToBuy)) }}</p>
+          <div :class="['cost', { 'text-red': !isAffordable }]">
+            <p>{{ formatNumber(totalCost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
-              :color="canAffordWeapon(index) ? '' : 'red'"
+              :color="isAffordable ? '' : 'red'"
             />
           </div>
         </v-tooltip>
-      </template>
+      </div>
     </section>
 
     <h2 class="title">
@@ -54,8 +53,8 @@
     </h2>
     <section class="gear-list">
       <template
-        v-for="(armor, index) in armors"
-        :key="index"
+        v-for="{ item, isAffordable, totalCost } in availableArmors"
+        :key="item.name"
       >
         <v-tooltip location="top">
           <template #activator="{ props }">
@@ -64,18 +63,18 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAffordArmor(index)"
+              :disabled="!isAffordable"
               v-bind="props"
-              @click="buyArmor(index, store.amountToBuy)"
+              @click="buyArmor(item.index, store.amountToBuy)"
             >
               <Icon
-                :path="armor.path"
+                :path="item.path"
                 size="4em"
               />
               <div class="gear-description">
-                <h2>{{ armor.name }} ({{ armor.quantity }})</h2>
+                <h2>{{ item.name }} ({{ item.quantity }})</h2>
                 <div class="cost">
-                  <p>{{ formatNumber(armor.defense) }}</p>
+                  <p>{{ formatNumber(item.defense) }}</p>
                   <Icon
                     :path="healthIcon"
                     :size="20"
@@ -85,12 +84,12 @@
               </div>
             </v-btn>
           </template>
-          <div :class="['cost', { 'text-red': !canAffordArmor(index) }]">
-            <p>{{ formatNumber(getTotalPrice(armor.cost, store.amountToBuy)) }}</p>
+          <div :class="['cost', { 'text-red': !isAffordable }]">
+            <p>{{ formatNumber(totalCost) }}</p>
             <Icon
               :path="miningIcon"
               :size="20"
-              :color="canAffordArmor(index) ? '' : 'red'"
+              :color="isAffordable ? '' : 'red'"
             />
           </div>
         </v-tooltip>
@@ -104,47 +103,52 @@ import { computed } from "vue";
 import { useGear } from "@/composable/useGear";
 import { useResource } from "@/composable/useResource";
 import Icon from "@/components/Icon.vue";
-import { RESOURCE } from "@/types";
 import { attackIcon, healthIcon, miningIcon } from "@/icons/icons";
 import { formatNumber } from "@/utils/number";
 import Decimal from "break_eternity.js";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const { weapons, armors, buyArmor, buyWeapon } = useGear();
-const { resources } = useResource();
+const { throttledMiningAmount } = useResource();
 const store = usePlayerStore();
 
-const canAffordWeapon = computed(() => {
-  return (index: number) => {
-    const weapon = weapons.value[index];
-    const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
-    return resources[RESOURCE.MINING].value.amount.gte(totalCost);
-  };
-});
-
-const canAffordArmor = computed(() => {
-  return (index: number) => {
-    const armor = armors.value[index];
-    const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
-    return resources[RESOURCE.MINING].value.amount.gte(totalCost);
-  };
-});
-
-const getTotalPrice = (
-  baseCost: Decimal,
-  quantity: number,
-  multiplier: number = 1.15
-): Decimal => {
+const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
   let total = new Decimal(0);
   let currentCost = baseCost;
+  const multiplier = 1.15;
 
   for (let i = 0; i < quantity; i++) {
     total = total.add(currentCost);
     currentCost = currentCost.times(multiplier);
   }
-
   return total;
 };
+
+const canAffordCost = (cost: Decimal) => {
+  return throttledMiningAmount.value.gte(cost);
+};
+
+const availableWeapons = computed(() => {
+  return weapons.value.map((weapon, index) => {
+    const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
+    return {
+      item: { ...weapon, index },
+      isAffordable: canAffordCost(totalCost),
+      totalCost
+    };
+  });
+});
+
+const availableArmors = computed(() => {
+  return armors.value.map((armor, index) => {
+    const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
+    return {
+      item: { ...armor, index },
+      isAffordable: canAffordCost(totalCost),
+      totalCost
+    };
+  });
+});
 </script>
 
 <style scoped>

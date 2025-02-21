@@ -1,14 +1,27 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMessage, MessageType } from "./useMessage";
 import { RESOURCE } from "../types";
 import Decimal from "break_eternity.js";
 import { Resource } from "../models/Resource";
+import { refThrottled } from "@vueuse/core";
 
 const resources = {
   [RESOURCE.MONEY]: ref<Resource>(new Resource(RESOURCE.MONEY)),
   [RESOURCE.MINING]: ref<Resource>(new Resource(RESOURCE.MINING)),
   [RESOURCE.SCIENCE]: ref<Resource>(new Resource(RESOURCE.SCIENCE)),
 };
+
+const _moneyAmount = computed(() => resources[RESOURCE.MONEY].value.amount);
+const throttledMoneyAmount = refThrottled(_moneyAmount, 500);
+
+const _miningAmount = computed(() => resources[RESOURCE.MINING].value.amount);
+ 
+const throttledMiningAmount = refThrottled(_miningAmount, 500);
+
+const _scienceAmount = computed(() => resources[RESOURCE.SCIENCE].value.amount);
+ 
+const throttledScienceAmount = refThrottled(_scienceAmount, 500);
+
 const storageMultiplier = ref<Decimal>(new Decimal(1));
 
 export const useResource = () => {
@@ -64,6 +77,9 @@ export const useResource = () => {
 
   return {
     resources,
+    throttledMoneyAmount,
+    throttledMiningAmount,
+    throttledScienceAmount,
     addResource,
     subtractResource,
     upgradeStorage,

@@ -1,8 +1,10 @@
 import Decimal from "break_eternity.js";
-import { useResource } from "../../composable/useResource";
-import type { RESOURCE } from "../../types";
+import { useResource } from "@/composable/useResource";
+import type { RESOURCE } from "@/types";
+import { v4 as uuidv4 } from 'uuid';
 
 export class BaseWorker {
+  readonly id: string = uuidv4();
   name: string;
   numberOfWorkers: Decimal;
   cost: {
@@ -34,8 +36,23 @@ export class BaseWorker {
     this.multiplier = multiplier;
     this.requirement = requirement;
   }
+
+  private canBuy(): boolean {
+    const { resources } = useResource();
+    if (this.requirement) {
+      return this.requirement();
+    }
+    if (resources[this.cost.resource].value.amount.lessThan(this.cost.value)) {
+      return false;
+    }
+    return true;
+  }
+
   buy() {
     const { subtractResource } = useResource();
+    if (!this.canBuy()) {
+      return
+    }
     subtractResource(this.cost.resource, this.cost.value);
     this.numberOfWorkers = this.numberOfWorkers.plus(1);
     this.cost.value = this.cost.value
@@ -76,4 +93,5 @@ export class BaseWorker {
   decreasePriceMultiplier(multiplier: number): void {
     this.cost.value = this.cost.value.times(multiplier);
   }
+  
 }

@@ -2,21 +2,19 @@
   <div class="worker-tab">
     <h1>Workers</h1>
     <section class="worker-list">
-      <template
-        v-for="worker in workerStore.workers"
-        :key="worker.name"
+      <div
+        v-for="{ worker, isAffordable } in affordableWorkers"
+        v-show="!worker.requirement || worker.requirement()"
+        :key="worker.id"
       >
-        <v-tooltip
-          v-if="!worker.requirement || worker.requirement()"
-          location="top"
-        >
+        <v-tooltip location="top">
           <template #activator="{ props }">
             <v-btn
               color="white"
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAffordAmount(worker)"
+              :disabled="!isAffordable"
               v-bind="props"
               @click="worker.buyQuantity(store.amountToBuy)"
             >
@@ -33,7 +31,6 @@
             <h2 v-if="store.amountToBuy !== 1">
               {{ store.amountToBuy + "x" }}
             </h2>
-
             <p class="description">
               {{ worker.description }}
             </p>
@@ -55,7 +52,7 @@
               <span>/s</span>
             </div>
             <div
-              :class="['worker-cost', { 'text-red': !canAffordAmount(worker) }]"
+              :class="['worker-cost', { 'text-red': !isAffordable }]"
             >
               <span>{{
                 formatNumber(
@@ -65,12 +62,12 @@
               <Icon
                 :path="moneyIcon"
                 :size="20"
-                :color="canAffordAmount(worker) ? '' : 'red'"
+                :color="isAffordable ? '' : 'red'"
               />
             </div>
           </section>
         </v-tooltip>
-      </template>
+      </div>
     </section>
   </div>
 </template>
@@ -82,32 +79,27 @@ import Icon from "@/components/Icon.vue";
 import { moneyIcon } from "@/icons/icons";
 import { getResourceIcon } from "@/utils/resourceUtil";
 import { formatNumber } from "@/utils/number";
-import { RESOURCE } from "@/types";
-import type { BaseWorker } from "@/models/worker/BaseWorker";
 import { Worker } from "@/models/worker/Worker";
-import type Decimal from "break_eternity.js";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const workerStore = useWorkersStore();
 const store = usePlayerStore();
 
-const { resources } = useResource();
+const { throttledMoneyAmount } = useResource();
 
-const canAfford = computed(() => {
-  return (cost: Decimal) => {
-    return resources[RESOURCE.MONEY].value.amount.gte(cost);
-  };
-});
-
-const canAffordAmount = computed(() => {
-  return (worker: BaseWorker) => {
-    return canAfford.value(worker.getTotalPriceFromQuantity(store.amountToBuy));
-  };
+const affordableWorkers = computed(() => {
+  return workerStore.workers.map((worker) => ({
+    worker,
+    isAffordable: throttledMoneyAmount.value.gte(
+      worker.getTotalPriceFromQuantity(store.amountToBuy)
+    ),
+  }));
 });
 </script>
 
 <style scoped>
+
 .worker-tab {
   height: 100%;
   width: 100%;

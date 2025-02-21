@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { useResource } from "./useResource";
 import {
   axeIcon,
@@ -47,21 +47,19 @@ const defaultArmors: Armor[] = [
   { name: "Chestplate", defense: new Decimal(100), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
 ];
 
-const weapons = ref<Weapon[]>([
-  { name: "Stick", damage: new Decimal(1), cost: new Decimal(50), path: stickIcon, quantity: new Decimal(0) },
-  { name: "Knife", damage: new Decimal(2), cost: new Decimal(100), path: knifeIcon, quantity: new Decimal(0) },
-  { name: "Axe", damage: new Decimal(4), cost: new Decimal(200), path: axeIcon, quantity: new Decimal(0) },
-  { name: "Sword", damage: new Decimal(8), cost: new Decimal(400), path: swordIcon, quantity: new Decimal(0) },
-  { name: "Mighty Blade", damage: new Decimal(16), cost: new Decimal(1000), path: mightyBladeIcon, quantity: new Decimal(0) },
-]);
+const weapons = ref<Weapon[]>(defaultWeapons.map(w => reactive({
+  ...w,
+  cost: ref(w.cost),
+  quantity: ref(w.quantity),
+  damage: ref(w.damage)
+})));
 
-const armors = ref<Armor[]>([
-  { name: "Boots", defense: new Decimal(5), cost: new Decimal(50), path: bootsIcon, quantity: new Decimal(0) },
-  { name: "Hands", defense: new Decimal(10), cost: new Decimal(100), path: handsIcon, quantity: new Decimal(0) },
-  { name: "Pants", defense: new Decimal(25), cost: new Decimal(200), path: pantsIcon, quantity: new Decimal(0) },
-  { name: "Hjelmet", defense: new Decimal(50), cost: new Decimal(400), path: helmetIcon, quantity: new Decimal(0) },
-  { name: "Chestplate", defense: new Decimal(100), cost: new Decimal(1000), path: chestIcon, quantity: new Decimal(0) },
-]);
+const armors = ref<Armor[]>(defaultArmors.map(a => reactive({
+  ...a,
+  cost: ref(a.cost),
+  quantity: ref(a.quantity),
+  defense: ref(a.defense)
+})));
 
 export const useGear = () => {
   const { subtractResource, resources } = useResource();

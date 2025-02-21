@@ -2,12 +2,12 @@
   <div class="buildings-container">
     <h1>Buildings</h1>
     <section class="building-list">
-      <template
-        v-for="(building, index) in buildingsStore.buildings"
+      <div
+        v-for="{ building, index, isAffordable } in affordableBuildings"
+        v-show="!building.requirement || building.requirement()"
         :key="index"
       >
         <v-tooltip
-          v-if="!building.requirement || building.requirement()"
           location="top"
           content-class="custom-tooltip"
         >
@@ -17,9 +17,9 @@
               variant="outlined"
               height="7rem"
               width="15rem"
-              :disabled="!canAfford(index)"
+              :disabled="!isAffordable"
               v-bind="props"
-              @click="upgradeBuilding(index)"
+              @click="building.buy(store.amountToBuy)"
             >
               <Icon
                 :path="building.icon"
@@ -32,10 +32,9 @@
           </template>
           <div class="tooltip-content">
             <h2
-              v-if="store.amountToBuy !== 1 && canBuildingBeBoughtMultiple(index)"
+              v-if="store.amountToBuy !== 1 && !isUniqueBuilding(building)"
               class="tooltip-header"
             >
-              <!-- todo format -->
               {{ `${store.amountToBuy}x` }}
             </h2>
 
@@ -45,7 +44,7 @@
             <div class="building-costs">
               <div
                 v-for="(cost, costIndex) in building.getTotalPriceForQuantity(
-                  canBuildingBeBoughtMultiple(index) ? store.amountToBuy : 1
+                  isUniqueBuilding(building) ? 1 : store.amountToBuy
                 )"
                 :key="costIndex"
                 :class="['cost', { 'text-red': !canAffordResource(cost) }]"
@@ -60,7 +59,7 @@
             </div>
           </div>
         </v-tooltip>
-      </template>
+      </div>
     </section>
   </div>
 </template>
@@ -71,63 +70,49 @@ import { useResource } from "@/composable/useResource";
 import Icon from "@/components/Icon.vue";
 import { getResourceIcon } from "@/utils/resourceUtil";
 import { formatNumber } from "@/utils/number";
-import type { RESOURCE } from "@/types";
+import { RESOURCE } from "@/types";
 import type Decimal from "break_eternity.js";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import type { Building } from "@/models/Building";
 
 const buildingsStore = useBuildingsStore();
-const { resources } = useResource();
+const { throttledMoneyAmount, throttledMiningAmount, throttledScienceAmount } =
+  useResource();
 const store = usePlayerStore();
 
-const canBuildingBeBoughtMultiple = computed(() => {
-  return (index: number) => {
-    const building = buildingsStore.buildings[index];
-    return (
-      building.name !== "Bank" &&
-      building.name !== "Mine" &&
-      building.name !== "Science Lab"
-    );
-  };
-});
+const UNIQUE_BUILDINGS = ["Bank", "Mine", "Science Lab"];
 
-const canAfford = computed(() => {
-  return (index: number) => {
-    const building = buildingsStore.buildings[index];
-    if (!building) return false;
-    if (
-      building.name === "Bank" ||
-      building.name === "Mine" ||
-      building.name === "Science Lab"
-    ) {
-      for (const cost of building.getTotalPriceForQuantity(1)) {
-        if (resources[cost.key].value.amount.lt(cost.value)) {
-          return false;
-        }
-      }
-    } else {
-      for (const cost of building.getTotalPriceForQuantity(store.amountToBuy)) {
-        if (resources[cost.key].value.amount.lt(cost.value)) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-});
+const isUniqueBuilding = (building: Building) =>
+  UNIQUE_BUILDINGS.includes(building.name);
 
-const canAffordResource = computed(() => {
-  return (cost: { key: RESOURCE; value: Decimal }) => {
-    return resources[cost.key].value.amount.gte(cost.value);
-  };
-});
-
-const upgradeBuilding = (index: number) => {
-  const building = buildingsStore.buildings[index];
-  building.buy(store.amountToBuy);
+const canAffordResource = (cost: { key: RESOURCE; value: Decimal }) => {
+  switch (cost.key) {
+    case RESOURCE.MONEY:
+      return throttledMoneyAmount.value.gte(cost.value);
+    case RESOURCE.MINING:
+      return throttledMiningAmount.value.gte(cost.value);
+    case RESOURCE.SCIENCE:
+      return throttledScienceAmount.value.gte(cost.value);
+  }
+  return false;
 };
-</script>
 
+const affordableBuildings = computed(() => {
+  return buildingsStore.buildings.map((building, index) => {
+    const buyQuantity = isUniqueBuilding(building) ? 1 : store.amountToBuy;
+    const isAffordable = building
+      .getTotalPriceForQuantity(buyQuantity)
+      .every((cost) => canAffordResource(cost));
+
+    return {
+      building,
+      index,
+      isAffordable,
+    };
+  });
+});
+</script>
 <style scoped>
 .buildings-container {
   width: 100%;

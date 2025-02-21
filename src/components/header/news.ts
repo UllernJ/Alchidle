@@ -1,5 +1,12 @@
 export const patchNotes = [
   {
+    version: "0.1.1",
+    date: "21.02.2025",
+    changes: [
+      "Performance improvements for the game. (Should take less resources now). Every thing except gear should be faster now. (working on a fix)"
+    ]
+  },
+  {
     version: "0.1.0",
     date: "13.02.2025",
     changes: [

@@ -41,7 +41,7 @@ const gatherMessage = computed(() => {
     <div class="header">
       <Icon
         :path="icon"
-        size="2em"
+        size="1.75em"
       />
       <span>{{ type.toString() }}</span>
     </div>
@@ -99,7 +99,6 @@ const gatherMessage = computed(() => {
   justify-content: center;
   gap: 0.5rem;
   font-weight: bold;
-  margin-top: -0.75rem;
   font-size: 1.5em;
 }
 
