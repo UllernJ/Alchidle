@@ -108,7 +108,7 @@ import Decimal from "break_eternity.js";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useGearStore } from "@/stores/useGearStore";
 
-const { miningAmount } = useResource();
+const { throttledMiningAmount } = useResource();
 const store = usePlayerStore();
 const gearStore = useGearStore();
 
@@ -125,7 +125,7 @@ const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
 };
 
 const canAffordCost = (cost: Decimal) => {
-  return miningAmount.value.gte(cost);
+  return throttledMiningAmount.value.gte(cost);
 };
 
 const availableWeapons = computed(() => {
