@@ -14,6 +14,9 @@ import {
   swordIcon,
 } from "@/icons/icons";
 import { Armor } from "@/models/gear/Armor";
+import { useResource } from "@/composable/useResource";
+import { usePlayerStore } from "@/stores/usePlayerStore";
+import { computed } from "vue";
 
 export const useGearStore = defineStore("gear", {
   state: () => {
@@ -111,5 +114,51 @@ export const useGearStore = defineStore("gear", {
     upgradeArmors(multiplier: number = 1.1) {
       this.armors.forEach((armor) => armor.upgrade(multiplier));
     },
-  }
+  },
+  getters: {
+    availableGear(state) {
+        console.log("test")
+      const { throttledMiningAmount } = useResource();
+      const store = usePlayerStore();
+
+      const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
+        let total = new Decimal(0);
+        let currentCost = baseCost;
+        const multiplier = 1.15;
+
+        for (let i = 0; i < quantity; i++) {
+          total = total.add(currentCost);
+          currentCost = currentCost.times(multiplier);
+        }
+        return total;
+      };
+
+      const weapons = computed(() =>
+        state.weapons.map((weapon) => {
+          const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
+          return {
+            item: weapon,
+            isAffordable: throttledMiningAmount.value.gte(totalCost),
+            totalCost,
+          };
+        })
+      );
+
+      const armors = computed(() =>
+        state.armors.map((armor) => {
+          const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
+          return {
+            item: armor,
+            isAffordable: throttledMiningAmount.value.gte(totalCost),
+            totalCost,
+          };
+        })
+      );
+
+      return {
+        weapons: weapons.value,
+        armors: armors.value,
+      };
+    },
+  },
 });

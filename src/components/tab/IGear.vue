@@ -99,56 +99,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useResource } from "@/composable/useResource";
 import Icon from "@/components/Icon.vue";
 import { attackIcon, healthIcon, miningIcon } from "@/icons/icons";
 import { formatNumber } from "@/utils/number";
-import Decimal from "break_eternity.js";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useGearStore } from "@/stores/useGearStore";
+import { computed } from "vue";
 
-const { throttledMiningAmount } = useResource();
 const store = usePlayerStore();
 const gearStore = useGearStore();
+const availableWeapons = computed(() => gearStore.availableGear.weapons);
 
-const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
-  let total = new Decimal(0);
-  let currentCost = baseCost;
-  const multiplier = 1.15;
-
-  for (let i = 0; i < quantity; i++) {
-    total = total.add(currentCost);
-    currentCost = currentCost.times(multiplier);
-  }
-  return total;
-};
-
-const canAffordCost = (cost: Decimal) => {
-  return throttledMiningAmount.value.gte(cost);
-};
-
-const availableWeapons = computed(() => {
-  return gearStore.weapons.map((weapon) => {
-    const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
-    return {
-      item: weapon,
-      isAffordable: canAffordCost(totalCost),
-      totalCost
-    };
-  });
-});
-
-const availableArmors = computed(() => {
-  return gearStore.armors.map((armor) => {
-    const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
-    return {
-      item: armor,
-      isAffordable: canAffordCost(totalCost),
-      totalCost
-    };
-  });
-});
+const availableArmors = computed(() => gearStore.availableGear.armors);
 </script>
 
 <style scoped>

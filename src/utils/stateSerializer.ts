@@ -1,10 +1,11 @@
-import type { Armor, Weapon } from "../composable/useGear";
 import type { SessionState } from "./localStorage";
-import type { Building } from "../models/Building";
-import type { Research } from "../models/research/Research";
-import { UpgradeableResearch } from "../models/research/UpgradeableResearch";
-import type { BaseWorker } from "../models/worker/BaseWorker";
+import type { Building } from "@/models/Building";
+import type { Research } from "@/models/research/Research";
+import { UpgradeableResearch } from "@/models/research/UpgradeableResearch";
+import type { BaseWorker } from "@/models/worker/BaseWorker";
 import type { Monster } from "@/models/Monster";
+import type { Weapon } from "@/models/gear/Weapon";
+import type { Armor } from "@/models/gear/Armor";
 
 export const serializeState = (state: SessionState) => {
   return {
