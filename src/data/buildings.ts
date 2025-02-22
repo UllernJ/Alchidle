@@ -13,12 +13,12 @@ import { isDev } from "@/utils/dev";
 import { Building } from "@/models/Building";
 import { useResource } from "@/composable/useResource";
 import {
+  barracksBlueprintResearch,
   blacksmithingResearch,
   hostpitalBlueprintResearch,
   workerHutBlueprintResearch,
 } from "./research";
 import { useWorkersStore } from "@/stores/useWorkerStore";
-import { tenthMap } from "@/data/items/map";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const BANK = () =>
@@ -164,7 +164,7 @@ const WORKER_HUT = () =>
       new Decimal(0),
       barracksIcon,
       () => {
-        return tenthMap.value.cleared || isDev;
+        return barracksBlueprintResearch.value.unlocked;
       }
     );
   }

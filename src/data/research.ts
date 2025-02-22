@@ -11,6 +11,7 @@ import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
 import { useWorkersStore } from "@/stores/useWorkerStore";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { tenthMap } from "@/data/items/map";
 
 function createScienceResearch() {
   return new UpgradeableResearch(
@@ -187,6 +188,17 @@ function createWorkerHutBlueprintResearch() {
   );
 }
 
+function createBarracksBlueprintResearch() {
+  return new Research(
+    "Blueprint: Barracks",
+    "Unlocks the ability to build barracks, increasing your attack power.",
+    new Decimal(125_000_0),
+    () => {
+      return tenthMap.value.cleared || isDev;
+    }
+  );
+}
+
 function createUnlockAlchemyResearch() {
   return new Research(
     "Alchemy",
@@ -294,6 +306,7 @@ export const advancedAlchemyResearch = ref(createAdvancedAlchemyResearch());
 export const hostpitalBlueprintResearch = ref(
   createHospitalBlueprintResearch()
 );
+export const barracksBlueprintResearch = ref(createBarracksBlueprintResearch());
 export const upgradePriestResearch = ref(createUpgradePriestResearch());
 export const autoAttackResearch = ref(createAutoAttackResearch());
 export const reincarnationResearch = ref(createReincarnationResearch());
@@ -317,6 +330,7 @@ export const getResearchs = () => {
   upgradePriestResearch.value = createUpgradePriestResearch();
   autoAttackResearch.value = createAutoAttackResearch();
   reincarnationResearch.value = createReincarnationResearch();
+  barracksBlueprintResearch.value = createBarracksBlueprintResearch();
   return [
     efficiencyResearch.value,
     mathematicsResearch.value,
@@ -336,5 +350,6 @@ export const getResearchs = () => {
     upgradePriestResearch.value,
     autoAttackResearch.value,
     reincarnationResearch.value,
+    barracksBlueprintResearch.value
   ].sort((a, b) => a.name.localeCompare(b.name));
 };
