@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import Decimal from "break_eternity.js";
 import { useActionLog } from "@/composable/useActionLog";
-import { useGear, type Armor, type Weapon } from "@/composable/useGear";
 import { MessageType } from "@/composable/useMessage";
 import { useMonsters } from "@/composable/useMonsters";
 import { useResource } from "@/composable/useResource";
@@ -23,6 +22,9 @@ import { useResearchStore } from "@/stores/useResearchStore";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useGearStore } from "@/stores/useGearStore";
+import type { Armor } from "@/models/gear/Armor";
+import type { Weapon } from "@/models/gear/Weapon";
 
 const KEY = "session";
 export const isLoadingFromSave = ref(false);
@@ -56,7 +58,7 @@ export type SessionState = {
 };
 
 export const saveSession = () => {
-  const { armors, weapons } = useGear();
+  const { armors, weapons } = useGearStore();
   const { buildings } = useBuildingsStore();
   const { infusions, alchemist } = useAlchemyStore();
   const researchStore = useResearchStore();
@@ -68,8 +70,8 @@ export const saveSession = () => {
   const talents = talentNodes;
 
   const state: SessionState = {
-    armors: armors.value,
-    weapons: weapons.value,
+    armors: armors as Armor[],
+    weapons: weapons as Weapon[],
     buildings: buildings,
     research: researchStore.researchList,
     workerStations: workers as Worker[] | BaseWorker[],
@@ -231,9 +233,9 @@ const initBuildings = (
 };
 
 const initWeapons = (weaponsData: { name: string; quantity: Decimal }[]) => {
-  const { weapons } = useGear();
+  const { weapons } = useGearStore();
   weaponsData.forEach((weaponData) => {
-    const weapon = weapons.value.find((w) => w.name === weaponData.name);
+    const weapon = weapons.find((w) => w.name === weaponData.name);
     if (weapon) {
       weapon.quantity = new Decimal(weaponData.quantity);
       if (weapon.quantity.greaterThan(0)) {
@@ -246,9 +248,9 @@ const initWeapons = (weaponsData: { name: string; quantity: Decimal }[]) => {
 };
 
 const initArmors = (armorsData: { name: string; quantity: Decimal }[]) => {
-  const { armors } = useGear();
+  const { armors } = useGearStore();
   armorsData.forEach((armorData) => {
-    const armor = armors.value.find((a) => a.name === armorData.name);
+    const armor = armors.find((a) => a.name === armorData.name);
     if (armor) {
       armor.quantity = new Decimal(armorData.quantity);
       if (armor.quantity.greaterThan(0)) {

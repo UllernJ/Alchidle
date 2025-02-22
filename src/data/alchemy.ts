@@ -1,9 +1,9 @@
 import { ref } from "vue";
 import { Infusion } from "@/models/Infusion";
-import { useGear } from "@/composable/useGear";
 import Decimal from "break_eternity.js";
 import { Alchemist } from "@/models/worker/Alchemist";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useGearStore } from "@/stores/useGearStore";
 
 const defaultInfusePower = () => new Infusion(
   "Power Infusion",
@@ -70,7 +70,7 @@ const defaultInfuseWeapon = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeWeapons } = useGear();
+    const { upgradeWeapons } = useGearStore();
     upgradeWeapons();
   },
   new Decimal(1),
@@ -82,7 +82,7 @@ const defaultInfuseArmor = () => new Infusion(
   new Decimal(100),
   new Decimal(0),
   () => {
-    const { upgradeArmors } = useGear();
+    const { upgradeArmors } = useGearStore();
     upgradeArmors();
   },
   new Decimal(1),

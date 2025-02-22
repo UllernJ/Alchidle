@@ -79,6 +79,7 @@ export const useResource = () => {
     resources,
     throttledMoneyAmount,
     throttledMiningAmount,
+    miningAmount: _miningAmount,
     throttledScienceAmount,
     addResource,
     subtractResource,

@@ -1,11 +1,11 @@
 import { useReincarnation } from "@/composable/reincarnation/useReincarnation";
-import { useGear } from "@/composable/useGear";
 import { useMap } from "@/composable/useMap";
 import { useMonsters } from "@/composable/useMonsters";
 import { useResource } from "@/composable/useResource";
 import { useTab } from "@/composable/useTab";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
 import { useBuildingsStore } from "@/stores/useBuildingsStore";
+import { useGearStore } from "@/stores/useGearStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useResearchStore } from "@/stores/useResearchStore";
 import { useWorkersStore } from "@/stores/useWorkerStore";
@@ -18,13 +18,11 @@ export const resetToDefault = () => {
   isReincarnationUnlocked.value = false;
   points.value = new Decimal(30);
   const { resetResources } = useResource();
-  const { resetGear } = useGear();
   const { resetMaps } = useMap();
   const { resetMonsters } = useMonsters();
   const { resetTabState } = useTab();
 
   resetResources();
-  resetGear();
   resetMaps();
   resetMonsters();
   resetTabState();
@@ -33,10 +31,12 @@ export const resetToDefault = () => {
   const buildingStore = useBuildingsStore();
   const alchemyStore = useAlchemyStore();
   const playerStore = usePlayerStore();
+  const gearStore = useGearStore();
   workerStore.$reset();
   researchStore.$reset();
   buildingStore.$reset();
   alchemyStore.$reset();
   playerStore.$reset();
+  gearStore.$reset();
 
 };

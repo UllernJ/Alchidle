@@ -18,7 +18,7 @@
               width="15rem"
               :disabled="!isAffordable"
               v-bind="props"
-              @click="buyWeapon(item.index, store.amountToBuy)"
+              @click="item.buy(store.amountToBuy)"
             >
               <Icon
                 :path="item.path"
@@ -65,7 +65,7 @@
               width="15rem"
               :disabled="!isAffordable"
               v-bind="props"
-              @click="buyArmor(item.index, store.amountToBuy)"
+              @click="item.buy(store.amountToBuy)"
             >
               <Icon
                 :path="item.path"
@@ -100,17 +100,17 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useGear } from "@/composable/useGear";
 import { useResource } from "@/composable/useResource";
 import Icon from "@/components/Icon.vue";
 import { attackIcon, healthIcon, miningIcon } from "@/icons/icons";
 import { formatNumber } from "@/utils/number";
 import Decimal from "break_eternity.js";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useGearStore } from "@/stores/useGearStore";
 
-const { weapons, armors, buyArmor, buyWeapon } = useGear();
-const { throttledMiningAmount } = useResource();
+const { miningAmount } = useResource();
 const store = usePlayerStore();
+const gearStore = useGearStore();
 
 const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
   let total = new Decimal(0);
@@ -125,14 +125,14 @@ const getTotalPrice = (baseCost: Decimal, quantity: number): Decimal => {
 };
 
 const canAffordCost = (cost: Decimal) => {
-  return throttledMiningAmount.value.gte(cost);
+  return miningAmount.value.gte(cost);
 };
 
 const availableWeapons = computed(() => {
-  return weapons.value.map((weapon, index) => {
+  return gearStore.weapons.map((weapon) => {
     const totalCost = getTotalPrice(weapon.cost, store.amountToBuy);
     return {
-      item: { ...weapon, index },
+      item: weapon,
       isAffordable: canAffordCost(totalCost),
       totalCost
     };
@@ -140,10 +140,10 @@ const availableWeapons = computed(() => {
 });
 
 const availableArmors = computed(() => {
-  return armors.value.map((armor, index) => {
+  return gearStore.armors.map((armor) => {
     const totalCost = getTotalPrice(armor.cost, store.amountToBuy);
     return {
-      item: { ...armor, index },
+      item: armor,
       isAffordable: canAffordCost(totalCost),
       totalCost
     };

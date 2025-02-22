@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
-import { RESOURCE } from "../types";
-import { useGear } from "@/composable/useGear";
+import { RESOURCE } from "@/types";
 import Decimal from "break_eternity.js";
 import { isDev } from "@/utils/dev";
 import { useWorkersStore } from "@/stores/useWorkerStore";
+import { useGearStore } from "@/stores/useGearStore";
 
 export const usePlayerStore = defineStore("player", {
   state: () => ({
@@ -39,8 +39,8 @@ export const usePlayerStore = defineStore("player", {
     },
 
     attackPower: (state) => {
-      const { weapons } = useGear();
-      const weaponPower = weapons.value.reduce(
+      const { weapons } = useGearStore();
+      const weaponPower = weapons.reduce(
         (acc, weapon) => acc.plus(weapon.damage.times(weapon.quantity)),
         new Decimal(1)
       );
@@ -53,8 +53,8 @@ export const usePlayerStore = defineStore("player", {
     },
 
     maxHealth: (state) => {
-      const { armors } = useGear();
-      const armor = armors.value.reduce(
+      const { armors } = useGearStore();
+      const armor = armors.reduce(
         (acc, armor) => acc.plus(armor.defense.times(armor.quantity)),
         new Decimal(0)
       );

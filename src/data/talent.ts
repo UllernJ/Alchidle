@@ -31,10 +31,10 @@ import {
 import Decimal from "break_eternity.js";
 import { useWorkers } from "@/composable/useWorkers";
 import { useMonsters } from "@/composable/useMonsters";
-import { useGear } from "@/composable/useGear";
 import { useResource } from "@/composable/useResource";
 import { useAlchemyStore } from "@/stores/useAlchemyStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useGearStore } from "@/stores/useGearStore";
 
 export const talentNodes = reactive<Record<string, TalentNode>>({
   //layer 1
@@ -109,7 +109,7 @@ export const talentNodes = reactive<Record<string, TalentNode>>({
     new Decimal(4),
     mdiHammerWrench,
     () => {
-      const { decreaseCostMultiplier } = useGear()
+      const { decreaseCostMultiplier } = useGearStore()
       decreaseCostMultiplier(0.95)
     }
   ),
