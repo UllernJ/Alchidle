@@ -72,7 +72,7 @@ export const saveSession = () => {
     weapons: weapons.value,
     buildings: buildings,
     research: researchStore.researchList,
-    workerStations: workers,
+    workerStations: workers as Worker[] | BaseWorker[],
     resources: {
       Money: {
         amount: resources.Money.value.amount.toString(),
