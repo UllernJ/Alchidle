@@ -117,7 +117,6 @@ export const useGearStore = defineStore("gear", {
   },
   getters: {
     availableGear(state) {
-        console.log("test")
       const { throttledMiningAmount } = useResource();
       const store = usePlayerStore();
 

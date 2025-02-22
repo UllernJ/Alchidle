@@ -29,8 +29,12 @@ export const useResource = () => {
 
   const addResource = (type: RESOURCE, amount: Decimal) => {
     const resource = resources[type];
-    const maxResource = resources[type].value.maxAmount;
-
+    const maxResource = resource.value.maxAmount;
+    const newAmount = resource.value.amount.plus(amount).min(maxResource);
+    
+    if (newAmount.eq(resource.value.amount)) return;
+    
+    resource.value.amount = newAmount;
     if (resource && maxResource) {
       resource.value.add(amount);
       if (resource.value.amount.equals(maxResource)) {

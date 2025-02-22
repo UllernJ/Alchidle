@@ -12,10 +12,9 @@ export class Resource {
   }
 
   add(amount: Decimal) {
-    this.amount = this.amount.add(amount);
-    if (this.amount.greaterThan(this.maxAmount)) {
-      this.amount = this.maxAmount;
-    }
+    const newAmount = this.amount.plus(amount).min(this.maxAmount);
+    if (newAmount.eq(this.amount)) return;
+    this.amount = newAmount;
   }
 
   subtract(amount: Decimal) {
