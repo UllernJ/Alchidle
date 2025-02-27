@@ -41,7 +41,7 @@
         v-if="isEverythingResearched"
         class="text-success"
       >
-        Looks like you've researched everything.
+        Looks like you've researched everything... for now.
       </span>
     </section>
   </div>
@@ -77,7 +77,7 @@ const availableResearch = computed(() => {
 });
 
 const isEverythingResearched = computed(() => {
-  return store.researchList.every((research) => research.unlocked);
+  return availableResearch.value.length === 0;
 });
 </script>
 
