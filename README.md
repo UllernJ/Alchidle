@@ -2,7 +2,7 @@
 Made this game when I was bored, used it to learn more Vue.
 <p>Warning: there is a lot of spaggethi code here, read at own risk</p>
 
-
+try it here: https://alchidle.netlify.app/
 
 
 ## Todo
