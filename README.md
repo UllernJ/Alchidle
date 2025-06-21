@@ -1,4 +1,9 @@
-# Idle game
+# Alchidle 
+Made this game when I was bored, used it to learn more Vue.
+Warning: there is a lot of spaggethi code here, read at own risk
+
+
+
 
 ## Todo
 
